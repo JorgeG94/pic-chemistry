@@ -1,7 +1,7 @@
 module pic_basis_reader
   use pic_cgto
   use basis_file_reader, only: strings_equal
-  use iso_fortran_env, only: real64
+  use pic_types, only: dp
   implicit none
   private
 
@@ -269,13 +269,13 @@ end subroutine count_shells_for_element
   pure subroutine parse_function_line(line, func_num, exponent, coeff_s, coeff_p, has_p, stat)
     character(len=*), intent(in) :: line
     integer, intent(out) :: func_num
-    real(real64), intent(out) :: exponent
-    real(real64), intent(out) :: coeff_s
-    real(real64), intent(out), optional :: coeff_p
+    real(dp), intent(out) :: exponent
+    real(dp), intent(out) :: coeff_s
+    real(dp), intent(out), optional :: coeff_p
     logical, intent(out) :: has_p
     integer, intent(out) :: stat
 
-    real(real64) :: temp_p
+    real(dp) :: temp_p
 
     has_p = .false.
 
@@ -306,7 +306,7 @@ end subroutine count_shells_for_element
     logical :: in_data_block, in_target_element
     character(len=1) :: ang_mom
     integer :: nfunc, func_num, ishell, ifunc
-    real(real64) :: exponent, coeff_s, coeff_p
+    real(dp) :: exponent, coeff_s, coeff_p
     logical :: has_p
 
     ! L shell handling: we split into two shells, need to track both

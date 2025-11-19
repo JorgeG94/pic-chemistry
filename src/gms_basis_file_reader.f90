@@ -1,5 +1,5 @@
 module basis_file_reader
-  use iso_fortran_env, only: int32, real64
+  use pic_types, only: int32, dp
   implicit none
   
   private

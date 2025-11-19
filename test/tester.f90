@@ -4,7 +4,7 @@ program main
                               build_molecular_basis, ang_mom_int_to_char
   use pic_cgto
   use basis_file_reader
-  use iso_fortran_env, only: real64
+  use pic_types, only: dp
   implicit none
   character(len=*), parameter :: test_basis = &
                                  "$DATA"//new_line('a')// &
@@ -278,7 +278,7 @@ subroutine test_xyz_reader()
     return
   end if
   
-  if (abs(geom%coords(3, 1) - 0.119262_real64) > 1.0e-6_real64) then
+  if (abs(geom%coords(3, 1) - 0.119262_dp) > 1.0e-6_dp) then
     print *, "FAILED: Coordinate mismatch"
     return
   end if

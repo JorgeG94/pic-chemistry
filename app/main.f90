@@ -4,7 +4,7 @@ program pic_basis_app
   use pic_basis_reader, only: build_molecular_basis, ang_mom_int_to_char
   use pic_cgto
   use basis_file_reader
-  use iso_fortran_env, only: real64
+  use pic_types, only: dp
   implicit none
 
   type(cli_args_type) :: args

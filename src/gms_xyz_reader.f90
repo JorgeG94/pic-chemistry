@@ -1,5 +1,5 @@
 module pic_xyz_reader
-  use iso_fortran_env, only: real64
+  use pic_types, only: dp
   implicit none
   private
 
@@ -12,7 +12,7 @@ module pic_xyz_reader
   type :: geometry_type
     integer :: natoms
     character(len=:), allocatable :: elements(:)
-    real(real64), allocatable :: coords(:,:)  ! coords(3, natoms)
+    real(dp), allocatable :: coords(:,:)  ! coords(3, natoms)
     character(len=:), allocatable :: comment
   contains
     procedure :: destroy => geometry_destroy
@@ -75,7 +75,7 @@ subroutine read_xyz_string(xyz_string, geom, stat, errmsg)
   character(len=:), allocatable :: lines(:)
   integer :: nlines, iatom, io_stat
   character(len=256) :: element
-  real(real64) :: x, y, z
+  real(dp) :: x, y, z
   
   stat = 0
   

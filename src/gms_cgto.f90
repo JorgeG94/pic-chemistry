@@ -1,5 +1,5 @@
 module pic_cgto
-  use iso_fortran_env, only: real64
+  use pic_types, only: dp
   implicit none
   private
 
@@ -10,9 +10,9 @@ module pic_cgto
         !! Angular momentum quantum number (0=s, 1=p, 2=d, etc.)
     integer :: nfunc
         !! Number of primitive Gaussians in the contraction
-    real(real64), allocatable :: exponents(:)
+    real(dp), allocatable :: exponents(:)
         !! Exponents (alpha values)
-    real(real64), allocatable :: coefficients(:)
+    real(dp), allocatable :: coefficients(:)
         !! Contraction coefficients
   contains
     procedure :: allocate_arrays => cgto_allocate_arrays
