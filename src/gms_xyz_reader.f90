@@ -1,0 +1,265 @@
+module gms_xyz_reader
+  use iso_fortran_env, only: real64
+  implicit none
+  private
+
+  public :: geometry_type
+  public :: read_xyz_file, read_xyz_string
+
+  ! Parameters
+  integer, parameter :: MAX_ELEMENT_SYMBOL_LEN = 4
+  
+  type :: geometry_type
+    integer :: natoms
+    character(len=:), allocatable :: elements(:)
+    real(real64), allocatable :: coords(:,:)  ! coords(3, natoms)
+    character(len=:), allocatable :: comment
+  contains
+    procedure :: destroy => geometry_destroy
+  end type geometry_type
+  
+contains
+
+subroutine read_xyz_file(filename, geom, stat, errmsg)
+  character(len=*), intent(in) :: filename
+  type(geometry_type), intent(out) :: geom
+  integer, intent(out) :: stat
+  character(len=:), allocatable, intent(out) :: errmsg
+  
+  integer :: unit, io_stat, file_size
+  logical :: file_exists
+  character(len=:), allocatable :: file_contents
+  
+  stat = 0
+  
+  ! Check if file exists
+  inquire(file=filename, exist=file_exists, size=file_size)
+  if (.not. file_exists) then
+    stat = 1
+    errmsg = "XYZ file not found: " // trim(filename)
+    return
+  end if
+  
+  ! Allocate buffer for entire file
+  allocate(character(len=file_size) :: file_contents)
+  
+  ! Open and read entire file as stream
+  open(newunit=unit, file=filename, status='old', action='read', &
+       access='stream', form='unformatted', iostat=io_stat)
+  if (io_stat /= 0) then
+    stat = io_stat
+    errmsg = "Error opening file: " // trim(filename)
+    return
+  end if
+  
+  read(unit, iostat=io_stat) file_contents
+  close(unit)
+  
+  if (io_stat /= 0) then
+    stat = io_stat
+    errmsg = "Error reading file: " // trim(filename)
+    return
+  end if
+  
+  ! Parse the contents
+  call read_xyz_string(file_contents, geom, stat, errmsg)
+  
+end subroutine read_xyz_file
+
+subroutine read_xyz_string(xyz_string, geom, stat, errmsg)
+  character(len=*), intent(in) :: xyz_string
+  type(geometry_type), intent(out) :: geom
+  integer, intent(out) :: stat
+  character(len=:), allocatable, intent(out) :: errmsg
+
+  character(len=:), allocatable :: lines(:)
+  integer :: nlines, iatom, io_stat
+  character(len=256) :: element
+  real(real64) :: x, y, z
+  
+  stat = 0
+  
+  ! Split into lines
+  call split_lines(xyz_string, lines, nlines)
+  
+  if (nlines < 2) then
+    stat = 1
+    errmsg = "XYZ file must have at least 2 lines (natoms + comment)"
+    return
+  end if
+  
+  ! Read number of atoms from first line
+  read(lines(1), *, iostat=io_stat) geom%natoms
+  if (io_stat /= 0) then
+    stat = 1
+    errmsg = "Failed to read number of atoms from first line"
+    return
+  end if
+  
+  if (geom%natoms < 0) then
+    stat = 1
+    errmsg = "Number of atoms must be non-negative"
+    return
+  end if
+
+  ! Store comment line
+  geom%comment = trim(adjustl(lines(2)))
+
+  ! Check we have enough lines
+  if (nlines < 2 + geom%natoms) then
+    stat = 1
+    errmsg = "XYZ file has insufficient lines: expected " // &
+             trim(int_to_string(2 + geom%natoms)) // ", got " // &
+             trim(int_to_string(nlines))
+    return
+  end if
+
+  ! Allocate arrays
+  allocate(character(len=MAX_ELEMENT_SYMBOL_LEN) :: geom%elements(geom%natoms))
+  allocate(geom%coords(3, geom%natoms))
+  
+  ! Read atom data
+  do iatom = 1, geom%natoms
+    read(lines(2 + iatom), *, iostat=io_stat) element, x, y, z
+    if (io_stat /= 0) then
+      stat = 1
+      errmsg = "Failed to parse atom data on line " // &
+               trim(int_to_string(2 + iatom)) // ": '" // &
+               trim(lines(2 + iatom)) // "'"
+      return
+    end if
+
+    geom%elements(iatom) = trim(adjustl(element))
+    geom%coords(1, iatom) = x
+    geom%coords(2, iatom) = y
+    geom%coords(3, iatom) = z
+  end do
+
+end subroutine read_xyz_string
+
+!> Helper function to convert integer to string
+function int_to_string(i) result(str)
+  integer, intent(in) :: i
+  character(len=:), allocatable :: str
+  character(len=20) :: buffer
+
+  write(buffer, '(I0)') i
+  str = trim(adjustl(buffer))
+end function int_to_string
+
+!> Split text into lines handling LF, CRLF, and CR line endings
+!! Trailing newlines do not create empty lines
+subroutine split_lines(text, lines, nlines)
+  character(len=*), intent(in) :: text
+  character(len=:), allocatable, intent(out) :: lines(:)
+  integer, intent(out) :: nlines
+
+  integer :: i, line_start, line_end, max_line_len
+  character(len=:), allocatable :: temp_lines(:)
+
+  if (len(text) == 0) then
+    nlines = 0
+    allocate(character(len=1) :: lines(0))
+    return
+  end if
+
+  ! Pass 1: Count lines and find maximum line length
+  nlines = 0
+  max_line_len = 0
+  line_start = 1
+  i = 1
+
+  do while (i <= len(text))
+    ! Check for line ending
+    if (text(i:i) == achar(13)) then  ! CR
+      ! Check for CRLF
+      if (i < len(text) .and. text(i+1:i+1) == achar(10)) then
+        line_end = i - 1
+        i = i + 2  ! Skip both CR and LF
+      else
+        line_end = i - 1
+        i = i + 1
+      end if
+      nlines = nlines + 1
+      max_line_len = max(max_line_len, line_end - line_start + 1)
+      line_start = i
+    else if (text(i:i) == achar(10)) then  ! LF
+      line_end = i - 1
+      nlines = nlines + 1
+      max_line_len = max(max_line_len, line_end - line_start + 1)
+      i = i + 1
+      line_start = i
+    else
+      i = i + 1
+    end if
+  end do
+
+  ! Handle last line if text doesn't end with newline
+  if (line_start <= len(text)) then
+    nlines = nlines + 1
+    max_line_len = max(max_line_len, len(text) - line_start + 1)
+  end if
+
+  ! Handle empty text or ensure at least length 1
+  if (max_line_len == 0) max_line_len = 1
+
+  ! Allocate output array
+  allocate(character(len=max_line_len) :: temp_lines(nlines))
+  temp_lines = ""  ! Initialize all to empty
+
+  ! Pass 2: Extract lines
+  nlines = 0
+  line_start = 1
+  i = 1
+
+  do while (i <= len(text))
+    ! Check for line ending
+    if (text(i:i) == achar(13)) then  ! CR
+      ! Check for CRLF
+      if (i < len(text) .and. text(i+1:i+1) == achar(10)) then
+        line_end = i - 1
+        i = i + 2
+      else
+        line_end = i - 1
+        i = i + 1
+      end if
+      nlines = nlines + 1
+      if (line_end >= line_start) then
+        temp_lines(nlines) = text(line_start:line_end)
+      end if
+      line_start = i
+    else if (text(i:i) == achar(10)) then  ! LF
+      line_end = i - 1
+      nlines = nlines + 1
+      if (line_end >= line_start) then
+        temp_lines(nlines) = text(line_start:line_end)
+      end if
+      i = i + 1
+      line_start = i
+    else
+      i = i + 1
+    end if
+  end do
+
+  ! Handle last line if text doesn't end with newline
+  if (line_start <= len(text)) then
+    nlines = nlines + 1
+    temp_lines(nlines) = text(line_start:len(text))
+  end if
+
+  ! Copy to output
+  allocate(character(len=max_line_len) :: lines(nlines))
+  lines = temp_lines(1:nlines)
+
+end subroutine split_lines
+
+
+  subroutine geometry_destroy(this)
+    class(geometry_type), intent(inout) :: this
+    if (allocated(this%elements)) deallocate(this%elements)
+    if (allocated(this%coords)) deallocate(this%coords)
+    if (allocated(this%comment)) deallocate(this%comment)
+    this%natoms = 0
+  end subroutine geometry_destroy
+
+end module gms_xyz_reader
