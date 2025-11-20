@@ -20,3 +20,8 @@ source-form = "free"
 [dependencies]
 pic = { git = "https://github.com/JorgeG94/pic.git", branch = "main"}
 pic-mpi = { git = "https://github.com/JorgeG94/pic-mpi.git", branch = "main"}
+
+[[executable]]
+name = "test"
+source-dir = "app"
+main = "test.f90"
