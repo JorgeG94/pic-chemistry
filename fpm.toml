@@ -1,4 +1,4 @@
-name = "gms_basis_reader"
+name = "pic-chemistry"
 version = "0.1.0"
 license = "license"
 author = "JorgeGV"
@@ -19,3 +19,4 @@ source-form = "free"
 
 [dependencies]
 pic = { git = "https://github.com/JorgeG94/pic.git", branch = "main"}
+pic-mpi = { git = "https://github.com/JorgeG94/pic-mpi.git", branch = "main"}
