@@ -1,176 +1,155 @@
-program pic_basis_app
-  use pic_cli_parser
-  use pic_xyz_reader
-  use pic_basis_reader, only: build_molecular_basis, ang_mom_int_to_char
-  use pic_cgto
-  use basis_file_reader
-  use pic_types, only: dp
-  implicit none
+program test_with_geometry
+   use mpi_comm_simple
+   use pic_chemistry_algorithms
+   use pic_mbe
+   use pic_physical_fragment
+   use pic_input_parser
+   implicit none
 
-  type(cli_args_type) :: args
-  type(geometry_type) :: geom
-  type(basis_file_t) :: basis_file
-  type(molecular_basis_type) :: mol_basis
-  integer :: stat, iatom, ishell
-  character(len=:), allocatable :: errmsg
-  character(len=:), allocatable :: basis_filename
-  character(len=10), allocatable :: element_names(:)
+   type(comm_t) :: world_comm, node_comm
+   integer :: world_rank, world_size, node_rank, node_size
+   integer :: ierr
 
-  ! Parse command line arguments
-  call parse_command_line(args, stat, errmsg)
+   ! Fragment data
+   integer, parameter :: max_level = 3
+   integer, parameter :: matrix_size = 10
+   integer :: total_fragments
+   integer, allocatable :: polymers(:, :)
+   integer :: num_nodes, i
+   integer, allocatable :: node_leader_ranks(:)
+   integer, allocatable :: monomers(:)
+   integer :: n_expected_frags, n_rows
 
-  if (stat == -1) then
-    ! Help was requested
-    stop 0
-  else if (stat /= 0) then
-    print *, "ERROR: ", errmsg
-    stop 1
-  end if
+   ! Geometry data
+   type(input_config_t) :: config
+   type(system_geometry_t) :: sys_geom
+   integer :: stat
+   character(len=:), allocatable :: errmsg
+   character(len=256) :: input_file
 
-  print *
-  print *, "=========================================="
-  print *, "GAMESS-Style Basis Set Generator"
-  print *, "=========================================="
-  print *
-  print *, "Geometry file:  ", trim(args%xyz_file)
-  print *, "Basis set:      ", trim(args%basis_name)
-  print *
+   ! Initialize MPI
+   call mpi_initialize()
 
-  ! Step 1: Read geometry
-  print *, "Reading geometry..."
-  call read_xyz_file(args%xyz_file, geom, stat, errmsg)
+   ! Create communicators
+   world_comm = comm_world()
+   node_comm = world_comm%split()
 
-  if (stat /= 0) then
-    print *, "ERROR reading geometry: ", errmsg
-    call args%destroy()
-    stop 1
-  end if
+   world_rank = world_comm%rank()
+   world_size = world_comm%size()
+   node_rank = node_comm%rank()
+   node_size = node_comm%size()
 
-  print *, "  Number of atoms: ", geom%natoms
-  print *
+   ! All ranks read input file and load geometry
+   input_file = "test.inp"
 
-  ! Step 2: Find basis file (tries multiple name variants)
-  print *, "Searching for basis set file..."
-  call find_basis_file(args%basis_name, basis_filename, stat, errmsg)
-
-  if (stat /= 0) then
-    print *, "ERROR: ", errmsg
-    call geom%destroy()
-    call args%destroy()
-    stop 1
-  end if
-
-  print *, "  Found: ", trim(basis_filename)
-  print *
-
-  print *, "Loading basis set..."
-  call open_basis_file(basis_file, basis_filename)
-
-  print *, "  Basis set loaded successfully"
-  print *
-
-  ! Step 3: Convert element symbols to full names
-  allocate(element_names(geom%natoms))
-  do iatom = 1, geom%natoms
-    element_names(iatom) = symbol_to_name(geom%elements(iatom))
-  end do
-
-  ! Step 4: Build molecular basis
-  print *, "Building molecular basis set..."
-  call build_molecular_basis(basis_file%data_section, element_names, mol_basis, stat, errmsg)
-
-  if (stat /= 0) then
-    print *, "ERROR building basis: ", errmsg
-    call geom%destroy()
-    call args%destroy()
-    stop 1
-  end if
-
-  print *, "  Basis set built successfully"
-  print *
-
-  ! Step 5: Print summary
-  print *, "=========================================="
-  print *, "Summary"
-  print *, "=========================================="
-  print *, "Total atoms:            ", mol_basis%nelements
-  print *, "Total basis functions:  ", mol_basis%num_basis_functions()
-  print *
-
-  ! Print first few atoms in detail
-  print *, "Atom details:"
-  do iatom = 1, min(5, mol_basis%nelements)
-    print '(2X, I3, 2X, A4, ":", I4, " basis functions from", I3, " shells")', &
-      iatom, &
-      trim(mol_basis%elements(iatom)%element), &
-      mol_basis%elements(iatom)%num_basis_functions(), &
-      mol_basis%elements(iatom)%nshells
-  end do
-
-  if (mol_basis%nelements > 5) then
-    print *, "  ... (", mol_basis%nelements - 5, " more atoms)"
-  end if
-  print *
-
-  ! Cleanup
-  call args%destroy()
-  call geom%destroy()
-  call mol_basis%destroy()
-
-  print *, "=========================================="
-  print *, "SUCCESS"
-  print *, "=========================================="
-
-contains
-
-  !> Convert element symbol to full name for basis file lookup
-  function symbol_to_name(symbol) result(name)
-    character(len=*), intent(in) :: symbol
-    character(len=10) :: name
-    character(len=10) :: sym_upper
-
-    ! Convert to uppercase
-    sym_upper = symbol
-    call to_upper(sym_upper)
-
-    select case (trim(sym_upper))
-    case ("H")
-      name = "HYDROGEN"
-    case ("C")
-      name = "CARBON"
-    case ("N")
-      name = "NITROGEN"
-    case ("O")
-      name = "OXYGEN"
-    case ("F")
-      name = "FLUORINE"
-    case ("P")
-      name = "PHOSPHORUS"
-    case ("S")
-      name = "SULFUR"
-    case ("CL")
-      name = "CHLORINE"
-    case ("BR")
-      name = "BROMINE"
-    case ("I")
-      name = "IODINE"
-    case default
-      ! If not recognized, return the symbol as-is
-      name = sym_upper
-    end select
-  end function symbol_to_name
-
-  !> Convert string to uppercase
-  subroutine to_upper(str)
-    character(len=*), intent(inout) :: str
-    integer :: i, ic
-
-    do i = 1, len(str)
-      ic = iachar(str(i:i))
-      if (ic >= iachar('a') .and. ic <= iachar('z')) then
-        str(i:i) = achar(ic - 32)
+   call read_input_file(input_file, config, stat, errmsg)
+   if (stat /= 0) then
+      if (world_rank == 0) then
+         print *, "ERROR reading input file: ", errmsg
       end if
-    end do
-  end subroutine to_upper
+      call abort_comm(world_comm, 1)
+   end if
 
-end program pic_basis_app
+   call initialize_system_geometry(config%geom_file, config%monomer_file, sys_geom, stat, errmsg)
+   if (stat /= 0) then
+      if (world_rank == 0) then
+         print *, "ERROR loading geometry: ", errmsg
+      end if
+      call abort_comm(world_comm, 1)
+   end if
+
+   if (world_rank == 0) then
+      print *, "============================================"
+      print *, "Loaded geometry:"
+      print '(a,i0)', "  Total monomers: ", sys_geom%n_monomers
+      print '(a,i0)', "  Atoms per monomer: ", sys_geom%atoms_per_monomer
+      print '(a,i0)', "  Total atoms: ", sys_geom%total_atoms
+      print *, "============================================"
+   end if
+
+   ! Generate fragments (only rank 0 needs this for coordination)
+   if (world_rank == 0) then
+      ! Calculate expected number of fragments
+      n_expected_frags = get_nfrags(sys_geom%n_monomers, max_level)
+      n_rows = n_expected_frags
+
+      ! Allocate monomer list and polymers array
+      allocate(monomers(sys_geom%n_monomers))
+      allocate(polymers(n_rows, max_level))
+      polymers = 0
+
+      ! Create monomer list [1, 2, 3, ..., n_monomers]
+      call create_monomer_list(monomers)
+
+      ! Generate all fragments (includes monomers in polymers array)
+      total_fragments = 0
+
+      ! First add monomers
+      do i = 1, sys_geom%n_monomers
+         total_fragments = total_fragments + 1
+         polymers(total_fragments, 1) = i
+      end do
+
+      ! Then add n-mers for n >= 2
+      call generate_fragment_list(monomers, max_level, polymers, total_fragments)
+
+      deallocate(monomers)
+
+      print *, "Generated fragments:"
+      print '(a,i0)', "  Total fragments: ", total_fragments
+      print '(a,i0)', "  Max level: ", max_level
+   end if
+
+   ! Broadcast total_fragments to all ranks
+   call bcast(world_comm, total_fragments, 1, 0)
+
+   ! Determine number of nodes
+   num_nodes = 1
+   do i = 0, world_size - 1
+      if (i == 0) cycle
+      world_comm = comm_world()
+      node_comm = world_comm%split()
+      if (node_comm%rank() == 0) then
+         num_nodes = num_nodes + 1
+      end if
+   end do
+
+   ! Simplified: assume single node for this test
+   num_nodes = 1
+   allocate (node_leader_ranks(num_nodes))
+   node_leader_ranks(1) = 0
+
+   ! Reset communicators
+   call world_comm%finalize()
+   call node_comm%finalize()
+   world_comm = comm_world()
+   node_comm = world_comm%split()
+
+   ! Run the test based on role
+   if (world_rank == 0 .and. node_rank == 0) then
+      ! Global coordinator
+      print *, "Rank 0: Acting as global coordinator"
+      call test_global_coordinator(world_comm, node_comm, total_fragments, polymers, max_level, &
+                                    node_leader_ranks, num_nodes, matrix_size)
+   else if (node_rank == 0) then
+      ! Node coordinator (not used in single-node test)
+      print *, "This should not happen in single-node test"
+   else
+      ! Worker
+      print '(a,i0,a)', "Rank ", world_rank, ": Acting as worker"
+      call test_node_worker(world_comm, node_comm, max_level, sys_geom)
+   end if
+
+   ! Cleanup
+   if (world_rank == 0) then
+      if (allocated(polymers)) deallocate (polymers)
+      if (allocated(node_leader_ranks)) deallocate (node_leader_ranks)
+   end if
+   call config%destroy()
+   call sys_geom%destroy()
+   call world_comm%finalize()
+   call node_comm%finalize()
+
+   call mpi_finalize_wrapper()
+
+end program test_with_geometry

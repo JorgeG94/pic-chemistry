@@ -9,7 +9,7 @@ project(
 
 set(project_name pic-chemistry)
 set(main_lib ${project_name})
-set(exe_name test)
+set(exe_name pic)
 set(all_targets ${main_lib} ${exe_name})
 
 
@@ -75,7 +75,7 @@ target_link_libraries(${main_lib} ${libraries_to_link})
 
 
 
-add_executable(${exe_name} ${PROJECT_SOURCE_DIR}/app/test_with_geometry.f90)
+add_executable(${exe_name} ${PROJECT_SOURCE_DIR}/app/main.f90)
 
 target_include_directories(${exe_name} PRIVATE "${CMAKE_BINARY_DIR}/modules")
 target_link_libraries(${exe_name} PRIVATE ${main_lib} ${libraries_to_link})
