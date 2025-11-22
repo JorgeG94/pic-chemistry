@@ -46,6 +46,9 @@ if(NOT TARGET pic-blas::pic-blas)
   find_package("pic-blas" REQUIRED)
 endif()
 
+if(NOT TARGET "tblite::tblite")
+   find_package("tblite" REQUIRED)
+endif()
 
 
 find_package(
@@ -66,13 +69,13 @@ endif()
 set_target_properties(${main_lib} PROPERTIES Fortran_MODULE_DIRECTORY
                                              ${CMAKE_BINARY_DIR}/modules)
 
-list(APPEND libraries_to_link pic::pic pic-mpi::pic-mpi pic-blas::pic-blas OpenMP::OpenMP_Fortran)
+list(APPEND libraries_to_link tblite::tblite pic::pic pic-mpi::pic-mpi pic-blas::pic-blas OpenMP::OpenMP_Fortran)
 
 target_link_libraries(${main_lib} ${libraries_to_link})
 
 
 
-add_executable(${exe_name} ${PROJECT_SOURCE_DIR}/app/test.f90)
+add_executable(${exe_name} ${PROJECT_SOURCE_DIR}/app/tbmain.f90)
 
 target_include_directories(${exe_name} PRIVATE "${CMAKE_BINARY_DIR}/modules")
 target_link_libraries(${exe_name} PRIVATE ${main_lib} ${libraries_to_link})

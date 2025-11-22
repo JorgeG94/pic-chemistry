@@ -5,6 +5,7 @@ module pic_chemistry_algorithms
    use mpi_comm_simple
    use pic_fragment, only: pic_fragment_block
    use pic_blas_interfaces, only: pic_gemm, pic_dot 
+   use mctc_io_codata2018, only: bohr_radius
    implicit none
 
 contains
