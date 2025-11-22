@@ -10,11 +10,13 @@ module pic_chemistry_algorithms
 contains
 
    subroutine process_chemistry_fragment(fragment_idx, fragment_indices, fragment_size, matrix_size, &
-                                          water_energy, C_flat)
+                                          water_energy, C_flat, phys_frag)
+      use pic_physical_fragment, only: physical_fragment_t, element_number_to_symbol
       integer, intent(in) :: fragment_idx, fragment_size, matrix_size
       integer, intent(in) :: fragment_indices(fragment_size)
       real(dp), intent(out) :: water_energy
       real(dp), allocatable, intent(out) :: C_flat(:)
+      type(physical_fragment_t), intent(in), optional :: phys_frag
       real(dp) :: dot_result
       real(dp), allocatable :: H(:, :), S(:, :), C(:, :)
       real(dp), allocatable :: H_flat(:), S_flat(:)
@@ -23,6 +25,11 @@ contains
       real(dp) :: elapsed_time
       real(dp), parameter :: alpha = 17.0_dp
       real(dp), parameter :: water_1 = -75.0_dp
+
+      ! Print fragment geometry if provided
+      if (present(phys_frag)) then
+         !call print_fragment_xyz(fragment_idx, phys_frag)
+      end if
 
       dims = fragment_size*matrix_size
       water_energy = water_1 * fragment_size
@@ -71,6 +78,26 @@ contains
 
       deallocate (H, S, C, H_flat, S_flat)
    end subroutine process_chemistry_fragment
+
+   subroutine print_fragment_xyz(fragment_idx, phys_frag)
+      !! Print fragment geometry in XYZ format
+      use pic_physical_fragment, only: physical_fragment_t, element_number_to_symbol
+      integer, intent(in) :: fragment_idx
+      type(physical_fragment_t), intent(in) :: phys_frag
+      integer :: i
+      character(len=2) :: symbol
+
+      print *, "========================================="
+      print '(a,i0)', " Fragment ", fragment_idx
+      print '(a,i0)', " Number of atoms: ", phys_frag%n_atoms
+      print *, "-----------------------------------------"
+      do i = 1, phys_frag%n_atoms
+         symbol = element_number_to_symbol(phys_frag%element_numbers(i))
+         print '(a2,3f15.8)', symbol, phys_frag%coordinates(1:3, i)
+      end do
+      print *, "========================================="
+
+   end subroutine print_fragment_xyz
 
    subroutine compute_mbe_energy(polymers, fragment_count, max_level, energies, total_energy)
       !! Compute the many-body expansion (MBE) energy
@@ -347,17 +374,31 @@ contains
       do while (finished_nodes < num_nodes)
 
          ! Check for incoming results from local workers (tag 203 = scalar, tag 204 = matrix)
+         ! Only check workers that are currently assigned work
          if (handling_local_workers) then
-            call iprobe(node_comm, MPI_ANY_SOURCE, 203, has_pending, local_status)
-            if (has_pending) then
-               worker_source = local_status%MPI_SOURCE
-               ! Receive scalar result and store it using the fragment index for this worker
-               call recv(node_comm, scalar_results(worker_fragment_map(worker_source)), worker_source, 203)
-               ! Receive matrix result into temporary array, then copy to storage
-               call recv(node_comm, temp_matrix, worker_source, 204, local_status)
-               matrix_results(:, worker_fragment_map(worker_source)) = temp_matrix
-               deallocate(temp_matrix)
-            end if
+            block
+               integer :: w
+               do w = 1, node_comm%size() - 1
+                  if (worker_fragment_map(w) > 0) then
+                     call iprobe(node_comm, w, 203, has_pending, local_status)
+                     if (has_pending) then
+                        worker_source = w
+                        ! Receive scalar result and store it using the fragment index for this worker
+                        call recv(node_comm, scalar_results(worker_fragment_map(worker_source)), worker_source, 203)
+                        ! Receive matrix result into temporary array, then copy to storage
+                        call recv(node_comm, temp_matrix, worker_source, 204, local_status)
+                        ! Copy only the received size, pad rest with zeros
+                        matrix_results(1:size(temp_matrix), worker_fragment_map(worker_source)) = temp_matrix
+                        if (size(temp_matrix) < max_matrix_size) then
+                           matrix_results(size(temp_matrix)+1:max_matrix_size, worker_fragment_map(worker_source)) = 0.0_dp
+                        end if
+                        ! Clear the mapping since we've received the result
+                        worker_fragment_map(worker_source) = 0
+                        deallocate(temp_matrix)
+                     end if
+                  end if
+               end do
+            end block
          end if
 
          ! Remote node coordinator requests
@@ -408,13 +449,8 @@ contains
       end do
 
       print *, "Global coordinator finished all fragments"
-      print *, "Sample scalar result (fragment 1):", scalar_results(1)
       block
-      integer :: i
       real(dp) :: mbe_total_energy
-      !do i = 1, size(scalar_results,1)
-      !  print *, "Fragment", i, "energy:", scalar_results(i)
-      !end do
 
       ! Compute the many-body expansion energy
       print *
@@ -422,7 +458,6 @@ contains
       call compute_mbe_energy(polymers, total_fragments, max_level, scalar_results, mbe_total_energy)
 
       end block
-      print *, "Sample matrix result (fragment 1, first element):", matrix_results(1, 1)
 
       ! Cleanup
       deallocate(scalar_results, matrix_results)
@@ -514,15 +549,18 @@ contains
       end do
    end subroutine test_node_coordinator
 
-   subroutine test_node_worker(world_comm, node_comm, max_level)
+   subroutine test_node_worker(world_comm, node_comm, max_level, sys_geom)
+      use pic_physical_fragment, only: system_geometry_t, physical_fragment_t, build_fragment_from_indices
       class(comm_t), intent(in) :: world_comm, node_comm
       integer, intent(in) :: max_level
+      type(system_geometry_t), intent(in), optional :: sys_geom
 
       integer(int32) :: fragment_idx, fragment_size, dummy_msg, matrix_size
       integer(int32), allocatable :: fragment_indices(:)
       real(dp) :: dot_result
       real(dp), allocatable :: C_flat(:)
       type(MPI_Status) :: status
+      type(physical_fragment_t) :: phys_frag
 
       dummy_msg = 0
 
@@ -537,9 +575,20 @@ contains
             call recv(node_comm, fragment_indices, 0, 201, status)
             call recv(node_comm, matrix_size, 0, 201, status)
 
-            ! Process the chemistry fragment
-            call process_chemistry_fragment(fragment_idx, fragment_indices, fragment_size, matrix_size, &
-                                           dot_result, C_flat)
+            ! Build physical fragment from indices if sys_geom is available
+            if (present(sys_geom)) then
+               call build_fragment_from_indices(sys_geom, fragment_indices, phys_frag)
+
+               ! Process the chemistry fragment with physical geometry
+               call process_chemistry_fragment(fragment_idx, fragment_indices, fragment_size, matrix_size, &
+                                              dot_result, C_flat, phys_frag)
+
+               call phys_frag%destroy()
+            else
+               ! Process without physical geometry (old behavior)
+               call process_chemistry_fragment(fragment_idx, fragment_indices, fragment_size, matrix_size, &
+                                              dot_result, C_flat)
+            end if
 
             ! Send results back to coordinator
             call send(node_comm, dot_result, 0, 203)

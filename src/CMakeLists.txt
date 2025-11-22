@@ -7,4 +7,6 @@ target_sources(
                       gms_xyz_reader.f90
                       pic_chemistry_algorithms.f90
                       pic_fragment.f90
-                      pic_mbe.f90)
+                      pic_mbe.f90
+                      pic_physical_fragment.f90
+                      pic_input_parser.f90)
