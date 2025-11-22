@@ -7,6 +7,7 @@ module pic_input_parser
    type :: input_config_t
       character(len=:), allocatable :: geom_file
       character(len=:), allocatable :: monomer_file
+      integer :: nlevel = 1  ! Default to 1 if not specified
    contains
       procedure :: destroy => config_destroy
    end type input_config_t
@@ -72,6 +73,18 @@ contains
             config%geom_file = trim(value)
          case ('monomer_symbols')
             config%monomer_file = trim(value)
+         case ('nlevel')
+            read(value, *, iostat=io_stat) config%nlevel
+            if (io_stat /= 0) then
+               stat = 1
+               errmsg = "Invalid value for nlevel: "//trim(value)
+               return
+            end if
+            if (config%nlevel < 1) then
+               stat = 1
+               errmsg = "nlevel must be >= 1"
+               return
+            end if
          case default
             ! Ignore unrecognized keys
             continue

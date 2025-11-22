@@ -11,7 +11,7 @@ program test_with_geometry
    integer :: ierr
 
    ! Fragment data
-   integer, parameter :: max_level = 3
+   integer :: max_level
    integer, parameter :: matrix_size = 10
    integer :: total_fragments
    integer, allocatable :: polymers(:, :)
@@ -49,6 +49,9 @@ program test_with_geometry
       end if
       call abort_comm(world_comm, 1)
    end if
+
+   ! Set max_level from config
+   max_level = config%nlevel
 
    call initialize_system_geometry(config%geom_file, config%monomer_file, sys_geom, stat, errmsg)
    if (stat /= 0) then

@@ -9,7 +9,7 @@ project(
 
 set(project_name pic-chemistry)
 set(main_lib ${project_name})
-set(exe_name pic)
+set(exe_name chem_pic)
 set(all_targets ${main_lib} ${exe_name})
 
 
