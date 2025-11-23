@@ -13,7 +13,7 @@ module pic_chemistry_algorithms
 contains
 
    subroutine process_chemistry_fragment(fragment_idx, fragment_indices, fragment_size, matrix_size, &
-                                          water_energy, C_flat, phys_frag)
+                                          water_energy, C_flat, phys_frag, verbosity)
       use pic_physical_fragment, only: physical_fragment_t, element_number_to_symbol
       use mctc_env, only: wp, error_type
       use mctc_io, only: structure_type, new
@@ -28,7 +28,8 @@ contains
       real(dp), intent(out) :: water_energy
       real(dp), allocatable, intent(out) :: C_flat(:)
       type(physical_fragment_t), intent(in), optional :: phys_frag
-      integer :: i
+      integer, intent(in), optional :: verbosity
+      integer :: i, verb_level
       real(dp), parameter :: water_1 = -75.0_dp
 
       ! GFN1 calculation variables
@@ -42,6 +43,13 @@ contains
       type(context_type) :: ctx
       real(wp), parameter :: acc = 0.01_wp
       real(wp), parameter :: kt = 300.0_wp * 3.166808578545117e-06_wp
+
+      ! Set verbosity level (default is 0 for silent operation)
+      if (present(verbosity)) then
+         verb_level = verbosity
+      else
+         verb_level = 0
+      end if
 
       ! Print fragment geometry if provided
       if (present(phys_frag)) then
@@ -66,7 +74,7 @@ contains
          if (.not. allocated(error)) then
             call new_wavefunction(wfn, mol%nat, calc%bas%nsh, calc%bas%nao, 1, kt)
             energy = 0.0_wp
-            call xtb_singlepoint(ctx, mol, calc, wfn, acc, energy, verbosity=0)
+            call xtb_singlepoint(ctx, mol, calc, wfn, acc, energy, verbosity=verb_level)
             !print *, "energy is ", energy
             water_energy = real(energy, dp)
          else
@@ -715,7 +723,7 @@ contains
          deallocate(all_monomer_indices)
       end block
 
-      ! Process the full system
+      ! Process the full system with verbosity=1 for detailed output
       block
          integer, allocatable :: temp_indices(:)
          allocate(temp_indices(sys_geom%n_monomers))
@@ -724,7 +732,8 @@ contains
          end do
 
          call process_chemistry_fragment(0, temp_indices, sys_geom%n_monomers, &
-                                         total_atoms, dot_result, C_flat)
+                                         total_atoms, dot_result, C_flat, &
+                                         phys_frag=full_system, verbosity=1)
          deallocate(temp_indices)
       end block
 
