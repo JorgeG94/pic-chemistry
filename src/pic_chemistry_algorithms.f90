@@ -60,10 +60,9 @@ contains
          allocate(num(phys_frag%n_atoms))
          allocate(xyz(3, phys_frag%n_atoms))
 
+         ! Coordinates are already in Bohr in sys_geom, just copy them
          num = phys_frag%element_numbers
-         do i = 1, phys_frag%n_atoms
-            xyz(1:3, i) = phys_frag%coordinates(1:3, i) / bohr_radius
-         end do
+         xyz = phys_frag%coordinates
 
          ! Create molecular structure and run GFN1 calculation
          call new(mol, num, xyz, charge=0.0_wp, uhf=0)
@@ -88,7 +87,7 @@ contains
 
    subroutine print_fragment_xyz(fragment_idx, phys_frag)
       !! Print fragment geometry in XYZ format
-      use pic_physical_fragment, only: physical_fragment_t, element_number_to_symbol
+      use pic_physical_fragment, only: physical_fragment_t, element_number_to_symbol, to_angstrom
       integer, intent(in) :: fragment_idx
       type(physical_fragment_t), intent(in) :: phys_frag
       integer :: i
@@ -97,10 +96,12 @@ contains
       print *, "========================================="
       print '(a,i0)', " Fragment ", fragment_idx
       print '(a,i0)', " Number of atoms: ", phys_frag%n_atoms
+      print *, " Coordinates in Angstroms:"
       print *, "-----------------------------------------"
       do i = 1, phys_frag%n_atoms
          symbol = element_number_to_symbol(phys_frag%element_numbers(i))
-         print '(a2,3f15.8)', symbol, phys_frag%coordinates(1:3, i)
+         ! Convert from Bohr back to Angstroms for printing
+         print '(a2,3f15.8)', symbol, to_angstrom(phys_frag%coordinates(1:3, i))
       end do
       print *, "========================================="
 

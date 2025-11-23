@@ -7,6 +7,7 @@ module pic_physical_fragment
    public :: physical_fragment_t, system_geometry_t
    public :: initialize_system_geometry, build_fragment_from_indices
    public :: element_symbol_to_number, element_number_to_symbol
+   public :: to_angstrom, to_bohr
 
    !! Physical fragment with actual atomic coordinates
    type :: physical_fragment_t
@@ -28,7 +29,24 @@ module pic_physical_fragment
       procedure :: destroy => system_destroy
    end type system_geometry_t
 
+   ! Bohr radius constant
+   real(dp), parameter :: bohr_radius = 0.52917721092_dp
+
 contains
+
+   pure elemental function to_angstrom(bohr_value) result(angstrom_value)
+      !! Convert coordinate from Bohr to Angstrom
+      real(dp), intent(in) :: bohr_value
+      real(dp) :: angstrom_value
+      angstrom_value = bohr_value * bohr_radius
+   end function to_angstrom
+
+   pure elemental function to_bohr(angstrom_value) result(bohr_value)
+      !! Convert coordinate from Angstrom to Bohr
+      real(dp), intent(in) :: angstrom_value
+      real(dp) :: bohr_value
+      bohr_value = angstrom_value / bohr_radius
+   end function to_bohr
 
    subroutine initialize_system_geometry(full_geom_file, monomer_file, sys_geom, stat, errmsg)
       !! Read full geometry and monomer template, initialize system_geometry_t
@@ -74,7 +92,8 @@ contains
          sys_geom%element_numbers(i) = element_symbol_to_number(full_geom%elements(i))
       end do
 
-      sys_geom%coordinates = full_geom%coords
+      ! Store coordinates in Bohr (convert from Angstroms)
+      sys_geom%coordinates = to_bohr(full_geom%coords)
 
       ! Cleanup
       call full_geom%destroy()
