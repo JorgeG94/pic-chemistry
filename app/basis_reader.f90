@@ -1,5 +1,6 @@
 program pic_basis_app
   use pic_cli_parser
+  use pic_geometry
   use pic_xyz_reader
   use pic_basis_reader, only: build_molecular_basis, ang_mom_int_to_char
   use pic_cgto

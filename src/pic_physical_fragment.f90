@@ -1,6 +1,7 @@
 module pic_physical_fragment
    use pic_types, only: dp, default_int
-   use pic_xyz_reader, only: geometry_type, read_xyz_file
+   use pic_geometry, only: geometry_type
+   use pic_xyz_reader, only: read_xyz_file
    implicit none
    private
 

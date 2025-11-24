@@ -6,21 +6,20 @@ module pic_chemistry_algorithms
    use pic_fragment, only: pic_fragment_block
    use pic_physical_fragment, only: system_geometry_t, physical_fragment_t, build_fragment_from_indices
    use pic_blas_interfaces, only: pic_gemm, pic_dot
+   use pic_physical_fragment, only: physical_fragment_t, element_number_to_symbol
+   use mctc_env, only: wp, error_type
+   use mctc_io, only: structure_type, new
+   use tblite_context_type, only: context_type
+   use tblite_wavefunction, only: wavefunction_type, new_wavefunction
+   use tblite_xtb_calculator, only: xtb_calculator
+   use tblite_xtb_gfn2, only: new_gfn2_calculator
+   use tblite_xtb_singlepoint, only: xtb_singlepoint
    implicit none
-   real(dp), parameter :: bohr_radius = 0.52917721092_dp
 
 contains
 
    subroutine process_chemistry_fragment(fragment_idx, fragment_indices, fragment_size, matrix_size, &
                                           water_energy, C_flat, phys_frag, verbosity)
-      use pic_physical_fragment, only: physical_fragment_t, element_number_to_symbol
-      use mctc_env, only: wp, error_type
-      use mctc_io, only: structure_type, new
-      use tblite_context_type, only: context_type
-      use tblite_wavefunction, only: wavefunction_type, new_wavefunction
-      use tblite_xtb_calculator, only: xtb_calculator
-      use tblite_xtb_gfn2, only: new_gfn2_calculator
-      use tblite_xtb_singlepoint, only: xtb_singlepoint
 
       integer, intent(in) :: fragment_idx, fragment_size, matrix_size
       integer, intent(in) :: fragment_indices(fragment_size)

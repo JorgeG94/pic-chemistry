@@ -4,6 +4,7 @@ target_sources(
                       gms_basis_reader.f90
                       gms_cgto.f90
                       gms_cli_parser.f90
+                      pic_geometry.f90
                       gms_xyz_reader.f90
                       pic_mpi_tags.f90
                       pic_chemistry_algorithms.f90

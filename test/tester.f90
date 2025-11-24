@@ -1,4 +1,5 @@
 program main
+  use pic_geometry
   use pic_xyz_reader
   use pic_basis_reader, only: classify_line, parse_element_basis, &
                               build_molecular_basis, ang_mom_int_to_char

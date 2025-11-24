@@ -1,23 +1,14 @@
 module pic_xyz_reader
   use pic_types, only: dp
+  use pic_geometry, only: geometry_type
   implicit none
   private
 
-  public :: geometry_type
   public :: read_xyz_file, read_xyz_string
 
   ! Parameters
   integer, parameter :: MAX_ELEMENT_SYMBOL_LEN = 4
-  
-  type :: geometry_type
-    integer :: natoms
-    character(len=:), allocatable :: elements(:)
-    real(dp), allocatable :: coords(:,:)  ! coords(3, natoms)
-    character(len=:), allocatable :: comment
-  contains
-    procedure :: destroy => geometry_destroy
-  end type geometry_type
-  
+
 contains
 
 subroutine read_xyz_file(filename, geom, stat, errmsg)
@@ -252,14 +243,5 @@ subroutine split_lines(text, lines, nlines)
   lines = temp_lines(1:nlines)
 
 end subroutine split_lines
-
-
-  subroutine geometry_destroy(this)
-    class(geometry_type), intent(inout) :: this
-    if (allocated(this%elements)) deallocate(this%elements)
-    if (allocated(this%coords)) deallocate(this%coords)
-    if (allocated(this%comment)) deallocate(this%comment)
-    this%natoms = 0
-  end subroutine geometry_destroy
 
 end module pic_xyz_reader
