@@ -52,7 +52,7 @@ contains
 
       ! Print fragment geometry if provided
       if (present(phys_frag)) then
-        if(verbosity == 1) then 
+        if(verb_level == 1) then
           call print_fragment_xyz(fragment_idx, phys_frag)
         end if
 
