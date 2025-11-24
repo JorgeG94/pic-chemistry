@@ -14,7 +14,7 @@ program main
 
    ! Fragment data
    integer :: max_level
-   integer, parameter :: matrix_size = 10
+   integer :: matrix_size
    integer :: total_fragments
    integer, allocatable :: polymers(:, :)
    integer :: num_nodes, i
@@ -66,6 +66,9 @@ program main
       call abort_comm(world_comm, 1)
    end if
 
+   ! Set matrix_size based on atoms per monomer (natoms * 3 for gradient)
+   matrix_size = sys_geom%atoms_per_monomer * 3
+
    if (world_rank == 0) then
       print *, "============================================"
       print *, "Loaded geometry:"
@@ -73,6 +76,7 @@ program main
       print '(a,i0)', "  Atoms per monomer: ", sys_geom%atoms_per_monomer
       print '(a,i0)', "  Total atoms: ", sys_geom%total_atoms
       print '(a,i0)', "  Fragment level: ", max_level
+      print '(a,i0)', "  Matrix size (natoms*3): ", matrix_size
       print *, "============================================"
    end if
 
