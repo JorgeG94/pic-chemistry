@@ -5,10 +5,14 @@ author = "JorgeGV"
 maintainer = "jorgegalvez1694@gmail.com"
 copyright = "Copyright 2025, JorgeGV"
 [build]
-auto-executables = true
-auto-tests = true
-auto-examples = true
+auto-executables = false
+auto-tests = false
+auto-examples = false 
 module-naming = false
+[[executable]]
+name = "chem_pic"
+source-dir = "app"
+main = "main.f90"
 [install]
 library = false
 test = false
@@ -23,7 +27,3 @@ pic-mpi = { git = "https://github.com/JorgeG94/pic-mpi.git", branch = "main"}
 pic-blas = { git = "https://github.com/JorgeG94/pic-blas.git", branch = "main"}
 tblite = { git = "https://github.com/JorgeG94/tblite", branch = "main"}
 
-[[executable]]
-name = "test"
-source-dir = "app"
-main = "test.f90"
