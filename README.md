@@ -5,7 +5,8 @@
 </p>
 Yes, this is AI generated (the image) if you know an artist, please let me know.
 
-Met'al q'uicha, which I'll just write as metalquicha is a sample quantum chemistry backend
+
+Met'al q'uicha (the Huastec (tenek) word for sunflower), which I'll just write as metalquicha is a sample quantum chemistry backend
 with focus on using the [pic](https://github.com/JorgeG94/pic) library and its derivatives:
 [pic-mpi](https://github.com/JorgeG94/pic-mpi) and [pic-blas](https://github.com/JorgeG94/pic-blas)
 which are Fortran based implementations of commonly used routines such as sorting algorithms,
