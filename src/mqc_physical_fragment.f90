@@ -2,12 +2,12 @@ module mqc_physical_fragment
    use pic_types, only: dp, default_int
    use mqc_geometry, only: geometry_type
    use mqc_xyz_reader, only: read_xyz_file
+   use mqc_elements, only: element_symbol_to_number, element_number_to_symbol
    implicit none
    private
 
    public :: physical_fragment_t, system_geometry_t
    public :: initialize_system_geometry, build_fragment_from_indices
-   public :: element_symbol_to_number, element_number_to_symbol
    public :: to_angstrom, to_bohr
 
    !! Physical fragment with actual atomic coordinates
@@ -104,7 +104,7 @@ contains
 
    end subroutine initialize_system_geometry
 
-   subroutine build_fragment_from_indices(sys_geom, monomer_indices, fragment)
+   pure subroutine build_fragment_from_indices(sys_geom, monomer_indices, fragment)
       !! Build a fragment on-the-fly from monomer indices
       !! e.g., monomer_indices = [1, 3, 5] extracts waters 1, 3, and 5
       type(system_geometry_t), intent(in) :: sys_geom
@@ -141,104 +141,6 @@ contains
       end do
 
    end subroutine build_fragment_from_indices
-
-   function element_symbol_to_number(symbol) result(atomic_number)
-      !! Convert element symbol to atomic number
-      character(len=*), intent(in) :: symbol
-      integer :: atomic_number
-
-      character(len=2) :: sym
-
-      ! Normalize: uppercase first letter, lowercase second
-      sym = adjustl(symbol)
-      if (len_trim(sym) >= 1) sym(1:1) = to_upper(sym(1:1))
-      if (len_trim(sym) >= 2) sym(2:2) = to_lower(sym(2:2))
-
-      select case (trim(sym))
-      case ('H');  atomic_number = 1
-      case ('He'); atomic_number = 2
-      case ('Li'); atomic_number = 3
-      case ('Be'); atomic_number = 4
-      case ('B');  atomic_number = 5
-      case ('C');  atomic_number = 6
-      case ('N');  atomic_number = 7
-      case ('O');  atomic_number = 8
-      case ('F');  atomic_number = 9
-      case ('Ne'); atomic_number = 10
-      case ('Na'); atomic_number = 11
-      case ('Mg'); atomic_number = 12
-      case ('Al'); atomic_number = 13
-      case ('Si'); atomic_number = 14
-      case ('P');  atomic_number = 15
-      case ('S');  atomic_number = 16
-      case ('Cl'); atomic_number = 17
-      case ('Ar'); atomic_number = 18
-      case ('K');  atomic_number = 19
-      case ('Ca'); atomic_number = 20
-      ! Add more as needed
-      case default
-         atomic_number = 0  ! Unknown element
-      end select
-
-   end function element_symbol_to_number
-
-   function element_number_to_symbol(atomic_number) result(symbol)
-      !! Convert atomic number to element symbol
-      integer, intent(in) :: atomic_number
-      character(len=2) :: symbol
-
-      select case (atomic_number)
-      case (1);  symbol = 'H '
-      case (2);  symbol = 'He'
-      case (3);  symbol = 'Li'
-      case (4);  symbol = 'Be'
-      case (5);  symbol = 'B '
-      case (6);  symbol = 'C '
-      case (7);  symbol = 'N '
-      case (8);  symbol = 'O '
-      case (9);  symbol = 'F '
-      case (10); symbol = 'Ne'
-      case (11); symbol = 'Na'
-      case (12); symbol = 'Mg'
-      case (13); symbol = 'Al'
-      case (14); symbol = 'Si'
-      case (15); symbol = 'P '
-      case (16); symbol = 'S '
-      case (17); symbol = 'Cl'
-      case (18); symbol = 'Ar'
-      case (19); symbol = 'K '
-      case (20); symbol = 'Ca'
-      case default
-         symbol = 'Xx'  ! Unknown
-      end select
-
-   end function element_number_to_symbol
-
-   pure function to_upper(c) result(uc)
-      character(len=1), intent(in) :: c
-      character(len=1) :: uc
-      integer :: i
-
-      i = iachar(c)
-      if (i >= iachar('a') .and. i <= iachar('z')) then
-         uc = achar(i - 32)
-      else
-         uc = c
-      end if
-   end function to_upper
-
-   pure function to_lower(c) result(lc)
-      character(len=1), intent(in) :: c
-      character(len=1) :: lc
-      integer :: i
-
-      i = iachar(c)
-      if (i >= iachar('A') .and. i <= iachar('Z')) then
-         lc = achar(i + 32)
-      else
-         lc = c
-      end if
-   end function to_lower
 
    subroutine fragment_destroy(this)
       class(physical_fragment_t), intent(inout) :: this

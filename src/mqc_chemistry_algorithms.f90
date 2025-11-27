@@ -5,7 +5,8 @@ module mqc_chemistry_algorithms
    use pic_mpi_f08, only: comm_t, send, recv, iprobe, MPI_Status, MPI_ANY_SOURCE, MPI_ANY_TAG
    use mqc_mpi_tags
    use mqc_physical_fragment, only: system_geometry_t, physical_fragment_t, build_fragment_from_indices, to_angstrom
-   use mqc_physical_fragment, only: physical_fragment_t, element_number_to_symbol
+   use mqc_physical_fragment, only: physical_fragment_t
+   use mqc_elements, only: element_number_to_symbol
    use mctc_env, only: wp, error_type
    use mctc_io, only: structure_type, new
    use tblite_context_type, only: context_type

@@ -57,7 +57,7 @@ subroutine read_xyz_file(filename, geom, stat, errmsg)
   
 end subroutine read_xyz_file
 
-subroutine read_xyz_string(xyz_string, geom, stat, errmsg)
+pure subroutine read_xyz_string(xyz_string, geom, stat, errmsg)
   character(len=*), intent(in) :: xyz_string
   type(geometry_type), intent(out) :: geom
   integer, intent(out) :: stat
@@ -129,7 +129,7 @@ subroutine read_xyz_string(xyz_string, geom, stat, errmsg)
 end subroutine read_xyz_string
 
 !> Helper function to convert integer to string
-function int_to_string(i) result(str)
+pure function int_to_string(i) result(str)
   integer, intent(in) :: i
   character(len=:), allocatable :: str
   character(len=20) :: buffer
@@ -140,7 +140,7 @@ end function int_to_string
 
 !> Split text into lines handling LF, CRLF, and CR line endings
 !! Trailing newlines do not create empty lines
-subroutine split_lines(text, lines, nlines)
+pure subroutine split_lines(text, lines, nlines)
   character(len=*), intent(in) :: text
   character(len=:), allocatable, intent(out) :: lines(:)
   integer, intent(out) :: nlines

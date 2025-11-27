@@ -22,7 +22,7 @@ implicit-external = false
 source-form = "free"
 
 [dependencies]
-pic = { git = "https://github.com/JorgeG94/pic.git", branch = "feat/move_blas_out"}
+pic = { git = "https://github.com/JorgeG94/pic.git", branch = "feat/pure_to_upper_lower"}
 pic-mpi = { git = "https://github.com/JorgeG94/pic-mpi.git", branch = "main"}
 pic-blas = { git = "https://github.com/JorgeG94/pic-blas.git", branch = "main"}
 tblite = { git = "https://github.com/JorgeG94/tblite", branch = "main"}
