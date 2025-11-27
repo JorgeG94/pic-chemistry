@@ -1,5 +1,7 @@
 module mqc_driver
-   use pic_mpi_f08 
+   use pic_mpi_f08
+   use pic_logger, only: logger => global_logger
+   use pic_io, only: to_char
    use mqc_chemistry_algorithms
    use mqc_mbe
    use mqc_physical_fragment
@@ -41,14 +43,14 @@ contains
       matrix_size = sys_geom%atoms_per_monomer * 3
 
       if (world_rank == 0) then
-         print *, "============================================"
-         print *, "Loaded geometry:"
-         print '(a,i0)', "  Total monomers: ", sys_geom%n_monomers
-         print '(a,i0)', "  Atoms per monomer: ", sys_geom%atoms_per_monomer
-         print '(a,i0)', "  Total atoms: ", sys_geom%total_atoms
-         print '(a,i0)', "  Fragment level: ", max_level
-         print '(a,i0)', "  Matrix size (natoms*3): ", matrix_size
-         print *, "============================================"
+         call logger%info("============================================")
+         call logger%info("Loaded geometry:")
+         call logger%info("  Total monomers: " // to_char(sys_geom%n_monomers))
+         call logger%info("  Atoms per monomer: " // to_char(sys_geom%atoms_per_monomer))
+         call logger%info("  Total atoms: " // to_char(sys_geom%total_atoms))
+         call logger%info("  Fragment level: " // to_char(max_level))
+         call logger%info("  Matrix size (natoms*3): " // to_char(matrix_size))
+         call logger%info("============================================")
       end if
 
       ! Check if this is an unfragmented calculation (nlevel=0)
@@ -57,23 +59,23 @@ contains
          ! (parallelism comes from OpenMP threads, not MPI ranks)
          if (world_size > 1) then
             if (world_rank == 0) then
-               print *, ""
-               print *, "ERROR: Unfragmented calculation (nlevel=0) requires exactly 1 MPI rank"
-               print *, "       Parallelism is achieved through OpenMP threads, not MPI"
-               print '(a,i0,a)', "       Current number of MPI ranks: ", world_size, " (must be 1)"
-               print *, ""
-               print *, "Please run with a single MPI rank (e.g., mpirun -np 1 ...)"
-               print *, "Use OMP_NUM_THREADS to control thread-level parallelism"
-               print *, ""
+               call logger%error("")
+               call logger%error("Unfragmented calculation (nlevel=0) requires exactly 1 MPI rank")
+               call logger%error("  Parallelism is achieved through OpenMP threads, not MPI")
+               call logger%error("  Current number of MPI ranks: " // to_char(world_size) // " (must be 1)")
+               call logger%error("")
+               call logger%error("Please run with a single MPI rank (e.g., mpirun -np 1 ...)")
+               call logger%error("Use OMP_NUM_THREADS to control thread-level parallelism")
+               call logger%error("")
             end if
             call abort_comm(world_comm, 1)
          end if
 
          if (world_rank == 0) then
-            print *, ""
-            print *, "nlevel=0 detected: Running unfragmented calculation"
-            print *, "Parallelism provided by OpenMP threads"
-            print *, ""
+            call logger%info("")
+            call logger%info("nlevel=0 detected: Running unfragmented calculation")
+            call logger%info("Parallelism provided by OpenMP threads")
+            call logger%info("")
             call unfragmented_calculation(sys_geom)
          end if
          return
@@ -107,9 +109,9 @@ contains
 
          deallocate(monomers)
 
-         print *, "Generated fragments:"
-         print '(a,i0)', "  Total fragments: ", total_fragments
-         print '(a,i0)', "  Max level: ", max_level
+         call logger%info("Generated fragments:")
+         call logger%info("  Total fragments: " // to_char(total_fragments))
+         call logger%info("  Max level: " // to_char(max_level))
       end if
 
       ! Broadcast total_fragments to all ranks
@@ -125,7 +127,7 @@ contains
       num_nodes = count(all_node_leader_ranks /= -1)
 
       if (world_comm%rank() == 0) then
-         print '(a,i0,a)', "Running with ", num_nodes, " node(s)"
+         call logger%info("Running with " // to_char(num_nodes) // " node(s)")
       end if
 
       allocate(node_leader_ranks(num_nodes))
@@ -141,16 +143,16 @@ contains
       ! Execute appropriate role
       if (world_comm%leader() .and. node_comm%leader()) then
          ! Global coordinator (rank 0, node leader on node 0)
-         print *, "Rank 0: Acting as global coordinator"
+         call logger%verbose("Rank 0: Acting as global coordinator")
          call global_coordinator(world_comm, node_comm, total_fragments, polymers, max_level, &
                                        node_leader_ranks, num_nodes, matrix_size)
       else if (node_comm%leader()) then
          ! Node coordinator (node leader on other nodes)
-         print '(a,i0,a)', "Rank ", world_rank, ": Acting as node coordinator"
+         call logger%verbose("Rank " // to_char(world_rank) // ": Acting as node coordinator")
          call node_coordinator(world_comm, node_comm, max_level, matrix_size)
       else
          ! Worker
-         print '(a,i0,a)', "Rank ", world_rank, ": Acting as worker"
+         call logger%verbose("Rank " // to_char(world_rank) // ": Acting as worker")
          call node_worker(world_comm, node_comm, max_level, sys_geom)
       end if
 
