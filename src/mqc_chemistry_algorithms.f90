@@ -1,14 +1,19 @@
 module mqc_chemistry_algorithms
-   use pic_types
+   use pic_types, only: int32, dp
    use pic_timer, only: timer_type
    use pic_blas_interfaces, only: pic_gemm, pic_dot
    use pic_mpi_f08, only: comm_t, send, recv, iprobe, MPI_Status, MPI_ANY_SOURCE, MPI_ANY_TAG
+   use pic_logger, only: logger => global_logger
+   use pic_io, only: to_char
+
    use mqc_mpi_tags
    use mqc_physical_fragment, only: system_geometry_t, physical_fragment_t, build_fragment_from_indices, to_angstrom
    use mqc_physical_fragment, only: physical_fragment_t
    use mqc_elements, only: element_number_to_symbol
+
    use mctc_env, only: wp, error_type
    use mctc_io, only: structure_type, new
+
    use tblite_context_type, only: context_type
    use tblite_wavefunction, only: wavefunction_type, new_wavefunction
    use tblite_xtb_calculator, only: xtb_calculator
@@ -88,18 +93,20 @@ contains
       type(physical_fragment_t), intent(in) :: phys_frag
       integer :: i
       character(len=2) :: symbol
+      character(len=256) :: coord_line
 
-      print *, "========================================="
-      print '(a,i0)', " Fragment ", fragment_idx
-      print '(a,i0)', " Number of atoms: ", phys_frag%n_atoms
-      print *, " Coordinates in Angstroms:"
-      print *, "-----------------------------------------"
+      call logger%info("=========================================")
+      call logger%info(" Fragment " // to_char(fragment_idx))
+      call logger%info(" Number of atoms: " // to_char(phys_frag%n_atoms))
+      call logger%info(" Coordinates in Angstroms:")
+      call logger%info("-----------------------------------------")
       do i = 1, phys_frag%n_atoms
          symbol = element_number_to_symbol(phys_frag%element_numbers(i))
          ! Convert from Bohr back to Angstroms for printing
-         print '(a2,3f15.8)', symbol, to_angstrom(phys_frag%coordinates(1:3, i))
+         write(coord_line, '(a2,3f15.8)') symbol, to_angstrom(phys_frag%coordinates(1:3, i))
+         call logger%info(trim(coord_line))
       end do
-      print *, "========================================="
+      call logger%info("=========================================")
 
    end subroutine print_fragment_xyz
 
@@ -136,13 +143,21 @@ contains
 
       total_energy = sum(sum_by_level)
 
-      print *, "MBE Energy breakdown:"
+      call logger%info("MBE Energy breakdown:")
       do body_level = 1, max_level
          if (abs(sum_by_level(body_level)) > 1e-15_dp) then
-            print '(a,i0,a,f20.10)', "  ", body_level, "-body:  ", sum_by_level(body_level)
+            block
+               character(len=256) :: energy_line
+               write(energy_line, '(a,i0,a,f20.10)') "  ", body_level, "-body:  ", sum_by_level(body_level)
+               call logger%info(trim(energy_line))
+            end block
          end if
       end do
-      print '(a,f20.10)', "  Total:   ", total_energy
+      block
+         character(len=256) :: total_line
+         write(total_line, '(a,f20.10)') "  Total:   ", total_energy
+         call logger%info(trim(total_line))
+      end block
 
       deallocate(sum_by_level)
 
@@ -283,7 +298,12 @@ contains
       end do
 
       ! If we get here, we didn't find the fragment
-      print *, "ERROR: Could not find fragment with monomers:", target_monomers
+      block
+         character(len=256) :: monomers_str
+         integer :: k
+         write(monomers_str, '(*(i0,1x))') (target_monomers(k), k=1,size(target_monomers))
+         call logger%error("Could not find fragment with monomers: " // trim(monomers_str))
+      end block
       error stop "Fragment not found in find_fragment_index"
 
    end function find_fragment_index
@@ -322,15 +342,23 @@ contains
       total_flops = sum(mer_flops)
 
       ! Print breakdown
-      print *, "Fragment breakdown:"
+      call logger%info("Fragment breakdown:")
       do i = 1, max_level
          if (n_mers(i) > 0) then
-            print '(a,i0,a,i0,a,f12.3,a)', "  ", i, "-mers:  ", n_mers(i), &
-               " (", mer_flops(i)/1.0e9_dp, " GFLOP)"
+            block
+               character(len=256) :: flop_line
+               write(flop_line, '(a,i0,a,i0,a,f12.3,a)') "  ", i, "-mers:  ", n_mers(i), &
+                  " (", mer_flops(i)/1.0e9_dp, " GFLOP)"
+               call logger%info(trim(flop_line))
+            end block
          end if
       end do
-      print '(a,i0,a,f12.3,a)', "  Total:    ", fragment_count, &
-         " (", total_flops/1.0e9_dp, " GFLOP)"
+      block
+         character(len=256) :: total_line
+         write(total_line, '(a,i0,a,f12.3,a)') "  Total:    ", fragment_count, &
+            " (", total_flops/1.0e9_dp, " GFLOP)"
+         call logger%info(trim(total_line))
+      end block
 
       deallocate (n_mers, mer_flops)
 
@@ -375,7 +403,8 @@ contains
       matrix_results = 0.0_dp
       worker_fragment_map = 0
 
-      print *, "Global coordinator starting with", total_fragments, "fragments for", num_nodes, "nodes"
+      call logger%verbose("Global coordinator starting with " // to_char(total_fragments) // &
+                         " fragments for " // to_char(num_nodes) // " nodes")
 
       do while (finished_nodes < num_nodes)
 
@@ -391,7 +420,8 @@ contains
 
                ! Safety check: worker should have a fragment assigned
                if (worker_fragment_map(worker_source) == 0) then
-                  print *, "ERROR: Received result from worker", worker_source, "but no fragment was assigned!"
+                  call logger%error("Received result from worker " // to_char(worker_source) // &
+                                   " but no fragment was assigned!")
                   error stop "Invalid worker_fragment_map state"
                end if
 
@@ -475,21 +505,21 @@ contains
             handling_local_workers = .false.
             if (num_nodes == 1) then
                finished_nodes = finished_nodes + 1
-               print *, "Manually incremented finished_nodes for self"
+               call logger%debug("Manually incremented finished_nodes for self")
             else
                finished_nodes = finished_nodes + 1
-               print *, "Global coordinator finished local workers"
+               call logger%verbose("Global coordinator finished local workers")
             end if
          end if
       end do
 
-      print *, "Global coordinator finished all fragments"
+      call logger%verbose("Global coordinator finished all fragments")
       block
       real(dp) :: mbe_total_energy
 
       ! Compute the many-body expansion energy
-      print *
-      print *, "Computing Many-Body Expansion (MBE)..."
+      call logger%info("")
+      call logger%info("Computing Many-Body Expansion (MBE)...")
       call compute_mbe_energy(polymers, total_fragments, max_level, scalar_results, mbe_total_energy)
 
       end block
@@ -566,8 +596,8 @@ contains
 
             ! Safety check: worker should have a fragment assigned
             if (worker_fragment_map(worker_source) == 0) then
-               print *, "ERROR: Node coordinator received result from worker", worker_source, &
-                        "but no fragment was assigned!"
+               call logger%error("Node coordinator received result from worker " // to_char(worker_source) // &
+                                " but no fragment was assigned!")
                error stop "Invalid worker_fragment_map state in node coordinator"
             end if
 
@@ -688,16 +718,16 @@ contains
       integer :: i
 
       if (.not. present(sys_geom)) then
-         print *, "ERROR: sys_geom required for unfragmented calculation"
+         call logger%error("sys_geom required for unfragmented calculation")
          error stop "Missing geometry in unfragmented_calculation"
       end if
 
       total_atoms = sys_geom%total_atoms
 
-      print *, "============================================"
-      print *, "Running unfragmented calculation"
-      print '(a,i0)', "  Total atoms: ", total_atoms
-      print *, "============================================"
+      call logger%info("============================================")
+      call logger%info("Running unfragmented calculation")
+      call logger%info("  Total atoms: " // to_char(total_atoms))
+      call logger%info("============================================")
 
       ! Build the full system as a single fragment (all monomers)
       block
@@ -726,11 +756,15 @@ contains
          deallocate(temp_indices)
       end block
 
-      print *, "============================================"
-      print *, "Unfragmented calculation completed"
-      print '(a,es15.8)', "  Scalar result: ", dot_result
-      print '(a,i0)', "  Matrix size: ", size(C_flat)
-      print *, "============================================"
+      call logger%info("============================================")
+      call logger%info("Unfragmented calculation completed")
+      block
+         character(len=256) :: result_line
+         write(result_line, '(a,es15.8)') "  Scalar result: ", dot_result
+         call logger%info(trim(result_line))
+      end block
+      call logger%info("  Matrix size: " // to_char(size(C_flat)))
+      call logger%info("============================================")
 
       if (allocated(C_flat)) deallocate(C_flat)
 
