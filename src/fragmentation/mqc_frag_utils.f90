@@ -37,7 +37,7 @@ contains
       end if
    end function binomial
 
-   subroutine create_monomer_list(monomers)
+   pure subroutine create_monomer_list(monomers)
       integer(default_int), allocatable, intent(inout) :: monomers(:)
       integer(default_int) :: i, length
 
