@@ -10,6 +10,7 @@ module mqc_xyz_reader
 
    public :: read_xyz_file    !! Read XYZ file from disk
    public :: read_xyz_string  !! Parse XYZ data from string
+   public :: split_lines      !! Split text into lines (for testing)
 
    ! Constants
    integer, parameter :: MAX_ELEMENT_SYMBOL_LEN = 4  !! Maximum element symbol length
