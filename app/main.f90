@@ -1,4 +1,8 @@
 program main
+   !! Main driver program for PIC Chemistry quantum chemistry calculations
+   !!
+   !! Orchestrates MPI initialization, input parsing, geometry loading,
+   !! and dispatches to appropriate calculation routines (fragmented or unfragmented).
    use pic_logger, only: logger => global_logger, info_level
    use pic_io, only: to_char
    use pic_mpi_lib
@@ -9,13 +13,14 @@ program main
    use pic_timer
    implicit none
 
-   type(timer_type) :: my_timer
-   type(comm_t) :: world_comm, node_comm
-   type(input_config_t) :: config
-   type(system_geometry_t) :: sys_geom
-   integer :: stat
-   character(len=:), allocatable :: errmsg
-   character(len=256) :: input_file
+   type(timer_type) :: my_timer     !! Execution timing
+   type(comm_t) :: world_comm       !! Global MPI communicator
+   type(comm_t) :: node_comm        !! Node-local MPI communicator
+   type(input_config_t) :: config   !! Parsed input configuration
+   type(system_geometry_t) :: sys_geom  !! Loaded molecular system
+   integer :: stat                  !! Status code for error handling
+   character(len=:), allocatable :: errmsg  !! Error messages
+   character(len=256) :: input_file !! Input file name
 
    ! Initialize MPI
    call pic_mpi_init()

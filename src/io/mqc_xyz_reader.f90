@@ -1,25 +1,38 @@
 module mqc_xyz_reader
+   !! XYZ molecular geometry file reader
+   !!
+   !! Provides functions to parse standard XYZ format files containing
+   !! atomic coordinates and element symbols for molecular structures.
    use pic_types, only: dp
    use mqc_geometry, only: geometry_type
    implicit none
    private
 
-   public :: read_xyz_file, read_xyz_string
+   public :: read_xyz_file    !! Read XYZ file from disk
+   public :: read_xyz_string  !! Parse XYZ data from string
 
-   ! Parameters
-   integer, parameter :: MAX_ELEMENT_SYMBOL_LEN = 4
+   ! Constants
+   integer, parameter :: MAX_ELEMENT_SYMBOL_LEN = 4  !! Maximum element symbol length
 
 contains
 
    subroutine read_xyz_file(filename, geom, stat, errmsg)
-      character(len=*), intent(in) :: filename
-      type(geometry_type), intent(out) :: geom
-      integer, intent(out) :: stat
-      character(len=:), allocatable, intent(out) :: errmsg
+      !! Read molecular geometry from XYZ format file
+      !!
+      !! Parses standard XYZ files with format:
+      !! Line 1: Number of atoms
+      !! Line 2: Comment/title line
+      !! Lines 3+: Element X Y Z (coordinates in Angstrom)
+      character(len=*), intent(in) :: filename  !! Path to XYZ file
+      type(geometry_type), intent(out) :: geom  !! Parsed molecular geometry
+      integer, intent(out) :: stat              !! Status (0=success, >0=error)
+      character(len=:), allocatable, intent(out) :: errmsg  !! Error message
 
-      integer :: unit, io_stat, file_size
-      logical :: file_exists
-      character(len=:), allocatable :: file_contents
+      integer :: unit      !! File unit number
+      integer :: io_stat   !! I/O operation status
+      integer :: file_size !! File size in bytes
+      logical :: file_exists !! Whether file exists on disk
+      character(len=:), allocatable :: file_contents !! Full file content buffer
 
       stat = 0
 

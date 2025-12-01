@@ -1,29 +1,32 @@
 module mqc_result_types
+   !! Quantum chemistry calculation result containers
+   !!
+   !! Defines data structures for storing and managing results from
+   !! quantum chemistry calculations including energies, gradients, and properties.
    use pic_types, only: dp
    implicit none
    private
 
-   public :: calculation_result_t
+   public :: calculation_result_t  !! Main result container type
 
-   !> Container for calculation results
    type :: calculation_result_t
-      real(dp) :: energy = 0.0_dp
-         !! Total energy
-      real(dp), allocatable :: gradient(:, :)
-         !! Energy gradient (3, natoms)
-      real(dp), allocatable :: hessian(:, :)
-         !! Energy hessian (future)
-      real(dp), allocatable :: dipole(:)
-         !! Dipole moment (3)
+      !! Container for quantum chemistry calculation results
+      !!
+      !! Stores computed quantities from QC calculations with flags
+      !! indicating which properties have been computed.
+      real(dp) :: energy = 0.0_dp               !! Total electronic energy (Hartree)
+      real(dp), allocatable :: gradient(:, :)   !! Energy gradient (3, natoms) (Hartree/Bohr)
+      real(dp), allocatable :: hessian(:, :)    !! Energy hessian (future implementation)
+      real(dp), allocatable :: dipole(:)        !! Dipole moment vector (3) (Debye)
 
-      ! Flags for what's been computed
-      logical :: has_energy = .false.
-      logical :: has_gradient = .false.
-      logical :: has_hessian = .false.
-      logical :: has_dipole = .false.
+      ! Computation status flags
+      logical :: has_energy = .false.    !! Energy has been computed
+      logical :: has_gradient = .false.  !! Gradient has been computed
+      logical :: has_hessian = .false.   !! Hessian has been computed
+      logical :: has_dipole = .false.    !! Dipole moment has been computed
    contains
-      procedure :: destroy => result_destroy
-      procedure :: reset => result_reset
+      procedure :: destroy => result_destroy  !! Clean up allocated memory
+      procedure :: reset => result_reset      !! Reset all values and flags
    end type calculation_result_t
 
 contains

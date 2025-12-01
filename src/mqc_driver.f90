@@ -1,4 +1,8 @@
 module mqc_driver
+   !! Main calculation driver module for metalquicha
+   !!
+   !! Handles both fragmented (many-body expansion) and unfragmented calculations
+   !! with MPI parallelization and node-based work distribution.
    use pic_mpi_lib
    use pic_logger, only: logger => global_logger
    use pic_io, only: to_char
@@ -9,32 +13,33 @@ module mqc_driver
    implicit none
    private
 
-   public :: run_calculation
+   public :: run_calculation  !! Main entry point for all calculations
 
 contains
 
    subroutine run_calculation(world_comm, node_comm, config, sys_geom)
-      type(comm_t), intent(in) :: world_comm, node_comm
-      type(input_config_t), intent(in) :: config
-      type(system_geometry_t), intent(in) :: sys_geom
+      !! Main calculation dispatcher - routes to fragmented or unfragmented calculation
+      !!
+      !! Determines calculation type based on nlevel and dispatches to appropriate
+      !! calculation routine with proper MPI setup and validation.
+      type(comm_t), intent(in) :: world_comm  !! Global MPI communicator
+      type(comm_t), intent(in) :: node_comm   !! Node-local MPI communicator
+      type(input_config_t), intent(in) :: config  !! Parsed input configuration
+      type(system_geometry_t), intent(in) :: sys_geom  !! System geometry and fragment info
 
       ! Local variables
-      integer :: world_rank, world_size, node_rank, node_size
-      integer :: max_level, matrix_size
-      integer :: total_fragments
-      integer, allocatable :: polymers(:, :)
-      integer :: num_nodes, i, j
-      integer, allocatable :: node_leader_ranks(:)
-      integer, allocatable :: monomers(:)
-      integer :: n_expected_frags, n_rows
-      integer :: global_node_rank
-      integer, allocatable :: all_node_leader_ranks(:)
-
-      ! Get MPI info
-      world_rank = world_comm%rank()
-      world_size = world_comm%size()
-      node_rank = node_comm%rank()
-      node_size = node_comm%size()
+      integer :: max_level   !! Maximum fragment level (nlevel from config)
+      integer :: matrix_size !! Size of gradient matrix (natoms*3), tmp
+      integer :: total_fragments  !! Total number of fragments generated
+      integer, allocatable :: polymers(:, :)  !! Fragment indices array
+      integer :: num_nodes   !! Number of compute nodes
+      integer :: i, j        !! Loop counters
+      integer, allocatable :: node_leader_ranks(:)  !! Ranks of node leaders
+      integer, allocatable :: monomers(:)     !! Monomer indices for fragment generation
+      integer :: n_expected_frags  !! Expected number of fragments
+      integer :: n_rows      !! Number of rows for polymers array
+      integer :: global_node_rank  !! Global rank if node leader, -1 otherwise
+      integer, allocatable :: all_node_leader_ranks(:)  !! All node leader ranks
 
       ! Set max_level from config
       max_level = config%nlevel
@@ -42,7 +47,7 @@ contains
       ! Set matrix_size based on atoms per monomer (natoms * 3 for gradient)
       matrix_size = sys_geom%atoms_per_monomer*3
 
-      if (world_rank == 0) then
+      if (world_comm%rank() == 0) then
          call logger%info("============================================")
          call logger%info("Loaded geometry:")
          call logger%info("  Total monomers: "//to_char(sys_geom%n_monomers))
@@ -64,23 +69,21 @@ contains
 
    subroutine run_unfragmented_calculation(world_comm, sys_geom, method)
       !! Handle unfragmented calculation (nlevel=0)
-      type(comm_t), intent(in) :: world_comm
-      type(system_geometry_t), intent(in) :: sys_geom
-      character(len=*), intent(in) :: method
-
-      integer :: world_rank, world_size
-
-      world_rank = world_comm%rank()
-      world_size = world_comm%size()
+      !!
+      !! Validates single MPI rank requirement and runs direct calculation
+      !! on entire system using OpenMP for parallelization.
+      type(comm_t), intent(in) :: world_comm  !! Global MPI communicator
+      type(system_geometry_t), intent(in) :: sys_geom  !! Complete system geometry
+      character(len=*), intent(in) :: method  !! Quantum chemistry method (gfn1/gfn2)
 
       ! Validate that only a single rank is used for unfragmented calculation
       ! (parallelism comes from OpenMP threads, not MPI ranks)
-      if (world_size > 1) then
-         if (world_rank == 0) then
+      if (world_comm%size() > 1) then
+         if (world_comm%rank() == 0) then
             call logger%error("")
             call logger%error("Unfragmented calculation (nlevel=0) requires exactly 1 MPI rank")
             call logger%error("  Parallelism is achieved through OpenMP threads, not MPI")
-            call logger%error("  Current number of MPI ranks: "//to_char(world_size)//" (must be 1)")
+            call logger%error("  Current number of MPI ranks: "//to_char(world_comm%size())//" (must be 1)")
             call logger%error("")
             call logger%error("Please run with a single MPI rank (e.g., mpirun -np 1 ...)")
             call logger%error("Use OMP_NUM_THREADS to control thread-level parallelism")
@@ -89,7 +92,7 @@ contains
          call abort_comm(world_comm, 1)
       end if
 
-      if (world_rank == 0) then
+      if (world_comm%rank() == 0) then
          call logger%info("")
          call logger%info("nlevel=0 detected: Running unfragmented calculation")
          call logger%info("Parallelism provided by OpenMP threads")
@@ -101,25 +104,29 @@ contains
 
    subroutine run_fragmented_calculation(world_comm, node_comm, method, sys_geom, max_level, matrix_size)
       !! Handle fragmented calculation (nlevel > 0)
-      type(comm_t), intent(in) :: world_comm, node_comm
-      character(len=*), intent(in) :: method
-      type(system_geometry_t), intent(in) :: sys_geom
-      integer, intent(in) :: max_level, matrix_size
+      !!
+      !! Generates fragments, distributes work across MPI processes organized in nodes,
+      !! and coordinates many-body expansion calculation using hierarchical parallelism.
+      type(comm_t), intent(in) :: world_comm  !! Global MPI communicator
+      type(comm_t), intent(in) :: node_comm   !! Node-local MPI communicator
+      character(len=*), intent(in) :: method  !! Quantum chemistry method (gfn1/gfn2)
+      type(system_geometry_t), intent(in) :: sys_geom  !! System geometry and fragment info
+      integer, intent(in) :: max_level    !! Maximum fragment level for MBE
+      integer, intent(in) :: matrix_size  !! Size of gradient matrix (natoms*3)
 
-      integer :: world_rank
-      integer :: total_fragments
-      integer, allocatable :: polymers(:, :)
-      integer :: num_nodes, i, j
-      integer, allocatable :: node_leader_ranks(:)
-      integer, allocatable :: monomers(:)
-      integer :: n_expected_frags, n_rows
-      integer :: global_node_rank
-      integer, allocatable :: all_node_leader_ranks(:)
-
-      world_rank = world_comm%rank()
+      integer :: total_fragments  !! Total number of fragments generated
+      integer, allocatable :: polymers(:, :)  !! Fragment composition array (fragment, monomer_indices)
+      integer :: num_nodes   !! Number of compute nodes
+      integer :: i, j        !! Loop counters
+      integer, allocatable :: node_leader_ranks(:)  !! Ranks of processes that lead each node
+      integer, allocatable :: monomers(:)     !! Temporary monomer list for fragment generation
+      integer :: n_expected_frags  !! Expected number of fragments based on combinatorics
+      integer :: n_rows      !! Number of rows needed for polymers array
+      integer :: global_node_rank  !! Global rank if this process leads a node, -1 otherwise
+      integer, allocatable :: all_node_leader_ranks(:)  !! Node leader status for all ranks
 
       ! Generate fragments (only rank 0 needs this for coordination)
-      if (world_rank == 0) then
+      if (world_comm%rank() == 0) then
          ! Calculate expected number of fragments
          n_expected_frags = get_nfrags(sys_geom%n_monomers, max_level)
          n_rows = n_expected_frags
@@ -185,16 +192,16 @@ contains
                                  node_leader_ranks, num_nodes, matrix_size)
       else if (node_comm%leader()) then
          ! Node coordinator (node leader on other nodes)
-         call logger%verbose("Rank "//to_char(world_rank)//": Acting as node coordinator")
+         call logger%verbose("Rank "//to_char(world_comm%rank())//": Acting as node coordinator")
          call node_coordinator(world_comm, node_comm, max_level, matrix_size)
       else
          ! Worker
-         call logger%verbose("Rank "//to_char(world_rank)//": Acting as worker")
+         call logger%verbose("Rank "//to_char(world_comm%rank())//": Acting as worker")
          call node_worker(world_comm, node_comm, max_level, sys_geom, method)
       end if
 
       ! Cleanup
-      if (world_rank == 0) then
+      if (world_comm%rank() == 0) then
          if (allocated(polymers)) deallocate (polymers)
          if (allocated(node_leader_ranks)) deallocate (node_leader_ranks)
       end if

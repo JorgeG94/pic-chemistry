@@ -1,4 +1,8 @@
 module mqc_mbe
+   !! Many-Body Expansion (MBE) calculation module
+   !!
+   !! Implements hierarchical many-body expansion for fragment-based quantum chemistry
+   !! calculations with MPI parallelization and energy/gradient computation.
    use pic_types, only: int32, dp
    use pic_timer, only: timer_type
    use pic_blas_interfaces, only: pic_gemm, pic_dot
@@ -21,17 +25,24 @@ contains
 
    subroutine process_chemistry_fragment(fragment_idx, fragment_indices, fragment_size, matrix_size, &
                                          water_energy, C_flat, method, phys_frag, verbosity)
+      !! Process a single fragment for quantum chemistry calculation
+      !!
+      !! Performs energy and gradient calculation on a molecular fragment using
+      !! specified quantum chemistry method (GFN-xTB variants).
 
-      integer, intent(in) :: fragment_idx, fragment_size, matrix_size
-      integer, intent(in) :: fragment_indices(fragment_size)
-      real(dp), intent(out) :: water_energy
-      real(dp), allocatable, intent(out) :: C_flat(:)
-      character(len=*), intent(in) :: method
-      type(physical_fragment_t), intent(in), optional :: phys_frag
-      integer, intent(in), optional :: verbosity
-      integer :: verb_level
-      type(xtb_method_t) :: xtb_calc
-      type(calculation_result_t) :: result
+      integer, intent(in) :: fragment_idx        !! Fragment index for identification
+      integer, intent(in) :: fragment_indices(*) !! Monomer indices comprising this fragment
+      integer, intent(in) :: fragment_size       !! Number of monomers in fragment
+      integer, intent(in) :: matrix_size         !! Size of gradient matrix (natoms*3)
+      real(dp), intent(out) :: water_energy      !! Computed energy for this fragment
+      real(dp), allocatable, intent(out) :: C_flat(:)  !! Flattened gradient array
+      character(len=*), intent(in) :: method     !! QC method (gfn1, gfn2)
+      type(physical_fragment_t), intent(in), optional :: phys_frag  !! Fragment geometry
+      integer, intent(in), optional :: verbosity !! Verbosity level (0=silent, 1=verbose)
+
+      integer :: verb_level  !! Local verbosity setting
+      type(xtb_method_t) :: xtb_calc  !! XTB calculator instance
+      type(calculation_result_t) :: result  !! Computation results
 
       ! Set verbosity level (default is 0 for silent operation)
       if (present(verbosity)) then

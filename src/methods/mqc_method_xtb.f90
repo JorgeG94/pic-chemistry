@@ -1,4 +1,8 @@
 module mqc_method_xtb
+   !! Extended Tight-Binding (xTB) quantum chemistry method implementation
+   !!
+   !! Provides GFN1-xTB and GFN2-xTB methods via the tblite library,
+   !! implementing the abstract method interface for energy and gradient calculations.
    use pic_types, only: dp
    use mqc_method_base, only: qc_method_t
    use mqc_result_types, only: calculation_result_t
@@ -17,21 +21,20 @@ module mqc_method_xtb
    implicit none
    private
 
-   public :: xtb_method_t
+   public :: xtb_method_t  !! XTB method implementation type
 
-   !> XTB method implementation (GFN1/GFN2)
    type, extends(qc_method_t) :: xtb_method_t
-      character(len=:), allocatable :: variant
-         !! XTB variant: "gfn1" or "gfn2"
-      logical :: verbose = .false.
-         !! Print calculation info
-      real(wp) :: accuracy = 0.01_wp
-         !! Numerical accuracy
-      real(wp) :: kt = 300.0_wp*3.166808578545117e-06_wp
-         !! Electronic temperature (300 K default)
+      !! Extended Tight-Binding (xTB) method implementation
+      !!
+      !! Concrete implementation of the abstract quantum chemistry method
+      !! interface for GFN1-xTB and GFN2-xTB calculations via tblite.
+      character(len=:), allocatable :: variant !! XTB variant: "gfn1" or "gfn2"
+      logical :: verbose = .false.              !! Print calculation details
+      real(wp) :: accuracy = 0.01_wp            !! Numerical accuracy parameter
+      real(wp) :: kt = 300.0_wp*3.166808578545117e-06_wp  !! Electronic temperature (300 K)
    contains
-      procedure :: calc_energy => xtb_calc_energy
-      procedure :: calc_gradient => xtb_calc_gradient
+      procedure :: calc_energy => xtb_calc_energy      !! Energy-only calculation
+      procedure :: calc_gradient => xtb_calc_gradient  !! Energy + gradient calculation
    end type xtb_method_t
 
 contains

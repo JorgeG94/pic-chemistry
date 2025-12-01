@@ -1,21 +1,30 @@
 module mqc_frag_utils
+   !! Fragment generation and manipulation utilities
+   !!
+   !! Provides combinatorial functions and algorithms for generating molecular
+   !! fragments, managing fragment lists, and performing many-body expansion calculations.
    use pic_types, only: default_int, dp
    use pic_logger, only: logger => global_logger
    implicit none
    private
-   public :: binomial
-   public :: create_monomer_list
-   public :: generate_fragment_list
-   public :: get_nfrags
-   public :: next_combination
-   public :: find_fragment_index
+   public :: binomial              !! Binomial coefficient calculation
+   public :: create_monomer_list   !! Generate sequential monomer indices
+   public :: generate_fragment_list !! Generate all fragments up to max level
+   public :: get_nfrags            !! Calculate total number of fragments
+   public :: next_combination      !! Generate next combination in sequence
+   public :: find_fragment_index   !! Locate fragment by composition
 
 contains
 
    pure function get_nfrags(n_monomers, max_level) result(n_expected_fragments)
-      integer(default_int), intent(in) :: n_monomers, max_level
-      integer(default_int) :: n_expected_fragments
-      integer(default_int) :: i
+      !! Calculate total number of fragments for given system size and max level
+      !!
+      !! Computes the sum of binomial coefficients C(n,k) for k=1 to max_level,
+      !! representing all possible fragments from monomers to max_level-mers.
+      integer(default_int), intent(in) :: n_monomers  !! Number of monomers in system
+      integer(default_int), intent(in) :: max_level   !! Maximum fragment size
+      integer(default_int) :: n_expected_fragments     !! Total fragment count
+      integer(default_int) :: i  !! Loop counter
 
       n_expected_fragments = 0
       do i = 1, max_level
@@ -24,9 +33,14 @@ contains
    end function get_nfrags
 
    pure function binomial(n, r) result(c)
-      integer(default_int), intent(in) :: n, r
-      integer(default_int) :: c
-      integer(default_int) :: i
+      !! Compute binomial coefficient C(n,r) = n! / (r! * (n-r)!)
+      !!
+      !! Calculates "n choose r" using iterative algorithm to avoid
+      !! factorial overflow for large numbers.
+      integer(default_int), intent(in) :: n  !! Total number of items
+      integer(default_int), intent(in) :: r  !! Number of items to choose
+      integer(default_int) :: c              !! Binomial coefficient result
+      integer(default_int) :: i              !! Loop counter
 
       if (r == 0 .or. r == n) then
          c = 1
