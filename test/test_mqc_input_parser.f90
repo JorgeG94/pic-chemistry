@@ -215,11 +215,11 @@ contains
 
       call config%destroy()
 
-      call check(error, .not. allocated(config%geom_file), &
+      call check(error,.not. allocated(config%geom_file), &
                  "geom_file should be deallocated")
       if (allocated(error)) return
 
-      call check(error, .not. allocated(config%monomer_file), &
+      call check(error,.not. allocated(config%monomer_file), &
                  "monomer_file should be deallocated")
    end subroutine test_config_destroy
 
@@ -304,9 +304,8 @@ contains
 
 end module test_mqc_input_parser
 
-
 program tester
-    use iso_fortran_env, only: error_unit
+   use iso_fortran_env, only: error_unit
    use testdrive, only: run_testsuite, new_testsuite, testsuite_type
    use test_mqc_input_parser, only: collect_mqc_input_parser_tests
    implicit none
