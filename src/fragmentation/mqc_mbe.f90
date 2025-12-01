@@ -20,17 +20,16 @@ module mqc_mbe
 contains
 
    subroutine process_chemistry_fragment(fragment_idx, fragment_indices, fragment_size, matrix_size, &
-                                         water_energy, C_flat, phys_frag, verbosity, method)
+                                         water_energy, C_flat, method, phys_frag, verbosity)
 
       integer, intent(in) :: fragment_idx, fragment_size, matrix_size
       integer, intent(in) :: fragment_indices(fragment_size)
       real(dp), intent(out) :: water_energy
       real(dp), allocatable, intent(out) :: C_flat(:)
+      character(len=*), intent(in) :: method
       type(physical_fragment_t), intent(in), optional :: phys_frag
       integer, intent(in), optional :: verbosity
-      character(len=*), intent(in), optional :: method
       integer :: verb_level
-      character(len=:), allocatable :: calc_method
       type(xtb_method_t) :: xtb_calc
       type(calculation_result_t) :: result
 
@@ -41,13 +40,6 @@ contains
          verb_level = 0
       end if
 
-      ! Set calculation method (default is gfn2)
-      if (present(method)) then
-         calc_method = method
-      else
-         calc_method = "gfn2"
-      end if
-
       ! Print fragment geometry if provided
       if (present(phys_frag)) then
          if (verb_level == 1) then
@@ -55,7 +47,7 @@ contains
          end if
 
          ! Setup XTB method
-         xtb_calc%variant = calc_method
+         xtb_calc%variant = method
          xtb_calc%verbose = (verb_level > 0)
 
          ! Run the calculation using the method API
@@ -543,13 +535,13 @@ contains
 
                ! Process the chemistry fragment with physical geometry
                call process_chemistry_fragment(fragment_idx, fragment_indices, fragment_size, matrix_size, &
-                                               dot_result, C_flat, phys_frag, method=method)
+                                               dot_result, C_flat, method, phys_frag)
 
                call phys_frag%destroy()
             else
                ! Process without physical geometry (old behavior)
                call process_chemistry_fragment(fragment_idx, fragment_indices, fragment_size, matrix_size, &
-                                               dot_result, C_flat, method=method)
+                                               dot_result, C_flat, method)
             end if
 
             ! Send results back to coordinator
@@ -610,7 +602,7 @@ contains
 
          call process_chemistry_fragment(0, temp_indices, sys_geom%n_monomers, &
                                          total_atoms, dot_result, C_flat, &
-                                         phys_frag=full_system, verbosity=1, method=method)
+                                         method, phys_frag=full_system, verbosity=1)
          deallocate (temp_indices)
       end block
 
