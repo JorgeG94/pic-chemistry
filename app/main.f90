@@ -5,6 +5,7 @@ program main
    use mqc_driver
    use mqc_physical_fragment, only: initialize_system_geometry, system_geometry_t
    use mqc_input_parser
+   use mqc_logo
    use pic_timer
    implicit none
 
@@ -25,6 +26,7 @@ program main
 
    ! Start timer on rank 0
    if (world_comm%rank() == 0) then
+      call print_logo()
       call my_timer%start()
    end if
 

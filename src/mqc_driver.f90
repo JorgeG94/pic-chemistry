@@ -53,33 +53,70 @@ contains
          call logger%info("============================================")
       end if
 
-      ! Check if this is an unfragmented calculation (nlevel=0)
+      ! Choose calculation type based on nlevel
       if (max_level == 0) then
-         ! Validate that only a single rank is used for unfragmented calculation
-         ! (parallelism comes from OpenMP threads, not MPI ranks)
-         if (world_size > 1) then
-            if (world_rank == 0) then
-               call logger%error("")
-               call logger%error("Unfragmented calculation (nlevel=0) requires exactly 1 MPI rank")
-               call logger%error("  Parallelism is achieved through OpenMP threads, not MPI")
-               call logger%error("  Current number of MPI ranks: "//to_char(world_size)//" (must be 1)")
-               call logger%error("")
-               call logger%error("Please run with a single MPI rank (e.g., mpirun -np 1 ...)")
-               call logger%error("Use OMP_NUM_THREADS to control thread-level parallelism")
-               call logger%error("")
-            end if
-            call abort_comm(world_comm, 1)
-         end if
-
-         if (world_rank == 0) then
-            call logger%info("")
-            call logger%info("nlevel=0 detected: Running unfragmented calculation")
-            call logger%info("Parallelism provided by OpenMP threads")
-            call logger%info("")
-            call unfragmented_calculation(sys_geom, config%method)
-         end if
-         return
+         call run_unfragmented_calculation(world_comm, sys_geom, config%method)
+      else
+         call run_fragmented_calculation(world_comm, node_comm, config%method, sys_geom, max_level, matrix_size)
       end if
+
+   end subroutine run_calculation
+
+   subroutine run_unfragmented_calculation(world_comm, sys_geom, method)
+      !! Handle unfragmented calculation (nlevel=0)
+      type(comm_t), intent(in) :: world_comm
+      type(system_geometry_t), intent(in) :: sys_geom
+      character(len=*), intent(in) :: method
+
+      integer :: world_rank, world_size
+
+      world_rank = world_comm%rank()
+      world_size = world_comm%size()
+
+      ! Validate that only a single rank is used for unfragmented calculation
+      ! (parallelism comes from OpenMP threads, not MPI ranks)
+      if (world_size > 1) then
+         if (world_rank == 0) then
+            call logger%error("")
+            call logger%error("Unfragmented calculation (nlevel=0) requires exactly 1 MPI rank")
+            call logger%error("  Parallelism is achieved through OpenMP threads, not MPI")
+            call logger%error("  Current number of MPI ranks: "//to_char(world_size)//" (must be 1)")
+            call logger%error("")
+            call logger%error("Please run with a single MPI rank (e.g., mpirun -np 1 ...)")
+            call logger%error("Use OMP_NUM_THREADS to control thread-level parallelism")
+            call logger%error("")
+         end if
+         call abort_comm(world_comm, 1)
+      end if
+
+      if (world_rank == 0) then
+         call logger%info("")
+         call logger%info("nlevel=0 detected: Running unfragmented calculation")
+         call logger%info("Parallelism provided by OpenMP threads")
+         call logger%info("")
+         call unfragmented_calculation(sys_geom, method)
+      end if
+
+   end subroutine run_unfragmented_calculation
+
+   subroutine run_fragmented_calculation(world_comm, node_comm, method, sys_geom, max_level, matrix_size)
+      !! Handle fragmented calculation (nlevel > 0)
+      type(comm_t), intent(in) :: world_comm, node_comm
+      character(len=*), intent(in) :: method
+      type(system_geometry_t), intent(in) :: sys_geom
+      integer, intent(in) :: max_level, matrix_size
+
+      integer :: world_rank
+      integer :: total_fragments
+      integer, allocatable :: polymers(:, :)
+      integer :: num_nodes, i, j
+      integer, allocatable :: node_leader_ranks(:)
+      integer, allocatable :: monomers(:)
+      integer :: n_expected_frags, n_rows
+      integer :: global_node_rank
+      integer, allocatable :: all_node_leader_ranks(:)
+
+      world_rank = world_comm%rank()
 
       ! Generate fragments (only rank 0 needs this for coordination)
       if (world_rank == 0) then
@@ -153,7 +190,7 @@ contains
       else
          ! Worker
          call logger%verbose("Rank "//to_char(world_rank)//": Acting as worker")
-         call node_worker(world_comm, node_comm, max_level, sys_geom, config%method)
+         call node_worker(world_comm, node_comm, max_level, sys_geom, method)
       end if
 
       ! Cleanup
@@ -162,6 +199,6 @@ contains
          if (allocated(node_leader_ranks)) deallocate (node_leader_ranks)
       end if
 
-   end subroutine run_calculation
+   end subroutine run_fragmented_calculation
 
 end module mqc_driver
