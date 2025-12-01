@@ -7,6 +7,7 @@ module mqc_input_parser
    type :: input_config_t
       character(len=:), allocatable :: geom_file
       character(len=:), allocatable :: monomer_file
+      character(len=:), allocatable :: method
       integer :: nlevel = 1  ! Default to 1 if not specified
    contains
       procedure :: destroy => config_destroy
@@ -18,6 +19,7 @@ contains
       !! Simple parser for key=value input files
       !! Looks for: geom="path/to/geometry.xyz"
       !!            monomer_symbols="path/to/monomer.xyz"
+      !!            method="gfn1" or "gfn2" (defaults to gfn2)
       character(len=*), intent(in) :: filename
       type(input_config_t), intent(out) :: config
       integer, intent(out) :: stat
@@ -73,6 +75,16 @@ contains
             config%geom_file = trim(value)
          case ('monomer_symbols')
             config%monomer_file = trim(value)
+         case ('method')
+            ! Validate that method is gfn1 or gfn2
+            select case (trim(value))
+            case ('gfn1', 'gfn2')
+               config%method = trim(value)
+            case default
+               stat = 1
+               errmsg = "Invalid method: "//trim(value)//" (supported: gfn1, gfn2)"
+               return
+            end select
          case ('nlevel')
             read (value, *, iostat=io_stat) config%nlevel
             if (io_stat /= 0) then
@@ -104,6 +116,11 @@ contains
          stat = 1
          errmsg = "Missing required field: monomer_symbols"
          return
+      end if
+
+      ! Set default method if not specified
+      if (.not. allocated(config%method)) then
+         config%method = "gfn2"  ! Default to GFN2-xTB
       end if
 
    end subroutine read_input_file
@@ -145,6 +162,7 @@ contains
       class(input_config_t), intent(inout) :: this
       if (allocated(this%geom_file)) deallocate (this%geom_file)
       if (allocated(this%monomer_file)) deallocate (this%monomer_file)
+      if (allocated(this%method)) deallocate (this%method)
    end subroutine config_destroy
 
 end module mqc_input_parser

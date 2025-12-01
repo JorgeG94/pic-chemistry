@@ -76,7 +76,7 @@ contains
             call logger%info("nlevel=0 detected: Running unfragmented calculation")
             call logger%info("Parallelism provided by OpenMP threads")
             call logger%info("")
-            call unfragmented_calculation(sys_geom)
+            call unfragmented_calculation(sys_geom, config%method)
          end if
          return
       end if
@@ -153,7 +153,7 @@ contains
       else
          ! Worker
          call logger%verbose("Rank "//to_char(world_rank)//": Acting as worker")
-         call node_worker(world_comm, node_comm, max_level, sys_geom)
+         call node_worker(world_comm, node_comm, max_level, sys_geom, config%method)
       end if
 
       ! Cleanup

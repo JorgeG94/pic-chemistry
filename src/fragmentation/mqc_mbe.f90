@@ -17,6 +17,7 @@ module mqc_mbe
    use tblite_context_type, only: context_type
    use tblite_wavefunction, only: wavefunction_type, new_wavefunction
    use tblite_xtb_calculator, only: xtb_calculator
+   use tblite_xtb_gfn1, only: new_gfn1_calculator
    use tblite_xtb_gfn2, only: new_gfn2_calculator
    use tblite_xtb_singlepoint, only: xtb_singlepoint
    implicit none
@@ -24,7 +25,7 @@ module mqc_mbe
 contains
 
    subroutine process_chemistry_fragment(fragment_idx, fragment_indices, fragment_size, matrix_size, &
-                                         water_energy, C_flat, phys_frag, verbosity)
+                                         water_energy, C_flat, phys_frag, verbosity, method)
 
       integer, intent(in) :: fragment_idx, fragment_size, matrix_size
       integer, intent(in) :: fragment_indices(fragment_size)
@@ -32,9 +33,11 @@ contains
       real(dp), allocatable, intent(out) :: C_flat(:)
       type(physical_fragment_t), intent(in), optional :: phys_frag
       integer, intent(in), optional :: verbosity
+      character(len=*), intent(in), optional :: method
       integer :: i, verb_level
+      character(len=:), allocatable :: calc_method
 
-      ! GFN1 calculation variables
+      ! XTB calculation variables
       type(error_type), allocatable :: error
       type(structure_type) :: mol
       real(wp), allocatable :: xyz(:, :)
@@ -53,6 +56,13 @@ contains
          verb_level = 0
       end if
 
+      ! Set calculation method (default is gfn2)
+      if (present(method)) then
+         calc_method = method
+      else
+         calc_method = "gfn2"
+      end if
+
       ! Print fragment geometry if provided
       if (present(phys_frag)) then
          if (verb_level == 1) then
@@ -66,9 +76,18 @@ contains
          num = phys_frag%element_numbers
          xyz = phys_frag%coordinates
 
-         ! Create molecular structure and run GFN1 calculation
+         ! Create molecular structure and run XTB calculation
          call new(mol, num, xyz, charge=0.0_wp, uhf=0)
-         call new_gfn2_calculator(calc, mol, error)
+
+         ! Select appropriate calculator based on method
+         select case (trim(calc_method))
+         case ("gfn1")
+            call new_gfn1_calculator(calc, mol, error)
+         case ("gfn2")
+            call new_gfn2_calculator(calc, mol, error)
+         case default
+            error stop "Unknown XTB method: "//calc_method
+         end select
 
          if (.not. allocated(error)) then
             call new_wavefunction(wfn, mol%nat, calc%bas%nsh, calc%bas%nao, 1, kt)
@@ -655,10 +674,11 @@ contains
       end do
    end subroutine node_coordinator
 
-   subroutine node_worker(world_comm, node_comm, max_level, sys_geom)
+   subroutine node_worker(world_comm, node_comm, max_level, sys_geom, method)
       class(comm_t), intent(in) :: world_comm, node_comm
       integer, intent(in) :: max_level
       type(system_geometry_t), intent(in), optional :: sys_geom
+      character(len=*), intent(in) :: method
 
       integer(int32) :: fragment_idx, fragment_size, dummy_msg, matrix_size
       integer(int32), allocatable :: fragment_indices(:)
@@ -686,13 +706,13 @@ contains
 
                ! Process the chemistry fragment with physical geometry
                call process_chemistry_fragment(fragment_idx, fragment_indices, fragment_size, matrix_size, &
-                                               dot_result, C_flat, phys_frag)
+                                               dot_result, C_flat, phys_frag, method=method)
 
                call phys_frag%destroy()
             else
                ! Process without physical geometry (old behavior)
                call process_chemistry_fragment(fragment_idx, fragment_indices, fragment_size, matrix_size, &
-                                               dot_result, C_flat)
+                                               dot_result, C_flat, method=method)
             end if
 
             ! Send results back to coordinator
@@ -706,10 +726,11 @@ contains
       end do
    end subroutine node_worker
 
-   subroutine unfragmented_calculation(sys_geom)
+   subroutine unfragmented_calculation(sys_geom, method)
       !! Run unfragmented calculation on the entire system (nlevel=0)
       !! This is a simple single-process calculation without MPI distribution
       type(system_geometry_t), intent(in), optional :: sys_geom
+      character(len=*), intent(in) :: method
 
       real(dp) :: dot_result
       real(dp), allocatable :: C_flat(:)
@@ -752,7 +773,7 @@ contains
 
          call process_chemistry_fragment(0, temp_indices, sys_geom%n_monomers, &
                                          total_atoms, dot_result, C_flat, &
-                                         phys_frag=full_system, verbosity=1)
+                                         phys_frag=full_system, verbosity=1, method=method)
          deallocate (temp_indices)
       end block
 

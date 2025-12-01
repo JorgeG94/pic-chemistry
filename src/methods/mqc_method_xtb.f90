@@ -10,7 +10,6 @@ module mqc_method_xtb
    use tblite_context_type, only: context_type
    use tblite_wavefunction, only: wavefunction_type, new_wavefunction
    use tblite_xtb_calculator, only: xtb_calculator
-   !use tblite_xtb_gfn0, only: new_gfn0_calculator
    use tblite_xtb_gfn1, only: new_gfn1_calculator
    use tblite_xtb_gfn2, only: new_gfn2_calculator
    use tblite_xtb_singlepoint, only: xtb_singlepoint
@@ -20,10 +19,10 @@ module mqc_method_xtb
 
    public :: xtb_method_t
 
-   !> XTB method implementation (GFN0/GFN1/GFN2)
+   !> XTB method implementation (GFN1/GFN2)
    type, extends(qc_method_t) :: xtb_method_t
       character(len=:), allocatable :: variant
-         !! XTB variant: "gfn0", "gfn1", or "gfn2"
+         !! XTB variant: "gfn1" or "gfn2"
       logical :: verbose = .false.
          !! Print calculation info
       real(wp) :: accuracy = 0.01_wp
@@ -74,8 +73,6 @@ contains
 
       ! Select and create appropriate GFN calculator
       select case (this%variant)
-      !case ("gfn0")
-      !   call new_gfn0_calculator(calc, mol, error)
       case ("gfn1")
          call new_gfn1_calculator(calc, mol, error)
       case ("gfn2")
