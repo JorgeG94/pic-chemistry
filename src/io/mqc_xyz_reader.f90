@@ -235,7 +235,7 @@ contains
                   integer :: j, line_len
                   line_len = line_end - line_start + 1
                   do j = 1, line_len
-                     temp_lines(nlines)(j:j) = text(line_start + j - 1:line_start + j - 1)
+                     temp_lines(nlines) (j:j) = text(line_start + j - 1:line_start + j - 1)
                   end do
                end block
             end if
@@ -250,7 +250,7 @@ contains
                   integer :: j, line_len
                   line_len = line_end - line_start + 1
                   do j = 1, line_len
-                     temp_lines(nlines)(j:j) = text(line_start + j - 1:line_start + j - 1)
+                     temp_lines(nlines) (j:j) = text(line_start + j - 1:line_start + j - 1)
                   end do
                end block
             end if
@@ -270,7 +270,7 @@ contains
             integer :: j, line_len
             line_len = len(text) - line_start + 1
             do j = 1, line_len
-               temp_lines(nlines)(j:j) = text(line_start + j - 1:line_start + j - 1)
+               temp_lines(nlines) (j:j) = text(line_start + j - 1:line_start + j - 1)
             end do
          end block
       end if
