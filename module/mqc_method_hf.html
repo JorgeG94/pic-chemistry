@@ -1,0 +1,836 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A set of commonly used programs in Fortran aimed at scientific computing">
+    <meta name="author" content="Jorge Luis Galvez Vallejo" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>mqc_method_hf &ndash; metalquicha</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">metalquicha </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../program/main.html">Program</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>mqc_method_hf
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 1.9% of total for modules and submodules.">45 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/mqc_method_hf.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_method_hf.f90.html'>mqc_method_hf.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">mqc_method_hf</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#types-0"
+         aria-expanded="false" aria-controls="types-0">
+         <h4 class="card-header bg-primary text-white">Derived Types</h4>
+      </a>
+      <div id="types-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mqc_method_hf.html#type-hf_method_t">hf_method_t</a>
+            <a class="list-group-item" href="../module/mqc_method_hf.html#type-hf_options_t">hf_options_t</a>
+        </div>
+      </div>
+    </div>
+
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mqc_method_hf.html#proc-hf_calc_energy">hf_calc_energy</a>
+            <a class="list-group-item" href="../module/mqc_method_hf.html#proc-hf_calc_gradient">hf_calc_gradient</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>Implements the Hartree-Fock quantum chemistry method
+Provides energy and gradient calculations using a basic SCF procedure.</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='mqc_result_types.html'>mqc_result_types</a></li>
+                  <li class="list-inline-item"><a href='mqc_physical_fragment.html'>mqc_physical_fragment</a></li>
+                  <li class="list-inline-item"><a href='mqc_method_base.html'>mqc_method_base</a></li>
+                  <li class="list-inline-item">pic_types</li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~mqc_method_hf~~UsesGraph Pages: 1 -->
+<svg id="modulemqc_method_hfUsesGraph" width="641pt" height="217pt"
+ viewBox="0.00 0.00 641.00 217.13" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~mqc_method_hf~~UsesGraph" class="graph" transform="scale(0.81 0.81) rotate(0) translate(4 264.27)">
+<title>module~~mqc_method_hf~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-264.27 788,-264.27 788,4 -4,4"/>
+<!-- module~mqc_method_hf -->
+<g id="module~~mqc_method_hf~~UsesGraph_node1" class="node">
+<title>module~mqc_method_hf</title>
+<polygon fill="none" stroke="black" points="784,-100.27 686,-100.27 686,-76.27 784,-76.27 784,-100.27"/>
+<text text-anchor="middle" x="735" y="-85.87" font-family="Helvetica,sans-Serif" font-size="10.50">mqc_method_hf</text>
+</g>
+<!-- module~mqc_method_base -->
+<g id="module~~mqc_method_hf~~UsesGraph_node2" class="node">
+<title>module~mqc_method_base</title>
+<g id="a_module~~mqc_method_hf~~UsesGraph_node2"><a xlink:href="../module/mqc_method_base.html" xlink:title="mqc_method_base">
+<polygon fill="#337ab7" stroke="#337ab7" points="650,-100.27 537,-100.27 537,-76.27 650,-76.27 650,-100.27"/>
+<text text-anchor="middle" x="593.5" y="-85.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_method_base</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_method_hf&#45;&gt;module~mqc_method_base -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge1" class="edge">
+<title>module~mqc_method_hf&#45;&gt;module~mqc_method_base</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M685.99,-88.27C677.72,-88.27 669,-88.27 660.35,-88.27"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="660.28,-84.77 650.28,-88.27 660.28,-91.77 660.28,-84.77"/>
+</g>
+<!-- module~mqc_physical_fragment -->
+<g id="module~~mqc_method_hf~~UsesGraph_node3" class="node">
+<title>module~mqc_physical_fragment</title>
+<g id="a_module~~mqc_method_hf~~UsesGraph_node3"><a xlink:href="../module/mqc_physical_fragment.html" xlink:title="mqc_physical_fragment">
+<polygon fill="#337ab7" stroke="#337ab7" points="501,-150.27 362,-150.27 362,-126.27 501,-126.27 501,-150.27"/>
+<text text-anchor="middle" x="431.5" y="-135.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_physical_fragment</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_method_hf&#45;&gt;module~mqc_physical_fragment -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge2" class="edge">
+<title>module~mqc_method_hf&#45;&gt;module~mqc_physical_fragment</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M689.74,-100.33C676.98,-103.54 662.99,-106.79 650,-109.27 604.37,-117.99 552.86,-124.98 511.42,-129.92"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="510.91,-126.45 501.39,-131.1 511.73,-133.41 510.91,-126.45"/>
+</g>
+<!-- module~mqc_result_types -->
+<g id="module~~mqc_method_hf~~UsesGraph_node4" class="node">
+<title>module~mqc_result_types</title>
+<g id="a_module~~mqc_method_hf~~UsesGraph_node4"><a xlink:href="../module/mqc_result_types.html" xlink:title="mqc_result_types">
+<polygon fill="#337ab7" stroke="#337ab7" points="483.5,-60.27 379.5,-60.27 379.5,-36.27 483.5,-36.27 483.5,-60.27"/>
+<text text-anchor="middle" x="431.5" y="-45.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_result_types</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_method_hf&#45;&gt;module~mqc_result_types -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge3" class="edge">
+<title>module~mqc_method_hf&#45;&gt;module~mqc_result_types</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M592.5,-8.27C570.49,-3.91 515.47,-19.88 476.1,-32.92"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="474.82,-29.66 466.46,-36.16 477.05,-36.29 474.82,-29.66"/>
+</g>
+<!-- pic_types -->
+<g id="module~~mqc_method_hf~~UsesGraph_node5" class="node">
+<title>pic_types</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="62,-140.27 0,-140.27 0,-116.27 62,-116.27 62,-140.27"/>
+<text text-anchor="middle" x="31" y="-125.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_types</text>
+</g>
+<!-- module~mqc_method_hf&#45;&gt;pic_types -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge4" class="edge">
+<title>module~mqc_method_hf&#45;&gt;pic_types</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M720.22,-76.19C696.54,-56.44 645.71,-18.43 594.5,-8.27"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M592.5,-8.27C491.67,11.73 463.43,-10.6 362,-27.27 323.81,-33.55 316.19,-47.78 277.5,-48.27"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M275.5,-48.27C196.16,-48.7 170.24,-34.46 98,-67.27 77.69,-76.5 59.49,-94.44 47.37,-108.49"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="44.65,-106.28 40.96,-116.21 50.04,-110.75 44.65,-106.28"/>
+</g>
+<!-- module~mqc_method_base&#45;&gt;module~mqc_physical_fragment -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge5" class="edge">
+<title>module~mqc_method_base&#45;&gt;module~mqc_physical_fragment</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M553.77,-100.38C531.84,-107.23 504.21,-115.87 480.87,-123.16"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="479.65,-119.87 471.15,-126.2 481.74,-126.55 479.65,-119.87"/>
+</g>
+<!-- module~mqc_method_base&#45;&gt;module~mqc_result_types -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge6" class="edge">
+<title>module~mqc_method_base&#45;&gt;module~mqc_result_types</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M544.49,-76.27C527.64,-72.06 508.52,-67.28 490.91,-62.88"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="491.3,-59.37 480.75,-60.34 489.6,-66.16 491.3,-59.37"/>
+</g>
+<!-- module~mqc_method_base&#45;&gt;pic_types -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge7" class="edge">
+<title>module~mqc_method_base&#45;&gt;pic_types</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M536.77,-86.2C489.89,-83.86 421.23,-79.01 362,-69.27 323.81,-63 316.2,-48.27 277.5,-48.27"/>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;pic_types -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge12" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;pic_types</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M275.5,-108.27C217.31,-102.69 203.96,-128.27 145.5,-128.27"/>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M143.5,-128.27C119.99,-128.27 93.68,-128.27 72.53,-128.27"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="72.29,-124.77 62.29,-128.27 72.29,-131.77 72.29,-124.77"/>
+</g>
+<!-- module~mqc_cgto -->
+<g id="module~~mqc_method_hf~~UsesGraph_node6" class="node">
+<title>module~mqc_cgto</title>
+<g id="a_module~~mqc_method_hf~~UsesGraph_node6"><a xlink:href="../module/mqc_cgto.html" xlink:title="mqc_cgto">
+<polygon fill="#337ab7" stroke="#337ab7" points="176.5,-100.27 112.5,-100.27 112.5,-76.27 176.5,-76.27 176.5,-100.27"/>
+<text text-anchor="middle" x="144.5" y="-85.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_cgto</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;module~mqc_cgto -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge8" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;module~mqc_cgto</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M381.94,-126.22C352.03,-119.44 312.8,-111.66 277.5,-108.27"/>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M275.5,-108.27C245.63,-105.41 212.18,-100.22 186.69,-95.84"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="187.09,-92.36 176.63,-94.09 185.88,-99.25 187.09,-92.36"/>
+</g>
+<!-- module~mqc_elements -->
+<g id="module~~mqc_method_hf~~UsesGraph_node7" class="node">
+<title>module~mqc_elements</title>
+<g id="a_module~~mqc_method_hf~~UsesGraph_node7"><a xlink:href="../module/mqc_elements.html" xlink:title="mqc_elements">
+<polygon fill="#337ab7" stroke="#337ab7" points="322,-240.27 231,-240.27 231,-216.27 322,-216.27 322,-240.27"/>
+<text text-anchor="middle" x="276.5" y="-225.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_elements</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;module~mqc_elements -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge9" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;module~mqc_elements</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M411.44,-150.4C390.64,-163.53 356.26,-184.91 326,-202.27 320.8,-205.26 315.23,-208.34 309.79,-211.3"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="307.99,-208.29 300.84,-216.11 311.3,-214.46 307.99,-208.29"/>
+</g>
+<!-- module~mqc_geometry -->
+<g id="module~~mqc_method_hf~~UsesGraph_node8" class="node">
+<title>module~mqc_geometry</title>
+<g id="a_module~~mqc_method_hf~~UsesGraph_node8"><a xlink:href="../module/mqc_geometry.html" xlink:title="mqc_geometry">
+<polygon fill="#337ab7" stroke="#337ab7" points="191,-180.27 98,-180.27 98,-156.27 191,-156.27 191,-180.27"/>
+<text text-anchor="middle" x="144.5" y="-165.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_geometry</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;module~mqc_geometry -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge10" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;module~mqc_geometry</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M398.56,-150.36C378.14,-157.43 350.91,-165.66 326,-169.27 282.46,-175.6 271,-169.54 227,-169.27 218.66,-169.22 209.84,-169.14 201.2,-169.05"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="201.23,-165.55 191.19,-168.93 201.15,-172.55 201.23,-165.55"/>
+</g>
+<!-- module~mqc_xyz_reader -->
+<g id="module~~mqc_method_hf~~UsesGraph_node9" class="node">
+<title>module~mqc_xyz_reader</title>
+<g id="a_module~~mqc_method_hf~~UsesGraph_node9"><a xlink:href="../module/mqc_xyz_reader.html" xlink:title="mqc_xyz_reader">
+<polygon fill="#337ab7" stroke="#337ab7" points="326,-160.27 227,-160.27 227,-136.27 326,-136.27 326,-160.27"/>
+<text text-anchor="middle" x="276.5" y="-145.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_xyz_reader</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;module~mqc_xyz_reader -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge11" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;module~mqc_xyz_reader</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M361.61,-142.78C353.24,-143.32 344.76,-143.88 336.55,-144.41"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="336.09,-140.94 326.34,-145.08 336.55,-147.92 336.09,-140.94"/>
+</g>
+<!-- module~mqc_result_types&#45;&gt;pic_types -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge13" class="edge">
+<title>module~mqc_result_types&#45;&gt;pic_types</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M379.15,-48.27C349.45,-48.27 311.37,-48.27 277.5,-48.27"/>
+</g>
+<!-- module~mqc_cgto&#45;&gt;pic_types -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge14" class="edge">
+<title>module~mqc_cgto&#45;&gt;pic_types</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M112.44,-99.42C99.79,-103.96 85.01,-109.26 71.6,-114.07"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="70.35,-110.8 62.12,-117.47 72.72,-117.39 70.35,-110.8"/>
+</g>
+<!-- module~mqc_elements&#45;&gt;pic_types -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge16" class="edge">
+<title>module~mqc_elements&#45;&gt;pic_types</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M230.98,-225.02C193.68,-220.8 139.95,-211.18 98,-189.27 78.76,-179.23 60.94,-162.09 48.68,-148.53"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="51.01,-145.88 41.8,-140.64 45.73,-150.48 51.01,-145.88"/>
+</g>
+<!-- pic_ascii -->
+<g id="module~~mqc_method_hf~~UsesGraph_node10" class="node">
+<title>pic_ascii</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="173.5,-260.27 115.5,-260.27 115.5,-236.27 173.5,-236.27 173.5,-260.27"/>
+<text text-anchor="middle" x="144.5" y="-245.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_ascii</text>
+</g>
+<!-- module~mqc_elements&#45;&gt;pic_ascii -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge15" class="edge">
+<title>module~mqc_elements&#45;&gt;pic_ascii</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M230.76,-235.16C215.51,-237.5 198.61,-240.1 183.91,-242.37"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="182.99,-238.97 173.64,-243.95 184.06,-245.88 182.99,-238.97"/>
+</g>
+<!-- module~mqc_geometry&#45;&gt;pic_types -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge17" class="edge">
+<title>module~mqc_geometry&#45;&gt;pic_types</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M110.05,-156.27C98,-151.95 84.29,-147.03 71.76,-142.54"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="72.61,-139.12 62.02,-139.04 70.25,-145.71 72.61,-139.12"/>
+</g>
+<!-- module~mqc_xyz_reader&#45;&gt;pic_types -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge19" class="edge">
+<title>module~mqc_xyz_reader&#45;&gt;pic_types</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M226.7,-137.16C202.42,-132.56 172.56,-128.27 145.5,-128.27"/>
+</g>
+<!-- module~mqc_xyz_reader&#45;&gt;module~mqc_geometry -->
+<g id="module~~mqc_method_hf~~UsesGraph_edge18" class="edge">
+<title>module~mqc_xyz_reader&#45;&gt;module~mqc_geometry</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M226.72,-155.78C218.33,-157.07 209.56,-158.42 201.01,-159.73"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="200.46,-156.28 191.11,-161.26 201.53,-163.2 200.46,-156.28"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panmodulemqc_method_hfUsesGraph = svgPanZoom('#modulemqc_method_hfUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      
+      <br>
+
+
+
+
+
+
+        <section>
+          <h2>Derived Types</h2>
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-hf_method_t"></span>
+      <h3>
+        type, public, extends(<a href='../type/qc_method_t.html'>qc_method_t</a>)&nbsp;::&nbsp;
+        <a href='../type/hf_method_t.html'>hf_method_t</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Hartree-Fock method implementation</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-options"></span>
+              type(<a href='../type/hf_options_t.html'>hf_options_t</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>options</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/hf_method_t.html#boundprocedure-calc_energy~2'>calc_energy</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/hf_calc_energy.html'>hf_calc_energy</a></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/hf_method_t.html#boundprocedure-calc_gradient~2'>calc_gradient</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/hf_calc_gradient.html'>hf_calc_gradient</a></td>
+                  <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-hf_options_t"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/hf_options_t.html'>hf_options_t</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Hartree-Fock calculation options</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-conv_tol"></span>
+              real(kind=dp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>conv_tol</strong></td>
+<td> =</td>
+                <td>1.0e-8_dp</td>
+            <td>
+<p>Energy convergence threshold</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_iter"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_iter</strong></td>
+<td> =</td>
+                <td>100</td>
+            <td>
+<p>Maximum SCF iterations</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-spherical"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>spherical</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+<p>Use spherical (true) or Cartesian (false) basis</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-verbose"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>verbose</strong></td>
+<td> =</td>
+                <td>.true.</td>
+            <td>
+<p>Print SCF iterations</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-hf_calc_energy"></span> <h3>private  subroutine <a href='../proc/hf_calc_energy.html'>hf_calc_energy</a>(this, fragment, result)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Calculate electronic energy using Hartree-Fock method</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~6"></span>
+              class(<a href='../type/hf_method_t.html'>hf_method_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment~5"></span>
+              type(<a href='../type/physical_fragment_t.html'>physical_fragment_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-result~4"></span>
+              type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>result</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-hf_calc_gradient"></span> <h3>private  subroutine <a href='../proc/hf_calc_gradient.html'>hf_calc_gradient</a>(this, fragment, result)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Calculate energy gradient using Hartree-Fock method</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~7"></span>
+              class(<a href='../type/hf_method_t.html'>hf_method_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment~6"></span>
+              type(<a href='../type/physical_fragment_t.html'>physical_fragment_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-result~5"></span>
+              type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>result</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              metalquicha
+ was developed by Jorge Luis Galvez Vallejo<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-12-02 11:49 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

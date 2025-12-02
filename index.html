@@ -1,0 +1,252 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A set of commonly used programs in Fortran aimed at scientific computing">
+    <meta name="author" content="Jorge Luis Galvez Vallejo" >
+    <link rel="icon" href="./favicon.png">
+
+    <title> metalquicha </title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="./css/fontawesome.min.css" rel="stylesheet">
+    <link href="./css/brands.min.css" rel="stylesheet">
+    <link href="./css/regular.min.css" rel="stylesheet">
+    <link href="./css/solid.min.css" rel="stylesheet">
+    <link href="./css/v4-font-face.min.css" rel="stylesheet">
+    <link href="./css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="./css/local.css" rel="stylesheet">
+    <link href="./css/pygments.css" rel="stylesheet">
+    <script src="./js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="./index.html">metalquicha </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="./lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./program/main.html">Program</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="./search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <!-- Main component for a primary marketing message or call to action -->
+    <div class="p-5 mb-4 bg-light border rounded-3" id="jumbotron">
+      <p>A set of commonly used programs in Fortran aimed at scientific computing</p>
+        <p> Find us on&hellip;</p>
+      <p>
+        <a class="btn btn-lg btn-primary" href="https://github.com/JorgeG94/metalquicha" role="button">GitHub</a>
+        
+        
+        
+        
+        <a class="btn btn-lg btn-danger" style="float:right" href="https://github.com/JorgeG94/metalquicha/archive/refs/heads/main.zip" role="button">Download the Source</a>
+      </p>
+    </div>
+
+      <div class="row" id='text'>
+        <div class=col-md-8>
+          <h1>metalquicha</h1>
+          <div class="toc">
+<ul>
+<li><a href="#metalquicha-api-documentation">Metalquicha API Documentation</a></li>
+<li><a href="#metal-quicha-metalquicha">Met&rsquo;al q&rsquo;uicha (metalquicha)</a><ul>
+<li><a href="#building">Building</a><ul>
+<li><a href="#building-with-the-fortran-package-manager-fpm">Building with the Fortran Package Manager (FPM)</a><ul>
+<li><a href="#obtaining-the-fpm">Obtaining the FPM</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="alert alert-warning">
+<p class="alert-title h4">Warning</p>
+<p>This API documentation is a work in progress.</p>
+</div>
+<h1 id="metalquicha-api-documentation">Metalquicha API Documentation</h1>
+<p>This is the main API documentation landing page generated by <a href="https://github.com/Fortran-FOSS-Programmers/ford#readme">FORD</a>.
+The documentation for comment markup in source code, running <a href="https://github.com/Fortran-FOSS-Programmers/ford#readme">FORD</a> and the <a href="https://github.com/JorgeG94/metalquicha/blob/HEAD/API-doc-FORD-file.md">FORD project file</a> are all maintained on the <a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki">FORD wiki</a>.</p>
+<h1 id="metal-quicha-metalquicha">Met&rsquo;al q&rsquo;uicha (metalquicha)</h1>
+<p align="center">
+  <img src="images/sunflower.png" alt="Otter coding logo" title="Project logo" width="250">
+</p>
+<p>Yes, this is AI generated (the image) if you know an artist, please let me know.</p>
+<p>Met&rsquo;al q&rsquo;uicha (the Huastec (tenek) word for sunflower), which I&rsquo;ll just write as metalquicha is a sample quantum chemistry backend
+with focus on using the <a href="https://github.com/JorgeG94/pic">pic</a> library and its derivatives:
+<a href="https://github.com/JorgeG94/pic-mpi">pic-mpi</a> and <a href="https://github.com/JorgeG94/pic-blas">pic-blas</a>
+which are Fortran based implementations of commonly used routines such as sorting algorithms,
+array handling, strings, loggers, timers, etc. While pic-mpi and pic-blas provide modern
+Fortran interfaces to MPI and BLAS implementations in a portable way. Specifically, the MPI
+library lets the user switch betwen the <code>mpi</code> and <code>mpi_f08</code> modules with ease.</p>
+<p>Metalquicha implements a naive backend for unfragmented and fragmented quantum chemistry
+calculations. Currently, metalquicha uses <a href="https://github.com/tblite/tblite">tblite</a> as
+its chemistry engine which performs energy calculations.</p>
+<p>The main purpose of this package is to showcase the ability of being able to write
+simple, powerful Fortran based programs that are able to access massively parallel
+ecosystems with ease.</p>
+<p>If you are interested in contributing, please see <a href="https://github.com/JorgeG94/pic/blob/main/contributing.md">here</a>. Pic is the main project here and all the contributions fall downstream.</p>
+<h2 id="building">Building</h2>
+<p>You will need an internet connection to download the dependencies. The main dependencies are:</p>
+<ul>
+<li>CMake</li>
+<li>A Fortran compiler</li>
+<li>An MPI installation</li>
+<li>A BLAS/LAPACK install</li>
+<li>TBLITE (will be downloaded automatically)</li>
+</ul>
+<p>You can then simply:</p>
+<div class="codehilite"><pre><span></span><code>mkdir build
+cd build
+cmake ../
+make -j
+</code></pre></div>
+
+<h3 id="building-with-the-fortran-package-manager-fpm">Building with the Fortran Package Manager (FPM)</h3>
+<p><em>FPM will only work if you are building with openblas, since the linking step is hardcoded.</em></p>
+<p>Simply then just do: <code>fpm install --prefix . --compiler mpifort --profile release</code></p>
+<h4 id="obtaining-the-fpm">Obtaining the FPM</h4>
+<p>Install the FPM following the <a href="https://fpm.fortran-lang.org/install/index.html#install">instructions</a> and then simply: <code>fpm install</code></p>
+        </div>
+          <div class="col-md-4">
+            <div class="card card-body bg-light">
+              <h2 class="card-title">Developer Info</h2>
+              <h4 class="card-text">Jorge Luis Galvez Vallejo</h4>
+              <p class="card-text"></p>
+                <div class="text-center"><div class="btn-group" role="group">
+                    
+                    <a class="btn btn-lg btn-primary" href="https://github.com/JorgeG94"><i class="fa fa-github fa-lg"></i></a>
+                    
+                    
+                    
+                    
+                    
+                    
+                </div></div>
+            </div>
+          </div>
+      </div>
+        <div class="row">
+          <hr>
+          <div class="col-xs-6 col-sm-3">
+            <div>
+              <h3>Source Files</h3>
+              <ul><li><a href='sourcefile/main.f90.html'>main.f90</a></li><li><a href='sourcefile/mqc_basis_file_reader.f90.html'>mqc_basis_file_reader.f90</a></li><li><a href='sourcefile/mqc_basis_reader.f90.html'>mqc_basis_reader.f90</a></li><li><a href='sourcefile/mqc_cgto.f90.html'>mqc_cgto.f90</a></li><li><a href='sourcefile/mqc_cli_parser.f90.html'>mqc_cli_parser.f90</a></li><li><a href='sourcefile/mqc_driver.f90.html'>mqc_driver.f90</a></li><li><a href='sourcefile/mqc_elements.f90.html'>mqc_elements.f90</a></li><li><a href='sourcefile/mqc_frag_utils.f90.html'>mqc_frag_utils.f90</a></li><li><a href='sourcefile/mqc_geometry.f90.html'>mqc_geometry.f90</a></li><li><a href='sourcefile/mqc_input_parser.f90.html'>mqc_input_parser.f90</a></li></ul>
+            </div>
+            <div>
+              <ul>
+                <li><a href="./lists/files.html"><em>All source files&hellip;</em></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xs-6 col-sm-3">
+            <div>
+              <h3>Modules</h3>
+              <ul><li><a href='module/mqc_basis_file_reader.html'>mqc_basis_file_reader</a></li><li><a href='module/mqc_basis_reader.html'>mqc_basis_reader</a></li><li><a href='module/mqc_cgto.html'>mqc_cgto</a></li><li><a href='module/mqc_cli_parser.html'>mqc_cli_parser</a></li><li><a href='module/mqc_driver.html'>mqc_driver</a></li><li><a href='module/mqc_elements.html'>mqc_elements</a></li><li><a href='module/mqc_frag_utils.html'>mqc_frag_utils</a></li><li><a href='module/mqc_geometry.html'>mqc_geometry</a></li><li><a href='module/mqc_input_parser.html'>mqc_input_parser</a></li><li><a href='module/mqc_libcint_interface.html'>mqc_libcint_interface</a></li></ul>
+            </div>
+            <div>
+              <ul>
+                <li><a href="./lists/modules.html"><em>All modules&hellip;</em></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xs-6 col-sm-3">
+            <div>
+              <h3>Procedures</h3>
+              <ul><li><a href='proc/allocate_basis_shells.html'>allocate_basis_shells</a></li><li><a href='proc/ang_mom_char_to_int.html'>ang_mom_char_to_int</a></li><li><a href='proc/ang_mom_int_to_char.html'>ang_mom_int_to_char</a></li><li><a href='proc/atomic_basis_destroy.html'>atomic_basis_destroy</a></li><li><a href='proc/atomic_basis_num_basis_functions.html'>atomic_basis_num_basis_functions</a></li><li><a href='proc/basis_set_allocate_elements.html'>basis_set_allocate_elements</a></li><li><a href='proc/basis_set_destroy.html'>basis_set_destroy</a></li><li><a href='proc/binomial.html'>binomial</a></li><li><a href='proc/build_fragment_from_indices.html'>build_fragment_from_indices</a></li><li><a href='proc/build_molecular_basis.html'>build_molecular_basis</a></li></ul>
+            </div>
+            <div>
+              <ul>
+                <li><a href="./lists/procedures.html"><em>All procedures&hellip;</em></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xs-6 col-sm-3">
+            <div>
+              <h3>Derived Types</h3>
+              <ul><li><a href='type/atomic_basis_type.html'>atomic_basis_type</a></li><li><a href='type/basis_file_t.html'>basis_file_t</a></li><li><a href='type/calculation_result_t.html'>calculation_result_t</a></li><li><a href='type/cgto_type.html'>cgto_type</a></li><li><a href='type/cli_args_type.html'>cli_args_type</a></li><li><a href='type/geometry_type.html'>geometry_type</a></li><li><a href='type/hf_method_t.html'>hf_method_t</a></li><li><a href='type/hf_options_t.html'>hf_options_t</a></li><li><a href='type/input_config_t.html'>input_config_t</a></li><li><a href='type/molecular_basis_type.html'>molecular_basis_type</a></li></ul>
+            </div>
+            <div>
+              <ul>
+                <li><a href="./lists/types.html"><em>All derived types&hellip;</em></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              metalquicha
+ was developed by Jorge Luis Galvez Vallejo<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-12-02 11:49 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

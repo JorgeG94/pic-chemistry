@@ -1,0 +1,1036 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A set of commonly used programs in Fortran aimed at scientific computing">
+    <meta name="author" content="Jorge Luis Galvez Vallejo" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>mqc_method_xtb &ndash; metalquicha</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">metalquicha </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../program/main.html">Program</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>mqc_method_xtb
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 3.7% of total for modules and submodules.">88 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/mqc_method_xtb.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_method_xtb.f90.html'>mqc_method_xtb.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">mqc_method_xtb</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#types-0"
+         aria-expanded="false" aria-controls="types-0">
+         <h4 class="card-header bg-primary text-white">Derived Types</h4>
+      </a>
+      <div id="types-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mqc_method_xtb.html#type-xtb_method_t">xtb_method_t</a>
+        </div>
+      </div>
+    </div>
+
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mqc_method_xtb.html#proc-xtb_calc_energy">xtb_calc_energy</a>
+            <a class="list-group-item" href="../module/mqc_method_xtb.html#proc-xtb_calc_gradient">xtb_calc_gradient</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>Provides GFN1-xTB and GFN2-xTB methods via the tblite library,
+implementing the abstract method interface for energy and gradient calculations.
+XTB method implementation type</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item">tblite_context_type</li>
+                  <li class="list-inline-item">tblite_xtb_singlepoint</li>
+                  <li class="list-inline-item">tblite_xtb_gfn1</li>
+                  <li class="list-inline-item">pic_types</li>
+                  <li class="list-inline-item">mctc_env</li>
+                  <li class="list-inline-item">tblite_xtb_calculator</li>
+                  <li class="list-inline-item"><a href='mqc_method_base.html'>mqc_method_base</a></li>
+                  <li class="list-inline-item">mctc_io</li>
+                  <li class="list-inline-item">tblite_wavefunction</li>
+                  <li class="list-inline-item"><a href='mqc_physical_fragment.html'>mqc_physical_fragment</a></li>
+                  <li class="list-inline-item"><a href='mqc_result_types.html'>mqc_result_types</a></li>
+                  <li class="list-inline-item">tblite_xtb_gfn2</li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~mqc_method_xtb~~UsesGraph Pages: 1 -->
+<svg id="modulemqc_method_xtbUsesGraph" width="641pt" height="397pt"
+ viewBox="0.00 0.00 641.00 397.26" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~mqc_method_xtb~~UsesGraph" class="graph" transform="scale(0.79 0.79) rotate(0) translate(4 498)">
+<title>module~~mqc_method_xtb~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-498 806,-498 806,4 -4,4"/>
+<!-- module~mqc_method_xtb -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node1" class="node">
+<title>module~mqc_method_xtb</title>
+<polygon fill="none" stroke="black" points="802,-234 698,-234 698,-210 802,-210 802,-234"/>
+<text text-anchor="middle" x="750" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50">mqc_method_xtb</text>
+</g>
+<!-- mctc_env -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node2" class="node">
+<title>mctc_env</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="631.5,-436 567.5,-436 567.5,-412 631.5,-412 631.5,-436"/>
+<text text-anchor="middle" x="599.5" y="-421.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mctc_env</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;mctc_env -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge1" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;mctc_env</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M746.59,-234.09C739.55,-266.32 715.98,-355.09 662,-403 656.07,-408.27 648.75,-412.22 641.27,-415.19"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="640.1,-411.89 631.78,-418.45 642.37,-418.51 640.1,-411.89"/>
+</g>
+<!-- mctc_io -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node3" class="node">
+<title>mctc_io</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="626.5,-394 572.5,-394 572.5,-370 626.5,-370 626.5,-394"/>
+<text text-anchor="middle" x="599.5" y="-379.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mctc_io</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;mctc_io -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge2" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;mctc_io</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M744.11,-234.09C733.12,-259.86 704.09,-320.73 662,-356 654.5,-362.29 645.25,-367.26 636.23,-371.09"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="634.68,-367.94 626.62,-374.82 637.21,-374.47 634.68,-367.94"/>
+</g>
+<!-- module~mqc_method_base -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node4" class="node">
+<title>module~mqc_method_base</title>
+<g id="a_module~~mqc_method_xtb~~UsesGraph_node4"><a xlink:href="../module/mqc_method_base.html" xlink:title="mqc_method_base">
+<polygon fill="#337ab7" stroke="#337ab7" points="656,-314 543,-314 543,-290 656,-290 656,-314"/>
+<text text-anchor="middle" x="599.5" y="-299.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_method_base</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;module~mqc_method_base -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge3" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;module~mqc_method_base</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M731.48,-234C714.24,-245.54 686.94,-263.09 662,-276 655.35,-279.44 648.13,-282.81 641.07,-285.91"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="639.41,-282.81 631.59,-289.96 642.16,-289.25 639.41,-282.81"/>
+</g>
+<!-- module~mqc_physical_fragment -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node5" class="node">
+<title>module~mqc_physical_fragment</title>
+<g id="a_module~~mqc_method_xtb~~UsesGraph_node5"><a xlink:href="../module/mqc_physical_fragment.html" xlink:title="mqc_physical_fragment">
+<polygon fill="#337ab7" stroke="#337ab7" points="501,-394 362,-394 362,-370 501,-370 501,-394"/>
+<text text-anchor="middle" x="431.5" y="-379.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_physical_fragment</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;module~mqc_physical_fragment -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge4" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;module~mqc_physical_fragment</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M742.08,-234.05C729.18,-255.4 699.36,-299.8 662,-323 647.8,-331.82 559.1,-353.23 496.24,-367.68"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="495.35,-364.29 486.38,-369.94 496.91,-371.12 495.35,-364.29"/>
+</g>
+<!-- module~mqc_result_types -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node6" class="node">
+<title>module~mqc_result_types</title>
+<g id="a_module~~mqc_method_xtb~~UsesGraph_node6"><a xlink:href="../module/mqc_result_types.html" xlink:title="mqc_result_types">
+<polygon fill="#337ab7" stroke="#337ab7" points="483.5,-294 379.5,-294 379.5,-270 483.5,-270 483.5,-294"/>
+<text text-anchor="middle" x="431.5" y="-279.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_result_types</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;module~mqc_result_types -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge5" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;module~mqc_result_types</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M598.5,-262C563.98,-266.51 525.36,-271.18 494.07,-274.88"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="493.28,-271.45 483.76,-276.09 494.1,-278.4 493.28,-271.45"/>
+</g>
+<!-- pic_types -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node7" class="node">
+<title>pic_types</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="62,-374 0,-374 0,-350 62,-350 62,-374"/>
+<text text-anchor="middle" x="31" y="-359.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_types</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;pic_types -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge6" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;pic_types</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M714.72,-234.03C684.96,-243.8 640.48,-256.78 600.5,-262"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M598.5,-262C555.53,-267.61 544.34,-261.22 501,-261 439.22,-260.68 423.32,-253.49 362,-261 323.59,-265.7 316.19,-281.25 277.5,-282"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M275.5,-282C196.16,-282.09 170.24,-268.19 98,-301 77.69,-310.22 59.49,-328.17 47.37,-342.21"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="44.65,-340.01 40.96,-349.94 50.04,-344.47 44.65,-340.01"/>
+</g>
+<!-- tblite_context_type -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node8" class="node">
+<title>tblite_context_type</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="655.5,-234 543.5,-234 543.5,-210 655.5,-210 655.5,-234"/>
+<text text-anchor="middle" x="599.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tblite_context_type</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;tblite_context_type -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge7" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;tblite_context_type</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M697.89,-222C687.53,-222 676.5,-222 665.73,-222"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="665.5,-218.5 655.5,-222 665.5,-225.5 665.5,-218.5"/>
+</g>
+<!-- tblite_wavefunction -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node9" class="node">
+<title>tblite_wavefunction</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="657.5,-192 541.5,-192 541.5,-168 657.5,-168 657.5,-192"/>
+<text text-anchor="middle" x="599.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tblite_wavefunction</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;tblite_wavefunction -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge8" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;tblite_wavefunction</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M706.45,-209.96C689.82,-205.26 670.59,-199.82 653.12,-194.88"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="653.64,-191.39 643.06,-192.04 651.73,-198.13 653.64,-191.39"/>
+</g>
+<!-- tblite_xtb_calculator -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node10" class="node">
+<title>tblite_xtb_calculator</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="659.5,-150 539.5,-150 539.5,-126 659.5,-126 659.5,-150"/>
+<text text-anchor="middle" x="599.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tblite_xtb_calculator</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;tblite_xtb_calculator -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge9" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;tblite_xtb_calculator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M735.09,-209.89C718.59,-196.04 689.82,-173.41 662,-159 658.49,-157.18 654.8,-155.47 651.03,-153.87"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="652.16,-150.55 641.57,-150.11 649.57,-157.06 652.16,-150.55"/>
+</g>
+<!-- tblite_xtb_gfn1 -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node11" class="node">
+<title>tblite_xtb_gfn1</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="645,-108 554,-108 554,-84 645,-84 645,-108"/>
+<text text-anchor="middle" x="599.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tblite_xtb_gfn1</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;tblite_xtb_gfn1 -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge10" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;tblite_xtb_gfn1</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M742.02,-209.75C729.01,-188.01 699.02,-142.54 662,-117 659.61,-115.35 657.07,-113.82 654.45,-112.4"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="655.79,-109.16 645.26,-107.99 652.76,-115.47 655.79,-109.16"/>
+</g>
+<!-- tblite_xtb_gfn2 -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node12" class="node">
+<title>tblite_xtb_gfn2</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="645,-66 554,-66 554,-42 645,-42 645,-66"/>
+<text text-anchor="middle" x="599.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tblite_xtb_gfn2</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;tblite_xtb_gfn2 -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge11" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;tblite_xtb_gfn2</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M745.08,-209.77C735.5,-181.78 708.25,-112.61 662,-75 659.58,-73.03 656.97,-71.25 654.24,-69.63"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="655.66,-66.42 645.17,-64.99 652.47,-72.66 655.66,-66.42"/>
+</g>
+<!-- tblite_xtb_singlepoint -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node13" class="node">
+<title>tblite_xtb_singlepoint</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="662,-24 537,-24 537,0 662,0 662,-24"/>
+<text text-anchor="middle" x="599.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tblite_xtb_singlepoint</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;tblite_xtb_singlepoint -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge12" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;tblite_xtb_singlepoint</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M746.85,-209.87C740.35,-176.65 717.78,-83.34 662,-33 660.52,-31.67 658.96,-30.42 657.33,-29.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="659.04,-26.2 648.67,-24.03 655.43,-32.19 659.04,-26.2"/>
+</g>
+<!-- module~mqc_method_base&#45;&gt;module~mqc_physical_fragment -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge13" class="edge">
+<title>module~mqc_method_base&#45;&gt;module~mqc_physical_fragment</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M568.58,-314.11C558.48,-318.34 547.18,-323.23 537,-328 511.99,-339.73 484.23,-354.14 463.61,-365.13"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="461.84,-362.1 454.68,-369.91 465.14,-368.27 461.84,-362.1"/>
+</g>
+<!-- module~mqc_method_base&#45;&gt;module~mqc_result_types -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge14" class="edge">
+<title>module~mqc_method_base&#45;&gt;module~mqc_result_types</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M542.76,-295.28C527.08,-293.39 509.93,-291.33 493.93,-289.4"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="493.96,-285.88 483.61,-288.16 493.12,-292.83 493.96,-285.88"/>
+</g>
+<!-- module~mqc_method_base&#45;&gt;pic_types -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge15" class="edge">
+<title>module~mqc_method_base&#45;&gt;pic_types</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M542.82,-302.67C529.14,-302.81 514.54,-302.93 501,-303 439.22,-303.32 423.32,-310.51 362,-303 323.59,-298.3 316.2,-282 277.5,-282"/>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;pic_types -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge20" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;pic_types</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M275.5,-342C217.51,-334.64 203.96,-362 145.5,-362"/>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M143.5,-362C119.99,-362 93.68,-362 72.53,-362"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="72.29,-358.5 62.29,-362 72.29,-365.5 72.29,-358.5"/>
+</g>
+<!-- module~mqc_cgto -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node14" class="node">
+<title>module~mqc_cgto</title>
+<g id="a_module~~mqc_method_xtb~~UsesGraph_node14"><a xlink:href="../module/mqc_cgto.html" xlink:title="mqc_cgto">
+<polygon fill="#337ab7" stroke="#337ab7" points="176.5,-334 112.5,-334 112.5,-310 176.5,-310 176.5,-334"/>
+<text text-anchor="middle" x="144.5" y="-319.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_cgto</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;module~mqc_cgto -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge16" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;module~mqc_cgto</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M395.15,-369.97C364.47,-360.2 318.63,-347.22 277.5,-342"/>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M275.5,-342C245.73,-338.22 212.28,-333.05 186.76,-328.92"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="187.13,-325.43 176.69,-327.27 186,-332.34 187.13,-325.43"/>
+</g>
+<!-- module~mqc_elements -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node15" class="node">
+<title>module~mqc_elements</title>
+<g id="a_module~~mqc_method_xtb~~UsesGraph_node15"><a xlink:href="../module/mqc_elements.html" xlink:title="mqc_elements">
+<polygon fill="#337ab7" stroke="#337ab7" points="322,-474 231,-474 231,-450 322,-450 322,-474"/>
+<text text-anchor="middle" x="276.5" y="-459.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_elements</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;module~mqc_elements -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge17" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;module~mqc_elements</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M407.26,-394.15C381.16,-407.8 338.64,-430.03 309.43,-445.3"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="307.69,-442.26 300.45,-450 310.94,-448.47 307.69,-442.26"/>
+</g>
+<!-- module~mqc_geometry -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node16" class="node">
+<title>module~mqc_geometry</title>
+<g id="a_module~~mqc_method_xtb~~UsesGraph_node16"><a xlink:href="../module/mqc_geometry.html" xlink:title="mqc_geometry">
+<polygon fill="#337ab7" stroke="#337ab7" points="191,-414 98,-414 98,-390 191,-390 191,-414"/>
+<text text-anchor="middle" x="144.5" y="-399.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_geometry</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;module~mqc_geometry -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge18" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;module~mqc_geometry</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M381.1,-394.02C363.79,-397.67 344.14,-401.2 326,-403 282.22,-407.36 271,-403.27 227,-403 218.66,-402.95 209.84,-402.87 201.2,-402.77"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="201.23,-399.27 191.19,-402.66 201.15,-406.27 201.23,-399.27"/>
+</g>
+<!-- module~mqc_xyz_reader -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node17" class="node">
+<title>module~mqc_xyz_reader</title>
+<g id="a_module~~mqc_method_xtb~~UsesGraph_node17"><a xlink:href="../module/mqc_xyz_reader.html" xlink:title="mqc_xyz_reader">
+<polygon fill="#337ab7" stroke="#337ab7" points="326,-394 227,-394 227,-370 326,-370 326,-394"/>
+<text text-anchor="middle" x="276.5" y="-379.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_xyz_reader</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;module~mqc_xyz_reader -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge19" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;module~mqc_xyz_reader</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M361.61,-382C353.24,-382 344.76,-382 336.55,-382"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="336.34,-378.5 326.34,-382 336.34,-385.5 336.34,-378.5"/>
+</g>
+<!-- module~mqc_result_types&#45;&gt;pic_types -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge21" class="edge">
+<title>module~mqc_result_types&#45;&gt;pic_types</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M379.15,-282C349.45,-282 311.37,-282 277.5,-282"/>
+</g>
+<!-- module~mqc_cgto&#45;&gt;pic_types -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge22" class="edge">
+<title>module~mqc_cgto&#45;&gt;pic_types</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M112.44,-333.14C99.79,-337.68 85.01,-342.98 71.6,-347.79"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="70.35,-344.52 62.12,-351.19 72.72,-351.11 70.35,-344.52"/>
+</g>
+<!-- module~mqc_elements&#45;&gt;pic_types -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge24" class="edge">
+<title>module~mqc_elements&#45;&gt;pic_types</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M230.98,-458.74C193.68,-454.53 139.95,-444.9 98,-423 78.76,-412.95 60.94,-395.81 48.68,-382.25"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="51.01,-379.6 41.8,-374.37 45.73,-384.2 51.01,-379.6"/>
+</g>
+<!-- pic_ascii -->
+<g id="module~~mqc_method_xtb~~UsesGraph_node18" class="node">
+<title>pic_ascii</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="173.5,-494 115.5,-494 115.5,-470 173.5,-470 173.5,-494"/>
+<text text-anchor="middle" x="144.5" y="-479.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_ascii</text>
+</g>
+<!-- module~mqc_elements&#45;&gt;pic_ascii -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge23" class="edge">
+<title>module~mqc_elements&#45;&gt;pic_ascii</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M230.76,-468.88C215.51,-471.23 198.61,-473.83 183.91,-476.09"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="182.99,-472.69 173.64,-477.67 184.06,-479.61 182.99,-472.69"/>
+</g>
+<!-- module~mqc_geometry&#45;&gt;pic_types -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge25" class="edge">
+<title>module~mqc_geometry&#45;&gt;pic_types</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M110.05,-390C98,-385.68 84.29,-380.76 71.76,-376.26"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="72.61,-372.85 62.02,-372.77 70.25,-379.44 72.61,-372.85"/>
+</g>
+<!-- module~mqc_xyz_reader&#45;&gt;pic_types -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge27" class="edge">
+<title>module~mqc_xyz_reader&#45;&gt;pic_types</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M226.7,-370.89C202.42,-366.29 172.56,-362 145.5,-362"/>
+</g>
+<!-- module~mqc_xyz_reader&#45;&gt;module~mqc_geometry -->
+<g id="module~~mqc_method_xtb~~UsesGraph_edge26" class="edge">
+<title>module~mqc_xyz_reader&#45;&gt;module~mqc_geometry</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M226.72,-389.5C218.33,-390.79 209.56,-392.14 201.01,-393.46"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="200.46,-390 191.11,-394.98 201.53,-396.92 200.46,-390"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panmodulemqc_method_xtbUsesGraph = svgPanZoom('#modulemqc_method_xtbUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~mqc_method_xtb~~UsedByGraph Pages: 1 -->
+<svg id="modulemqc_method_xtbUsedByGraph" width="412pt" height="32pt"
+ viewBox="0.00 0.00 412.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~mqc_method_xtb~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>module~~mqc_method_xtb~~UsedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 408,-28 408,4 -4,4"/>
+<!-- module~mqc_method_xtb -->
+<g id="module~~mqc_method_xtb~~UsedByGraph_node1" class="node">
+<title>module~mqc_method_xtb</title>
+<polygon fill="none" stroke="black" points="104,-24 0,-24 0,0 104,0 104,-24"/>
+<text text-anchor="middle" x="52" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">mqc_method_xtb</text>
+</g>
+<!-- module~mqc_mbe -->
+<g id="module~~mqc_method_xtb~~UsedByGraph_node2" class="node">
+<title>module~mqc_mbe</title>
+<g id="a_module~~mqc_method_xtb~~UsedByGraph_node2"><a xlink:href="../module/mqc_mbe.html" xlink:title="mqc_mbe">
+<polygon fill="#337ab7" stroke="#337ab7" points="205,-24 140,-24 140,0 205,0 205,-24"/>
+<text text-anchor="middle" x="172.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_mbe</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_mbe&#45;&gt;module~mqc_method_xtb -->
+<g id="module~~mqc_method_xtb~~UsedByGraph_edge1" class="edge">
+<title>module~mqc_mbe&#45;&gt;module~mqc_method_xtb</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M139.74,-12C131.77,-12 122.95,-12 114.07,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="114.07,-8.5 104.07,-12 114.07,-15.5 114.07,-8.5"/>
+</g>
+<!-- module~mqc_driver -->
+<g id="module~~mqc_method_xtb~~UsedByGraph_node3" class="node">
+<title>module~mqc_driver</title>
+<g id="a_module~~mqc_method_xtb~~UsedByGraph_node3"><a xlink:href="../module/mqc_driver.html" xlink:title="mqc_driver">
+<polygon fill="#337ab7" stroke="#337ab7" points="314,-24 241,-24 241,0 314,0 314,-24"/>
+<text text-anchor="middle" x="277.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_driver</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_driver&#45;&gt;module~mqc_mbe -->
+<g id="module~~mqc_method_xtb~~UsedByGraph_edge2" class="edge">
+<title>module~mqc_driver&#45;&gt;module~mqc_mbe</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M240.76,-12C232.5,-12 223.64,-12 215.15,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="215.05,-8.5 205.05,-12 215.05,-15.5 215.05,-8.5"/>
+</g>
+<!-- program~main -->
+<g id="module~~mqc_method_xtb~~UsedByGraph_node4" class="node">
+<title>program~main</title>
+<g id="a_module~~mqc_method_xtb~~UsedByGraph_node4"><a xlink:href="../program/main.html" xlink:title="main">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="404,-24 350,-24 350,0 404,0 404,-24"/>
+<text text-anchor="middle" x="377" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
+</a>
+</g>
+</g>
+<!-- program~main&#45;&gt;module~mqc_driver -->
+<g id="module~~mqc_method_xtb~~UsedByGraph_edge3" class="edge">
+<title>program~main&#45;&gt;module~mqc_driver</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M349.87,-12C342.01,-12 333.13,-12 324.38,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="324.23,-8.5 314.23,-12 324.23,-15.5 324.23,-8.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+
+
+
+
+        <section>
+          <h2>Derived Types</h2>
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-xtb_method_t"></span>
+      <h3>
+        type, public, extends(<a href='../type/qc_method_t.html'>qc_method_t</a>)&nbsp;::&nbsp;
+        <a href='../type/xtb_method_t.html'>xtb_method_t</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Extended Tight-Binding (xTB) method implementation</p><a href="../type/xtb_method_t.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-accuracy"></span>
+              real(kind=wp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>accuracy</strong></td>
+<td> =</td>
+                <td>0.01_wp</td>
+            <td>
+<p>Numerical accuracy parameter</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kt"></span>
+              real(kind=wp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>kt</strong></td>
+<td> =</td>
+                <td>300.0_wp*3.166808578545117e-06_wp</td>
+            <td>
+<p>Electronic temperature (300 K)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-variant"></span>
+              character(len=:),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>variant</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+<p>XTB variant: &ldquo;gfn1&rdquo; or &ldquo;gfn2&rdquo;</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-verbose~2"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>verbose</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+<p>Print calculation details</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/xtb_method_t.html#boundprocedure-calc_energy~3'>calc_energy</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/xtb_calc_energy.html'>xtb_calc_energy</a></td>
+                  <td><p>Energy-only calculation</p></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/xtb_method_t.html#boundprocedure-calc_gradient~3'>calc_gradient</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/xtb_calc_gradient.html'>xtb_calc_gradient</a></td>
+                  <td><p>Energy + gradient calculation</p></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-xtb_calc_energy"></span> <h3>private  subroutine <a href='../proc/xtb_calc_energy.html'>xtb_calc_energy</a>(this, fragment, result)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Calculate electronic energy using Extended Tight-Binding (xTB) method</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~9"></span>
+              class(<a href='../type/xtb_method_t.html'>xtb_method_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment~7"></span>
+              type(<a href='../type/physical_fragment_t.html'>physical_fragment_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-result~6"></span>
+              type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>result</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-xtb_calc_gradient"></span> <h3>private  subroutine <a href='../proc/xtb_calc_gradient.html'>xtb_calc_gradient</a>(this, fragment, result)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Calculate energy gradient using Extended Tight-Binding (xTB) method</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~10"></span>
+              class(<a href='../type/xtb_method_t.html'>xtb_method_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment~8"></span>
+              type(<a href='../type/physical_fragment_t.html'>physical_fragment_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-result~7"></span>
+              type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>result</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              metalquicha
+ was developed by Jorge Luis Galvez Vallejo<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-12-02 11:49 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

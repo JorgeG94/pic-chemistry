@@ -1,0 +1,426 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A set of commonly used programs in Fortran aimed at scientific computing">
+    <meta name="author" content="Jorge Luis Galvez Vallejo" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>allocate_basis_shells &ndash; metalquicha</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">metalquicha </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../program/main.html">Program</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>allocate_basis_shells
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.3% of total for procedures.">6 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/mqc_cgto.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_cgto.f90.html'>mqc_cgto.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/mqc_cgto.html'>mqc_cgto</a></li>
+            <li class="breadcrumb-item active" aria-current="page">allocate_basis_shells</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/allocate_basis_shells.html#src">allocate_basis_shells</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>private pure subroutine allocate_basis_shells(self, nshells)  
+</h2>
+    
+
+    <p>Allocate array of shells in an atomic basis</p>
+
+    <h3>Type Bound</h3>
+    <p><a href='../type/atomic_basis_type.html'>atomic_basis_type</a></p>
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~3"></span>
+              class(<a href='../type/atomic_basis_type.html'>atomic_basis_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nshells~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nshells</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~allocate_basis_shells~~CalledByGraph Pages: 1 -->
+<svg id="procallocate_basis_shellsCalledByGraph" width="564pt" height="74pt"
+ viewBox="0.00 0.00 564.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~allocate_basis_shells~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
+<title>proc~~allocate_basis_shells~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 560,-70 560,4 -4,4"/>
+<!-- proc~allocate_basis_shells -->
+<g id="proc~~allocate_basis_shells~~CalledByGraph_node1" class="node">
+<title>proc~allocate_basis_shells</title>
+<polygon fill="none" stroke="black" points="556,-45 326,-45 326,-21 556,-21 556,-45"/>
+<text text-anchor="middle" x="441" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">atomic_basis_type%allocate_basis_shells</text>
+</g>
+<!-- proc~copy_atomic_basis -->
+<g id="proc~~allocate_basis_shells~~CalledByGraph_node2" class="node">
+<title>proc~copy_atomic_basis</title>
+<g id="a_proc~~allocate_basis_shells~~CalledByGraph_node2"><a xlink:href="../proc/copy_atomic_basis.html" xlink:title="copy_atomic_basis">
+<polygon fill="#d9534f" stroke="#d9534f" points="284,-66 172,-66 172,-42 284,-42 284,-66"/>
+<text text-anchor="middle" x="228" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">copy_atomic_basis</text>
+</a>
+</g>
+</g>
+<!-- proc~copy_atomic_basis&#45;&gt;proc~allocate_basis_shells -->
+<g id="proc~~allocate_basis_shells~~CalledByGraph_edge1" class="edge">
+<title>proc~copy_atomic_basis&#45;&gt;proc~allocate_basis_shells</title>
+<path fill="none" stroke="#ff0000" d="M284.16,-48.51C294.07,-47.52 304.76,-46.46 315.72,-45.37"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="316.25,-48.83 325.85,-44.36 315.55,-41.87 316.25,-48.83"/>
+</g>
+<!-- proc~parse_element_basis -->
+<g id="proc~~allocate_basis_shells~~CalledByGraph_node3" class="node">
+<title>proc~parse_element_basis</title>
+<g id="a_proc~~allocate_basis_shells~~CalledByGraph_node3"><a xlink:href="../proc/parse_element_basis.html" xlink:title="parse_element_basis">
+<polygon fill="#d9534f" stroke="#d9534f" points="290,-24 166,-24 166,0 290,0 290,-24"/>
+<text text-anchor="middle" x="228" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_element_basis</text>
+</a>
+</g>
+</g>
+<!-- proc~parse_element_basis&#45;&gt;proc~allocate_basis_shells -->
+<g id="proc~~allocate_basis_shells~~CalledByGraph_edge2" class="edge">
+<title>proc~parse_element_basis&#45;&gt;proc~allocate_basis_shells</title>
+<path fill="none" stroke="#ff0000" d="M290.03,-18.07C298.25,-18.89 306.92,-19.76 315.77,-20.64"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="315.52,-24.13 325.82,-21.64 316.21,-17.16 315.52,-24.13"/>
+</g>
+<!-- proc~build_molecular_basis -->
+<g id="proc~~allocate_basis_shells~~CalledByGraph_node4" class="node">
+<title>proc~build_molecular_basis</title>
+<g id="a_proc~~allocate_basis_shells~~CalledByGraph_node4"><a xlink:href="../proc/build_molecular_basis.html" xlink:title="build_molecular_basis">
+<polygon fill="#d9534f" stroke="#d9534f" points="130,-45 0,-45 0,-21 130,-21 130,-45"/>
+<text text-anchor="middle" x="65" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">build_molecular_basis</text>
+</a>
+</g>
+</g>
+<!-- proc~build_molecular_basis&#45;&gt;proc~copy_atomic_basis -->
+<g id="proc~~allocate_basis_shells~~CalledByGraph_edge3" class="edge">
+<title>proc~build_molecular_basis&#45;&gt;proc~copy_atomic_basis</title>
+<path fill="none" stroke="#ff0000" d="M130.09,-41.36C140.59,-42.73 151.48,-44.15 162,-45.52"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="161.58,-49 171.95,-46.82 162.49,-42.06 161.58,-49"/>
+</g>
+<!-- proc~build_molecular_basis&#45;&gt;proc~parse_element_basis -->
+<g id="proc~~allocate_basis_shells~~CalledByGraph_edge4" class="edge">
+<title>proc~build_molecular_basis&#45;&gt;proc~parse_element_basis</title>
+<path fill="none" stroke="#00ffff" d="M130.09,-24.64C138.54,-23.54 147.24,-22.4 155.79,-21.29"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="156.28,-24.75 165.75,-19.99 155.38,-17.81 156.28,-24.75"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">pure subroutine </span><span class="n">allocate_basis_shells</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">nshells</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!! Allocate array of shells in an atomic basis</span>
+<span class="w">      </span><span class="k">class</span><span class="p">(</span><span class="n">atomic_basis_type</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nshells</span>
+
+<span class="w">      </span><span class="n">self</span><span class="p">%</span><span class="n">nshells</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nshells</span>
+<span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">%</span><span class="n">shells</span><span class="p">(</span><span class="n">nshells</span><span class="p">))</span>
+<span class="w">   </span><span class="k">end subroutine </span><span class="n">allocate_basis_shells</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              metalquicha
+ was developed by Jorge Luis Galvez Vallejo<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-12-02 11:49 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
