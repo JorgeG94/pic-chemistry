@@ -22,6 +22,8 @@ The main purpose of this package is to showcase the ability of being able to wri
 simple, powerful Fortran based programs that are able to access massively parallel
 ecosystems with ease.
 
+If you are interested in contributing, please see [here](https://github.com/JorgeG94/pic/blob/main/contributing.md). Pic is the main project here and all the contributions fall downstream.
+
 ## Building
 
 You will need an internet connection to download the dependencies. The main dependencies are:
