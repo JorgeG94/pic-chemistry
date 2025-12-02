@@ -3,7 +3,7 @@ src_dir: src
          app
 output_dir: docs/fpm-ford
 project: metalquicha
-summary: A set of commonly used programs in Fortran aimed at scientific computing
+summary: A demonstration of PIC as a framework for scientific applications targetting quantum chemistry
 project_github: https://github.com/JorgeG94/metalquicha
 project_download: https://github.com/JorgeG94/metalquicha/archive/refs/heads/main.zip
 author: Jorge Luis Galvez Vallejo
