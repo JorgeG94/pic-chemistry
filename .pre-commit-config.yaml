@@ -24,7 +24,7 @@ repos:
     hooks:
       - id: fprettify
         name: fprettify
-        entry: fprettify --silent
+        entry: fprettify --silent -i 3 -l 122
         language: system
         types: [file]
         files: '\.(f|F|f90|F90)$'
