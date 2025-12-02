@@ -1,6 +1,10 @@
 module test_mqc_physical_fragment
    use testdrive, only: new_unittest, unittest_type, error_type, check
-   use mqc_physical_fragment
+   use mqc_physical_fragment, only: to_angstrom, to_bohr, initialize_system_geometry, &
+                                    build_fragment_from_indices, fragment_centroid, &
+                                    fragment_center_of_mass, distance_between_points, &
+                                    distance_between_fragments, minimal_distance_between_fragments, &
+                                    system_geometry_t, physical_fragment_t
    use pic_types, only: dp
    implicit none
    private

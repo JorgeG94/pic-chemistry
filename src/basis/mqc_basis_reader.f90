@@ -3,7 +3,7 @@ module mqc_basis_reader
    !!
    !! Provides utilities for parsing Gaussian-type orbital basis sets
    !! from text files and building molecular basis sets for quantum calculations.
-   use mqc_cgto
+   use mqc_cgto, only: cgto_type, atomic_basis_type, molecular_basis_type
    use mqc_basis_file_reader, only: strings_equal
    use pic_types, only: dp
    implicit none

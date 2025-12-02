@@ -10,9 +10,11 @@ module mqc_mbe
    use pic_logger, only: logger => global_logger
    use pic_io, only: to_char
 
-   use mqc_mpi_tags
+   use mqc_mpi_tags, only: TAG_WORKER_REQUEST, TAG_WORKER_FRAGMENT, TAG_WORKER_FINISH, &
+                           TAG_WORKER_SCALAR_RESULT, TAG_WORKER_MATRIX_RESULT, &
+                           TAG_NODE_REQUEST, TAG_NODE_FRAGMENT, TAG_NODE_FINISH, &
+                           TAG_NODE_SCALAR_RESULT, TAG_NODE_MATRIX_RESULT
    use mqc_physical_fragment, only: system_geometry_t, physical_fragment_t, build_fragment_from_indices, to_angstrom
-   use mqc_physical_fragment, only: physical_fragment_t
    use mqc_elements, only: element_number_to_symbol
    use mqc_frag_utils, only: next_combination, find_fragment_index
 
@@ -22,6 +24,11 @@ module mqc_mbe
 #endif
    use mqc_result_types, only: calculation_result_t
    implicit none
+   private
+
+   ! Public interface
+   public :: process_chemistry_fragment, global_coordinator, node_coordinator
+   public :: node_worker, unfragmented_calculation
 
 contains
 
@@ -33,8 +40,8 @@ contains
       !! specified quantum chemistry method (GFN-xTB variants).
 
       integer, intent(in) :: fragment_idx        !! Fragment index for identification
-      integer, intent(in) :: fragment_indices(*)  !! Monomer indices comprising this fragment
       integer, intent(in) :: fragment_size       !! Number of monomers in fragment
+      integer, intent(in) :: fragment_indices(fragment_size)  !! Monomer indices comprising this fragment
       integer, intent(in) :: matrix_size         !! Size of gradient matrix (natoms*3)
       real(dp), intent(out) :: water_energy      !! Computed energy for this fragment
       real(dp), allocatable, intent(out) :: C_flat(:)  !! Flattened gradient array

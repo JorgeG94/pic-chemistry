@@ -28,6 +28,7 @@ module mqc_method_base
          !! Computes the electronic energy for a molecular fragment
          !! using the specified quantum chemistry method.
          import :: qc_method_t, calculation_result_t, physical_fragment_t
+         implicit none
          class(qc_method_t), intent(in) :: this      !! Method instance
          type(physical_fragment_t), intent(in) :: fragment  !! Molecular fragment
          type(calculation_result_t), intent(out) :: result  !! Calculation results
@@ -39,6 +40,7 @@ module mqc_method_base
          !! Computes both electronic energy and nuclear gradients for a
          !! molecular fragment using the specified quantum chemistry method.
          import :: qc_method_t, calculation_result_t, physical_fragment_t
+         implicit none
          class(qc_method_t), intent(in) :: this      !! Method instance
          type(physical_fragment_t), intent(in) :: fragment  !! Molecular fragment
          type(calculation_result_t), intent(out) :: result

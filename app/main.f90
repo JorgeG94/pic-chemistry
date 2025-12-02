@@ -5,12 +5,12 @@ program main
    !! and dispatches to appropriate calculation routines (fragmented or unfragmented).
    use pic_logger, only: logger => global_logger, info_level
    use pic_io, only: to_char
-   use pic_mpi_lib
-   use mqc_driver
+   use pic_mpi_lib, only: pic_mpi_init, comm_world, comm_t, abort_comm, pic_mpi_finalize
+   use mqc_driver, only: run_calculation
    use mqc_physical_fragment, only: initialize_system_geometry, system_geometry_t
-   use mqc_input_parser
-   use mqc_logo
-   use pic_timer
+   use mqc_input_parser, only: read_input_file, input_config_t
+   use mqc_logo, only: print_logo
+   use pic_timer, only: timer_type
    implicit none
 
    type(timer_type) :: my_timer     !! Execution timing
