@@ -2,6 +2,7 @@
 module mqc_mbe
    !! Implements hierarchical many-body expansion for fragment-based quantum chemistry
    !! calculations with MPI parallelization and energy/gradient computation.
+   use omp_lib
    use pic_types, only: int32, dp
    use pic_timer, only: timer_type
    use pic_blas_interfaces, only: pic_gemm, pic_dot
@@ -75,6 +76,8 @@ contains
       else
          verb_level = 0
       end if
+
+      call omp_set_num_threads(1)
 
       ! Print fragment geometry if provided
       if (present(phys_frag)) then
@@ -398,6 +401,7 @@ contains
       type(MPI_Status) :: status, local_status
       logical :: handling_local_workers
       logical :: has_pending
+      type(timer_type) :: mpi_timer
 
       ! For local workers
       integer :: local_finished_workers, fragment_size, local_dummy
@@ -426,9 +430,10 @@ contains
       matrix_results = 0.0_dp
       worker_fragment_map = 0
 
-      call logger%verbose("Global coordinator starting with "//to_char(total_fragments)// &
+      call logger%info("Global coordinator starting with "//to_char(total_fragments)// &
                           " fragments for "//to_char(num_nodes)//" nodes")
 
+      call mpi_timer%start()
       do while (finished_nodes < num_nodes)
 
          ! PRIORITY 1: Check for incoming results from local workers
@@ -536,15 +541,21 @@ contains
             end if
          end if
       end do
+      call mpi_timer%stop()
 
+      call logger%info("Time (s) for evaluating all fragments " // to_char(mpi_timer%get_elapsed_time()))
       call logger%verbose("Global coordinator finished all fragments")
       block
          real(dp) :: mbe_total_energy
+         type(timer_type) :: mbe_timer
 
          ! Compute the many-body expansion energy
+         call mbe_timer%start()
          call logger%info("")
          call logger%info("Computing Many-Body Expansion (MBE)...")
          call compute_mbe_energy(polymers, total_fragments, max_level, scalar_results, mbe_total_energy)
+         call mbe_timer%stop()
+         call logger%info("Time (s) for gathering energy " // to_char(mbe_timer%get_elapsed_time()))
 
       end block
 

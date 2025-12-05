@@ -1,6 +1,6 @@
 # PIC Chemistry input file
 # Test with water hexamer prism
-nlevel=3
-geom="prism.xyz"
+nlevel=2
+geom="w345.xyz"
 monomer_symbols="water_monomer.xyz"
 method="gfn1"
