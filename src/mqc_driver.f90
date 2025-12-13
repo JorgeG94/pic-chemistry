@@ -115,14 +115,14 @@ contains
       integer, intent(in) :: max_level    !! Maximum fragment level for MBE
       integer, intent(in) :: matrix_size  !! Size of gradient matrix (natoms*3)
 
-      integer :: total_fragments  !! Total number of fragments generated
+      integer(int64) :: total_fragments  !! Total number of fragments generated (int64 to handle large systems)
       integer, allocatable :: polymers(:, :)  !! Fragment composition array (fragment, monomer_indices)
       integer :: num_nodes   !! Number of compute nodes
       integer :: i, j        !! Loop counters
       integer, allocatable :: node_leader_ranks(:)  !! Ranks of processes that lead each node
       integer, allocatable :: monomers(:)     !! Temporary monomer list for fragment generation
-      integer :: n_expected_frags  !! Expected number of fragments based on combinatorics
-      integer :: n_rows      !! Number of rows needed for polymers array
+      integer(int64) :: n_expected_frags  !! Expected number of fragments based on combinatorics (int64 to handle large systems)
+      integer(int64) :: n_rows      !! Number of rows needed for polymers array (int64 to handle large systems)
       integer :: global_node_rank  !! Global rank if this process leads a node, -1 otherwise
       integer, allocatable :: all_node_leader_ranks(:)  !! Node leader status for all ranks
 

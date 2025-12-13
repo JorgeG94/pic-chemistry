@@ -165,15 +165,18 @@ contains
 
    function find_fragment_index(target_monomers, polymers, fragment_count, expected_size) result(idx)
       !! Find the fragment index that contains exactly the target monomers
-      integer, intent(in) :: target_monomers(:), polymers(:, :), fragment_count, expected_size
-      integer :: idx
+      !! Uses int64 for fragment_count to handle large fragment counts that overflow int32.
+      integer, intent(in) :: target_monomers(:), polymers(:, :), expected_size
+      integer(int64), intent(in) :: fragment_count
+      integer(int64) :: idx
 
-      integer :: i, j, fragment_size
+      integer(int64) :: i
+      integer :: j, fragment_size
       logical :: match
 
-      idx = -1
+      idx = -1_int64
 
-      do i = 1, fragment_count
+      do i = 1_int64, fragment_count
          fragment_size = count(polymers(i, :) > 0)
 
          ! Check if this fragment has the right size

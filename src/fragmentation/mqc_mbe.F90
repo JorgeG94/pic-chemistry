@@ -176,11 +176,14 @@ contains
       !! For n=2: deltaE(ij) = E(ij) - E(i) - E(j)
       !! For n=3: deltaE(ijk) = E(ijk) - deltaE(ij) - deltaE(ik) - deltaE(jk) - E(i) - E(j) - E(k)
       !! For n>=4: same pattern recursively
-      integer, intent(in) :: fragment(:), polymers(:, :), fragment_count, n
+      !! Uses int64 for fragment_count to handle large fragment counts that overflow int32.
+      integer, intent(in) :: fragment(:), polymers(:, :), n
+      integer(int64), intent(in) :: fragment_count
       real(dp), intent(in) :: energies(:)
       real(dp) :: delta_E
 
-      integer :: idx_n, subset_size, i, j, num_subsets
+      integer(int64) :: idx_n
+      integer :: subset_size, i, j, num_subsets
       integer, allocatable :: subset(:), indices(:)
       real(dp) :: E_n, subset_contribution
 
@@ -203,7 +206,9 @@ contains
    subroutine generate_and_subtract_subsets(fragment, subset_size, n, polymers, energies, &
                                             fragment_count, delta_E)
       !! Generate all subsets of given size and subtract their contribution
-      integer, intent(in) :: fragment(:), subset_size, n, polymers(:, :), fragment_count
+      !! Uses int64 for fragment_count to handle large fragment counts that overflow int32.
+      integer, intent(in) :: fragment(:), subset_size, n, polymers(:, :)
+      integer(int64), intent(in) :: fragment_count
       real(dp), intent(in) :: energies(:)
       real(dp), intent(inout) :: delta_E
 
@@ -413,8 +418,10 @@ contains
 
    subroutine send_fragment_to_node(world_comm, fragment_idx, polymers, max_level, dest_rank)
       !! Send fragment data to remote node coordinator
+      !! Uses int64 for fragment_idx to handle large fragment indices that overflow int32.
       type(comm_t), intent(in) :: world_comm
-      integer, intent(in) :: fragment_idx, max_level, dest_rank
+      integer(int64), intent(in) :: fragment_idx
+      integer, intent(in) :: max_level, dest_rank
       integer, intent(in) :: polymers(:, :)
       integer :: fragment_size
       integer, allocatable :: fragment_indices(:)
@@ -424,7 +431,7 @@ contains
       fragment_indices = polymers(fragment_idx, 1:fragment_size)
 
       ! TODO: serialize the data for better performance
-      call send(world_comm, fragment_idx, dest_rank, TAG_NODE_FRAGMENT)
+      call send(world_comm, int(fragment_idx, kind=int32), dest_rank, TAG_NODE_FRAGMENT)
       call send(world_comm, fragment_size, dest_rank, TAG_NODE_FRAGMENT)
       call send(world_comm, fragment_indices, dest_rank, TAG_NODE_FRAGMENT)
 
@@ -433,8 +440,10 @@ contains
 
    subroutine send_fragment_to_worker(node_comm, fragment_idx, polymers, max_level, dest_rank, matrix_size)
       !! Send fragment data to local worker
+      !! Uses int64 for fragment_idx to handle large fragment indices that overflow int32.
       type(comm_t), intent(in) :: node_comm
-      integer, intent(in) :: fragment_idx, max_level, dest_rank, matrix_size
+      integer(int64), intent(in) :: fragment_idx
+      integer, intent(in) :: max_level, dest_rank, matrix_size
       integer, intent(in) :: polymers(:, :)
       integer :: fragment_size
       integer, allocatable :: fragment_indices(:)
@@ -444,7 +453,7 @@ contains
       fragment_indices = polymers(fragment_idx, 1:fragment_size)
 
       ! TODO: serialize the data for better performance
-      call send(node_comm, fragment_idx, dest_rank, TAG_WORKER_FRAGMENT)
+      call send(node_comm, int(fragment_idx, kind=int32), dest_rank, TAG_WORKER_FRAGMENT)
       call send(node_comm, fragment_size, dest_rank, TAG_WORKER_FRAGMENT)
       call send(node_comm, fragment_indices, dest_rank, TAG_WORKER_FRAGMENT)
       call send(node_comm, matrix_size, dest_rank, TAG_WORKER_FRAGMENT)
