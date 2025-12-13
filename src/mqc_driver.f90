@@ -41,9 +41,11 @@ contains
       integer, allocatable :: all_node_leader_ranks(:)  !! All node leader ranks
 
       ! Set max_level from config
+      ! TODO JORGE: change to max fragmentation level
       max_level = config%nlevel
 
       ! Set matrix_size based on atoms per monomer (natoms * 3 for gradient)
+      ! TODO JORGE: this is temporary, until we define a result_struct that will initialize itself
       matrix_size = sys_geom%atoms_per_monomer*3
 
       if (world_comm%rank() == 0) then
@@ -57,7 +59,6 @@ contains
          call logger%info("============================================")
       end if
 
-      ! Choose calculation type based on nlevel
       if (max_level == 0) then
          call run_unfragmented_calculation(world_comm, sys_geom, config%method)
       else
@@ -78,6 +79,7 @@ contains
       ! Validate that only a single rank is used for unfragmented calculation
       ! (parallelism comes from OpenMP threads, not MPI ranks)
       if (world_comm%size() > 1) then
+         ! TODO JORGE: maybe don't fail? prune the extra ranks ?
          if (world_comm%rank() == 0) then
             call logger%error("")
             call logger%error("Unfragmented calculation (nlevel=0) requires exactly 1 MPI rank")
@@ -93,8 +95,7 @@ contains
 
       if (world_comm%rank() == 0) then
          call logger%info("")
-         call logger%info("nlevel=0 detected: Running unfragmented calculation")
-         call logger%info("Parallelism provided by OpenMP threads")
+         call logger%info("Running unfragmented calculation")
          call logger%info("")
          call unfragmented_calculation(sys_geom, method)
       end if

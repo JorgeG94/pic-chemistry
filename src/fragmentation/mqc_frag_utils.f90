@@ -187,6 +187,7 @@ contains
       end do
 
       ! If we get here, we didn't find the fragment
+      ! this should RARELY happen, unless someone did something very illegal
       block
          character(len=256) :: monomers_str
          integer :: k

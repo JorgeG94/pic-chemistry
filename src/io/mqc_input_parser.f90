@@ -43,7 +43,6 @@ contains
 
       stat = 0
 
-      ! Check if file exists
       inquire (file=filename, exist=file_exists)
       if (.not. file_exists) then
          stat = 1
@@ -51,7 +50,6 @@ contains
          return
       end if
 
-      ! Open input file
       open (newunit=unit, file=filename, status='old', action='read', iostat=io_stat)
       if (io_stat /= 0) then
          stat = io_stat
