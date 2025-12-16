@@ -60,6 +60,7 @@ contains
       else
          verb_level = 0
       end if
+      verb_level = 1
 
       ! Print fragment geometry if provided
       if (present(phys_frag)) then
@@ -113,7 +114,7 @@ contains
 
    end subroutine print_fragment_xyz
 
-   subroutine compute_mbe_energy(polymers, fragment_count, max_level, energies, total_energy)
+   subroutine compute_mbe_energy(polymers, fragment_count, max_level, energies, total_energy, print_detailed)
       !! Compute the many-body expansion (MBE) energy
       !! Total = sum(E(i)) + sum(deltaE(ij)) + sum(deltaE(ijk)) + ...
       !! General n-body correction:
@@ -123,14 +124,23 @@ contains
       integer, intent(in) :: polymers(:, :), max_level
       real(dp), intent(in) :: energies(:)
       real(dp), intent(out) :: total_energy
+      logical, intent(in), optional :: print_detailed  !! Print detailed breakdown per fragment
 
       integer(int64) :: i
       integer :: fragment_size, body_level
-      real(dp), allocatable :: sum_by_level(:)
+      real(dp), allocatable :: sum_by_level(:), delta_energies(:)
       real(dp) :: delta_E
+      logical :: do_detailed_print
+
+      ! Handle optional argument
+      do_detailed_print = .true.
+      !if (present(print_detailed)) do_detailed_print = print_detailed
+      
 
       allocate (sum_by_level(max_level))
+      allocate (delta_energies(fragment_count))
       sum_by_level = 0.0_dp
+      delta_energies = 0.0_dp
 
       ! Sum over all fragments by their size
       do i = 1_int64, fragment_count
@@ -138,11 +148,14 @@ contains
 
          if (fragment_size == 1) then
             ! 1-body terms: just the monomer energies
-            sum_by_level(1) = sum_by_level(1) + energies(i)
+            delta_E = energies(i)
+            delta_energies(i) = delta_E
+            sum_by_level(1) = sum_by_level(1) + delta_E
          else if (fragment_size >= 2 .and. fragment_size <= max_level) then
             ! n-body corrections for n >= 2
             delta_E = compute_delta_nbody(polymers(i, 1:fragment_size), polymers, energies, &
                                           fragment_count, fragment_size)
+            delta_energies(i) = delta_E
             sum_by_level(fragment_size) = sum_by_level(fragment_size) + delta_E
          end if
       end do
@@ -165,9 +178,99 @@ contains
          call logger%info(trim(total_line))
       end block
 
-      deallocate (sum_by_level)
+      ! Print detailed breakdown if requested
+      if (do_detailed_print) then
+         call print_detailed_breakdown(polymers, fragment_count, max_level, energies, delta_energies)
+      end if
+
+      deallocate (sum_by_level, delta_energies)
 
    end subroutine compute_mbe_energy
+
+   subroutine print_detailed_breakdown(polymers, fragment_count, max_level, energies, delta_energies)
+      !! Print detailed energy breakdown for each fragment
+      !! Shows full energy and deltaE correction for all monomers, dimers, trimers, etc.
+      !! Uses int64 for fragment_count to handle large fragment counts that overflow int32.
+      integer, intent(in) :: polymers(:, :), max_level
+      integer(int64), intent(in) :: fragment_count
+      real(dp), intent(in) :: energies(:), delta_energies(:)
+
+      integer(int64) :: i
+      integer :: fragment_size, j, body_level
+      character(len=512) :: fragment_str, energy_line
+      integer(int64) :: count_by_level
+
+      call logger%info("")
+      call logger%info("============================================")
+      call logger%info("Detailed Energy Breakdown by Fragment")
+      call logger%info("============================================")
+
+      ! Print fragments organized by level
+      do body_level = 1, max_level
+         count_by_level = 0_int64
+
+         ! Count how many fragments at this level
+         do i = 1_int64, fragment_count
+            fragment_size = count(polymers(i, :) > 0)
+            if (fragment_size == body_level) count_by_level = count_by_level + 1_int64
+         end do
+
+         if (count_by_level > 0_int64) then
+            call logger%info("")
+            block
+               character(len=256) :: header
+               if (body_level == 1) then
+                  write (header, '(a,i0,a)') "Monomers (", count_by_level, " fragments):"
+               else if (body_level == 2) then
+                  write (header, '(a,i0,a)') "Dimers (", count_by_level, " fragments):"
+               else if (body_level == 3) then
+                  write (header, '(a,i0,a)') "Trimers (", count_by_level, " fragments):"
+               else if (body_level == 4) then
+                  write (header, '(a,i0,a)') "Tetramers (", count_by_level, " fragments):"
+               else
+                  write (header, '(i0,a,i0,a)') body_level, "-mers (", count_by_level, " fragments):"
+               end if
+               call logger%info(trim(header))
+            end block
+            call logger%info("--------------------------------------------")
+
+            ! Print each fragment at this level
+            do i = 1_int64, fragment_count
+               fragment_size = count(polymers(i, :) > 0)
+
+               if (fragment_size == body_level) then
+                  ! Build fragment string (e.g., "[1,2,3]")
+                  fragment_str = "["
+                  do j = 1, fragment_size
+                     if (j > 1) then
+                        write (fragment_str, '(a,a,i0)') trim(fragment_str), ",", polymers(i, j)
+                     else
+                        write (fragment_str, '(a,i0)') trim(fragment_str), polymers(i, j)
+                     end if
+                  end do
+                  write (fragment_str, '(a,a)') trim(fragment_str), "]"
+
+                  ! Print energy information
+                  if (body_level == 1) then
+                     ! Monomers: only show full energy (deltaE = E for monomers)
+                     write (energy_line, '(a,a,f20.10)') &
+                        "  Fragment ", trim(adjustl(fragment_str)), energies(i)
+                  else
+                     ! Dimers and higher: show both full energy and deltaE correction
+                     write (energy_line, '(a,a,f20.10,a,f20.10)') &
+                        "  Fragment ", trim(adjustl(fragment_str)), energies(i), &
+                        "   deltaE: ", delta_energies(i)
+                  end if
+                  call logger%info(trim(energy_line))
+               end if
+            end do
+         end if
+      end do
+
+      call logger%info("")
+      call logger%info("============================================")
+
+   end subroutine print_detailed_breakdown
 
    recursive function compute_delta_nbody(fragment, polymers, energies, fragment_count, n) result(delta_E)
       !! Compute general n-body correction using recursion
@@ -248,7 +351,7 @@ contains
    end subroutine generate_and_subtract_subsets
 
    subroutine global_coordinator(world_comm, node_comm, total_fragments, polymers, max_level, &
-                                 node_leader_ranks, num_nodes, matrix_size)
+                                 node_leader_ranks, num_nodes, matrix_size, print_detailed_energy)
       !! Global coordinator for distributing fragments to node coordinators
       !! will act as a node coordinator for a single node calculation
       !! Uses int64 for total_fragments to handle large fragment counts that overflow int32.
@@ -256,6 +359,7 @@ contains
       integer(int64), intent(in) :: total_fragments
       integer, intent(in) :: max_level, num_nodes, matrix_size
       integer, intent(in) :: polymers(:, :), node_leader_ranks(:)
+      logical, intent(in) :: print_detailed_energy  !! Print detailed energy breakdown
 
       integer(int64) :: current_fragment, results_received
       integer :: finished_nodes
@@ -408,7 +512,8 @@ contains
          ! Compute the many-body expansion energy
          call logger%info("")
          call logger%info("Computing Many-Body Expansion (MBE)...")
-         call compute_mbe_energy(polymers, total_fragments, max_level, scalar_results, mbe_total_energy)
+         call compute_mbe_energy(polymers, total_fragments, max_level, scalar_results, mbe_total_energy, &
+                                 print_detailed_energy)
 
       end block
 
