@@ -32,11 +32,14 @@ module mqc_mbe
 contains
 
    subroutine process_chemistry_fragment(fragment_idx, fragment_indices, fragment_size, matrix_size, &
-                                         water_energy, C_flat, method, phys_frag, verbosity)
+                                         water_energy, C_flat, method, phys_frag)
       !! Process a single fragment for quantum chemistry calculation
       !!
       !! Performs energy and gradient calculation on a molecular fragment using
       !! specified quantum chemistry method (GFN-xTB variants).
+      !! Verbosity is controlled by the global logger level.
+
+      use pic_logger, only: verbose_level
 
       integer, intent(in) :: fragment_idx        !! Fragment index for identification
       integer, intent(in) :: fragment_size       !! Number of monomers in fragment
@@ -46,31 +49,28 @@ contains
       real(dp), allocatable, intent(out) :: C_flat(:)  !! Flattened gradient array
       character(len=*), intent(in) :: method     !! QC method (gfn1, gfn2)
       type(physical_fragment_t), intent(in), optional :: phys_frag  !! Fragment geometry
-      integer, intent(in), optional :: verbosity  !! Verbosity level (0=silent, 1=verbose)
 
-      integer :: verb_level  !! Local verbosity setting
+      integer :: current_log_level  !! Current logger verbosity level
+      logical :: is_verbose  !! Whether verbose output is enabled
 #ifndef MQC_WITHOUT_TBLITE
       type(xtb_method_t) :: xtb_calc  !! XTB calculator instance
 #endif
       type(calculation_result_t) :: result  !! Computation results
 
-      ! Set verbosity level (default is 0 for silent operation)
-      if (present(verbosity)) then
-         verb_level = verbosity
-      else
-         verb_level = 0
-      end if
+      ! Query logger to determine verbosity
+      call logger%configuration(level=current_log_level)
+      is_verbose = (current_log_level >= verbose_level)
 
-      ! Print fragment geometry if provided
+      ! Print fragment geometry if provided and verbose mode is enabled
       if (present(phys_frag)) then
-         if (verb_level == 1) then
+         if (is_verbose) then
             call print_fragment_xyz(fragment_idx, phys_frag)
          end if
 
 #ifndef MQC_WITHOUT_TBLITE
          ! Setup XTB method
          xtb_calc%variant = method
-         xtb_calc%verbose = (verb_level > 0)
+         xtb_calc%verbose = is_verbose
 
          ! Run the calculation using the method API
          call xtb_calc%calc_energy(phys_frag, result)
@@ -909,7 +909,7 @@ contains
 
          call process_chemistry_fragment(0, temp_indices, sys_geom%n_monomers, &
                                          total_atoms, dot_result, C_flat, &
-                                         method, phys_frag=full_system, verbosity=1)
+                                         method, phys_frag=full_system)
          deallocate (temp_indices)
       end block
 
