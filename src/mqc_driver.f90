@@ -6,8 +6,8 @@ module mqc_driver
    use pic_mpi_lib, only: comm_t, abort_comm, bcast, allgather
    use pic_logger, only: logger => global_logger
    use pic_io, only: to_char
-   use mqc_mbe, only: global_coordinator, node_coordinator, node_worker, unfragmented_calculation, &
-                      serial_fragment_processor
+   use mqc_mbe_fragment_distribution_scheme, only: global_coordinator, node_coordinator, node_worker, unfragmented_calculation, &
+                                                   serial_fragment_processor
    use mqc_frag_utils, only: get_nfrags, create_monomer_list, generate_fragment_list
    use mqc_physical_fragment, only: system_geometry_t
    use mqc_input_parser, only: input_config_t
