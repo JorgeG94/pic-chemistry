@@ -11,7 +11,6 @@ module mqc_frag_utils
    public :: generate_fragment_list  !! Generate all fragments up to max level
    public :: get_nfrags            !! Calculate total number of fragments
    public :: get_next_combination      !! Generate next combination in sequence
-   public :: next_combination      !! Generate next combination in sequence
    public :: find_fragment_index   !! Locate fragment by composition
 
 contains
@@ -159,36 +158,6 @@ contains
 
       has_next = .false.
    end subroutine get_next_combination
-
-   function next_combination(indices, k, n) result(has_next)
-      !! Generate next combination (updates indices in place)
-      !! Returns .true. if there's a next combination, .false. if we're done
-      integer, intent(inout) :: indices(:)
-      integer, intent(in) :: k, n
-      logical :: has_next
-      integer :: i
-
-      has_next = .true.
-
-      ! Find rightmost index that can be incremented
-      i = k
-      do while (i >= 1)
-         if (indices(i) < n - k + i) then
-            indices(i) = indices(i) + 1
-            ! Reset all indices to the right
-            do while (i < k)
-               i = i + 1
-               indices(i) = indices(i - 1) + 1
-            end do
-            return
-         end if
-         i = i - 1
-      end do
-
-      ! No more combinations
-      has_next = .false.
-
-   end function next_combination
 
    pure function find_fragment_index(target_monomers, polymers, fragment_count, expected_size) result(idx)
       !! Find the fragment index that contains exactly the target monomers
