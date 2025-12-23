@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.7% of total for procedures.">63 statements</a>
+                 title=" 2.6% of total for procedures.">63 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -138,9 +138,9 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/node_coordinator.html#variable-dummy_msg~2">dummy_msg</a>
             <a class="list-group-item" href="../proc/node_coordinator.html#variable-finished_workers">finished_workers</a>
-            <a class="list-group-item" href="../proc/node_coordinator.html#variable-fragment_idx~6">fragment_idx</a>
-            <a class="list-group-item" href="../proc/node_coordinator.html#variable-fragment_indices~5">fragment_indices</a>
-            <a class="list-group-item" href="../proc/node_coordinator.html#variable-fragment_size~9">fragment_size</a>
+            <a class="list-group-item" href="../proc/node_coordinator.html#variable-fragment_idx~8">fragment_idx</a>
+            <a class="list-group-item" href="../proc/node_coordinator.html#variable-fragment_indices~3">fragment_indices</a>
+            <a class="list-group-item" href="../proc/node_coordinator.html#variable-fragment_size~6">fragment_size</a>
             <a class="list-group-item" href="../proc/node_coordinator.html#variable-global_status">global_status</a>
             <a class="list-group-item" href="../proc/node_coordinator.html#variable-has_result">has_result</a>
             <a class="list-group-item" href="../proc/node_coordinator.html#variable-local_dummy~2">local_dummy</a>
@@ -186,7 +186,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public  subroutine node_coordinator(world_comm, node_comm, max_level, matrix_size)  
+    <h2>public  subroutine node_coordinator(world_comm, node_comm, matrix_size)  
 </h2>
     
 
@@ -207,7 +207,7 @@ Handles work requests and result collection from local workers</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-world_comm~7"></span>
+              <span class="anchor" id="variable-world_comm~4"></span>
               class(comm_t),
             </td>
 <td>intent(in)</td>
@@ -222,7 +222,7 @@ Handles work requests and result collection from local workers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_comm~6"></span>
+              <span class="anchor" id="variable-node_comm~4"></span>
               class(comm_t),
             </td>
 <td>intent(in)</td>
@@ -237,22 +237,7 @@ Handles work requests and result collection from local workers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_level~11"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>max_level</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix_size~6"></span>
+              <span class="anchor" id="variable-matrix_size~3"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -635,7 +620,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_idx~6"></span>
+              <span class="anchor" id="variable-fragment_idx~8"></span>
               integer(kind=int32),
             </td>
               <td>private</td>
@@ -652,7 +637,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_indices~5"></span>
+              <span class="anchor" id="variable-fragment_indices~3"></span>
               integer(kind=int32),
             </td>
               <td>private,</td>
@@ -669,7 +654,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_size~9"></span>
+              <span class="anchor" id="variable-fragment_size~6"></span>
               integer(kind=int32),
             </td>
               <td>private</td>
@@ -870,11 +855,11 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">node_coordinator</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_size</span><span class="p">)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">node_coordinator</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_size</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Node coordinator for distributing fragments to local workers</span>
 <span class="w">      </span><span class="c">!! Handles work requests and result collection from local workers</span>
 <span class="w">      </span><span class="k">class</span><span class="p">(</span><span class="n">comm_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">max_level</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_size</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_size</span>
 
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="n">dummy_msg</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">finished_workers</span>
@@ -985,7 +970,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-23 09:02 +0000             </p>
+ on 2025-12-23 12:27 +0000             </p>
           </div>
         </div>
         <br>

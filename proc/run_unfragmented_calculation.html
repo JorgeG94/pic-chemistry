@@ -183,7 +183,7 @@ on entire system using OpenMP for parallelization.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-world_comm~3"></span>
+              <span class="anchor" id="variable-world_comm~7"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -198,7 +198,7 @@ on entire system using OpenMP for parallelization.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~5"></span>
+              <span class="anchor" id="variable-sys_geom~8"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -213,7 +213,7 @@ on entire system using OpenMP for parallelization.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~2"></span>
+              <span class="anchor" id="variable-method~6"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -811,22 +811,22 @@ large graphs.</div>
 <span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">world_comm</span><span class="p">%</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">         </span><span class="c">! TODO JORGE: maybe don&#39;t fail? prune the extra ranks ?</span>
 <span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">world_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="k">            call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
 <span class="w">            </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unfragmented calculation (nlevel=0) requires exactly 1 MPI rank&quot;</span><span class="p">)</span>
 <span class="w">            </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;  Parallelism is achieved through OpenMP threads, not MPI&quot;</span><span class="p">)</span>
 <span class="w">            </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;  Current number of MPI ranks: &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">world_comm</span><span class="p">%</span><span class="n">size</span><span class="p">())</span><span class="o">//</span><span class="s2">&quot; (must be 1)&quot;</span><span class="p">)</span>
-<span class="w">            </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
 <span class="w">            </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Please run with a single MPI rank (e.g., mpirun -np 1 ...)&quot;</span><span class="p">)</span>
 <span class="w">            </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Use OMP_NUM_THREADS to control thread-level parallelism&quot;</span><span class="p">)</span>
-<span class="w">            </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
 <span class="w">         </span><span class="k">end if</span>
 <span class="k">         call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">      </span><span class="k">end if</span>
 
 <span class="k">      if</span><span class="w"> </span><span class="p">(</span><span class="n">world_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">         call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="k">         call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
 <span class="w">         </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running unfragmented calculation&quot;</span><span class="p">)</span>
-<span class="w">         </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
 <span class="w">         </span><span class="k">call </span><span class="n">unfragmented_calculation</span><span class="p">(</span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">)</span>
 <span class="w">      </span><span class="k">end if</span>
 
@@ -854,7 +854,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-23 09:02 +0000             </p>
+ on 2025-12-23 12:27 +0000             </p>
           </div>
         </div>
         <br>

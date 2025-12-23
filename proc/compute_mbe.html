@@ -10,7 +10,7 @@
     <meta name="author" content="Jorge Luis Galvez Vallejo" >
     <link rel="icon" href="../favicon.png">
 
-    <title>compute_delta_nbody &ndash; metalquicha</title>
+    <title>compute_mbe &ndash; metalquicha</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -83,7 +83,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>compute_delta_nbody
+    <h1>compute_mbe
       <small>Function</small>
       
     </h1>
@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.7% of total for procedures.">16 statements</a>
+                 title=" 1.3% of total for procedures.">30 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -108,7 +108,7 @@
           <ol class="breadcrumb justify-content-end mb-0">
                 <li class="breadcrumb-item"><a href='../sourcefile/mqc_mbe.f90.html'>mqc_mbe.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mqc_mbe.html'>mqc_mbe</a></li>
-            <li class="breadcrumb-item active" aria-current="page">compute_delta_nbody</li>
+            <li class="breadcrumb-item active" aria-current="page">compute_mbe</li>
           </ol>
         </nav>
       </div>
@@ -136,15 +136,12 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/compute_delta_nbody.html#variable-e_n">E_n</a>
-            <a class="list-group-item" href="../proc/compute_delta_nbody.html#variable-i~4">i</a>
-            <a class="list-group-item" href="../proc/compute_delta_nbody.html#variable-idx_n">idx_n</a>
-            <a class="list-group-item" href="../proc/compute_delta_nbody.html#variable-indices">indices</a>
-            <a class="list-group-item" href="../proc/compute_delta_nbody.html#variable-j">j</a>
-            <a class="list-group-item" href="../proc/compute_delta_nbody.html#variable-num_subsets">num_subsets</a>
-            <a class="list-group-item" href="../proc/compute_delta_nbody.html#variable-subset">subset</a>
-            <a class="list-group-item" href="../proc/compute_delta_nbody.html#variable-subset_contribution">subset_contribution</a>
-            <a class="list-group-item" href="../proc/compute_delta_nbody.html#variable-subset_size">subset_size</a>
+            <a class="list-group-item" href="../proc/compute_mbe.html#variable-has_next~2">has_next</a>
+            <a class="list-group-item" href="../proc/compute_mbe.html#variable-i~27">i</a>
+            <a class="list-group-item" href="../proc/compute_mbe.html#variable-indices~2">indices</a>
+            <a class="list-group-item" href="../proc/compute_mbe.html#variable-subset">subset</a>
+            <a class="list-group-item" href="../proc/compute_mbe.html#variable-subset_idx">subset_idx</a>
+            <a class="list-group-item" href="../proc/compute_mbe.html#variable-subset_size">subset_size</a>
         </div>
       </div>
     </div>
@@ -170,7 +167,7 @@
     <div class="card card-primary">
       <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../proc/compute_delta_nbody.html#src">compute_delta_nbody</a>
+        <a class="list-group-item" href="../proc/compute_mbe.html#src">compute_mbe</a>
       </div>
     </div>
 
@@ -180,17 +177,13 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private pure recursive function compute_delta_nbody(fragment, polymers, energies, fragment_count, n) result(delta_E)  
+    <h2>private  function compute_mbe(fragment_idx, fragment, lookup, energies, delta_energies, n) result(delta_E)  
 </h2>
     
 
-    <p>Compute general n-body correction using recursion
-deltaE(i1,i2,&hellip;,in) = E(i1,i2,&hellip;,in)
-                       - sum over all proper subsets of deltaE or E
-For n=2: deltaE(ij) = E(ij) - E(i) - E(j)
-For n=3: deltaE(ijk) = E(ijk) - deltaE(ij) - deltaE(ik) - deltaE(jk) - E(i) - E(j) - E(k)
-For n&gt;=4: same pattern recursively
-Uses int64 for fragment_count to handle large fragment counts that overflow int32.</p>
+    <p>Bottom-up computation of n-body correction (non-recursive, uses pre-computed subset deltas)
+deltaE(i1,i2,&hellip;,in) = E(i1,i2,&hellip;,in) - sum of all subset deltaE values
+All subsets must have been computed already (guaranteed by processing fragments in order)</p>
 
 
     <h3>Arguments</h3>
@@ -206,7 +199,22 @@ Uses int64 for fragment_count to handle large fragment counts that overflow int3
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment"></span>
+              <span class="anchor" id="variable-fragment_idx~3"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment_idx</strong></td>
+            <td>
+                <p>Index of this fragment (already known)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -221,22 +229,22 @@ Uses int64 for fragment_count to handle large fragment counts that overflow int3
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-polymers~2"></span>
-              integer,
+              <span class="anchor" id="variable-lookup~2"></span>
+              type(<a href='../type/fragment_lookup_t.html'>fragment_lookup_t</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>polymers</strong>(:,:)</td>
+            <td><strong>lookup</strong></td>
             <td>
-                
+                <p>Pre-built hash table for lookups</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-energies~2"></span>
+              <span class="anchor" id="variable-energies~4"></span>
               real(kind=dp),
             </td>
 <td>intent(in)</td>
@@ -246,27 +254,27 @@ Uses int64 for fragment_count to handle large fragment counts that overflow int3
             <td>::</td>
             <td><strong>energies</strong>(:)</td>
             <td>
-                
+                <p>Pre-computed delta values</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_count~2"></span>
-              integer(kind=int64),
+              <span class="anchor" id="variable-delta_energies~4"></span>
+              real(kind=dp),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>fragment_count</strong></td>
+            <td><strong>delta_energies</strong>(:)</td>
             <td>
-                
+                <p>Pre-computed delta values</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n"></span>
+              <span class="anchor" id="variable-n~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -300,74 +308,86 @@ Uses int64 for fragment_count to handle large fragment counts that overflow int3
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~compute_delta_nbody~~CallsGraph Pages: 1 -->
-<svg id="proccompute_delta_nbodyCallsGraph" width="521pt" height="74pt"
- viewBox="0.00 0.00 521.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~compute_delta_nbody~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
-<title>proc~~compute_delta_nbody~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 517,-70 517,4 -4,4"/>
-<!-- proc~compute_delta_nbody -->
-<g id="proc~~compute_delta_nbody~~CallsGraph_node1" class="node">
-<title>proc~compute_delta_nbody</title>
-<polygon fill="none" stroke="black" points="130,-26 0,-26 0,-2 130,-2 130,-26"/>
-<text text-anchor="middle" x="65" y="-11.6" font-family="Helvetica,sans-Serif" font-size="10.50">compute_delta_nbody</text>
+<!-- Title: proc~~compute_mbe~~CallsGraph Pages: 1 -->
+<svg id="proccompute_mbeCallsGraph" width="535pt" height="116pt"
+ viewBox="0.00 0.00 535.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~compute_mbe~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>proc~~compute_mbe~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 531,-112 531,4 -4,4"/>
+<!-- proc~compute_mbe -->
+<g id="proc~~compute_mbe~~CallsGraph_node1" class="node">
+<title>proc~compute_mbe</title>
+<polygon fill="none" stroke="black" points="89,-45 0,-45 0,-21 89,-21 89,-45"/>
+<text text-anchor="middle" x="44.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">compute_mbe</text>
 </g>
-<!-- proc~find_fragment_index -->
-<g id="proc~~compute_delta_nbody~~CallsGraph_node2" class="node">
-<title>proc~find_fragment_index</title>
-<g id="a_proc~~compute_delta_nbody~~CallsGraph_node2"><a xlink:href="../proc/find_fragment_index.html" xlink:title="find_fragment_index">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="508.5,-66 387.5,-66 387.5,-42 508.5,-42 508.5,-66"/>
-<text text-anchor="middle" x="448" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">find_fragment_index</text>
+<!-- proc~fragment_lookup_find -->
+<g id="proc~~compute_mbe~~CallsGraph_node2" class="node">
+<title>proc~fragment_lookup_find</title>
+<g id="a_proc~~compute_mbe~~CallsGraph_node2"><a xlink:href="../proc/fragment_lookup_find.html" xlink:title="fragment_lookup_t%fragment_lookup_find">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="363,-66 125,-66 125,-42 363,-42 363,-66"/>
+<text text-anchor="middle" x="244" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_lookup_t%fragment_lookup_find</text>
 </a>
 </g>
 </g>
-<!-- proc~compute_delta_nbody&#45;&gt;proc~find_fragment_index -->
-<g id="proc~~compute_delta_nbody~~CallsGraph_edge1" class="edge">
-<title>proc~compute_delta_nbody&#45;&gt;proc~find_fragment_index</title>
-<path fill="none" stroke="#ff0000" d="M116.38,-26.01C132.18,-29.39 149.75,-32.75 166,-35 237.48,-44.87 319.92,-49.68 376.93,-51.97"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="377.15,-55.49 387.28,-52.38 377.42,-48.49 377.15,-55.49"/>
-</g>
-<!-- proc~generate_and_subtract_subsets -->
-<g id="proc~~compute_delta_nbody~~CallsGraph_node3" class="node">
-<title>proc~generate_and_subtract_subsets</title>
-<g id="a_proc~~compute_delta_nbody~~CallsGraph_node3"><a xlink:href="../proc/generate_and_subtract_subsets.html" xlink:title="generate_and_subtract_subsets">
-<polygon fill="#d9534f" stroke="#d9534f" points="347,-26 166,-26 166,-2 347,-2 347,-26"/>
-<text text-anchor="middle" x="256.5" y="-11.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">generate_and_subtract_subsets</text>
-</a>
-</g>
-</g>
-<!-- proc~compute_delta_nbody&#45;&gt;proc~generate_and_subtract_subsets -->
-<g id="proc~~compute_delta_nbody~~CallsGraph_edge2" class="edge">
-<title>proc~compute_delta_nbody&#45;&gt;proc~generate_and_subtract_subsets</title>
-<path fill="none" stroke="#ff0000" d="M130.16,-7.57C138.41,-7.39 147.02,-7.29 155.68,-7.26"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="155.86,-10.76 165.86,-7.26 155.86,-3.76 155.86,-10.76"/>
-</g>
-<!-- proc~generate_and_subtract_subsets&#45;&gt;proc~compute_delta_nbody -->
-<g id="proc~~compute_delta_nbody~~CallsGraph_edge3" class="edge">
-<title>proc~generate_and_subtract_subsets&#45;&gt;proc~compute_delta_nbody</title>
-<path fill="none" stroke="#00ffff" d="M165.86,-20.74C157.29,-20.77 148.67,-20.73 140.27,-20.61"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="140.22,-17.11 130.16,-20.43 140.09,-24.11 140.22,-17.11"/>
-</g>
-<!-- proc~generate_and_subtract_subsets&#45;&gt;proc~find_fragment_index -->
-<g id="proc~~compute_delta_nbody~~CallsGraph_edge4" class="edge">
-<title>proc~generate_and_subtract_subsets&#45;&gt;proc~find_fragment_index</title>
-<path fill="none" stroke="#00ffff" d="M314.36,-26C334.97,-30.35 358.44,-35.31 379.86,-39.83"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="379.35,-43.3 389.86,-41.94 380.8,-36.45 379.35,-43.3"/>
+<!-- proc~compute_mbe&#45;&gt;proc~fragment_lookup_find -->
+<g id="proc~~compute_mbe~~CallsGraph_edge1" class="edge">
+<title>proc~compute_mbe&#45;&gt;proc~fragment_lookup_find</title>
+<path fill="none" stroke="#ff0000" d="M89.33,-37.66C98.73,-38.66 109.1,-39.76 119.88,-40.91"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="119.57,-44.4 129.88,-41.97 120.31,-37.43 119.57,-44.4"/>
 </g>
 <!-- proc~get_next_combination -->
-<g id="proc~~compute_delta_nbody~~CallsGraph_node4" class="node">
+<g id="proc~~compute_mbe~~CallsGraph_node3" class="node">
 <title>proc~get_next_combination</title>
-<g id="a_proc~~compute_delta_nbody~~CallsGraph_node4"><a xlink:href="../proc/get_next_combination.html" xlink:title="get_next_combination">
-<polygon fill="#d9534f" stroke="#d9534f" points="513,-24 383,-24 383,0 513,0 513,-24"/>
-<text text-anchor="middle" x="448" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_next_combination</text>
+<g id="a_proc~~compute_mbe~~CallsGraph_node3"><a xlink:href="../proc/get_next_combination.html" xlink:title="get_next_combination">
+<polygon fill="#d9534f" stroke="#d9534f" points="309,-24 179,-24 179,0 309,0 309,-24"/>
+<text text-anchor="middle" x="244" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_next_combination</text>
 </a>
 </g>
 </g>
-<!-- proc~generate_and_subtract_subsets&#45;&gt;proc~get_next_combination -->
-<g id="proc~~compute_delta_nbody~~CallsGraph_edge5" class="edge">
-<title>proc~generate_and_subtract_subsets&#45;&gt;proc~get_next_combination</title>
-<path fill="none" stroke="#00ffff" d="M347.26,-13.05C355.82,-12.96 364.45,-12.87 372.85,-12.78"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="373,-16.28 382.96,-12.68 372.92,-9.28 373,-16.28"/>
+<!-- proc~compute_mbe&#45;&gt;proc~get_next_combination -->
+<g id="proc~~compute_mbe~~CallsGraph_edge2" class="edge">
+<title>proc~compute_mbe&#45;&gt;proc~get_next_combination</title>
+<path fill="none" stroke="#ff0000" d="M89.33,-28.34C112.61,-25.86 141.86,-22.75 168.57,-19.91"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="169.09,-23.38 178.67,-18.84 168.35,-16.42 169.09,-23.38"/>
+</g>
+<!-- fnv_1a_hash -->
+<g id="proc~~compute_mbe~~CallsGraph_node4" class="node">
+<title>fnv_1a_hash</title>
+<polygon fill="#777777" stroke="#777777" points="502.5,-108 423.5,-108 423.5,-84 502.5,-84 502.5,-108"/>
+<text text-anchor="middle" x="463" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fnv_1a_hash</text>
+</g>
+<!-- proc~fragment_lookup_find&#45;&gt;fnv_1a_hash -->
+<g id="proc~~compute_mbe~~CallsGraph_edge3" class="edge">
+<title>proc~fragment_lookup_find&#45;&gt;fnv_1a_hash</title>
+<path fill="none" stroke="#ff0000" d="M307.18,-66.04C340.97,-72.58 382.14,-80.54 413.53,-86.62"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="412.87,-90.06 423.35,-88.52 414.2,-83.18 412.87,-90.06"/>
+</g>
+<!-- proc~arrays_equal_internal -->
+<g id="proc~~compute_mbe~~CallsGraph_node5" class="node">
+<title>proc~arrays_equal_internal</title>
+<g id="a_proc~~compute_mbe~~CallsGraph_node5"><a xlink:href="../proc/arrays_equal_internal.html" xlink:title="arrays_equal_internal">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="527,-66 399,-66 399,-42 527,-42 527,-66"/>
+<text text-anchor="middle" x="463" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">arrays_equal_internal</text>
+</a>
+</g>
+</g>
+<!-- proc~fragment_lookup_find&#45;&gt;proc~arrays_equal_internal -->
+<g id="proc~~compute_mbe~~CallsGraph_edge4" class="edge">
+<title>proc~fragment_lookup_find&#45;&gt;proc~arrays_equal_internal</title>
+<path fill="none" stroke="#ff0000" d="M363.03,-54C371.79,-54 380.47,-54 388.83,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="388.87,-57.5 398.87,-54 388.87,-50.5 388.87,-57.5"/>
+</g>
+<!-- sort -->
+<g id="proc~~compute_mbe~~CallsGraph_node6" class="node">
+<title>sort</title>
+<polygon fill="#777777" stroke="#777777" points="490,-24 436,-24 436,0 490,0 490,-24"/>
+<text text-anchor="middle" x="463" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sort</text>
+</g>
+<!-- proc~fragment_lookup_find&#45;&gt;sort -->
+<g id="proc~~compute_mbe~~CallsGraph_edge5" class="edge">
+<title>proc~fragment_lookup_find&#45;&gt;sort</title>
+<path fill="none" stroke="#ff0000" d="M314.64,-42C330.55,-39.15 347.38,-36.05 363,-33 383.95,-28.91 407.32,-23.98 426.08,-19.92"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="426.96,-23.31 435.99,-17.76 425.48,-16.47 426.96,-23.31"/>
 </g>
 </g>
 </svg>
@@ -462,131 +482,110 @@ large graphs.</div>
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~compute_delta_nbody~~CalledByGraph Pages: 1 -->
-<svg id="proccompute_delta_nbodyCalledByGraph" width="641pt" height="42pt"
- viewBox="0.00 0.00 641.00 41.90" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~compute_delta_nbody~~CalledByGraph" class="graph" transform="scale(0.57 0.57) rotate(0) translate(4 70)">
-<title>proc~~compute_delta_nbody~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 1128,-70 1128,4 -4,4"/>
-<!-- proc~compute_delta_nbody -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_node1" class="node">
-<title>proc~compute_delta_nbody</title>
-<polygon fill="none" stroke="black" points="907,-45 777,-45 777,-21 907,-21 907,-45"/>
-<text text-anchor="middle" x="842" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">compute_delta_nbody</text>
-</g>
-<!-- proc~generate_and_subtract_subsets -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_node3" class="node">
-<title>proc~generate_and_subtract_subsets</title>
-<g id="a_proc~~compute_delta_nbody~~CalledByGraph_node3"><a xlink:href="../proc/generate_and_subtract_subsets.html" xlink:title="generate_and_subtract_subsets">
-<polygon fill="#d9534f" stroke="#d9534f" points="1124,-45 943,-45 943,-21 1124,-21 1124,-45"/>
-<text text-anchor="middle" x="1033.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">generate_and_subtract_subsets</text>
-</a>
-</g>
-</g>
-<!-- proc~compute_delta_nbody&#45;&gt;proc~generate_and_subtract_subsets -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_edge5" class="edge">
-<title>proc~compute_delta_nbody&#45;&gt;proc~generate_and_subtract_subsets</title>
-<path fill="none" stroke="#00ffff" d="M907.16,-26.57C915.41,-26.39 924.02,-26.29 932.68,-26.26"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="932.86,-29.76 942.86,-26.26 932.86,-22.76 932.86,-29.76"/>
+<!-- Title: proc~~compute_mbe~~CalledByGraph Pages: 1 -->
+<svg id="proccompute_mbeCalledByGraph" width="641pt" height="54pt"
+ viewBox="0.00 0.00 641.00 54.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~compute_mbe~~CalledByGraph" class="graph" transform="scale(0.73 0.73) rotate(0) translate(4 70)">
+<title>proc~~compute_mbe~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 870,-70 870,4 -4,4"/>
+<!-- proc~compute_mbe -->
+<g id="proc~~compute_mbe~~CalledByGraph_node1" class="node">
+<title>proc~compute_mbe</title>
+<polygon fill="none" stroke="black" points="866,-45 777,-45 777,-21 866,-21 866,-45"/>
+<text text-anchor="middle" x="821.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">compute_mbe</text>
 </g>
 <!-- proc~compute_mbe_energy -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_node2" class="node">
+<g id="proc~~compute_mbe~~CalledByGraph_node2" class="node">
 <title>proc~compute_mbe_energy</title>
-<g id="a_proc~~compute_delta_nbody~~CalledByGraph_node2"><a xlink:href="../proc/compute_mbe_energy.html" xlink:title="compute_mbe_energy">
+<g id="a_proc~~compute_mbe~~CalledByGraph_node2"><a xlink:href="../proc/compute_mbe_energy.html" xlink:title="compute_mbe_energy">
 <polygon fill="#d9534f" stroke="#d9534f" points="741,-45 609,-45 609,-21 741,-21 741,-45"/>
 <text text-anchor="middle" x="675" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe_energy</text>
 </a>
 </g>
 </g>
-<!-- proc~compute_mbe_energy&#45;&gt;proc~compute_delta_nbody -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_edge1" class="edge">
-<title>proc~compute_mbe_energy&#45;&gt;proc~compute_delta_nbody</title>
-<path fill="none" stroke="#ff0000" d="M741.21,-33C749.54,-33 758.11,-33 766.57,-33"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="766.8,-36.5 776.8,-33 766.8,-29.5 766.8,-36.5"/>
-</g>
-<!-- proc~generate_and_subtract_subsets&#45;&gt;proc~compute_delta_nbody -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_edge2" class="edge">
-<title>proc~generate_and_subtract_subsets&#45;&gt;proc~compute_delta_nbody</title>
-<path fill="none" stroke="#ff0000" d="M942.86,-39.74C934.29,-39.77 925.67,-39.73 917.27,-39.61"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="917.22,-36.11 907.16,-39.43 917.09,-43.11 917.22,-36.11"/>
+<!-- proc~compute_mbe_energy&#45;&gt;proc~compute_mbe -->
+<g id="proc~~compute_mbe~~CalledByGraph_edge1" class="edge">
+<title>proc~compute_mbe_energy&#45;&gt;proc~compute_mbe</title>
+<path fill="none" stroke="#ff0000" d="M741.06,-33C749.69,-33 758.46,-33 766.86,-33"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="766.9,-36.5 776.9,-33 766.9,-29.5 766.9,-36.5"/>
 </g>
 <!-- proc~global_coordinator -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_node4" class="node">
+<g id="proc~~compute_mbe~~CalledByGraph_node3" class="node">
 <title>proc~global_coordinator</title>
-<g id="a_proc~~compute_delta_nbody~~CalledByGraph_node4"><a xlink:href="../proc/global_coordinator.html" xlink:title="global_coordinator">
+<g id="a_proc~~compute_mbe~~CalledByGraph_node3"><a xlink:href="../proc/global_coordinator.html" xlink:title="global_coordinator">
 <polygon fill="#d9534f" stroke="#d9534f" points="552.5,-66 439.5,-66 439.5,-42 552.5,-42 552.5,-66"/>
 <text text-anchor="middle" x="496" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">global_coordinator</text>
 </a>
 </g>
 </g>
 <!-- proc~global_coordinator&#45;&gt;proc~compute_mbe_energy -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_edge3" class="edge">
+<g id="proc~~compute_mbe~~CalledByGraph_edge2" class="edge">
 <title>proc~global_coordinator&#45;&gt;proc~compute_mbe_energy</title>
 <path fill="none" stroke="#ff0000" d="M552.52,-47.41C567.16,-45.68 583.2,-43.77 598.69,-41.94"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="599.25,-45.39 608.77,-40.74 598.42,-38.44 599.25,-45.39"/>
 </g>
 <!-- proc~serial_fragment_processor -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_node5" class="node">
+<g id="proc~~compute_mbe~~CalledByGraph_node4" class="node">
 <title>proc~serial_fragment_processor</title>
-<g id="a_proc~~compute_delta_nbody~~CalledByGraph_node5"><a xlink:href="../proc/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
+<g id="a_proc~~compute_mbe~~CalledByGraph_node4"><a xlink:href="../proc/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
 <polygon fill="#d9534f" stroke="#d9534f" points="573,-24 419,-24 419,0 573,0 573,-24"/>
 <text text-anchor="middle" x="496" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
 </a>
 </g>
 </g>
 <!-- proc~serial_fragment_processor&#45;&gt;proc~compute_mbe_energy -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_edge4" class="edge">
+<g id="proc~~compute_mbe~~CalledByGraph_edge3" class="edge">
 <title>proc~serial_fragment_processor&#45;&gt;proc~compute_mbe_energy</title>
 <path fill="none" stroke="#ff0000" d="M573.09,-21.03C581.55,-22.03 590.17,-23.05 598.62,-24.06"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="598.48,-27.56 608.82,-25.27 599.3,-20.61 598.48,-27.56"/>
 </g>
 <!-- proc~run_fragmented_calculation -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_node6" class="node">
+<g id="proc~~compute_mbe~~CalledByGraph_node5" class="node">
 <title>proc~run_fragmented_calculation</title>
-<g id="a_proc~~compute_delta_nbody~~CalledByGraph_node6"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
+<g id="a_proc~~compute_mbe~~CalledByGraph_node5"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
 <polygon fill="#d9534f" stroke="#d9534f" points="383,-45 220,-45 220,-21 383,-21 383,-45"/>
 <text text-anchor="middle" x="301.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
 </a>
 </g>
 </g>
 <!-- proc~run_fragmented_calculation&#45;&gt;proc~global_coordinator -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_edge6" class="edge">
+<g id="proc~~compute_mbe~~CalledByGraph_edge4" class="edge">
 <title>proc~run_fragmented_calculation&#45;&gt;proc~global_coordinator</title>
 <path fill="none" stroke="#ff0000" d="M383.02,-41.78C398.42,-43.46 414.38,-45.21 429.25,-46.83"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="429.03,-50.32 439.35,-47.93 429.79,-43.37 429.03,-50.32"/>
 </g>
 <!-- proc~run_fragmented_calculation&#45;&gt;proc~serial_fragment_processor -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_edge7" class="edge">
+<g id="proc~~compute_mbe~~CalledByGraph_edge5" class="edge">
 <title>proc~run_fragmented_calculation&#45;&gt;proc~serial_fragment_processor</title>
 <path fill="none" stroke="#00ffff" d="M383.02,-24.22C391.54,-23.29 400.22,-22.34 408.8,-21.4"/>
 <polygon fill="#00ffff" stroke="#00ffff" points="409.24,-24.88 418.8,-20.31 408.48,-17.92 409.24,-24.88"/>
 </g>
 <!-- proc~run_calculation -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_node7" class="node">
+<g id="proc~~compute_mbe~~CalledByGraph_node6" class="node">
 <title>proc~run_calculation</title>
-<g id="a_proc~~compute_delta_nbody~~CalledByGraph_node7"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
+<g id="a_proc~~compute_mbe~~CalledByGraph_node6"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
 <polygon fill="#d9534f" stroke="#d9534f" points="184,-45 90,-45 90,-21 184,-21 184,-45"/>
 <text text-anchor="middle" x="137" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
 </a>
 </g>
 </g>
 <!-- proc~run_calculation&#45;&gt;proc~run_fragmented_calculation -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_edge8" class="edge">
+<g id="proc~~compute_mbe~~CalledByGraph_edge6" class="edge">
 <title>proc~run_calculation&#45;&gt;proc~run_fragmented_calculation</title>
 <path fill="none" stroke="#ff0000" d="M184.13,-33C192.24,-33 200.94,-33 209.78,-33"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="209.8,-36.5 219.8,-33 209.8,-29.5 209.8,-36.5"/>
 </g>
 <!-- program~main -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_node8" class="node">
+<g id="proc~~compute_mbe~~CalledByGraph_node7" class="node">
 <title>program~main</title>
-<g id="a_proc~~compute_delta_nbody~~CalledByGraph_node8"><a xlink:href="../program/main.html" xlink:title="main">
+<g id="a_proc~~compute_mbe~~CalledByGraph_node7"><a xlink:href="../program/main.html" xlink:title="main">
 <polygon fill="#f0ad4e" stroke="#f0ad4e" points="54,-45 0,-45 0,-21 54,-21 54,-45"/>
 <text text-anchor="middle" x="27" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
 </a>
 </g>
 </g>
 <!-- program~main&#45;&gt;proc~run_calculation -->
-<g id="proc~~compute_delta_nbody~~CalledByGraph_edge9" class="edge">
+<g id="proc~~compute_mbe~~CalledByGraph_edge7" class="edge">
 <title>program~main&#45;&gt;proc~run_calculation</title>
 <path fill="none" stroke="#ff0000" d="M54.14,-33C61.95,-33 70.81,-33 79.77,-33"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="79.86,-36.5 89.86,-33 79.86,-29.5 79.86,-36.5"/>
@@ -594,7 +593,7 @@ large graphs.</div>
 </g>
 </svg>
 </div>                <script>
-                  var panproccompute_delta_nbodyCalledByGraph = svgPanZoom('#proccompute_delta_nbodyCalledByGraph',
+                  var panproccompute_mbeCalledByGraph = svgPanZoom('#proccompute_mbeCalledByGraph',
                     {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
                   );
                 </script>          <div>
@@ -695,15 +694,15 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-e_n"></span>
-              real(kind=dp),
+              <span class="anchor" id="variable-has_next~2"></span>
+              logical,
             </td>
               <td>private</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>E_n</strong></td>
+            <td><strong>has_next</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -712,7 +711,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~4"></span>
+              <span class="anchor" id="variable-i~27"></span>
               integer,
             </td>
               <td>private</td>
@@ -729,24 +728,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-idx_n"></span>
-              integer(kind=int64),
-            </td>
-              <td>private</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>idx_n</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-indices"></span>
+              <span class="anchor" id="variable-indices~2"></span>
               integer,
             </td>
               <td>private,</td>
@@ -755,40 +737,6 @@ large graphs.</div>
             </td>
             <td>::</td>
             <td><strong>indices</strong>(:)</td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-j"></span>
-              integer,
-            </td>
-              <td>private</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>j</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-num_subsets"></span>
-              integer,
-            </td>
-              <td>private</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>num_subsets</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -814,15 +762,15 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-subset_contribution"></span>
-              real(kind=dp),
+              <span class="anchor" id="variable-subset_idx"></span>
+              integer(kind=int64),
             </td>
               <td>private</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>subset_contribution</strong></td>
+            <td><strong>subset_idx</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -862,39 +810,57 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">pure recursive function </span><span class="n">compute_delta_nbody</span><span class="p">(</span><span class="n">fragment</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="n">energies</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">delta_E</span><span class="p">)</span>
-<span class="w">      </span><span class="c">!! Compute general n-body correction using recursion</span>
-<span class="w">      </span><span class="c">!! deltaE(i1,i2,...,in) = E(i1,i2,...,in)</span>
-<span class="w">      </span><span class="c">!!                        - sum over all proper subsets of deltaE or E</span>
-<span class="w">      </span><span class="c">!! For n=2: deltaE(ij) = E(ij) - E(i) - E(j)</span>
-<span class="w">      </span><span class="c">!! For n=3: deltaE(ijk) = E(ijk) - deltaE(ij) - deltaE(ik) - deltaE(jk) - E(i) - E(j) - E(k)</span>
-<span class="w">      </span><span class="c">!! For n&gt;=4: same pattern recursively</span>
-<span class="w">      </span><span class="c">!! Uses int64 for fragment_count to handle large fragment counts that overflow int32.</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment</span><span class="p">(:),</span><span class="w"> </span><span class="n">polymers</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="n">n</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_count</span>
-<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">energies</span><span class="p">(:)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">function </span><span class="n">compute_mbe</span><span class="p">(</span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="n">fragment</span><span class="p">,</span><span class="w"> </span><span class="n">lookup</span><span class="p">,</span><span class="w"> </span><span class="n">energies</span><span class="p">,</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">delta_E</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!! Bottom-up computation of n-body correction (non-recursive, uses pre-computed subset deltas)</span>
+<span class="w">      </span><span class="c">!! deltaE(i1,i2,...,in) = E(i1,i2,...,in) - sum of all subset deltaE values</span>
+<span class="w">      </span><span class="c">!! All subsets must have been computed already (guaranteed by processing fragments in order)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_idx</span><span class="w">  </span><span class="c">!! Index of this fragment (already known)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment</span><span class="p">(:),</span><span class="w"> </span><span class="n">n</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">fragment_lookup_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lookup</span><span class="w">  </span><span class="c">!! Pre-built hash table for lookups</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">energies</span><span class="p">(:),</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">(:)</span><span class="w">  </span><span class="c">!! Pre-computed delta values</span>
 <span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">delta_E</span>
 
-<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">idx_n</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">subset_size</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">num_subsets</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">subset</span><span class="p">(:),</span><span class="w"> </span><span class="n">indices</span><span class="p">(:)</span>
-<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">E_n</span><span class="p">,</span><span class="w"> </span><span class="n">subset_contribution</span>
-
-<span class="w">      </span><span class="c">! Find the energy of this n-mer</span>
-<span class="w">      </span><span class="n">idx_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_fragment_index</span><span class="p">(</span><span class="n">fragment</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
-<span class="w">      </span><span class="n">E_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">energies</span><span class="p">(</span><span class="n">idx_n</span><span class="p">)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">subset_size</span><span class="p">,</span><span class="w"> </span><span class="n">i</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">indices</span><span class="p">(:),</span><span class="w"> </span><span class="n">subset</span><span class="p">(:)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">subset_idx</span>
+<span class="w">      </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">has_next</span>
 
 <span class="w">      </span><span class="c">! Start with the full n-mer energy</span>
-<span class="w">      </span><span class="n">delta_E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">E_n</span>
+<span class="w">      </span><span class="n">delta_E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">energies</span><span class="p">(</span><span class="n">fragment_idx</span><span class="p">)</span>
 
-<span class="w">      </span><span class="c">! Subtract contributions from all proper subsets (size 1 to n-1)</span>
+<span class="w">      </span><span class="c">! Subtract all proper subsets (size 1 to n-1)</span>
 <span class="w">      </span><span class="k">do </span><span class="n">subset_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">         </span><span class="c">! Generate all subsets of this size and subtract their contributions</span>
-<span class="w">         </span><span class="k">call </span><span class="n">generate_and_subtract_subsets</span><span class="p">(</span><span class="n">fragment</span><span class="p">,</span><span class="w"> </span><span class="n">subset_size</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="n">energies</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                            </span><span class="n">fragment_count</span><span class="p">,</span><span class="w"> </span><span class="n">delta_E</span><span class="p">)</span>
+<span class="w">         </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">indices</span><span class="p">(</span><span class="n">subset_size</span><span class="p">))</span>
+<span class="w">         </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">subset</span><span class="p">(</span><span class="n">subset_size</span><span class="p">))</span>
+
+<span class="w">         </span><span class="c">! Initialize first combination</span>
+<span class="w">         </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">subset_size</span>
+<span class="w">            </span><span class="n">indices</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span>
+<span class="w">         </span><span class="k">end do</span>
+
+<span class="w">         </span><span class="c">! Loop through all combinations</span>
+<span class="w">         </span><span class="k">do</span>
+<span class="w">            </span><span class="c">! Build current subset</span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">subset_size</span>
+<span class="w">               </span><span class="n">subset</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fragment</span><span class="p">(</span><span class="n">indices</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<span class="w">            </span><span class="k">end do</span>
+
+<span class="w">            </span><span class="c">! Look up subset index</span>
+<span class="w">            </span><span class="n">subset_idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lookup</span><span class="p">%</span><span class="n">find</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span><span class="w"> </span><span class="n">subset_size</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">subset_idx</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">error stop</span><span class="w"> </span><span class="s2">&quot;Subset not found in bottom-up MBE!&quot;</span>
+
+<span class="w">            </span><span class="c">! Subtract pre-computed delta energy</span>
+<span class="w">            </span><span class="n">delta_E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delta_E</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">(</span><span class="n">subset_idx</span><span class="p">)</span>
+
+<span class="w">            </span><span class="c">! Get next combination</span>
+<span class="w">            </span><span class="k">call </span><span class="n">get_next_combination</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span><span class="w"> </span><span class="n">subset_size</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">has_next</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">has_next</span><span class="p">)</span><span class="w"> </span><span class="k">exit</span>
+<span class="k">         end do</span>
+
+<span class="k">         deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">indices</span><span class="p">,</span><span class="w"> </span><span class="n">subset</span><span class="p">)</span>
 <span class="w">      </span><span class="k">end do</span>
 
-<span class="k">   end function </span><span class="n">compute_delta_nbody</span>
+<span class="k">   end function </span><span class="n">compute_mbe</span>
 </pre></div>
 
     </section>
@@ -918,7 +884,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-23 09:02 +0000             </p>
+ on 2025-12-23 12:27 +0000             </p>
           </div>
         </div>
         <br>
