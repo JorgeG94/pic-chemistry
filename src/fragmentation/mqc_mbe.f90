@@ -14,7 +14,7 @@ module mqc_mbe
                            TAG_NODE_REQUEST, TAG_NODE_FRAGMENT, TAG_NODE_FINISH, &
                            TAG_NODE_SCALAR_RESULT, TAG_NODE_MATRIX_RESULT
    use mqc_physical_fragment, only: system_geometry_t, physical_fragment_t, build_fragment_from_indices, to_angstrom
-   use mqc_frag_utils, only: find_fragment_index, get_next_combination, fragment_lookup_t
+   use mqc_frag_utils, only: get_next_combination, fragment_lookup_t
 
    implicit none
    private
@@ -77,8 +77,8 @@ contains
          else if (fragment_size >= 2 .and. fragment_size <= max_level) then
             ! n-body: deltaE = E - sum(all subset deltaEs)
             ! All subsets have already been computed in previous iterations
-            delta_E = compute_delta_nbody_bottomup(i, polymers(i, 1:fragment_size), lookup, &
-                                                   energies, delta_energies, fragment_size)
+            delta_E = compute_mbe(i, polymers(i, 1:fragment_size), lookup, &
+                                  energies, delta_energies, fragment_size)
             delta_energies(i) = delta_E
             sum_by_level(fragment_size) = sum_by_level(fragment_size) + delta_E
          end if
@@ -119,7 +119,7 @@ contains
 
    end subroutine compute_mbe_energy
 
-   function compute_delta_nbody_bottomup(fragment_idx, fragment, lookup, energies, delta_energies, n) result(delta_E)
+   function compute_mbe(fragment_idx, fragment, lookup, energies, delta_energies, n) result(delta_E)
       !! Bottom-up computation of n-body correction (non-recursive, uses pre-computed subset deltas)
       !! deltaE(i1,i2,...,in) = E(i1,i2,...,in) - sum of all subset deltaE values
       !! All subsets must have been computed already (guaranteed by processing fragments in order)
@@ -169,168 +169,6 @@ contains
          deallocate (indices, subset)
       end do
 
-   end function compute_delta_nbody_bottomup
-
-   recursive function compute_delta_nbody_indexed(fragment_idx, fragment, lookup, energies, n) result(delta_E)
-      !! Optimized version that takes fragment index and lookup table to avoid redundant lookups
-      !! Compute general n-body correction using recursion
-      !! deltaE(i1,i2,...,in) = E(i1,i2,...,in)
-      !!                        - sum over all proper subsets of deltaE or E
-      integer(int64), intent(in) :: fragment_idx  !! Index of this fragment (already known)
-      integer, intent(in) :: fragment(:), n
-      type(fragment_lookup_t), intent(in) :: lookup  !! Pre-built hash table for lookups
-      real(dp), intent(in) :: energies(:)
-      real(dp) :: delta_E
-
-      integer :: subset_size
-      real(dp) :: E_n
-
-      ! Use the provided fragment index directly instead of calling find_fragment_index
-      E_n = energies(fragment_idx)
-
-      ! Start with the full n-mer energy
-      delta_E = E_n
-
-      ! Subtract contributions from all proper subsets (size 1 to n-1)
-      do subset_size = 1, n - 1
-         ! Generate all subsets of this size and subtract their contributions
-         call generate_and_subtract_subsets_opt(fragment, subset_size, n, lookup, energies, delta_E)
-      end do
-
-   end function compute_delta_nbody_indexed
-
-   pure recursive function compute_delta_nbody(fragment, polymers, energies, fragment_count, n) result(delta_E)
-      !! Compute general n-body correction using recursion
-      !! deltaE(i1,i2,...,in) = E(i1,i2,...,in)
-      !!                        - sum over all proper subsets of deltaE or E
-      !! For n=2: deltaE(ij) = E(ij) - E(i) - E(j)
-      !! For n=3: deltaE(ijk) = E(ijk) - deltaE(ij) - deltaE(ik) - deltaE(jk) - E(i) - E(j) - E(k)
-      !! For n>=4: same pattern recursively
-      !! Uses int64 for fragment_count to handle large fragment counts that overflow int32.
-      integer, intent(in) :: fragment(:), polymers(:, :), n
-      integer(int64), intent(in) :: fragment_count
-      real(dp), intent(in) :: energies(:)
-      real(dp) :: delta_E
-
-      integer(int64) :: idx_n
-      integer :: subset_size, i, j, num_subsets
-      integer, allocatable :: subset(:), indices(:)
-      real(dp) :: E_n, subset_contribution
-
-      ! Find the energy of this n-mer
-      idx_n = find_fragment_index(fragment, polymers, fragment_count, n)
-      E_n = energies(idx_n)
-
-      ! Start with the full n-mer energy
-      delta_E = E_n
-
-      ! Subtract contributions from all proper subsets (size 1 to n-1)
-      do subset_size = 1, n - 1
-         ! Generate all subsets of this size and subtract their contributions
-         call generate_and_subtract_subsets(fragment, subset_size, n, polymers, energies, &
-                                            fragment_count, delta_E)
-      end do
-
-   end function compute_delta_nbody
-
-   pure subroutine generate_and_subtract_subsets(fragment, subset_size, n, polymers, energies, &
-                                                 fragment_count, delta_E)
-      !! Generate all subsets of given size and subtract their contribution
-      !! Uses int64 for fragment_count to handle large fragment counts that overflow int32.
-      integer, intent(in) :: fragment(:), subset_size, n, polymers(:, :)
-      integer(int64), intent(in) :: fragment_count
-      real(dp), intent(in) :: energies(:)
-      real(dp), intent(inout) :: delta_E
-
-      integer, allocatable :: indices(:), subset(:)
-      integer :: i
-      logical :: has_next
-
-      allocate (indices(subset_size))
-      allocate (subset(subset_size))
-
-      ! Initialize indices for first combination
-      do i = 1, subset_size
-         indices(i) = i
-      end do
-
-      ! Loop through all combinations
-      do
-         ! Build the current subset
-         do i = 1, subset_size
-            subset(i) = fragment(indices(i))
-         end do
-
-         ! Subtract this subset's contribution
-         if (subset_size == 1) then
-            ! 1-body: just subtract the monomer energy
-            delta_E = delta_E - energies(find_fragment_index(subset, polymers, fragment_count, 1))
-         else
-            ! n-body: recursively compute and subtract deltaE for this subset
-            delta_E = delta_E - compute_delta_nbody(subset, polymers, energies, fragment_count, subset_size)
-         end if
-
-         ! Get next combination
-         call get_next_combination(indices, subset_size, n, has_next)
-         if (.not. has_next) exit
-      end do
-
-      deallocate (indices, subset)
-
-   end subroutine generate_and_subtract_subsets
-
-   subroutine generate_and_subtract_subsets_opt(fragment, subset_size, n, lookup, energies, delta_E)
-      !! Optimized version using hash table lookup
-      !! Generate all subsets of given size and subtract their contribution
-      integer, intent(in) :: fragment(:), subset_size, n
-      type(fragment_lookup_t), intent(in) :: lookup
-      real(dp), intent(in) :: energies(:)
-      real(dp), intent(inout) :: delta_E
-
-      integer, allocatable :: indices(:), subset(:)
-      integer :: i
-      integer(int64) :: subset_idx
-      logical :: has_next
-
-      allocate (indices(subset_size))
-      allocate (subset(subset_size))
-
-      ! Initialize indices for first combination
-      do i = 1, subset_size
-         indices(i) = i
-      end do
-
-      ! Loop through all combinations
-      do
-         ! Build the current subset
-         do i = 1, subset_size
-            subset(i) = fragment(indices(i))
-         end do
-
-         ! Look up subset index using hash table
-         subset_idx = lookup%find(subset, subset_size)
-
-         if (subset_idx < 0) then
-            ! This should never happen if hash table was built correctly
-            error stop "Subset not found in hash table!"
-         end if
-
-         ! Subtract this subset's contribution
-         if (subset_size == 1) then
-            ! 1-body: just subtract the monomer energy
-            delta_E = delta_E - energies(subset_idx)
-         else
-            ! n-body: recursively compute and subtract deltaE for this subset
-            delta_E = delta_E - compute_delta_nbody_indexed(subset_idx, subset, lookup, energies, subset_size)
-         end if
-
-         ! Get next combination
-         call get_next_combination(indices, subset_size, n, has_next)
-         if (.not. has_next) exit
-      end do
-
-      deallocate (indices, subset)
-
-   end subroutine generate_and_subtract_subsets_opt
+   end function compute_mbe
 
 end module mqc_mbe

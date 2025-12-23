@@ -13,7 +13,6 @@ module mqc_frag_utils
    public :: generate_fragment_list  !! Generate all fragments up to max level
    public :: get_nfrags            !! Calculate total number of fragments
    public :: get_next_combination      !! Generate next combination in sequence
-   public :: find_fragment_index   !! Locate fragment by composition
    public :: fragment_lookup_t     !! Hash-based lookup table for fast fragment index retrieval
 
    type :: hash_entry_t
@@ -181,57 +180,6 @@ contains
 
       has_next = .false.
    end subroutine get_next_combination
-
-   pure function find_fragment_index(target_monomers, polymers, fragment_count, expected_size) result(idx)
-      !! Find the fragment index that contains exactly the target monomers
-      !! Uses int64 for fragment_count to handle large fragment counts that overflow int32.
-      integer, intent(in) :: target_monomers(:), polymers(:, :), expected_size
-      integer(int64), intent(in) :: fragment_count
-      integer(int64) :: idx
-
-      integer(int64) :: i
-      integer :: j, fragment_size
-      logical :: match
-
-      idx = -1_int64
-
-      do i = 1_int64, fragment_count
-         fragment_size = count(polymers(i, :) > 0)
-
-         ! Check if this fragment has the right size
-         if (fragment_size /= expected_size) cycle
-
-         ! Check if all target monomers are in this fragment
-         match = .true.
-         do j = 1, expected_size
-            if (.not. any(polymers(i, 1:fragment_size) == target_monomers(j))) then
-               match = .false.
-               exit
-            end if
-         end do
-
-         if (match) then
-            idx = i
-            return
-         end if
-      end do
-
-      ! If we get here, we didn't find the fragment
-      ! this should RARELY happen, unless someone did something very illegal
-      ! this needs to be passed into an error log
-      !block
-      !   character(len=256) :: monomers_str
-      !   integer :: k
-      !   write (monomers_str, '(*(i0,1x))') (target_monomers(k), k=1, size(target_monomers))
-      !   call logger%error("Could not find fragment with monomers: "//trim(monomers_str))
-      !end block
-      !error stop "Fragment not found in find_fragment_index"
-
-   end function find_fragment_index
-
-   ! ========================================================================
-   ! Hash table implementation for fast fragment lookups
-   ! ========================================================================
 
    subroutine fragment_lookup_init(this, estimated_entries)
       !! Initialize hash table with estimated size
