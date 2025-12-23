@@ -541,6 +541,7 @@ contains
       real(dp) :: dot_result, mbe_total_energy
       type(physical_fragment_t) :: phys_frag
       integer :: max_matrix_size
+      type(timer_type) :: coord_timer
 
       call logger%info("Processing "//to_char(total_fragments)//" fragments serially...")
 
@@ -551,6 +552,7 @@ contains
       matrix_results = 0.0_dp
 
       call omp_set_num_threads(1)
+      call coord_timer%start()
       do frag_idx = 1_int64, total_fragments
          fragment_size = count(polymers(frag_idx, :) > 0)
          allocate (fragment_indices(fragment_size))
@@ -574,13 +576,18 @@ contains
             call logger%info("  Processed "//to_char(frag_idx)//"/"//to_char(total_fragments)//" fragments")
          end if
       end do
+      call coord_timer%stop()
+      call logger%info("Time to evaluate all fragments "//to_char(coord_timer%get_elapsed_time())//" s")
       call omp_set_num_threads(omp_get_max_threads())
 
       call logger%info("All fragments processed")
 
       call logger%info("")
       call logger%info("Computing Many-Body Expansion (MBE)...")
+      call coord_timer%start()
       call compute_mbe_energy(polymers, total_fragments, max_level, scalar_results, mbe_total_energy)
+      call coord_timer%stop()
+      call logger%info("Time to compute MBE "//to_char(coord_timer%get_elapsed_time())//" s")
 
       deallocate (scalar_results, matrix_results)
 

@@ -52,52 +52,52 @@ contains
       sum_by_level = 0.0_dp
       delta_energies = 0.0_dp
 
-!$omp parallel default(shared) private(i, fragment_size, delta_E, sum_private)
-      allocate (sum_private(max_level))
-      sum_private = 0.0_dp
-
-!$omp do schedule(dynamic)
-      do i = 1_int64, fragment_count
-         fragment_size = count(polymers(i, :) > 0)
-
-         if (fragment_size == 1) then
-            delta_E = energies(i)
-            delta_energies(i) = delta_E
-            sum_private(1) = sum_private(1) + delta_E
-
-         else if (fragment_size >= 2 .and. fragment_size <= max_level) then
-            delta_E = compute_delta_nbody( &
-                      polymers(i, 1:fragment_size), polymers, energies, &
-                      fragment_count, fragment_size)
-            delta_energies(i) = delta_E
-            sum_private(fragment_size) = sum_private(fragment_size) + delta_E
-         end if
-      end do
-!$omp end do
-
-!$omp critical
-      sum_by_level = sum_by_level + sum_private
-!$omp end critical
-
-      deallocate (sum_private)
-!$omp end parallel
-
+!!$omp parallel default(shared) private(i, fragment_size, delta_E, sum_private)
+!      allocate (sum_private(max_level))
+!      sum_private = 0.0_dp
+!
+!!$omp do schedule(dynamic)
 !      do i = 1_int64, fragment_count
 !         fragment_size = count(polymers(i, :) > 0)
 !
 !         if (fragment_size == 1) then
 !            delta_E = energies(i)
 !            delta_energies(i) = delta_E
-!            sum_by_level(1) = sum_by_level(1) + delta_E
+!            sum_private(1) = sum_private(1) + delta_E
+!
 !         else if (fragment_size >= 2 .and. fragment_size <= max_level) then
-!            delta_E = compute_delta_nbody(polymers(i, 1:fragment_size), polymers, energies, &
-!                                          fragment_count, fragment_size)
+!            delta_E = compute_delta_nbody( &
+!                      polymers(i, 1:fragment_size), polymers, energies, &
+!                      fragment_count, fragment_size)
 !            delta_energies(i) = delta_E
-!            sum_by_level(fragment_size) = sum_by_level(fragment_size) + delta_E
+!            sum_private(fragment_size) = sum_private(fragment_size) + delta_E
 !         end if
 !      end do
+!!$omp end do
 !
-!      total_energy = sum(sum_by_level)
+!!$omp critical
+!      sum_by_level = sum_by_level + sum_private
+!!$omp end critical
+!
+!      deallocate (sum_private)
+!!$omp end parallel
+
+      do i = 1_int64, fragment_count
+         fragment_size = count(polymers(i, :) > 0)
+
+         if (fragment_size == 1) then
+            delta_E = energies(i)
+            delta_energies(i) = delta_E
+            sum_by_level(1) = sum_by_level(1) + delta_E
+         else if (fragment_size >= 2 .and. fragment_size <= max_level) then
+            delta_E = compute_delta_nbody(polymers(i, 1:fragment_size), polymers, energies, &
+                                          fragment_count, fragment_size)
+            delta_energies(i) = delta_E
+            sum_by_level(fragment_size) = sum_by_level(fragment_size) + delta_E
+         end if
+      end do
+
+      total_energy = sum(sum_by_level)
 
       ! Print text summary to console
       call logger%info("MBE Energy breakdown:")
