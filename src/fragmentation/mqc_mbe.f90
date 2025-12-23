@@ -65,17 +65,20 @@ contains
       call logger%debug("Hash table size: "//to_char(lookup%table_size)// &
                         ", entries: "//to_char(lookup%n_entries))
 
+      ! Bottom-up computation: process fragments by size (1-body, then 2-body, then 3-body, etc.)
+      ! This eliminates recursion and redundant subset computations
       do i = 1_int64, fragment_count
          fragment_size = count(polymers(i, :) > 0)
 
          if (fragment_size == 1) then
-            delta_E = energies(i)
-            delta_energies(i) = delta_E
-            sum_by_level(1) = sum_by_level(1) + delta_E
+            ! 1-body: deltaE = E (no subsets to subtract)
+            delta_energies(i) = energies(i)
+            sum_by_level(1) = sum_by_level(1) + delta_energies(i)
          else if (fragment_size >= 2 .and. fragment_size <= max_level) then
-            ! Pass fragment index and lookup table to avoid redundant lookups
-            delta_E = compute_delta_nbody_indexed(i, polymers(i, 1:fragment_size), lookup, energies, &
-                                                  fragment_size)
+            ! n-body: deltaE = E - sum(all subset deltaEs)
+            ! All subsets have already been computed in previous iterations
+            delta_E = compute_delta_nbody_bottomup(i, polymers(i, 1:fragment_size), lookup, &
+                                                   energies, delta_energies, fragment_size)
             delta_energies(i) = delta_E
             sum_by_level(fragment_size) = sum_by_level(fragment_size) + delta_E
          end if
@@ -115,6 +118,58 @@ contains
       deallocate (sum_by_level, delta_energies)
 
    end subroutine compute_mbe_energy
+
+   pure function compute_delta_nbody_bottomup(fragment_idx, fragment, lookup, energies, delta_energies, n) result(delta_E)
+      !! Bottom-up computation of n-body correction (non-recursive, uses pre-computed subset deltas)
+      !! deltaE(i1,i2,...,in) = E(i1,i2,...,in) - sum of all subset deltaE values
+      !! All subsets must have been computed already (guaranteed by processing fragments in order)
+      integer(int64), intent(in) :: fragment_idx  !! Index of this fragment (already known)
+      integer, intent(in) :: fragment(:), n
+      type(fragment_lookup_t), intent(in) :: lookup  !! Pre-built hash table for lookups
+      real(dp), intent(in) :: energies(:), delta_energies(:)  !! Pre-computed delta values
+      real(dp) :: delta_E
+
+      integer :: subset_size, i, j
+      integer, allocatable :: indices(:), subset(:)
+      integer(int64) :: subset_idx
+      logical :: has_next
+
+      ! Start with the full n-mer energy
+      delta_E = energies(fragment_idx)
+
+      ! Subtract all proper subsets (size 1 to n-1)
+      do subset_size = 1, n - 1
+         allocate (indices(subset_size))
+         allocate (subset(subset_size))
+
+         ! Initialize first combination
+         do i = 1, subset_size
+            indices(i) = i
+         end do
+
+         ! Loop through all combinations
+         do
+            ! Build current subset
+            do i = 1, subset_size
+               subset(i) = fragment(indices(i))
+            end do
+
+            ! Look up subset index
+            subset_idx = lookup%find(subset, subset_size)
+            if (subset_idx < 0) error stop "Subset not found in bottom-up MBE!"
+
+            ! Subtract pre-computed delta energy
+            delta_E = delta_E - delta_energies(subset_idx)
+
+            ! Get next combination
+            call get_next_combination(indices, subset_size, n, has_next)
+            if (.not. has_next) exit
+         end do
+
+         deallocate (indices, subset)
+      end do
+
+   end function compute_delta_nbody_bottomup
 
    recursive function compute_delta_nbody_indexed(fragment_idx, fragment, lookup, energies, n) result(delta_E)
       !! Optimized version that takes fragment index and lookup table to avoid redundant lookups
