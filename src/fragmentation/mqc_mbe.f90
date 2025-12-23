@@ -119,7 +119,7 @@ contains
 
    end subroutine compute_mbe_energy
 
-   pure function compute_delta_nbody_bottomup(fragment_idx, fragment, lookup, energies, delta_energies, n) result(delta_E)
+   function compute_delta_nbody_bottomup(fragment_idx, fragment, lookup, energies, delta_energies, n) result(delta_E)
       !! Bottom-up computation of n-body correction (non-recursive, uses pre-computed subset deltas)
       !! deltaE(i1,i2,...,in) = E(i1,i2,...,in) - sum of all subset deltaE values
       !! All subsets must have been computed already (guaranteed by processing fragments in order)
