@@ -10,7 +10,7 @@ module mqc_frag_utils
    public :: create_monomer_list   !! Generate sequential monomer indices
    public :: generate_fragment_list  !! Generate all fragments up to max level
    public :: get_nfrags            !! Calculate total number of fragments
-   public :: next_combination      !! Generate next combination in sequence
+   public :: get_next_combination      !! Generate next combination in sequence
    public :: find_fragment_index   !! Locate fragment by composition
 
 contains
@@ -133,22 +133,20 @@ contains
       end do
    end subroutine print_combos
 
-   function next_combination(indices, k, n) result(has_next)
-      !! Generate next combination (updates indices in place)
-      !! Returns .true. if there's a next combination, .false. if we're done
+   pure subroutine get_next_combination(indices, k, n, has_next)
+   !! Generate next combination (updates indices in place)
+   !! has_next = .true. if there's a next combination
       integer, intent(inout) :: indices(:)
-      integer, intent(in) :: k, n
-      logical :: has_next
-      integer :: i
+      integer, intent(in)    :: k, n
+      logical, intent(out)   :: has_next
+      integer                :: i
 
       has_next = .true.
 
-      ! Find rightmost index that can be incremented
       i = k
       do while (i >= 1)
          if (indices(i) < n - k + i) then
             indices(i) = indices(i) + 1
-            ! Reset all indices to the right
             do while (i < k)
                i = i + 1
                indices(i) = indices(i - 1) + 1
@@ -158,12 +156,10 @@ contains
          i = i - 1
       end do
 
-      ! No more combinations
       has_next = .false.
+   end subroutine get_next_combination
 
-   end function next_combination
-
-   function find_fragment_index(target_monomers, polymers, fragment_count, expected_size) result(idx)
+   pure function find_fragment_index(target_monomers, polymers, fragment_count, expected_size) result(idx)
       !! Find the fragment index that contains exactly the target monomers
       !! Uses int64 for fragment_count to handle large fragment counts that overflow int32.
       integer, intent(in) :: target_monomers(:), polymers(:, :), expected_size
@@ -199,13 +195,14 @@ contains
 
       ! If we get here, we didn't find the fragment
       ! this should RARELY happen, unless someone did something very illegal
-      block
-         character(len=256) :: monomers_str
-         integer :: k
-         write (monomers_str, '(*(i0,1x))') (target_monomers(k), k=1, size(target_monomers))
-         call logger%error("Could not find fragment with monomers: "//trim(monomers_str))
-      end block
-      error stop "Fragment not found in find_fragment_index"
+      ! this needs to be passed into an error log
+      !block
+      !   character(len=256) :: monomers_str
+      !   integer :: k
+      !   write (monomers_str, '(*(i0,1x))') (target_monomers(k), k=1, size(target_monomers))
+      !   call logger%error("Could not find fragment with monomers: "//trim(monomers_str))
+      !end block
+      !error stop "Fragment not found in find_fragment_index"
 
    end function find_fragment_index
 
