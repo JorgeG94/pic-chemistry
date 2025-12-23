@@ -10,13 +10,13 @@ module mqc_mbe_io
 
 contains
 
-   function get_body_level_name(body_level) result(level_name)
+   function get_frag_level_name(frag_level) result(level_name)
       !! Map body level (n-mer) to descriptive name
       !! Supports up to decamers (10-mers), then falls back to "N-mers" format
-      integer, intent(in) :: body_level
+      integer, intent(in) :: frag_level
       character(len=32) :: level_name
 
-      select case (body_level)
+      select case (frag_level)
       case (1)
          level_name = "monomers"
       case (2)
@@ -39,9 +39,9 @@ contains
          level_name = "decamers"
       case default
          ! For levels > 10, use generic format
-         write (level_name, '(i0,a)') body_level, "-mers"
+         write (level_name, '(i0,a)') frag_level, "-mers"
       end select
-   end function get_body_level_name
+   end function get_frag_level_name
 
    subroutine print_fragment_xyz(fragment_idx, phys_frag)
       !! Print fragment geometry in XYZ format
@@ -75,7 +75,7 @@ contains
       real(dp), intent(in) :: energies(:), delta_energies(:)
 
       integer(int64) :: i
-      integer :: fragment_size, j, body_level
+      integer :: fragment_size, j, frag_level
       character(len=512) :: fragment_str, energy_line
       integer(int64) :: count_by_level
 
@@ -89,12 +89,12 @@ contains
          call logger%warning("Fragment levels exceed decamers (10-mers). Using generic N-mers notation.")
       end if
 
-      do body_level = 1, max_level
+      do frag_level = 1, max_level
          count_by_level = 0_int64
 
          do i = 1_int64, fragment_count
             fragment_size = count(polymers(i, :) > 0)
-            if (fragment_size == body_level) count_by_level = count_by_level + 1_int64
+            if (fragment_size == frag_level) count_by_level = count_by_level + 1_int64
          end do
 
          if (count_by_level > 0_int64) then
@@ -102,7 +102,7 @@ contains
             block
                character(len=256) :: header
                character(len=32) :: level_name
-               level_name = get_body_level_name(body_level)
+               level_name = get_frag_level_name(frag_level)
                write (header, '(a,a,i0,a)') trim(level_name), " (", count_by_level, " fragments):"
                ! Capitalize first letter
                if (len_trim(level_name) > 0) then
@@ -117,7 +117,7 @@ contains
             do i = 1_int64, fragment_count
                fragment_size = count(polymers(i, :) > 0)
 
-               if (fragment_size == body_level) then
+               if (fragment_size == frag_level) then
                   fragment_str = "["
                   do j = 1, fragment_size
                      if (j > 1) then
@@ -128,7 +128,7 @@ contains
                   end do
                   write (fragment_str, '(a,a)') trim(fragment_str), "]"
 
-                  if (body_level == 1) then
+                  if (frag_level == 1) then
                      write (energy_line, '(a,a,f20.10)') &
                         "  Fragment ", trim(adjustl(fragment_str)), energies(i)
                   else
@@ -158,7 +158,7 @@ contains
       real(dp), intent(in) :: sum_by_level(:), total_energy
 
       integer(int64) :: i
-      integer :: fragment_size, j, body_level, unit, io_stat
+      integer :: fragment_size, j, frag_level, unit, io_stat
       character(len=512) :: json_line
       integer(int64) :: count_by_level
       logical :: first_level, first_fragment
@@ -186,12 +186,12 @@ contains
       write (unit, '(a)') '    "levels": ['
 
       first_level = .true.
-      do body_level = 1, max_level
+      do frag_level = 1, max_level
          count_by_level = 0_int64
 
          do i = 1_int64, fragment_count
             fragment_size = count(polymers(i, :) > 0)
-            if (fragment_size == body_level) count_by_level = count_by_level + 1_int64
+            if (fragment_size == frag_level) count_by_level = count_by_level + 1_int64
          end do
 
          if (count_by_level > 0_int64) then
@@ -202,15 +202,15 @@ contains
 
             write (unit, '(a)') '      {'
 
-            level_name = get_body_level_name(body_level)
+            level_name = get_frag_level_name(frag_level)
 
-            write (json_line, '(a,i0,a)') '        "body_level": ', body_level, ','
+            write (json_line, '(a,i0,a)') '        "frag_level": ', frag_level, ','
             write (unit, '(a)') trim(json_line)
             write (json_line, '(a,a,a)') '        "name": "', trim(level_name), '",'
             write (unit, '(a)') trim(json_line)
             write (json_line, '(a,i0,a)') '        "count": ', count_by_level, ','
             write (unit, '(a)') trim(json_line)
-            write (json_line, '(a,f20.10,a)') '        "total_energy": ', sum_by_level(body_level), ','
+            write (json_line, '(a,f20.10,a)') '        "total_energy": ', sum_by_level(frag_level), ','
             write (unit, '(a)') trim(json_line)
             write (unit, '(a)') '        "fragments": ['
 
@@ -218,7 +218,7 @@ contains
             do i = 1_int64, fragment_count
                fragment_size = count(polymers(i, :) > 0)
 
-               if (fragment_size == body_level) then
+               if (fragment_size == frag_level) then
                   if (.not. first_fragment) then
                      write (unit, '(a)') '          },'
                   end if
@@ -238,7 +238,7 @@ contains
                   write (unit, '(a)') trim(json_line)
 
                   write (json_line, '(a,f20.10)') '            "energy": ', energies(i)
-                  if (body_level > 1) then
+                  if (frag_level > 1) then
                      write (json_line, '(a,a)') trim(json_line), ','
                      write (unit, '(a)') trim(json_line)
                      write (json_line, '(a,f20.10)') '            "delta_energy": ', delta_energies(i)

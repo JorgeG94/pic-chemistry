@@ -53,6 +53,7 @@ contains
       end if
 
       if (max_level == 0) then
+         call omp_set_num_threads(1)
          call run_unfragmented_calculation(world_comm, sys_geom, config%method)
       else
          call run_fragmented_calculation(world_comm, node_comm, config%method, sys_geom, max_level, &

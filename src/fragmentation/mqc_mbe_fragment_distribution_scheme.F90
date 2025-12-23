@@ -508,10 +508,10 @@ contains
       call logger%info("Unfragmented calculation completed")
       block
          character(len=256) :: result_line
-         write (result_line, '(a,es15.8)') "  Scalar result: ", dot_result
+         write (result_line, '(a,f25.15)') "  Final energy: ", dot_result
          call logger%info(trim(result_line))
       end block
-      call logger%info("  Matrix size: "//to_char(size(C_flat)))
+      !call logger%info("  Matrix size: "//to_char(size(C_flat)))
       call logger%info("============================================")
 
       if (allocated(C_flat)) deallocate (C_flat)
