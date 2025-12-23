@@ -170,7 +170,8 @@ contains
                if (mod(results_received, max(1_int64, total_fragments/10)) == 0 .or. &
                    results_received == total_fragments) then
                   call logger%info("  Processed "//to_char(results_received)//"/"// &
-                                   to_char(total_fragments)//" fragments")
+                                   to_char(total_fragments)//" fragments ["// &
+                                   to_char(coord_timer%get_elapsed_time())//" s]")
                end if
             end do
          end if
@@ -196,7 +197,8 @@ contains
             if (mod(results_received, max(1_int64, total_fragments/10)) == 0 .or. &
                 results_received == total_fragments) then
                call logger%info("  Processed "//to_char(results_received)//"/"// &
-                                to_char(total_fragments)//" fragments")
+                                to_char(total_fragments)//" fragments ["// &
+                                to_char(coord_timer%get_elapsed_time())//" s]")
             end if
          end do
 
@@ -577,7 +579,8 @@ contains
          deallocate (fragment_indices, C_flat)
 
          if (mod(frag_idx, max(1_int64, total_fragments/10)) == 0 .or. frag_idx == total_fragments) then
-            call logger%info("  Processed "//to_char(frag_idx)//"/"//to_char(total_fragments)//" fragments")
+            call logger%info("  Processed "//to_char(frag_idx)//"/"//to_char(total_fragments)// &
+                             " fragments ["//to_char(coord_timer%get_elapsed_time())//" s]")
          end if
       end do
       call coord_timer%stop()
