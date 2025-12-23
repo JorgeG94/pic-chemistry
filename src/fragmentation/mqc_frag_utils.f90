@@ -195,6 +195,7 @@ contains
 
       ! If we get here, we didn't find the fragment
       ! this should RARELY happen, unless someone did something very illegal
+      ! this needs to be passed into an error log
       !block
       !   character(len=256) :: monomers_str
       !   integer :: k
