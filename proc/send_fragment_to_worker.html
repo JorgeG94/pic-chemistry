@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.7% of total for procedures.">16 statements</a>
+                 title=" 0.9% of total for procedures.">21 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -136,8 +136,10 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../proc/send_fragment_to_worker.html#variable-fragment_idx_int32~2">fragment_idx_int32</a>
             <a class="list-group-item" href="../proc/send_fragment_to_worker.html#variable-fragment_indices~2">fragment_indices</a>
-            <a class="list-group-item" href="../proc/send_fragment_to_worker.html#variable-fragment_size~5">fragment_size</a>
+            <a class="list-group-item" href="../proc/send_fragment_to_worker.html#variable-fragment_size~4">fragment_size</a>
+            <a class="list-group-item" href="../proc/send_fragment_to_worker.html#variable-req~3">req</a>
         </div>
       </div>
     </div>
@@ -173,7 +175,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private  subroutine send_fragment_to_worker(node_comm, fragment_idx, polymers, dest_rank, matrix_size)  
+    <h2>private  subroutine send_fragment_to_worker(node_comm, fragment_idx, polymers, dest_rank)  
 </h2>
     
 
@@ -194,7 +196,7 @@ Uses int64 for fragment_idx to handle large fragment indices that overflow int32
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_comm~3"></span>
+              <span class="anchor" id="variable-node_comm~4"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -209,7 +211,7 @@ Uses int64 for fragment_idx to handle large fragment indices that overflow int32
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_idx~7"></span>
+              <span class="anchor" id="variable-fragment_idx~5"></span>
               integer(kind=int64),
             </td>
 <td>intent(in)</td>
@@ -224,7 +226,7 @@ Uses int64 for fragment_idx to handle large fragment indices that overflow int32
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-polymers~7"></span>
+              <span class="anchor" id="variable-polymers~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -248,21 +250,6 @@ Uses int64 for fragment_idx to handle large fragment indices that overflow int32
             </td>
             <td>::</td>
             <td><strong>dest_rank</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix_size~2"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>matrix_size</strong></td>
             <td>
                 
             </td>
@@ -293,15 +280,15 @@ Uses int64 for fragment_idx to handle large fragment indices that overflow int32
 <polygon fill="none" stroke="black" points="151,-24 0,-24 0,0 151,0 151,-24"/>
 <text text-anchor="middle" x="75.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">send_fragment_to_worker</text>
 </g>
-<!-- send -->
+<!-- isend -->
 <g id="proc~~send_fragment_to_worker~~CallsGraph_node2" class="node">
-<title>send</title>
+<title>isend</title>
 <polygon fill="#777777" stroke="#777777" points="241,-24 187,-24 187,0 241,0 241,-24"/>
-<text text-anchor="middle" x="214" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">send</text>
+<text text-anchor="middle" x="214" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">isend</text>
 </g>
-<!-- proc~send_fragment_to_worker&#45;&gt;send -->
+<!-- proc~send_fragment_to_worker&#45;&gt;isend -->
 <g id="proc~~send_fragment_to_worker~~CallsGraph_edge1" class="edge">
-<title>proc~send_fragment_to_worker&#45;&gt;send</title>
+<title>proc~send_fragment_to_worker&#45;&gt;isend</title>
 <path fill="none" stroke="#ff0000" d="M151.14,-12C160.06,-12 168.82,-12 176.83,-12"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="176.86,-15.5 186.86,-12 176.86,-8.5 176.86,-15.5"/>
 </g>
@@ -574,6 +561,23 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
+              <span class="anchor" id="variable-fragment_idx_int32~2"></span>
+              integer(kind=int32),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment_idx_int32</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-fragment_indices~2"></span>
               integer,
             </td>
@@ -591,7 +595,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_size~5"></span>
+              <span class="anchor" id="variable-fragment_size~4"></span>
               integer,
             </td>
               <td>private</td>
@@ -600,6 +604,23 @@ large graphs.</div>
             </td>
             <td>::</td>
             <td><strong>fragment_size</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-req~3"></span>
+              type(request_t),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>req</strong>(3)</td>
                 <td></td>
                 <td></td>
             <td>
@@ -622,25 +643,32 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">send_fragment_to_worker</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_size</span><span class="p">)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">send_fragment_to_worker</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Send fragment data to local worker</span>
 <span class="w">      </span><span class="c">!! Uses int64 for fragment_idx to handle large fragment indices that overflow int32.</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">comm_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">node_comm</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_idx</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_size</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dest_rank</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">polymers</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
 <span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_size</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_indices</span><span class="p">(:)</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">request_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">req</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_idx_int32</span>
 
 <span class="w">      </span><span class="n">fragment_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="p">(</span><span class="n">polymers</span><span class="p">(</span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
 <span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_indices</span><span class="p">(</span><span class="n">fragment_size</span><span class="p">))</span>
 <span class="w">      </span><span class="n">fragment_indices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">fragment_size</span><span class="p">)</span>
 
 <span class="w">      </span><span class="c">! TODO: serialize the data for better performance</span>
-<span class="w">      </span><span class="k">call </span><span class="n">send</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="o">=</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">)</span>
-<span class="w">      </span><span class="k">call </span><span class="n">send</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">)</span>
-<span class="w">      </span><span class="k">call </span><span class="n">send</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_indices</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">)</span>
-<span class="w">      </span><span class="k">call </span><span class="n">send</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_size</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">)</span>
+<span class="w">      </span><span class="n">fragment_idx_int32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="o">=</span><span class="n">int32</span><span class="p">)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_idx_int32</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="w">      </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="w">      </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_indices</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="w">      </span><span class="c">! Wait for all sends to complete</span>
+<span class="w">      </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="w">      </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="w">      </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 
 <span class="w">      </span><span class="k">deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_indices</span><span class="p">)</span>
 <span class="w">   </span><span class="k">end subroutine </span><span class="n">send_fragment_to_worker</span>
@@ -667,7 +695,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-23 12:27 +0000             </p>
+ on 2025-12-25 23:11 +0000             </p>
           </div>
         </div>
         <br>
