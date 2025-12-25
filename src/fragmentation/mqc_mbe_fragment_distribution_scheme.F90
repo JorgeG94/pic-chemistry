@@ -5,16 +5,16 @@ module mqc_mbe_fragment_distribution_scheme
    use pic_types, only: int32, int64, dp
    use pic_timer, only: timer_type
    use pic_blas_interfaces, only: pic_gemm, pic_dot
-   use pic_mpi_lib, only: comm_t, send, recv, iprobe, MPI_Status, MPI_ANY_SOURCE, MPI_ANY_TAG
+ use pic_mpi_lib, only: comm_t, send, recv, isend, irecv, wait, iprobe, MPI_Status, request_t, MPI_ANY_SOURCE, MPI_ANY_TAG
    use pic_logger, only: logger => global_logger
    use pic_io, only: to_char
    use mqc_mbe_io, only: print_fragment_xyz
    use omp_lib, only: omp_set_num_threads, omp_get_max_threads
    use mqc_mbe, only: compute_mbe_energy
    use mqc_mpi_tags, only: TAG_WORKER_REQUEST, TAG_WORKER_FRAGMENT, TAG_WORKER_FINISH, &
-                           TAG_WORKER_SCALAR_RESULT, TAG_WORKER_MATRIX_RESULT, &
+                           TAG_WORKER_SCALAR_RESULT, &
                            TAG_NODE_REQUEST, TAG_NODE_FRAGMENT, TAG_NODE_FINISH, &
-                           TAG_NODE_SCALAR_RESULT, TAG_NODE_MATRIX_RESULT
+                           TAG_NODE_SCALAR_RESULT
    use mqc_physical_fragment, only: system_geometry_t, physical_fragment_t, build_fragment_from_indices, to_angstrom
 
    ! Method API imports
@@ -89,13 +89,13 @@ contains
    end subroutine do_fragment_work
 
    subroutine global_coordinator(world_comm, node_comm, total_fragments, polymers, max_level, &
-                                 node_leader_ranks, num_nodes, matrix_size)
+                                 node_leader_ranks, num_nodes)
       !! Global coordinator for distributing fragments to node coordinators
       !! will act as a node coordinator for a single node calculation
       !! Uses int64 for total_fragments to handle large fragment counts that overflow int32.
       type(comm_t), intent(in) :: world_comm, node_comm
       integer(int64), intent(in) :: total_fragments
-      integer, intent(in) :: max_level, num_nodes, matrix_size
+      integer, intent(in) :: max_level, num_nodes
       integer, intent(in) :: polymers(:, :), node_leader_ranks(:)
 
       type(timer_type) :: coord_timer
@@ -111,11 +111,11 @@ contains
 
       ! Storage for results
       real(dp), allocatable :: scalar_results(:)
-      real(dp), allocatable :: matrix_results(:, :)
-      real(dp), allocatable :: temp_matrix(:)
-      integer :: max_matrix_size
       integer(int64) :: worker_fragment_map(node_comm%size())
       integer :: worker_source
+
+      ! MPI request handles for non-blocking operations
+      type(request_t) :: req
 
       current_fragment = total_fragments
       finished_nodes = 0
@@ -125,10 +125,7 @@ contains
 
       ! Allocate storage for results
       allocate (scalar_results(total_fragments))
-      max_matrix_size = (max_level*matrix_size)**2
-      allocate (matrix_results(max_matrix_size, total_fragments))
       scalar_results = 0.0_dp
-      matrix_results = 0.0_dp
       worker_fragment_map = 0
 
       call logger%verbose("Global coordinator starting with "//to_char(total_fragments)// &
@@ -155,17 +152,11 @@ contains
                end if
 
                ! Receive scalar result and store it using the fragment index for this worker
-         call recv(node_comm, scalar_results(worker_fragment_map(worker_source)), worker_source, TAG_WORKER_SCALAR_RESULT)
-               ! Receive matrix result into temporary array, then copy to storage
-               call recv(node_comm, temp_matrix, worker_source, TAG_WORKER_MATRIX_RESULT, local_status)
-               ! Copy only the received size, pad rest with zeros
-               matrix_results(1:size(temp_matrix), worker_fragment_map(worker_source)) = temp_matrix
-               if (size(temp_matrix) < max_matrix_size) then
-                  matrix_results(size(temp_matrix) + 1:max_matrix_size, worker_fragment_map(worker_source)) = 0.0_dp
-               end if
+               call irecv(node_comm, scalar_results(worker_fragment_map(worker_source)), worker_source, &
+                          TAG_WORKER_SCALAR_RESULT, req)
+               call wait(req)
                ! Clear the mapping since we've received the result
                worker_fragment_map(worker_source) = 0
-               if (allocated(temp_matrix)) deallocate (temp_matrix)
                results_received = results_received + 1
                if (mod(results_received, max(1_int64, total_fragments/10)) == 0 .or. &
                    results_received == total_fragments) then
@@ -181,18 +172,12 @@ contains
             call iprobe(world_comm, MPI_ANY_SOURCE, TAG_NODE_SCALAR_RESULT, has_pending, status)
             if (.not. has_pending) exit
 
-            ! Receive fragment index, scalar result, and matrix result from node coordinator
+            ! Receive fragment index and scalar result from node coordinator
             ! TODO: serialize the data for better performance
-            call recv(world_comm, fragment_idx, status%MPI_SOURCE, TAG_NODE_SCALAR_RESULT)
-            call recv(world_comm, scalar_results(fragment_idx), status%MPI_SOURCE, TAG_NODE_SCALAR_RESULT)
-            call recv(world_comm, temp_matrix, status%MPI_SOURCE, TAG_NODE_MATRIX_RESULT, status)
-
-            ! Copy matrix result into storage
-            matrix_results(1:size(temp_matrix), fragment_idx) = temp_matrix
-            if (size(temp_matrix) < max_matrix_size) then
-               matrix_results(size(temp_matrix) + 1:max_matrix_size, fragment_idx) = 0.0_dp
-            end if
-            if (allocated(temp_matrix)) deallocate (temp_matrix)
+            call irecv(world_comm, fragment_idx, status%MPI_SOURCE, TAG_NODE_SCALAR_RESULT, req)
+            call wait(req)
+            call irecv(world_comm, scalar_results(fragment_idx), status%MPI_SOURCE, TAG_NODE_SCALAR_RESULT, req)
+            call wait(req)
             results_received = results_received + 1
             if (mod(results_received, max(1_int64, total_fragments/10)) == 0 .or. &
                 results_received == total_fragments) then
@@ -205,14 +190,16 @@ contains
          ! PRIORITY 2: Remote node coordinator requests
          call iprobe(world_comm, MPI_ANY_SOURCE, TAG_NODE_REQUEST, has_pending, status)
          if (has_pending) then
-            call recv(world_comm, dummy_msg, status%MPI_SOURCE, TAG_NODE_REQUEST)
+            call irecv(world_comm, dummy_msg, status%MPI_SOURCE, TAG_NODE_REQUEST, req)
+            call wait(req)
             request_source = status%MPI_SOURCE
 
             if (current_fragment >= 1) then
                call send_fragment_to_node(world_comm, current_fragment, polymers, request_source)
                current_fragment = current_fragment - 1
             else
-               call send(world_comm, -1, request_source, TAG_NODE_FINISH)
+               call isend(world_comm, -1, request_source, TAG_NODE_FINISH, req)
+               call wait(req)
                finished_nodes = finished_nodes + 1
             end if
          end if
@@ -223,16 +210,18 @@ contains
             if (has_pending) then
                ! Only process work request if this worker doesn't have pending results
                if (worker_fragment_map(local_status%MPI_SOURCE) == 0) then
-                  call recv(node_comm, local_dummy, local_status%MPI_SOURCE, TAG_WORKER_REQUEST)
+                  call irecv(node_comm, local_dummy, local_status%MPI_SOURCE, TAG_WORKER_REQUEST, req)
+                  call wait(req)
 
                   if (current_fragment >= 1) then
                      call send_fragment_to_worker(node_comm, current_fragment, polymers, &
-                                                  local_status%MPI_SOURCE, matrix_size)
+                                                  local_status%MPI_SOURCE)
                      ! Track which fragment was sent to this worker
                      worker_fragment_map(local_status%MPI_SOURCE) = current_fragment
                      current_fragment = current_fragment - 1
                   else
-                     call send(node_comm, -1, local_status%MPI_SOURCE, TAG_WORKER_FINISH)
+                     call isend(node_comm, -1, local_status%MPI_SOURCE, TAG_WORKER_FINISH, req)
+                     call wait(req)
                      local_finished_workers = local_finished_workers + 1
                   end if
                end if
@@ -272,7 +261,7 @@ contains
       end block
 
       ! Cleanup
-      deallocate (scalar_results, matrix_results)
+      deallocate (scalar_results)
    end subroutine global_coordinator
 
    subroutine send_fragment_to_node(world_comm, fragment_idx, polymers, dest_rank)
@@ -284,47 +273,61 @@ contains
       integer, intent(in) :: polymers(:, :)
       integer :: fragment_size
       integer, allocatable :: fragment_indices(:)
+      type(request_t) :: req(3)
+      integer(int32) :: fragment_idx_int32
 
       fragment_size = count(polymers(fragment_idx, :) > 0)
       allocate (fragment_indices(fragment_size))
       fragment_indices = polymers(fragment_idx, 1:fragment_size)
 
       ! TODO: serialize the data for better performance
-      call send(world_comm, int(fragment_idx, kind=int32), dest_rank, TAG_NODE_FRAGMENT)
-      call send(world_comm, fragment_size, dest_rank, TAG_NODE_FRAGMENT)
-      call send(world_comm, fragment_indices, dest_rank, TAG_NODE_FRAGMENT)
+      fragment_idx_int32 = int(fragment_idx, kind=int32)
+      call isend(world_comm, fragment_idx_int32, dest_rank, TAG_NODE_FRAGMENT, req(1))
+      call isend(world_comm, fragment_size, dest_rank, TAG_NODE_FRAGMENT, req(2))
+      call isend(world_comm, fragment_indices, dest_rank, TAG_NODE_FRAGMENT, req(3))
+
+      ! Wait for all sends to complete
+      call wait(req(1))
+      call wait(req(2))
+      call wait(req(3))
 
       deallocate (fragment_indices)
    end subroutine send_fragment_to_node
 
-   subroutine send_fragment_to_worker(node_comm, fragment_idx, polymers, dest_rank, matrix_size)
+   subroutine send_fragment_to_worker(node_comm, fragment_idx, polymers, dest_rank)
       !! Send fragment data to local worker
       !! Uses int64 for fragment_idx to handle large fragment indices that overflow int32.
       type(comm_t), intent(in) :: node_comm
       integer(int64), intent(in) :: fragment_idx
-      integer, intent(in) :: dest_rank, matrix_size
+      integer, intent(in) :: dest_rank
       integer, intent(in) :: polymers(:, :)
       integer :: fragment_size
       integer, allocatable :: fragment_indices(:)
+      type(request_t) :: req(3)
+      integer(int32) :: fragment_idx_int32
 
       fragment_size = count(polymers(fragment_idx, :) > 0)
       allocate (fragment_indices(fragment_size))
       fragment_indices = polymers(fragment_idx, 1:fragment_size)
 
       ! TODO: serialize the data for better performance
-      call send(node_comm, int(fragment_idx, kind=int32), dest_rank, TAG_WORKER_FRAGMENT)
-      call send(node_comm, fragment_size, dest_rank, TAG_WORKER_FRAGMENT)
-      call send(node_comm, fragment_indices, dest_rank, TAG_WORKER_FRAGMENT)
-      call send(node_comm, matrix_size, dest_rank, TAG_WORKER_FRAGMENT)
+      fragment_idx_int32 = int(fragment_idx, kind=int32)
+      call isend(node_comm, fragment_idx_int32, dest_rank, TAG_WORKER_FRAGMENT, req(1))
+      call isend(node_comm, fragment_size, dest_rank, TAG_WORKER_FRAGMENT, req(2))
+      call isend(node_comm, fragment_indices, dest_rank, TAG_WORKER_FRAGMENT, req(3))
+
+      ! Wait for all sends to complete
+      call wait(req(1))
+      call wait(req(2))
+      call wait(req(3))
 
       deallocate (fragment_indices)
    end subroutine send_fragment_to_worker
 
-   subroutine node_coordinator(world_comm, node_comm, matrix_size)
+   subroutine node_coordinator(world_comm, node_comm)
       !! Node coordinator for distributing fragments to local workers
       !! Handles work requests and result collection from local workers
       class(comm_t), intent(in) :: world_comm, node_comm
-      integer(int32), intent(in) :: matrix_size
 
       integer(int32) :: fragment_idx, fragment_size, dummy_msg
       integer(int32) :: finished_workers
@@ -337,7 +340,9 @@ contains
       integer(int32) :: worker_fragment_map(node_comm%size())
       integer(int32) :: worker_source
       real(dp) :: scalar_result
-      real(dp), allocatable :: matrix_result(:)
+
+      ! MPI request handles for non-blocking operations
+      type(request_t) :: req
 
       finished_workers = 0
       more_fragments = .true.
@@ -358,19 +363,18 @@ contains
                error stop "Invalid worker_fragment_map state in node coordinator"
             end if
 
-            ! the send/recv operations need to be serialized
-            ! Receive scalar and matrix results from worker
-            call recv(node_comm, scalar_result, worker_source, TAG_WORKER_SCALAR_RESULT)
-            call recv(node_comm, matrix_result, worker_source, TAG_WORKER_MATRIX_RESULT, status)
+            ! Receive scalar result from worker
+            call irecv(node_comm, scalar_result, worker_source, TAG_WORKER_SCALAR_RESULT, req)
+            call wait(req)
 
             ! Forward results to global coordinator with fragment index
-            call send(world_comm, worker_fragment_map(worker_source), 0, TAG_NODE_SCALAR_RESULT)  ! fragment_idx
-            call send(world_comm, scalar_result, 0, TAG_NODE_SCALAR_RESULT)                       ! scalar result
-            call send(world_comm, matrix_result, 0, TAG_NODE_MATRIX_RESULT)                       ! matrix result
+            call isend(world_comm, worker_fragment_map(worker_source), 0, TAG_NODE_SCALAR_RESULT, req)  ! fragment_idx
+            call wait(req)
+            call isend(world_comm, scalar_result, 0, TAG_NODE_SCALAR_RESULT, req)                       ! scalar result
+            call wait(req)
 
-            ! Clear the mapping and deallocate
+            ! Clear the mapping
             worker_fragment_map(worker_source) = 0
-            if (allocated(matrix_result)) deallocate (matrix_result)
          end if
 
          ! PRIORITY 2: Check for work requests from local workers
@@ -379,33 +383,42 @@ contains
          if (local_message_pending) then
             ! Only process work request if this worker doesn't have pending results
             if (worker_fragment_map(status%MPI_SOURCE) == 0) then
-               call recv(node_comm, local_dummy, status%MPI_SOURCE, TAG_WORKER_REQUEST)
+               call irecv(node_comm, local_dummy, status%MPI_SOURCE, TAG_WORKER_REQUEST, req)
+               call wait(req)
 
                if (more_fragments) then
-                  call send(world_comm, dummy_msg, 0, TAG_NODE_REQUEST)
-                  call recv(world_comm, fragment_idx, 0, MPI_ANY_TAG, global_status)
+                  call isend(world_comm, dummy_msg, 0, TAG_NODE_REQUEST, req)
+                  call wait(req)
+                  call irecv(world_comm, fragment_idx, 0, MPI_ANY_TAG, req)
+                  call wait(req, global_status)
 
                   if (global_status%MPI_TAG == TAG_NODE_FRAGMENT) then
-                     call recv(world_comm, fragment_size, 0, TAG_NODE_FRAGMENT, global_status)
+                     call irecv(world_comm, fragment_size, 0, TAG_NODE_FRAGMENT, req)
+                     call wait(req)
+                     ! Note: must use blocking recv for allocatable arrays since size is unknown
                      allocate (fragment_indices(fragment_size))
                      call recv(world_comm, fragment_indices, 0, TAG_NODE_FRAGMENT, global_status)
 
-                     call send(node_comm, fragment_idx, status%MPI_SOURCE, TAG_WORKER_FRAGMENT)
-                     call send(node_comm, fragment_size, status%MPI_SOURCE, TAG_WORKER_FRAGMENT)
-                     call send(node_comm, fragment_indices, status%MPI_SOURCE, TAG_WORKER_FRAGMENT)
-                     call send(node_comm, matrix_size, status%MPI_SOURCE, TAG_WORKER_FRAGMENT)
+                     call isend(node_comm, fragment_idx, status%MPI_SOURCE, TAG_WORKER_FRAGMENT, req)
+                     call wait(req)
+                     call isend(node_comm, fragment_size, status%MPI_SOURCE, TAG_WORKER_FRAGMENT, req)
+                     call wait(req)
+                     call isend(node_comm, fragment_indices, status%MPI_SOURCE, TAG_WORKER_FRAGMENT, req)
+                     call wait(req)
 
                      ! Track which fragment was sent to this worker
                      worker_fragment_map(status%MPI_SOURCE) = fragment_idx
 
                      deallocate (fragment_indices)
                   else
-                     call send(node_comm, -1, status%MPI_SOURCE, TAG_WORKER_FINISH)
+                     call isend(node_comm, -1, status%MPI_SOURCE, TAG_WORKER_FINISH, req)
+                     call wait(req)
                      finished_workers = finished_workers + 1
                      more_fragments = .false.
                   end if
                else
-                  call send(node_comm, -1, status%MPI_SOURCE, TAG_WORKER_FINISH)
+                  call isend(node_comm, -1, status%MPI_SOURCE, TAG_WORKER_FINISH, req)
+                  call wait(req)
                   finished_workers = finished_workers + 1
                end if
             end if
@@ -419,25 +432,31 @@ contains
       type(system_geometry_t), intent(in), optional :: sys_geom
       character(len=*), intent(in) :: method
 
-      integer(int32) :: fragment_idx, fragment_size, dummy_msg, matrix_size
+      integer(int32) :: fragment_idx, fragment_size, dummy_msg
       integer(int32), allocatable :: fragment_indices(:)
       real(dp) :: dot_result
       real(dp), allocatable :: C_flat(:)
       type(MPI_Status) :: status
       type(physical_fragment_t) :: phys_frag
 
+      ! MPI request handles for non-blocking operations
+      type(request_t) :: req
+
       dummy_msg = 0
 
       do
-         call send(node_comm, dummy_msg, 0, TAG_WORKER_REQUEST)
-         call recv(node_comm, fragment_idx, 0, MPI_ANY_TAG, status)
+         call isend(node_comm, dummy_msg, 0, TAG_WORKER_REQUEST, req)
+         call wait(req)
+         call irecv(node_comm, fragment_idx, 0, MPI_ANY_TAG, req)
+         call wait(req, status)
 
          select case (status%MPI_TAG)
          case (TAG_WORKER_FRAGMENT)
-            call recv(node_comm, fragment_size, 0, TAG_WORKER_FRAGMENT, status)
+            call irecv(node_comm, fragment_size, 0, TAG_WORKER_FRAGMENT, req)
+            call wait(req)
+            ! Note: must use blocking recv for allocatable arrays since size is unknown
             allocate (fragment_indices(fragment_size))
             call recv(node_comm, fragment_indices, 0, TAG_WORKER_FRAGMENT, status)
-            call recv(node_comm, matrix_size, 0, TAG_WORKER_FRAGMENT, status)
 
             ! Build physical fragment from indices if sys_geom is available
             if (present(sys_geom)) then
@@ -455,8 +474,8 @@ contains
             end if
 
             ! Send results back to coordinator
-            call send(node_comm, dot_result, 0, TAG_WORKER_SCALAR_RESULT)
-            call send(node_comm, C_flat, 0, TAG_WORKER_MATRIX_RESULT)
+            call isend(node_comm, dot_result, 0, TAG_WORKER_SCALAR_RESULT, req)
+            call wait(req)
 
             deallocate (fragment_indices, C_flat)
          case (TAG_WORKER_FINISH)
@@ -530,11 +549,11 @@ contains
 
    end subroutine unfragmented_calculation
 
-   subroutine serial_fragment_processor(total_fragments, polymers, max_level, sys_geom, method, matrix_size)
+   subroutine serial_fragment_processor(total_fragments, polymers, max_level, sys_geom, method)
       !! Process all fragments serially in single-rank mode
       !! This is used when running with only 1 MPI rank
       integer(int64), intent(in) :: total_fragments
-      integer, intent(in) :: polymers(:, :), max_level, matrix_size
+      integer, intent(in) :: polymers(:, :), max_level
       type(system_geometry_t), intent(in) :: sys_geom
       character(len=*), intent(in) :: method
 
@@ -542,20 +561,15 @@ contains
       integer :: fragment_size
       integer, allocatable :: fragment_indices(:)
       real(dp), allocatable :: scalar_results(:)
-      real(dp), allocatable :: matrix_results(:, :)
       real(dp), allocatable :: C_flat(:)
       real(dp) :: dot_result, mbe_total_energy
       type(physical_fragment_t) :: phys_frag
-      integer :: max_matrix_size
       type(timer_type) :: coord_timer
 
       call logger%info("Processing "//to_char(total_fragments)//" fragments serially...")
 
       allocate (scalar_results(total_fragments))
-      max_matrix_size = (max_level*matrix_size)**2
-      allocate (matrix_results(max_matrix_size, total_fragments))
       scalar_results = 0.0_dp
-      matrix_results = 0.0_dp
 
       call omp_set_num_threads(1)
       call coord_timer%start()
@@ -570,10 +584,6 @@ contains
                                dot_result, C_flat, method, phys_frag)
 
          scalar_results(frag_idx) = dot_result
-         matrix_results(1:size(C_flat), frag_idx) = C_flat
-         if (size(C_flat) < max_matrix_size) then
-            matrix_results(size(C_flat) + 1:max_matrix_size, frag_idx) = 0.0_dp
-         end if
 
          call phys_frag%destroy()
          deallocate (fragment_indices, C_flat)
@@ -596,7 +606,7 @@ contains
       call coord_timer%stop()
       call logger%info("Time to compute MBE "//to_char(coord_timer%get_elapsed_time())//" s")
 
-      deallocate (scalar_results, matrix_results)
+      deallocate (scalar_results)
 
    end subroutine serial_fragment_processor
 
