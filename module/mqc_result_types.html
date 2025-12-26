@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 3.0% of total for modules and submodules.">84 statements</a>
+                 title=" 6.7% of total for modules and submodules.">197 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -128,7 +128,19 @@
         <div id="sidebar">
       <h3>Contents</h3>
   
-  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mqc_result_types.html#variable-scs_os_scale">SCS_OS_SCALE</a>
+            <a class="list-group-item" href="../module/mqc_result_types.html#variable-scs_ss_scale">SCS_SS_SCALE</a>
+        </div>
+      </div>
+    </div>
+
   
   
   
@@ -145,11 +157,28 @@
       <div id="types-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/mqc_result_types.html#type-calculation_result_t">calculation_result_t</a>
+            <a class="list-group-item" href="../module/mqc_result_types.html#type-cc_energy_t">cc_energy_t</a>
+            <a class="list-group-item" href="../module/mqc_result_types.html#type-energy_t">energy_t</a>
+            <a class="list-group-item" href="../module/mqc_result_types.html#type-mp2_energy_t">mp2_energy_t</a>
         </div>
       </div>
     </div>
 
-  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mqc_result_types.html#proc-cc_total">cc_total</a>
+            <a class="list-group-item" href="../module/mqc_result_types.html#proc-energy_total">energy_total</a>
+            <a class="list-group-item" href="../module/mqc_result_types.html#proc-mp2_scs">mp2_scs</a>
+            <a class="list-group-item" href="../module/mqc_result_types.html#proc-mp2_total">mp2_total</a>
+        </div>
+      </div>
+    </div>
+
       <div class="card mb-4">
       <a data-bs-toggle="collapse" href="#subs-0"
          aria-expanded="false" aria-controls="subs-0">
@@ -161,6 +190,11 @@
             <a class="list-group-item" href="../module/mqc_result_types.html#proc-result_isend">result_isend</a>
             <a class="list-group-item" href="../module/mqc_result_types.html#proc-result_recv">result_recv</a>
             <a class="list-group-item" href="../module/mqc_result_types.html#proc-result_send">result_send</a>
+            <a class="list-group-item" href="../module/mqc_result_types.html#proc-cc_check_stability">cc_check_stability</a>
+            <a class="list-group-item" href="../module/mqc_result_types.html#proc-cc_reset">cc_reset</a>
+            <a class="list-group-item" href="../module/mqc_result_types.html#proc-energy_reset">energy_reset</a>
+            <a class="list-group-item" href="../module/mqc_result_types.html#proc-mp2_check_stability">mp2_check_stability</a>
+            <a class="list-group-item" href="../module/mqc_result_types.html#proc-mp2_reset">mp2_reset</a>
             <a class="list-group-item" href="../module/mqc_result_types.html#proc-result_destroy">result_destroy</a>
             <a class="list-group-item" href="../module/mqc_result_types.html#proc-result_reset">result_reset</a>
         </div>
@@ -183,6 +217,9 @@
     <div class="col-md-9" id='text'>
       <p>Defines data structures for storing and managing results from
 quantum chemistry calculations including energies, gradients, and properties.
+MP2 energy components type
+Coupled cluster energy components type
+Energy components type
 Main result container type
 Send result over MPI
 Receive result over MPI</p>
@@ -192,8 +229,8 @@ Receive result over MPI</p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item">pic_types</li>
                   <li class="list-inline-item">pic_mpi_lib</li>
+                  <li class="list-inline-item">pic_types</li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -548,6 +585,57 @@ large graphs.</div>
       <br>
 
 
+        <section>
+          <h2>Variables</h2>
+            <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scs_os_scale"></span>
+              real(kind=dp),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>SCS_OS_SCALE</strong></td>
+<td> =</td>
+                <td>1.2_dp</td>
+            <td>
+                <p>SCS opposite-spin scaling factor</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scs_ss_scale"></span>
+              real(kind=dp),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>SCS_SS_SCALE</strong></td>
+<td> =</td>
+                <td>1.0_dp/3.0_dp</td>
+            <td>
+                <p>SCS same-spin scaling factor</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+        </section>
+        <br>
 
 
 
@@ -596,8 +684,8 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-energy"></span>
-              real(kind=dp),
+              <span class="anchor" id="variable-energy~2"></span>
+              type(<a href='../type/energy_t.html'>energy_t</a>),
             </td>
               <td>public</td>
             <td>
@@ -605,10 +693,10 @@ large graphs.</div>
             </td>
             <td>::</td>
             <td><strong>energy</strong></td>
-<td> =</td>
-                <td>0.0_dp</td>
+                <td></td>
+                <td></td>
             <td>
-<p>Total electronic energy (Hartree)</p>
+<p>Energy components (Hartree)</p>
             </td>
         </tr>
         <tr>
@@ -698,6 +786,23 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-has_sigma"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>has_sigma</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+<p>Stress tensor has been computed</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-hessian"></span>
               real(kind=dp),
             </td>
@@ -713,6 +818,23 @@ large graphs.</div>
 <p>Energy hessian (future implementation)</p>
             </td>
         </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sigma"></span>
+              real(kind=dp),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>sigma</strong>(:,:)</td>
+                <td></td>
+                <td></td>
+            <td>
+<p>Stress tensor (3,3) (Hartree/Bohr^3)</p>
+            </td>
+        </tr>
     </tbody>
   </table>
 
@@ -724,13 +846,305 @@ large graphs.</div>
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/calculation_result_t.html#boundprocedure-destroy'>destroy</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/result_destroy.html'>result_destroy</a></td>
+  <strong><a href='../type/calculation_result_t.html#boundprocedure-destroy~6'>destroy</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/result_destroy.html'>result_destroy</a></td>
                   <td><p>Clean up allocated memory</p></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/calculation_result_t.html#boundprocedure-reset'>reset</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/result_reset.html'>result_reset</a></td>
+  <strong><a href='../type/calculation_result_t.html#boundprocedure-reset~4'>reset</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/result_reset.html'>result_reset</a></td>
                   <td><p>Reset all values and flags</p></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-cc_energy_t"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/cc_energy_t.html'>cc_energy_t</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Container for coupled cluster energy components</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-doubles"></span>
+              real(kind=dp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>doubles</strong></td>
+<td> =</td>
+                <td>0.0_dp</td>
+            <td>
+<p>Doubles contribution (Hartree)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-singles"></span>
+              real(kind=dp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>singles</strong></td>
+<td> =</td>
+                <td>0.0_dp</td>
+            <td>
+<p>Singles contribution (Hartree)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-triples"></span>
+              real(kind=dp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>triples</strong></td>
+<td> =</td>
+                <td>0.0_dp</td>
+            <td>
+<p>Triples contribution (Hartree)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/cc_energy_t.html#boundprocedure-check_stability~2'>check_stability</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/cc_check_stability.html'>cc_check_stability</a></td>
+                  <td><p>Check for positive energies (instability)</p></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/cc_energy_t.html#boundprocedure-reset~2'>reset</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/cc_reset.html'>cc_reset</a></td>
+                  <td><p>Reset all components to zero</p></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/cc_energy_t.html#boundprocedure-total~2'>total</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/cc_total.html'>cc_total</a></td>
+                  <td><p>Compute total CC correlation</p></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-energy_t"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/energy_t.html'>energy_t</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Container for quantum chemistry energy components</p><a href="../type/energy_t.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cc"></span>
+              type(<a href='../type/cc_energy_t.html'>cc_energy_t</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>cc</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+<p>Coupled cluster correlation components</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mp2"></span>
+              type(<a href='../type/mp2_energy_t.html'>mp2_energy_t</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mp2</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+<p>MP2 correlation components</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scf"></span>
+              real(kind=dp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>scf</strong></td>
+<td> =</td>
+                <td>0.0_dp</td>
+            <td>
+<p>SCF/HF reference energy (Hartree)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/energy_t.html#boundprocedure-reset~3'>reset</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/energy_reset.html'>energy_reset</a></td>
+                  <td><p>Reset all components to zero</p></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/energy_t.html#boundprocedure-total~3'>total</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/energy_total.html'>energy_total</a></td>
+                  <td><p>Compute total energy from components</p></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-mp2_energy_t"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/mp2_energy_t.html'>mp2_energy_t</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Container for MP2 energy components (SS/OS)</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-os"></span>
+              real(kind=dp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>os</strong></td>
+<td> =</td>
+                <td>0.0_dp</td>
+            <td>
+<p>Opposite-spin correlation energy (Hartree)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ss"></span>
+              real(kind=dp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ss</strong></td>
+<td> =</td>
+                <td>0.0_dp</td>
+            <td>
+<p>Same-spin correlation energy (Hartree)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/mp2_energy_t.html#boundprocedure-check_stability'>check_stability</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/mp2_check_stability.html'>mp2_check_stability</a></td>
+                  <td><p>Check for positive energies (instability)</p></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/mp2_energy_t.html#boundprocedure-reset'>reset</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/mp2_reset.html'>mp2_reset</a></td>
+                  <td><p>Reset both components to zero</p></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/mp2_energy_t.html#boundprocedure-scs'>scs</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/mp2_scs.html'>mp2_scs</a></td>
+                  <td><p>Compute SCS-MP2 correlation</p></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/mp2_energy_t.html#boundprocedure-total'>total</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/mp2_total.html'>mp2_total</a></td>
+                  <td><p>Compute total MP2 correlation</p></td>
               </tr>
           </tbody>
         </table>
@@ -740,16 +1154,14 @@ large graphs.</div>
         </section>
         <br>
 
-
         <section>
-          <h2>Subroutines</h2>
+          <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-result_irecv"></span> <h3>public  subroutine <a href='../proc/result_irecv.html'>result_irecv</a>(result, comm, source, tag, req)  
+    <div class="card-header codesum"><span class="anchor" id="proc-cc_total"></span> <h3>private pure function <a href='../proc/cc_total.html'>cc_total</a>(this) result(total)  
 </h3></div>
     <div class="card-body">
           
-  <p>Receive calculation result over MPI (non-blocking)
-Receives energy (non-blocking) and conditionally receives gradient (blocking)</p>
+  <p>Compute total CC correlation energy</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -764,7 +1176,194 @@ Receives energy (non-blocking) and conditionally receives gradient (blocking)</p
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~4"></span>
+              <span class="anchor" id="variable-this~15"></span>
+              class(<a href='../type/cc_energy_t.html'>cc_energy_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-energy_total"></span> <h3>private pure function <a href='../proc/energy_total.html'>energy_total</a>(this) result(total)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute total energy from all components</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~18"></span>
+              class(<a href='../type/energy_t.html'>energy_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp2_scs"></span> <h3>private pure function <a href='../proc/mp2_scs.html'>mp2_scs</a>(this) result(scs_energy)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute SCS-MP2 (Spin-Component Scaled MP2) correlation energy
+SCS-MP2 uses: E_SCS = (1/3)<em>E_SS + 1.2</em>E_OS</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~12"></span>
+              class(<a href='../type/mp2_energy_t.html'>mp2_energy_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp2_total"></span> <h3>private pure function <a href='../proc/mp2_total.html'>mp2_total</a>(this) result(total)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute total MP2 correlation energy</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~11"></span>
+              class(<a href='../type/mp2_energy_t.html'>mp2_energy_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-result_irecv"></span> <h3>public  subroutine <a href='../proc/result_irecv.html'>result_irecv</a>(result, comm, source, tag, req)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Receive calculation result over MPI (non-blocking)
+Receives SCF energy (non-blocking) and other components (blocking)</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-result~13"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(inout)</td>
@@ -824,7 +1423,7 @@ Receives energy (non-blocking) and conditionally receives gradient (blocking)</p
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-req~2"></span>
+              <span class="anchor" id="variable-req~7"></span>
               type(request_t),
             </td>
 <td>intent(out)</td>
@@ -850,7 +1449,7 @@ Receives energy (non-blocking) and conditionally receives gradient (blocking)</p
     <div class="card-body">
           
   <p>Send calculation result over MPI (non-blocking)
-Sends energy (non-blocking) and conditionally sends gradient (blocking)</p>
+Sends SCF energy (non-blocking) and other components (blocking)</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -865,7 +1464,7 @@ Sends energy (non-blocking) and conditionally sends gradient (blocking)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~2"></span>
+              <span class="anchor" id="variable-result~11"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(in)</td>
@@ -925,7 +1524,7 @@ Sends energy (non-blocking) and conditionally sends gradient (blocking)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-req"></span>
+              <span class="anchor" id="variable-req~6"></span>
               type(request_t),
             </td>
 <td>intent(out)</td>
@@ -951,7 +1550,7 @@ Sends energy (non-blocking) and conditionally sends gradient (blocking)</p>
     <div class="card-body">
           
   <p>Receive calculation result over MPI (blocking)
-Receives energy and conditionally receives gradient based on flag</p>
+Receives energy components and conditionally receives gradient based on flag</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -966,7 +1565,7 @@ Receives energy and conditionally receives gradient based on flag</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~3"></span>
+              <span class="anchor" id="variable-result~12"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(inout)</td>
@@ -1026,7 +1625,7 @@ Receives energy and conditionally receives gradient based on flag</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-status"></span>
+              <span class="anchor" id="variable-status~4"></span>
               type(MPI_Status),
             </td>
 <td>intent(out)</td>
@@ -1052,7 +1651,7 @@ Receives energy and conditionally receives gradient based on flag</p>
     <div class="card-body">
           
   <p>Send calculation result over MPI (blocking)
-Sends energy and conditionally sends gradient based on has_gradient flag</p>
+Sends energy components and conditionally sends gradient based on has_gradient flag</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1067,7 +1666,7 @@ Sends energy and conditionally sends gradient based on has_gradient flag</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-result"></span>
+              <span class="anchor" id="variable-result~10"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1133,6 +1732,208 @@ Sends energy and conditionally sends gradient based on has_gradient flag</p>
   </div>
 
               <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-cc_check_stability"></span> <h3>private  subroutine <a href='../proc/cc_check_stability.html'>cc_check_stability</a>(this)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Check for positive CC correlation energies (instability warning)
+Correlation energies should be negative; positive values indicate instability</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~17"></span>
+              class(<a href='../type/cc_energy_t.html'>cc_energy_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-cc_reset"></span> <h3>private  subroutine <a href='../proc/cc_reset.html'>cc_reset</a>(this)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Reset all CC components to zero</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~16"></span>
+              class(<a href='../type/cc_energy_t.html'>cc_energy_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-energy_reset"></span> <h3>private  subroutine <a href='../proc/energy_reset.html'>energy_reset</a>(this)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Reset all energy components to zero</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~19"></span>
+              class(<a href='../type/energy_t.html'>energy_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp2_check_stability"></span> <h3>private  subroutine <a href='../proc/mp2_check_stability.html'>mp2_check_stability</a>(this)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Check for positive MP2 correlation energies (instability warning)
+Correlation energies should be negative; positive values indicate instability</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~14"></span>
+              class(<a href='../type/mp2_energy_t.html'>mp2_energy_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp2_reset"></span> <h3>private  subroutine <a href='../proc/mp2_reset.html'>mp2_reset</a>(this)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Reset both MP2 components to zero</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~13"></span>
+              class(<a href='../type/mp2_energy_t.html'>mp2_energy_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-result_destroy"></span> <h3>private  subroutine <a href='../proc/result_destroy.html'>result_destroy</a>(this)  
 </h3></div>
     <div class="card-body">
@@ -1152,7 +1953,7 @@ Sends energy and conditionally sends gradient based on has_gradient flag</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this"></span>
+              <span class="anchor" id="variable-this~20"></span>
               class(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(inout)</td>
@@ -1192,7 +1993,7 @@ Sends energy and conditionally sends gradient based on has_gradient flag</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~2"></span>
+              <span class="anchor" id="variable-this~21"></span>
               class(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(inout)</td>
@@ -1235,7 +2036,7 @@ Sends energy and conditionally sends gradient based on has_gradient flag</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-26 00:43 +0000             </p>
+ on 2025-12-26 13:02 +0000             </p>
           </div>
         </div>
         <br>

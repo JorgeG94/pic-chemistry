@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="13.6% of total for source files.">392 statements</a>
+                 title="13.1% of total for source files.">392 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -680,25 +680,25 @@ large graphs.</div>
 <a id="ln-401" name="ln-401" href="#ln-401"></a><span class="k">                  </span><span class="n">errmsg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Failed to parse function line: &quot;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
 <a id="ln-402" name="ln-402" href="#ln-402"></a><span class="w">                  </span><span class="k">return</span>
 <a id="ln-403" name="ln-403" href="#ln-403"></a><span class="k">               end if</span>
-<a id="ln-404" name="ln-404" href="#ln-404"></a><span class="k">               if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">has_p</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<a id="ln-405" name="ln-405" href="#ln-405"></a><span class="k">                  </span><span class="nb">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<a id="ln-406" name="ln-406" href="#ln-406"></a><span class="w">                  </span><span class="n">errmsg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;L shell requires both S and P coefficients&quot;</span>
-<a id="ln-407" name="ln-407" href="#ln-407"></a><span class="w">                  </span><span class="k">return</span>
-<a id="ln-408" name="ln-408" href="#ln-408"></a><span class="k">               end if</span>
-<a id="ln-409" name="ln-409" href="#ln-409"></a>
-<a id="ln-410" name="ln-410" href="#ln-410"></a><span class="k">               </span><span class="n">ifunc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ifunc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<a id="ln-411" name="ln-411" href="#ln-411"></a>
-<a id="ln-412" name="ln-412" href="#ln-412"></a><span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">reading_l_shell</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<a id="ln-413" name="ln-413" href="#ln-413"></a><span class="w">                  </span><span class="c">! Store in both S and P shells</span>
-<a id="ln-414" name="ln-414" href="#ln-414"></a><span class="w">                  </span><span class="n">atom_basis</span><span class="p">%</span><span class="n">shells</span><span class="p">(</span><span class="n">l_shell_s_idx</span><span class="p">)%</span><span class="n">exponents</span><span class="p">(</span><span class="n">ifunc</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">exponent</span>
-<a id="ln-415" name="ln-415" href="#ln-415"></a><span class="nb">                  </span><span class="n">atom_basis</span><span class="p">%</span><span class="n">shells</span><span class="p">(</span><span class="n">l_shell_s_idx</span><span class="p">)%</span><span class="n">coefficients</span><span class="p">(</span><span class="n">ifunc</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coeff_s</span>
+<a id="ln-404" name="ln-404" href="#ln-404"></a>
+<a id="ln-405" name="ln-405" href="#ln-405"></a><span class="k">               </span><span class="n">ifunc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ifunc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<a id="ln-406" name="ln-406" href="#ln-406"></a>
+<a id="ln-407" name="ln-407" href="#ln-407"></a><span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">reading_l_shell</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-408" name="ln-408" href="#ln-408"></a><span class="k">               if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">has_p</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-409" name="ln-409" href="#ln-409"></a><span class="k">                  </span><span class="nb">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<a id="ln-410" name="ln-410" href="#ln-410"></a><span class="w">                  </span><span class="n">errmsg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;L shell requires both S and P coefficients&quot;</span>
+<a id="ln-411" name="ln-411" href="#ln-411"></a><span class="w">                  </span><span class="k">return</span>
+<a id="ln-412" name="ln-412" href="#ln-412"></a><span class="k">               end if</span>
+<a id="ln-413" name="ln-413" href="#ln-413"></a><span class="w">               </span><span class="c">! Store in both S and P shells</span>
+<a id="ln-414" name="ln-414" href="#ln-414"></a><span class="w">               </span><span class="n">atom_basis</span><span class="p">%</span><span class="n">shells</span><span class="p">(</span><span class="n">l_shell_s_idx</span><span class="p">)%</span><span class="n">exponents</span><span class="p">(</span><span class="n">ifunc</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">exponent</span>
+<a id="ln-415" name="ln-415" href="#ln-415"></a><span class="nb">               </span><span class="n">atom_basis</span><span class="p">%</span><span class="n">shells</span><span class="p">(</span><span class="n">l_shell_s_idx</span><span class="p">)%</span><span class="n">coefficients</span><span class="p">(</span><span class="n">ifunc</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coeff_s</span>
 <a id="ln-416" name="ln-416" href="#ln-416"></a>
-<a id="ln-417" name="ln-417" href="#ln-417"></a><span class="w">                  </span><span class="n">atom_basis</span><span class="p">%</span><span class="n">shells</span><span class="p">(</span><span class="n">l_shell_p_idx</span><span class="p">)%</span><span class="n">exponents</span><span class="p">(</span><span class="n">ifunc</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">exponent</span>
-<a id="ln-418" name="ln-418" href="#ln-418"></a><span class="nb">                  </span><span class="n">atom_basis</span><span class="p">%</span><span class="n">shells</span><span class="p">(</span><span class="n">l_shell_p_idx</span><span class="p">)%</span><span class="n">coefficients</span><span class="p">(</span><span class="n">ifunc</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coeff_p</span>
+<a id="ln-417" name="ln-417" href="#ln-417"></a><span class="w">               </span><span class="n">atom_basis</span><span class="p">%</span><span class="n">shells</span><span class="p">(</span><span class="n">l_shell_p_idx</span><span class="p">)%</span><span class="n">exponents</span><span class="p">(</span><span class="n">ifunc</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">exponent</span>
+<a id="ln-418" name="ln-418" href="#ln-418"></a><span class="nb">               </span><span class="n">atom_basis</span><span class="p">%</span><span class="n">shells</span><span class="p">(</span><span class="n">l_shell_p_idx</span><span class="p">)%</span><span class="n">coefficients</span><span class="p">(</span><span class="n">ifunc</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coeff_p</span>
 <a id="ln-419" name="ln-419" href="#ln-419"></a><span class="w">               </span><span class="k">else</span>
-<a id="ln-420" name="ln-420" href="#ln-420"></a><span class="w">                  </span><span class="c">! Store in current shell</span>
-<a id="ln-421" name="ln-421" href="#ln-421"></a><span class="w">                  </span><span class="n">atom_basis</span><span class="p">%</span><span class="n">shells</span><span class="p">(</span><span class="n">ishell</span><span class="p">)%</span><span class="n">exponents</span><span class="p">(</span><span class="n">ifunc</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">exponent</span>
-<a id="ln-422" name="ln-422" href="#ln-422"></a><span class="nb">                  </span><span class="n">atom_basis</span><span class="p">%</span><span class="n">shells</span><span class="p">(</span><span class="n">ishell</span><span class="p">)%</span><span class="n">coefficients</span><span class="p">(</span><span class="n">ifunc</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coeff_s</span>
+<a id="ln-420" name="ln-420" href="#ln-420"></a><span class="w">               </span><span class="c">! Store in current shell</span>
+<a id="ln-421" name="ln-421" href="#ln-421"></a><span class="w">               </span><span class="n">atom_basis</span><span class="p">%</span><span class="n">shells</span><span class="p">(</span><span class="n">ishell</span><span class="p">)%</span><span class="n">exponents</span><span class="p">(</span><span class="n">ifunc</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">exponent</span>
+<a id="ln-422" name="ln-422" href="#ln-422"></a><span class="nb">               </span><span class="n">atom_basis</span><span class="p">%</span><span class="n">shells</span><span class="p">(</span><span class="n">ishell</span><span class="p">)%</span><span class="n">coefficients</span><span class="p">(</span><span class="n">ifunc</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coeff_s</span>
 <a id="ln-423" name="ln-423" href="#ln-423"></a><span class="w">               </span><span class="k">end if</span>
 <a id="ln-424" name="ln-424" href="#ln-424"></a><span class="k">            end if</span>
 <a id="ln-425" name="ln-425" href="#ln-425"></a>
@@ -848,7 +848,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-26 00:43 +0000             </p>
+ on 2025-12-26 13:02 +0000             </p>
           </div>
         </div>
         <br>

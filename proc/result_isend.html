@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.5% of total for procedures.">11 statements</a>
+                 title=" 0.6% of total for procedures.">16 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -166,7 +166,7 @@
     
 
     <p>Send calculation result over MPI (non-blocking)
-Sends energy (non-blocking) and conditionally sends gradient (blocking)</p>
+Sends SCF energy (non-blocking) and other components (blocking)</p>
 
 
     <h3>Arguments</h3>
@@ -182,7 +182,7 @@ Sends energy (non-blocking) and conditionally sends gradient (blocking)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~2"></span>
+              <span class="anchor" id="variable-result~11"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(in)</td>
@@ -242,7 +242,7 @@ Sends energy (non-blocking) and conditionally sends gradient (blocking)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-req"></span>
+              <span class="anchor" id="variable-req~6"></span>
               type(request_t),
             </td>
 <td>intent(out)</td>
@@ -594,14 +594,21 @@ large graphs.</div>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">result_isend</span><span class="p">(</span><span class="k">result</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Send calculation result over MPI (non-blocking)</span>
-<span class="w">      </span><span class="c">!! Sends energy (non-blocking) and conditionally sends gradient (blocking)</span>
+<span class="w">      </span><span class="c">!! Sends SCF energy (non-blocking) and other components (blocking)</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">calculation_result_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">result</span>
 <span class="k">      type</span><span class="p">(</span><span class="n">comm_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">comm</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">request_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">req</span>
 
-<span class="w">      </span><span class="c">! Send energy (non-blocking)</span>
-<span class="w">      </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">%</span><span class="n">energy</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="w">      </span><span class="c">! Send SCF energy (non-blocking)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">%</span><span class="n">energy</span><span class="p">%</span><span class="n">scf</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+
+<span class="w">      </span><span class="c">! Send other energy components (blocking to avoid needing multiple request handles)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">send</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">%</span><span class="n">energy</span><span class="p">%</span><span class="n">mp2</span><span class="p">%</span><span class="n">ss</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">send</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">%</span><span class="n">energy</span><span class="p">%</span><span class="n">mp2</span><span class="p">%</span><span class="n">os</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">send</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">%</span><span class="n">energy</span><span class="p">%</span><span class="n">cc</span><span class="p">%</span><span class="n">singles</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">send</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">%</span><span class="n">energy</span><span class="p">%</span><span class="n">cc</span><span class="p">%</span><span class="n">doubles</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">send</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">%</span><span class="n">energy</span><span class="p">%</span><span class="n">cc</span><span class="p">%</span><span class="n">triples</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">)</span>
 
 <span class="w">      </span><span class="c">! Send gradient flag and data (blocking to avoid needing multiple request handles)</span>
 <span class="w">      </span><span class="k">call </span><span class="n">send</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">%</span><span class="n">has_gradient</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">)</span>
@@ -632,7 +639,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-26 00:43 +0000             </p>
+ on 2025-12-26 13:02 +0000             </p>
           </div>
         </div>
         <br>
