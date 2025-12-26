@@ -10,7 +10,7 @@
     <meta name="author" content="Jorge Luis Galvez Vallejo" >
     <link rel="icon" href="../favicon.png">
 
-    <title>generate_fragment_list &ndash; metalquicha</title>
+    <title>result_isend &ndash; metalquicha</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -83,7 +83,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>generate_fragment_list
+    <h1>result_isend
       <small>Subroutine</small>
       
     </h1>
@@ -94,21 +94,21 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.4% of total for procedures.">10 statements</a>
+                 title=" 0.5% of total for procedures.">11 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/mqc_frag_utils.f90"> Source File</a>
+              <a href="../src/mqc_result_types.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/mqc_frag_utils.f90.html'>mqc_frag_utils.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/mqc_frag_utils.html'>mqc_frag_utils</a></li>
-            <li class="breadcrumb-item active" aria-current="page">generate_fragment_list</li>
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_result_types.f90.html'>mqc_result_types.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/mqc_result_types.html'>mqc_result_types</a></li>
+            <li class="breadcrumb-item active" aria-current="page">result_isend</li>
           </ol>
         </nav>
       </div>
@@ -129,19 +129,7 @@
       <div id="sidebar">
       <h3>Contents</h3>
   
-      <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#vars-0"
-         aria-expanded="false" aria-controls="vars-0">
-         <h4 class="card-header bg-primary text-white">Variables</h4>
-      </a>
-      <div id="vars-0" class="collapse">
-        <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/generate_fragment_list.html#variable-n~4">n</a>
-            <a class="list-group-item" href="../proc/generate_fragment_list.html#variable-r~2">r</a>
-        </div>
-      </div>
-    </div>
-
+  
   
   
   
@@ -163,7 +151,7 @@
     <div class="card card-primary">
       <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../proc/generate_fragment_list.html#src">generate_fragment_list</a>
+        <a class="list-group-item" href="../proc/result_isend.html#src">result_isend</a>
       </div>
     </div>
 
@@ -173,12 +161,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public recursive subroutine generate_fragment_list(monomers, max_level, polymers, count)  
+    <h2>public  subroutine result_isend(result, comm, dest, tag, req)  
 </h2>
     
 
-    <p>Generate all possible fragments (combinations of monomers) up to max_level
-Uses int64 for count to handle large numbers of fragments that overflow int32.</p>
+    <p>Send calculation result over MPI (non-blocking)
+Sends energy (non-blocking) and conditionally sends gradient (blocking)</p>
 
 
     <h3>Arguments</h3>
@@ -194,60 +182,75 @@ Uses int64 for count to handle large numbers of fragments that overflow int32.</
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-monomers~3"></span>
-              integer(kind=default_int),
+              <span class="anchor" id="variable-result~2"></span>
+              type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>monomers</strong>(:)</td>
+            <td><strong>result</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_level~7"></span>
-              integer(kind=default_int),
+              <span class="anchor" id="variable-comm~2"></span>
+              type(comm_t),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>max_level</strong></td>
+            <td><strong>comm</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-polymers~5"></span>
-              integer(kind=default_int),
+              <span class="anchor" id="variable-dest~2"></span>
+              integer,
             </td>
-<td>intent(inout)</td>
+<td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>polymers</strong>(:,:)</td>
+            <td><strong>dest</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-count"></span>
-              integer(kind=int64),
+              <span class="anchor" id="variable-tag~2"></span>
+              integer,
             </td>
-<td>intent(inout)</td>
+<td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>count</strong></td>
+            <td><strong>tag</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-req"></span>
+              type(request_t),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>req</strong></td>
             <td>
                 
             </td>
@@ -266,53 +269,41 @@ Uses int64 for count to handle large numbers of fragments that overflow int32.</
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~generate_fragment_list~~CallsGraph Pages: 1 -->
-<svg id="procgenerate_fragment_listCallsGraph" width="356pt" height="50pt"
- viewBox="0.00 0.00 356.00 50.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~generate_fragment_list~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 46)">
-<title>proc~~generate_fragment_list~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-46 352,-46 352,4 -4,4"/>
-<!-- proc~generate_fragment_list -->
-<g id="proc~~generate_fragment_list~~CallsGraph_node1" class="node">
-<title>proc~generate_fragment_list</title>
-<polygon fill="none" stroke="black" points="136,-24 0,-24 0,0 136,0 136,-24"/>
-<text text-anchor="middle" x="68" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">generate_fragment_list</text>
+<!-- Title: proc~~result_isend~~CallsGraph Pages: 1 -->
+<svg id="procresult_isendCallsGraph" width="174pt" height="74pt"
+ viewBox="0.00 0.00 174.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~result_isend~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
+<title>proc~~result_isend~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 170,-70 170,4 -4,4"/>
+<!-- proc~result_isend -->
+<g id="proc~~result_isend~~CallsGraph_node1" class="node">
+<title>proc~result_isend</title>
+<polygon fill="none" stroke="black" points="76,-45 0,-45 0,-21 76,-21 76,-45"/>
+<text text-anchor="middle" x="38" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">result_isend</text>
 </g>
-<!-- proc~combine -->
-<g id="proc~~generate_fragment_list~~CallsGraph_node2" class="node">
-<title>proc~combine</title>
-<g id="a_proc~~generate_fragment_list~~CallsGraph_node2"><a xlink:href="../proc/combine.html" xlink:title="combine">
-<polygon fill="#d9534f" stroke="#d9534f" points="231,-24 172,-24 172,0 231,0 231,-24"/>
-<text text-anchor="middle" x="201.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">combine</text>
-</a>
+<!-- isend -->
+<g id="proc~~result_isend~~CallsGraph_node2" class="node">
+<title>isend</title>
+<polygon fill="#777777" stroke="#777777" points="166,-66 112,-66 112,-42 166,-42 166,-66"/>
+<text text-anchor="middle" x="139" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">isend</text>
 </g>
+<!-- proc~result_isend&#45;&gt;isend -->
+<g id="proc~~result_isend~~CallsGraph_edge1" class="edge">
+<title>proc~result_isend&#45;&gt;isend</title>
+<path fill="none" stroke="#ff0000" d="M76.15,-40.88C84.57,-42.67 93.51,-44.56 101.89,-46.34"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="101.26,-49.78 111.77,-48.44 102.71,-42.94 101.26,-49.78"/>
 </g>
-<!-- proc~generate_fragment_list&#45;&gt;proc~combine -->
-<g id="proc~~generate_fragment_list~~CallsGraph_edge1" class="edge">
-<title>proc~generate_fragment_list&#45;&gt;proc~combine</title>
-<path fill="none" stroke="#ff0000" d="M136.29,-12C144.99,-12 153.65,-12 161.67,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="161.79,-15.5 171.79,-12 161.79,-8.5 161.79,-15.5"/>
+<!-- send -->
+<g id="proc~~result_isend~~CallsGraph_node3" class="node">
+<title>send</title>
+<polygon fill="#777777" stroke="#777777" points="166,-24 112,-24 112,0 166,0 166,-24"/>
+<text text-anchor="middle" x="139" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">send</text>
 </g>
-<!-- proc~combine_util -->
-<g id="proc~~generate_fragment_list~~CallsGraph_node3" class="node">
-<title>proc~combine_util</title>
-<g id="a_proc~~generate_fragment_list~~CallsGraph_node3"><a xlink:href="../proc/combine_util.html" xlink:title="combine_util">
-<polygon fill="#d9534f" stroke="#d9534f" points="348,-24 267,-24 267,0 348,0 348,-24"/>
-<text text-anchor="middle" x="307.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">combine_util</text>
-</a>
-</g>
-</g>
-<!-- proc~combine&#45;&gt;proc~combine_util -->
-<g id="proc~~generate_fragment_list~~CallsGraph_edge2" class="edge">
-<title>proc~combine&#45;&gt;proc~combine_util</title>
-<path fill="none" stroke="#ff0000" d="M231.19,-12C239.06,-12 247.82,-12 256.51,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="256.61,-15.5 266.61,-12 256.61,-8.5 256.61,-15.5"/>
-</g>
-<!-- proc~combine_util&#45;&gt;proc~combine_util -->
-<g id="proc~~generate_fragment_list~~CallsGraph_edge3" class="edge">
-<title>proc~combine_util&#45;&gt;proc~combine_util</title>
-<path fill="none" stroke="#ff0000" d="M289.97,-24.01C283.85,-32.97 289.7,-42 307.5,-42 318.35,-42 324.76,-38.65 326.72,-34"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="330.15,-33.29 325.03,-24.01 323.25,-34.46 330.15,-33.29"/>
+<!-- proc~result_isend&#45;&gt;send -->
+<g id="proc~~result_isend~~CallsGraph_edge2" class="edge">
+<title>proc~result_isend&#45;&gt;send</title>
+<path fill="none" stroke="#ff0000" d="M76.15,-25.12C84.57,-23.33 93.51,-21.44 101.89,-19.66"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="102.71,-23.06 111.77,-17.56 101.26,-16.22 102.71,-23.06"/>
 </g>
 </g>
 </svg>
@@ -407,66 +398,106 @@ large graphs.</div>
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~generate_fragment_list~~CalledByGraph Pages: 1 -->
-<svg id="procgenerate_fragment_listCalledByGraph" width="563pt" height="32pt"
- viewBox="0.00 0.00 563.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~generate_fragment_list~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
-<title>proc~~generate_fragment_list~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 559,-28 559,4 -4,4"/>
-<!-- proc~generate_fragment_list -->
-<g id="proc~~generate_fragment_list~~CalledByGraph_node1" class="node">
-<title>proc~generate_fragment_list</title>
-<polygon fill="none" stroke="black" points="555,-24 419,-24 419,0 555,0 555,-24"/>
-<text text-anchor="middle" x="487" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">generate_fragment_list</text>
+<!-- Title: proc~~result_isend~~CalledByGraph Pages: 1 -->
+<svg id="procresult_isendCalledByGraph" width="641pt" height="73pt"
+ viewBox="0.00 0.00 641.00 73.43" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~result_isend~~CalledByGraph" class="graph" transform="scale(0.99 0.99) rotate(0) translate(4 70)">
+<title>proc~~result_isend~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 642,-70 642,4 -4,4"/>
+<!-- proc~result_isend -->
+<g id="proc~~result_isend~~CalledByGraph_node1" class="node">
+<title>proc~result_isend</title>
+<polygon fill="none" stroke="black" points="638,-45 562,-45 562,-21 638,-21 638,-45"/>
+<text text-anchor="middle" x="600" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">result_isend</text>
 </g>
-<!-- proc~run_fragmented_calculation -->
-<g id="proc~~generate_fragment_list~~CalledByGraph_node2" class="node">
-<title>proc~run_fragmented_calculation</title>
-<g id="a_proc~~generate_fragment_list~~CalledByGraph_node2"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
-<polygon fill="#d9534f" stroke="#d9534f" points="383,-24 220,-24 220,0 383,0 383,-24"/>
-<text text-anchor="middle" x="301.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
+<!-- proc~node_coordinator -->
+<g id="proc~~result_isend~~CalledByGraph_node2" class="node">
+<title>proc~node_coordinator</title>
+<g id="a_proc~~result_isend~~CalledByGraph_node2"><a xlink:href="../proc/node_coordinator.html" xlink:title="node_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="526,-66 419,-66 419,-42 526,-42 526,-66"/>
+<text text-anchor="middle" x="472.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">node_coordinator</text>
 </a>
 </g>
 </g>
-<!-- proc~run_fragmented_calculation&#45;&gt;proc~generate_fragment_list -->
-<g id="proc~~generate_fragment_list~~CalledByGraph_edge1" class="edge">
-<title>proc~run_fragmented_calculation&#45;&gt;proc~generate_fragment_list</title>
-<path fill="none" stroke="#ff0000" d="M383.25,-12C391.73,-12 400.33,-12 408.77,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="408.96,-15.5 418.96,-12 408.96,-8.5 408.96,-15.5"/>
+<!-- proc~node_coordinator&#45;&gt;proc~result_isend -->
+<g id="proc~~result_isend~~CalledByGraph_edge1" class="edge">
+<title>proc~node_coordinator&#45;&gt;proc~result_isend</title>
+<path fill="none" stroke="#ff0000" d="M526.36,-45.15C534.84,-43.74 543.56,-42.28 551.89,-40.88"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="552.53,-44.32 561.82,-39.22 551.38,-37.42 552.53,-44.32"/>
+</g>
+<!-- proc~node_worker -->
+<g id="proc~~result_isend~~CalledByGraph_node3" class="node">
+<title>proc~node_worker</title>
+<g id="a_proc~~result_isend~~CalledByGraph_node3"><a xlink:href="../proc/node_worker.html" xlink:title="node_worker">
+<polygon fill="#d9534f" stroke="#d9534f" points="513.5,-24 431.5,-24 431.5,0 513.5,0 513.5,-24"/>
+<text text-anchor="middle" x="472.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">node_worker</text>
+</a>
+</g>
+</g>
+<!-- proc~node_worker&#45;&gt;proc~result_isend -->
+<g id="proc~~result_isend~~CalledByGraph_edge2" class="edge">
+<title>proc~node_worker&#45;&gt;proc~result_isend</title>
+<path fill="none" stroke="#ff0000" d="M513.55,-18.7C525.78,-20.75 539.34,-23.02 551.98,-25.13"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="551.44,-28.59 561.88,-26.79 552.6,-21.69 551.44,-28.59"/>
+</g>
+<!-- proc~run_fragmented_calculation -->
+<g id="proc~~result_isend~~CalledByGraph_node4" class="node">
+<title>proc~run_fragmented_calculation</title>
+<g id="a_proc~~result_isend~~CalledByGraph_node4"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="383,-45 220,-45 220,-21 383,-21 383,-45"/>
+<text text-anchor="middle" x="301.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_fragmented_calculation&#45;&gt;proc~node_coordinator -->
+<g id="proc~~result_isend~~CalledByGraph_edge3" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;proc~node_coordinator</title>
+<path fill="none" stroke="#ff0000" d="M383.04,-43.01C391.62,-44.07 400.26,-45.15 408.6,-46.18"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="408.24,-49.67 418.59,-47.43 409.1,-42.72 408.24,-49.67"/>
+</g>
+<!-- proc~run_fragmented_calculation&#45;&gt;proc~node_worker -->
+<g id="proc~~result_isend~~CalledByGraph_edge4" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;proc~node_worker</title>
+<path fill="none" stroke="#00ffff" d="M383.04,-22.99C396.06,-21.37 409.2,-19.74 421.24,-18.25"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="422,-21.68 431.49,-16.97 421.13,-14.73 422,-21.68"/>
 </g>
 <!-- proc~run_calculation -->
-<g id="proc~~generate_fragment_list~~CalledByGraph_node3" class="node">
+<g id="proc~~result_isend~~CalledByGraph_node5" class="node">
 <title>proc~run_calculation</title>
-<g id="a_proc~~generate_fragment_list~~CalledByGraph_node3"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
-<polygon fill="#d9534f" stroke="#d9534f" points="184,-24 90,-24 90,0 184,0 184,-24"/>
-<text text-anchor="middle" x="137" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
+<g id="a_proc~~result_isend~~CalledByGraph_node5"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="184,-45 90,-45 90,-21 184,-21 184,-45"/>
+<text text-anchor="middle" x="137" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
 </a>
 </g>
 </g>
 <!-- proc~run_calculation&#45;&gt;proc~run_fragmented_calculation -->
-<g id="proc~~generate_fragment_list~~CalledByGraph_edge2" class="edge">
+<g id="proc~~result_isend~~CalledByGraph_edge5" class="edge">
 <title>proc~run_calculation&#45;&gt;proc~run_fragmented_calculation</title>
-<path fill="none" stroke="#ff0000" d="M184.13,-12C192.24,-12 200.94,-12 209.78,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="209.8,-15.5 219.8,-12 209.8,-8.5 209.8,-15.5"/>
+<path fill="none" stroke="#ff0000" d="M184.13,-33C192.24,-33 200.94,-33 209.78,-33"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="209.8,-36.5 219.8,-33 209.8,-29.5 209.8,-36.5"/>
 </g>
 <!-- program~main -->
-<g id="proc~~generate_fragment_list~~CalledByGraph_node4" class="node">
+<g id="proc~~result_isend~~CalledByGraph_node6" class="node">
 <title>program~main</title>
-<g id="a_proc~~generate_fragment_list~~CalledByGraph_node4"><a xlink:href="../program/main.html" xlink:title="main">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="54,-24 0,-24 0,0 54,0 54,-24"/>
-<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
+<g id="a_proc~~result_isend~~CalledByGraph_node6"><a xlink:href="../program/main.html" xlink:title="main">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="54,-45 0,-45 0,-21 54,-21 54,-45"/>
+<text text-anchor="middle" x="27" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
 </a>
 </g>
 </g>
 <!-- program~main&#45;&gt;proc~run_calculation -->
-<g id="proc~~generate_fragment_list~~CalledByGraph_edge3" class="edge">
+<g id="proc~~result_isend~~CalledByGraph_edge6" class="edge">
 <title>program~main&#45;&gt;proc~run_calculation</title>
-<path fill="none" stroke="#ff0000" d="M54.14,-12C61.95,-12 70.81,-12 79.77,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="79.86,-15.5 89.86,-12 79.86,-8.5 79.86,-15.5"/>
+<path fill="none" stroke="#ff0000" d="M54.14,-33C61.95,-33 70.81,-33 79.77,-33"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="79.86,-36.5 89.86,-33 79.86,-29.5 79.86,-36.5"/>
 </g>
 </g>
 </svg>
-</div>          <div>
+</div>                <script>
+                  var panprocresult_isendCalledByGraph = svgPanZoom('#procresult_isendCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
             <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
           </div>
           <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
@@ -550,57 +581,6 @@ large graphs.</div>
     <br>
 
 
-    <section>    
-      <h2>Variables</h2>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-<th></th><th scope="col">Initial</th>        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-n~4"></span>
-              integer(kind=default_int),
-            </td>
-              <td>private</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>n</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-r~2"></span>
-              integer(kind=default_int),
-            </td>
-              <td>private</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>r</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    </section>
-    <br>
     
     
 
@@ -612,19 +592,23 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">recursive subroutine </span><span class="n">generate_fragment_list</span><span class="p">(</span><span class="n">monomers</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="nb">count</span><span class="p">)</span>
-<span class="w">      </span><span class="c">!! Generate all possible fragments (combinations of monomers) up to max_level</span>
-<span class="w">      </span><span class="c">!! Uses int64 for count to handle large numbers of fragments that overflow int32.</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">default_int</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">monomers</span><span class="p">(:),</span><span class="w"> </span><span class="n">max_level</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">default_int</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">polymers</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">count</span>
-<span class="nb">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">default_int</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">result_isend</span><span class="p">(</span><span class="k">result</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!! Send calculation result over MPI (non-blocking)</span>
+<span class="w">      </span><span class="c">!! Sends energy (non-blocking) and conditionally sends gradient (blocking)</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">calculation_result_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">result</span>
+<span class="k">      type</span><span class="p">(</span><span class="n">comm_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">comm</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">request_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">req</span>
 
-<span class="w">      </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">monomers</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
-<span class="w">      </span><span class="k">do </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span>
-<span class="w">         </span><span class="k">call </span><span class="n">combine</span><span class="p">(</span><span class="n">monomers</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="nb">count</span><span class="p">)</span>
-<span class="w">      </span><span class="k">end do</span>
-<span class="k">   end subroutine </span><span class="n">generate_fragment_list</span>
+<span class="w">      </span><span class="c">! Send energy (non-blocking)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">%</span><span class="n">energy</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+
+<span class="w">      </span><span class="c">! Send gradient flag and data (blocking to avoid needing multiple request handles)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">send</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">%</span><span class="n">has_gradient</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">result</span><span class="p">%</span><span class="n">has_gradient</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         call </span><span class="n">send</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">%</span><span class="n">gradient</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">)</span>
+<span class="w">      </span><span class="k">end if</span>
+<span class="k">   end subroutine </span><span class="n">result_isend</span>
 </pre></div>
 
     </section>

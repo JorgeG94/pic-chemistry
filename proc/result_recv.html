@@ -10,7 +10,7 @@
     <meta name="author" content="Jorge Luis Galvez Vallejo" >
     <link rel="icon" href="../favicon.png">
 
-    <title>result_reset &ndash; metalquicha</title>
+    <title>result_recv &ndash; metalquicha</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -83,7 +83,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>result_reset
+    <h1>result_recv
       <small>Subroutine</small>
       
     </h1>
@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.3% of total for procedures.">8 statements</a>
+                 title=" 0.5% of total for procedures.">12 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -108,7 +108,7 @@
           <ol class="breadcrumb justify-content-end mb-0">
                 <li class="breadcrumb-item"><a href='../sourcefile/mqc_result_types.f90.html'>mqc_result_types.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mqc_result_types.html'>mqc_result_types</a></li>
-            <li class="breadcrumb-item active" aria-current="page">result_reset</li>
+            <li class="breadcrumb-item active" aria-current="page">result_recv</li>
           </ol>
         </nav>
       </div>
@@ -151,7 +151,7 @@
     <div class="card card-primary">
       <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../proc/result_reset.html#src">result_reset</a>
+        <a class="list-group-item" href="../proc/result_recv.html#src">result_recv</a>
       </div>
     </div>
 
@@ -161,14 +161,13 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private  subroutine result_reset(this)  
+    <h2>public  subroutine result_recv(result, comm, source, tag, status)  
 </h2>
     
 
-    <p>Reset all values and flags in calculation_result_t</p>
+    <p>Receive calculation result over MPI (blocking)
+Receives energy and conditionally receives gradient based on flag</p>
 
-    <h3>Type Bound</h3>
-    <p><a href='../type/calculation_result_t.html'>calculation_result_t</a></p>
 
     <h3>Arguments</h3>
         <table class="table table-striped varlist">
@@ -183,15 +182,75 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~2"></span>
-              class(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
+              <span class="anchor" id="variable-result~3"></span>
+              type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>this</strong></td>
+            <td><strong>result</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-comm~3"></span>
+              type(comm_t),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>comm</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-source"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>source</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tag~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tag</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status"></span>
+              type(MPI_Status),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status</strong></td>
             <td>
                 
             </td>
@@ -202,7 +261,7 @@
     <br>
     <div class="card">
       <div class="card-header">
-  <h3 class="card-title">Called by</h3>
+  <h3 class="card-title">Calls</h3>
       </div>
       <div class="card-body">
   <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -210,103 +269,36 @@
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~result_reset~~CalledByGraph Pages: 1 -->
-<svg id="procresult_resetCalledByGraph" width="641pt" height="20pt"
- viewBox="0.00 0.00 641.00 19.57" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~result_reset~~CalledByGraph" class="graph" transform="scale(0.61 0.61) rotate(0) translate(4 28)">
-<title>proc~~result_reset~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 1044,-28 1044,4 -4,4"/>
-<!-- proc~result_reset -->
-<g id="proc~~result_reset~~CalledByGraph_node1" class="node">
-<title>proc~result_reset</title>
-<polygon fill="none" stroke="black" points="1040,-24 855,-24 855,0 1040,0 1040,-24"/>
-<text text-anchor="middle" x="947.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">calculation_result_t%result_reset</text>
+<!-- Title: proc~~result_recv~~CallsGraph Pages: 1 -->
+<svg id="procresult_recvCallsGraph" width="168pt" height="32pt"
+ viewBox="0.00 0.00 168.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~result_recv~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~result_recv~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 164,-28 164,4 -4,4"/>
+<!-- proc~result_recv -->
+<g id="proc~~result_recv~~CallsGraph_node1" class="node">
+<title>proc~result_recv</title>
+<polygon fill="none" stroke="black" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">result_recv</text>
 </g>
-<!-- proc~result_destroy -->
-<g id="proc~~result_reset~~CalledByGraph_node2" class="node">
-<title>proc~result_destroy</title>
-<g id="a_proc~~result_reset~~CalledByGraph_node2"><a xlink:href="../proc/result_destroy.html" xlink:title="calculation_result_t%result_destroy">
-<polygon fill="#d9534f" stroke="#d9534f" points="819,-24 621,-24 621,0 819,0 819,-24"/>
-<text text-anchor="middle" x="720" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calculation_result_t%result_destroy</text>
-</a>
+<!-- recv -->
+<g id="proc~~result_recv~~CallsGraph_node2" class="node">
+<title>recv</title>
+<polygon fill="#777777" stroke="#777777" points="160,-24 106,-24 106,0 160,0 160,-24"/>
+<text text-anchor="middle" x="133" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">recv</text>
 </g>
-</g>
-<!-- proc~result_destroy&#45;&gt;proc~result_reset -->
-<g id="proc~~result_reset~~CalledByGraph_edge1" class="edge">
-<title>proc~result_destroy&#45;&gt;proc~result_reset</title>
-<path fill="none" stroke="#ff0000" d="M819.25,-12C827.69,-12 836.24,-12 844.7,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="844.97,-15.5 854.97,-12 844.97,-8.5 844.97,-15.5"/>
-</g>
-<!-- proc~unfragmented_calculation -->
-<g id="proc~~result_reset~~CalledByGraph_node3" class="node">
-<title>proc~unfragmented_calculation</title>
-<g id="a_proc~~result_reset~~CalledByGraph_node3"><a xlink:href="../proc/unfragmented_calculation.html" xlink:title="unfragmented_calculation">
-<polygon fill="#d9534f" stroke="#d9534f" points="585,-24 432,-24 432,0 585,0 585,-24"/>
-<text text-anchor="middle" x="508.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unfragmented_calculation</text>
-</a>
-</g>
-</g>
-<!-- proc~unfragmented_calculation&#45;&gt;proc~result_destroy -->
-<g id="proc~~result_reset~~CalledByGraph_edge2" class="edge">
-<title>proc~unfragmented_calculation&#45;&gt;proc~result_destroy</title>
-<path fill="none" stroke="#ff0000" d="M585.13,-12C593.47,-12 602.08,-12 610.72,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="610.86,-15.5 620.86,-12 610.86,-8.5 610.86,-15.5"/>
-</g>
-<!-- proc~run_unfragmented_calculation -->
-<g id="proc~~result_reset~~CalledByGraph_node4" class="node">
-<title>proc~run_unfragmented_calculation</title>
-<g id="a_proc~~result_reset~~CalledByGraph_node4"><a xlink:href="../proc/run_unfragmented_calculation.html" xlink:title="run_unfragmented_calculation">
-<polygon fill="#d9534f" stroke="#d9534f" points="396,-24 220,-24 220,0 396,0 396,-24"/>
-<text text-anchor="middle" x="308" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_unfragmented_calculation</text>
-</a>
-</g>
-</g>
-<!-- proc~run_unfragmented_calculation&#45;&gt;proc~unfragmented_calculation -->
-<g id="proc~~result_reset~~CalledByGraph_edge3" class="edge">
-<title>proc~run_unfragmented_calculation&#45;&gt;proc~unfragmented_calculation</title>
-<path fill="none" stroke="#ff0000" d="M396.06,-12C404.51,-12 413.07,-12 421.5,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="421.71,-15.5 431.71,-12 421.71,-8.5 421.71,-15.5"/>
-</g>
-<!-- proc~run_calculation -->
-<g id="proc~~result_reset~~CalledByGraph_node5" class="node">
-<title>proc~run_calculation</title>
-<g id="a_proc~~result_reset~~CalledByGraph_node5"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
-<polygon fill="#d9534f" stroke="#d9534f" points="184,-24 90,-24 90,0 184,0 184,-24"/>
-<text text-anchor="middle" x="137" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
-</a>
-</g>
-</g>
-<!-- proc~run_calculation&#45;&gt;proc~run_unfragmented_calculation -->
-<g id="proc~~result_reset~~CalledByGraph_edge4" class="edge">
-<title>proc~run_calculation&#45;&gt;proc~run_unfragmented_calculation</title>
-<path fill="none" stroke="#ff0000" d="M184.18,-12C192.27,-12 200.96,-12 209.85,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="209.93,-15.5 219.93,-12 209.93,-8.5 209.93,-15.5"/>
-</g>
-<!-- program~main -->
-<g id="proc~~result_reset~~CalledByGraph_node6" class="node">
-<title>program~main</title>
-<g id="a_proc~~result_reset~~CalledByGraph_node6"><a xlink:href="../program/main.html" xlink:title="main">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="54,-24 0,-24 0,0 54,0 54,-24"/>
-<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
-</a>
-</g>
-</g>
-<!-- program~main&#45;&gt;proc~run_calculation -->
-<g id="proc~~result_reset~~CalledByGraph_edge5" class="edge">
-<title>program~main&#45;&gt;proc~run_calculation</title>
-<path fill="none" stroke="#ff0000" d="M54.14,-12C61.95,-12 70.81,-12 79.77,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="79.86,-15.5 89.86,-12 79.86,-8.5 79.86,-15.5"/>
+<!-- proc~result_recv&#45;&gt;recv -->
+<g id="proc~~result_recv~~CallsGraph_edge1" class="edge">
+<title>proc~result_recv&#45;&gt;recv</title>
+<path fill="none" stroke="#ff0000" d="M70.12,-12C78.38,-12 87.24,-12 95.6,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="95.84,-15.5 105.84,-12 95.84,-8.5 95.84,-15.5"/>
 </g>
 </g>
 </svg>
-</div>                <script>
-                  var panprocresult_resetCalledByGraph = svgPanZoom('#procresult_resetCalledByGraph',
-                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
-                  );
-                </script>          <div>
-            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
           </div>
-          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -398,15 +390,25 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">result_reset</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
-<span class="w">      </span><span class="c">!! Reset all values and flags in calculation_result_t</span>
-<span class="w">      </span><span class="k">class</span><span class="p">(</span><span class="n">calculation_result_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span>
-<span class="w">      </span><span class="n">this</span><span class="p">%</span><span class="n">energy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span>
-<span class="w">      </span><span class="n">this</span><span class="p">%</span><span class="n">has_energy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
-<span class="w">      </span><span class="n">this</span><span class="p">%</span><span class="n">has_gradient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
-<span class="w">      </span><span class="n">this</span><span class="p">%</span><span class="n">has_hessian</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
-<span class="w">      </span><span class="n">this</span><span class="p">%</span><span class="n">has_dipole</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
-<span class="w">   </span><span class="k">end subroutine </span><span class="n">result_reset</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">result_recv</span><span class="p">(</span><span class="k">result</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!! Receive calculation result over MPI (blocking)</span>
+<span class="w">      </span><span class="c">!! Receives energy and conditionally receives gradient based on flag</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">calculation_result_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">result</span>
+<span class="k">      type</span><span class="p">(</span><span class="n">comm_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">comm</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">MPI_Status</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">status</span>
+
+<span class="w">      </span><span class="c">! Receive energy</span>
+<span class="w">      </span><span class="k">call </span><span class="n">recv</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">%</span><span class="n">energy</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">)</span>
+<span class="w">      </span><span class="k">result</span><span class="p">%</span><span class="n">has_energy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+
+<span class="w">      </span><span class="c">! Receive gradient flag and data if present</span>
+<span class="w">      </span><span class="k">call </span><span class="n">recv</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">%</span><span class="n">has_gradient</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">result</span><span class="p">%</span><span class="n">has_gradient</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">         </span><span class="c">! Receive allocatable gradient array (MPI lib handles allocation)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">recv</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">%</span><span class="n">gradient</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">)</span>
+<span class="w">      </span><span class="k">end if</span>
+<span class="k">   end subroutine </span><span class="n">result_recv</span>
 </pre></div>
 
     </section>
