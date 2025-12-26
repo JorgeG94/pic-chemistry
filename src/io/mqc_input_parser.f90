@@ -15,11 +15,11 @@ module mqc_input_parser
       !!
       !! Stores parsed input file contents including file paths,
       !! method selection, and fragmentation level.
-      character(len=:), allocatable :: geom_file     !! Path to system geometry XYZ file
-      character(len=:), allocatable :: monomer_file  !! Path to monomer template XYZ file
-      integer(int32) :: method = METHOD_TYPE_GFN2    !! QC method (default: gfn2)
-      integer(int32) :: calc_type = CALC_TYPE_ENERGY !! Calculation type (default: energy)
-      character(len=:), allocatable :: log_level     !! Logger verbosity level (debug/verbose/info/warning/error)
+      character(len=:), allocatable :: geom_file      !! Path to system geometry XYZ file
+      character(len=:), allocatable :: monomer_file   !! Path to monomer template XYZ file
+      integer(int32) :: method = METHOD_TYPE_GFN2     !! QC method (default: gfn2)
+      integer(int32) :: calc_type = CALC_TYPE_ENERGY  !! Calculation type (default: energy)
+      character(len=:), allocatable :: log_level      !! Logger verbosity level (debug/verbose/info/warning/error)
       integer :: nlevel = 1  !! Fragmentation level (default: 1)
    contains
       procedure :: destroy => config_destroy  !! Cleanup allocated memory
