@@ -99,7 +99,7 @@ contains
    end subroutine do_fragment_work
 
    subroutine global_coordinator(world_comm, node_comm, total_fragments, polymers, max_level, &
-                                 node_leader_ranks, num_nodes)
+                                 node_leader_ranks, num_nodes, sys_geom, calc_type)
       !! Global coordinator for distributing fragments to node coordinators
       !! will act as a node coordinator for a single node calculation
       !! Uses int64 for total_fragments to handle large fragment counts that overflow int32.
@@ -107,6 +107,8 @@ contains
       integer(int64), intent(in) :: total_fragments
       integer, intent(in) :: max_level, num_nodes
       integer, intent(in) :: polymers(:, :), node_leader_ranks(:)
+      type(system_geometry_t), intent(in), optional :: sys_geom
+      character(len=*), intent(in), optional :: calc_type
 
       type(timer_type) :: coord_timer
       integer(int64) :: current_fragment, results_received
@@ -115,6 +117,7 @@ contains
       type(MPI_Status) :: status, local_status
       logical :: handling_local_workers
       logical :: has_pending
+      character(len=:), allocatable :: calc_type_local
 
       ! For local workers
       integer :: local_finished_workers, local_dummy
@@ -126,6 +129,13 @@ contains
 
       ! MPI request handles for non-blocking operations
       type(request_t) :: req
+
+      ! Set default calc_type if not provided
+      if (present(calc_type)) then
+         calc_type_local = trim(calc_type)
+      else
+         calc_type_local = "energy"
+      end if
 
       current_fragment = total_fragments
       finished_nodes = 0
@@ -258,14 +268,29 @@ contains
       call logger%info("Time to evaluate all fragments "//to_char(coord_timer%get_elapsed_time())//" s")
       block
          real(dp) :: mbe_total_energy
+         real(dp), allocatable :: mbe_total_gradient(:, :)
 
-         ! Compute the many-body expansion energy
+         ! Compute the many-body expansion
          call logger%info(" ")
          call logger%info("Computing Many-Body Expansion (MBE)...")
          call coord_timer%start()
-         call compute_mbe_energy(polymers, total_fragments, max_level, results, mbe_total_energy)
+
+         ! Use combined function if computing gradients (more efficient)
+         if (trim(calc_type_local) == "gradient") then
+            if (.not. present(sys_geom)) then
+               call logger%error("sys_geom required for gradient calculation in global_coordinator")
+               error stop "Missing sys_geom for gradient calculation"
+            end if
+            allocate (mbe_total_gradient(3, sys_geom%total_atoms))
+            call compute_mbe_energy_gradient(polymers, total_fragments, max_level, results, sys_geom, &
+                                             mbe_total_energy, mbe_total_gradient)
+            deallocate (mbe_total_gradient)
+         else
+            call compute_mbe_energy(polymers, total_fragments, max_level, results, mbe_total_energy)
+         end if
+
          call coord_timer%stop()
-         call logger%info("Time to evaluate the MBE "//to_char(coord_timer%get_elapsed_time())//" s")
+         call logger%info("Time to compute MBE "//to_char(coord_timer%get_elapsed_time())//" s")
 
       end block
 
@@ -333,10 +358,11 @@ contains
       deallocate (fragment_indices)
    end subroutine send_fragment_to_worker
 
-   subroutine node_coordinator(world_comm, node_comm)
+   subroutine node_coordinator(world_comm, node_comm, calc_type)
       !! Node coordinator for distributing fragments to local workers
       !! Handles work requests and result collection from local workers
       class(comm_t), intent(in) :: world_comm, node_comm
+      character(len=*), intent(in), optional :: calc_type
 
       integer(int32) :: fragment_idx, fragment_size, dummy_msg
       integer(int32) :: finished_workers
@@ -435,11 +461,12 @@ contains
       end do
    end subroutine node_coordinator
 
-   subroutine node_worker(world_comm, node_comm, sys_geom, method)
+   subroutine node_worker(world_comm, node_comm, sys_geom, method, calc_type)
       !! Node worker for processing fragments assigned by node coordinator
       class(comm_t), intent(in) :: world_comm, node_comm
       type(system_geometry_t), intent(in), optional :: sys_geom
       character(len=*), intent(in) :: method
+      character(len=*), intent(in), optional :: calc_type
 
       integer(int32) :: fragment_idx, fragment_size, dummy_msg
       integer(int32), allocatable :: fragment_indices(:)
@@ -471,12 +498,12 @@ contains
                call build_fragment_from_indices(sys_geom, fragment_indices, phys_frag)
 
                ! Process the chemistry fragment with physical geometry
-               call do_fragment_work(fragment_idx, result, method, phys_frag)
+               call do_fragment_work(fragment_idx, result, method, phys_frag, calc_type)
 
                call phys_frag%destroy()
             else
                ! Process without physical geometry (old behavior)
-               call do_fragment_work(fragment_idx, result, method)
+               call do_fragment_work(fragment_idx, result, method, calc_type=calc_type)
             end if
 
             ! Send result back to coordinator

@@ -192,16 +192,16 @@ contains
          call omp_set_num_threads(omp_get_max_threads())
          call logger%verbose("Rank 0: Acting as global coordinator")
          call global_coordinator(world_comm, node_comm, total_fragments, polymers, max_level, &
-                                 node_leader_ranks, num_nodes)
+                                 node_leader_ranks, num_nodes, sys_geom, calc_type)
       else if (node_comm%leader()) then
          ! Node coordinator (node leader on other nodes)
          call logger%verbose("Rank "//to_char(world_comm%rank())//": Acting as node coordinator")
-         call node_coordinator(world_comm, node_comm)
+         call node_coordinator(world_comm, node_comm, calc_type)
       else
          ! Worker
          call omp_set_num_threads(1)
          call logger%verbose("Rank "//to_char(world_comm%rank())//": Acting as worker")
-         call node_worker(world_comm, node_comm, sys_geom, method)
+         call node_worker(world_comm, node_comm, sys_geom, method, calc_type)
       end if
 
       ! Cleanup
