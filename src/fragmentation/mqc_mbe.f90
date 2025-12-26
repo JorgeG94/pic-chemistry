@@ -6,7 +6,7 @@ module mqc_mbe
    use pic_timer, only: timer_type
    use pic_blas_interfaces, only: pic_gemm, pic_dot
    use pic_mpi_lib, only: comm_t, send, recv, iprobe, MPI_Status, MPI_ANY_SOURCE, MPI_ANY_TAG
-   use pic_logger, only: logger => global_logger
+   use pic_logger, only: logger => global_logger, verbose_level, debug_level
    use pic_io, only: to_char
    use mqc_mbe_io, only: print_detailed_breakdown, print_detailed_breakdown_json
    use mqc_mpi_tags, only: TAG_WORKER_REQUEST, TAG_WORKER_FRAGMENT, TAG_WORKER_FINISH, &
@@ -31,7 +31,6 @@ contains
       !! deltaE(i1,i2,...,in) = E(i1,i2,...,in) - sum of all lower-order terms
       !! Uses int64 for fragment_count to handle large fragment counts that overflow int32.
       !! Detailed breakdown is printed only if logger level is verbose or higher.
-      use pic_logger, only: verbose_level
       use mqc_result_types, only: calculation_result_t
       integer(int64), intent(in) :: fragment_count
       integer, intent(in) :: polymers(:, :), max_level
@@ -239,7 +238,10 @@ contains
 
       ! Sum all delta gradients (simple addition like energy)
       do i = 1_int64, fragment_count
-         total_gradient = total_gradient + delta_gradients(:, :, i)
+         fragment_size = count(polymers(i, :) > 0)
+         if (fragment_size <= max_level) then
+            total_gradient = total_gradient + delta_gradients(:, :, i)
+         end if
       end do
 
       call logger%info("MBE gradient computation completed")
@@ -266,13 +268,13 @@ contains
 
       ! Debug output
       call logger%configuration(level=current_log_level)
-      if (current_log_level >= verbose_level) then
+      if (current_log_level >= debug_level) then
          block
             character(len=256) :: debug_msg
             write (debug_msg, '(a,i0,a,*(i0,1x))') "  Mapping fragment with ", size(monomers), " monomers: ", monomers
-            call logger%verbose(trim(debug_msg))
+            call logger%debug(trim(debug_msg))
             write (debug_msg, '(a,i0,a)') "  Fragment has ", size(frag_grad, 2), " atoms"
-            call logger%verbose(trim(debug_msg))
+            call logger%debug(trim(debug_msg))
          end block
       end if
 
@@ -283,13 +285,13 @@ contains
             frag_atom_idx = frag_atom_idx + 1
             sys_atom_idx = (monomers(i_mon) - 1)*sys_geom%atoms_per_monomer + i_atom
 
-            if (current_log_level >= verbose_level .and. i_atom == 1) then
+            if (current_log_level >= debug_level .and. i_atom == 1) then
                block
                   character(len=256) :: debug_msg
                   write (debug_msg, '(a,i0,a,i0,a,i0)') &
                      "    Monomer ", monomers(i_mon), ": frag atoms ", &
                      frag_atom_idx, " -> sys atom ", sys_atom_idx
-                  call logger%verbose(trim(debug_msg))
+                  call logger%debug(trim(debug_msg))
                end block
             end if
 

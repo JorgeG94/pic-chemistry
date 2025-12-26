@@ -6,7 +6,7 @@ module mqc_mbe_fragment_distribution_scheme
    use pic_timer, only: timer_type
    use pic_blas_interfaces, only: pic_gemm, pic_dot
  use pic_mpi_lib, only: comm_t, send, recv, isend, irecv, wait, iprobe, MPI_Status, request_t, MPI_ANY_SOURCE, MPI_ANY_TAG
-   use pic_logger, only: logger => global_logger, verbose_level
+   use pic_logger, only: logger => global_logger, verbose_level, info_level
    use pic_io, only: to_char
    use mqc_mbe_io, only: print_fragment_xyz
    use omp_lib, only: omp_set_num_threads, omp_get_max_threads
@@ -548,14 +548,14 @@ contains
             ! Print full gradient if verbose and system is small
             call logger%configuration(level=current_log_level)
             if (current_log_level >= verbose_level .and. total_atoms < 100) then
-               call logger%verbose(" ")
-               call logger%verbose("Gradient (Hartree/Bohr):")
+               call logger%info(" ")
+               call logger%info("Gradient (Hartree/Bohr):")
                do iatom = 1, total_atoms
                   write (result_line, '(a,i5,a,3f20.12)') "  Atom ", iatom, ": ", &
                      result%gradient(1, iatom), result%gradient(2, iatom), result%gradient(3, iatom)
-                  call logger%verbose(trim(result_line))
+                  call logger%info(trim(result_line))
                end do
-               call logger%verbose(" ")
+               call logger%info(" ")
             end if
          end if
       end block
@@ -666,18 +666,18 @@ contains
 
          ! Print gradient if verbose and small system
          call logger%configuration(level=current_log_level)
-         if (current_log_level >= verbose_level .and. sys_geom%total_atoms < 100) then
-            call logger%verbose(" ")
-            call logger%verbose("Total MBE Gradient (Hartree/Bohr):")
+         if (current_log_level >= info_level .and. sys_geom%total_atoms < 100) then
+            call logger%info(" ")
+            call logger%info("Total MBE Gradient (Hartree/Bohr):")
             do iatom = 1, sys_geom%total_atoms
                block
                   character(len=256) :: grad_line
                   write (grad_line, '(a,i5,a,3f20.12)') "  Atom ", iatom, ": ", &
                      mbe_total_gradient(1, iatom), mbe_total_gradient(2, iatom), mbe_total_gradient(3, iatom)
-                  call logger%verbose(trim(grad_line))
+                  call logger%info(trim(grad_line))
                end block
             end do
-            call logger%verbose(" ")
+            call logger%info(" ")
          end if
 
          deallocate (mbe_total_gradient)
