@@ -401,11 +401,11 @@ contains
                   errmsg = "Failed to parse function line: "//trim(line)
                   return
                end if
-               if (.not. has_p) then
-                  stat = 1
-                  errmsg = "L shell requires both S and P coefficients"
-                  return
-               end if
+               !if (.not. has_p) then
+               !   stat = 1
+               !   errmsg = "L shell requires both S and P coefficients"
+               !   return
+               !end if
 
                ifunc = ifunc + 1
 
