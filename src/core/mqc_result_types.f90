@@ -17,10 +17,10 @@ module mqc_result_types
       !!
       !! Stores energy contributions from different levels of theory.
       !! Total energy is computed as: scf + mp2_correction + ccsd_correction + ccsd_t_correction
-      real(dp) :: scf = 0.0_dp               !! SCF/HF reference energy (Hartree)
-      real(dp) :: mp2_correction = 0.0_dp    !! MP2 correlation correction (Hartree)
-      real(dp) :: ccsd_correction = 0.0_dp   !! CCSD correlation correction (Hartree)
-      real(dp) :: ccsd_t_correction = 0.0_dp !! CCSD(T) triples correction (Hartree)
+      real(dp) :: scf = 0.0_dp                 !! SCF/HF reference energy (Hartree)
+      real(dp) :: mp2_correction = 0.0_dp      !! MP2 correlation correction (Hartree)
+      real(dp) :: ccsd_correction = 0.0_dp     !! CCSD correlation correction (Hartree)
+      real(dp) :: ccsd_t_correction = 0.0_dp   !! CCSD(T) triples correction (Hartree)
    contains
       procedure :: total => energy_total     !! Compute total energy from components
       procedure :: reset => energy_reset     !! Reset all components to zero
