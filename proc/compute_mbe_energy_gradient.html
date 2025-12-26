@@ -1,0 +1,1640 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A demonstration of PIC as a framework for scientific applications targetting quantum chemistry">
+    <meta name="author" content="Jorge Luis Galvez Vallejo" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>compute_mbe_energy_gradient &ndash; metalquicha</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">metalquicha </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../program/main.html">Program</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>compute_mbe_energy_gradient
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 3.5% of total for procedures.">100 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/mqc_mbe.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_mbe.f90.html'>mqc_mbe.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/mqc_mbe.html'>mqc_mbe</a></li>
+            <li class="breadcrumb-item active" aria-current="page">compute_mbe_energy_gradient</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-body_level~2">body_level</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-current_log_level~5">current_log_level</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-delta_e~3">delta_E</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-delta_energies~5">delta_energies</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-delta_gradients~2">delta_gradients</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-do_detailed_print~2">do_detailed_print</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-energies~5">energies</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-fragment_size~9">fragment_size</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-i~21">i</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-iatom~5">iatom</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-lookup~4">lookup</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-lookup_timer~2">lookup_timer</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-sum_by_level~3">sum_by_level</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#src">compute_mbe_energy_gradient</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  subroutine compute_mbe_energy_gradient(polymers, fragment_count, max_level, results, sys_geom, total_energy, total_gradient)  
+</h2>
+        <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/mqc_result_types.html'>mqc_result_types</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~compute_mbe_energy_gradient~~UsesGraph Pages: 1 -->
+<svg id="proccompute_mbe_energy_gradientUsesGraph" width="438pt" height="74pt"
+ viewBox="0.00 0.00 438.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~compute_mbe_energy_gradient~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
+<title>proc~~compute_mbe_energy_gradient~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 434,-70 434,4 -4,4"/>
+<!-- proc~compute_mbe_energy_gradient -->
+<g id="proc~~compute_mbe_energy_gradient~~UsesGraph_node1" class="node">
+<title>proc~compute_mbe_energy_gradient</title>
+<polygon fill="none" stroke="black" points="430,-45 248,-45 248,-21 430,-21 430,-45"/>
+<text text-anchor="middle" x="339" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">compute_mbe_energy_gradient</text>
+</g>
+<!-- module~mqc_result_types -->
+<g id="proc~~compute_mbe_energy_gradient~~UsesGraph_node2" class="node">
+<title>module~mqc_result_types</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~UsesGraph_node2"><a xlink:href="../module/mqc_result_types.html" xlink:title="mqc_result_types">
+<polygon fill="#337ab7" stroke="#337ab7" points="212,-45 108,-45 108,-21 212,-21 212,-45"/>
+<text text-anchor="middle" x="160" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_result_types</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;module~mqc_result_types -->
+<g id="proc~~compute_mbe_energy_gradient~~UsesGraph_edge1" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;module~mqc_result_types</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M247.94,-33C239.3,-33 230.67,-33 222.39,-33"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="222.12,-29.5 212.12,-33 222.12,-36.5 222.12,-29.5"/>
+</g>
+<!-- pic_mpi_lib -->
+<g id="proc~~compute_mbe_energy_gradient~~UsesGraph_node3" class="node">
+<title>pic_mpi_lib</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="72,-66 0,-66 0,-42 72,-42 72,-66"/>
+<text text-anchor="middle" x="36" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_mpi_lib</text>
+</g>
+<!-- module~mqc_result_types&#45;&gt;pic_mpi_lib -->
+<g id="proc~~compute_mbe_energy_gradient~~UsesGraph_edge2" class="edge">
+<title>module~mqc_result_types&#45;&gt;pic_mpi_lib</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M107.97,-41.78C99.43,-43.25 90.62,-44.77 82.23,-46.21"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="81.53,-42.78 72.27,-47.93 82.72,-49.68 81.53,-42.78"/>
+</g>
+<!-- pic_types -->
+<g id="proc~~compute_mbe_energy_gradient~~UsesGraph_node4" class="node">
+<title>pic_types</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="67,-24 5,-24 5,0 67,0 67,-24"/>
+<text text-anchor="middle" x="36" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_types</text>
+</g>
+<!-- module~mqc_result_types&#45;&gt;pic_types -->
+<g id="proc~~compute_mbe_energy_gradient~~UsesGraph_edge3" class="edge">
+<title>module~mqc_result_types&#45;&gt;pic_types</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M107.97,-24.22C97.69,-22.45 87.03,-20.61 77.19,-18.92"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="77.73,-15.46 67.28,-17.21 76.55,-22.36 77.73,-15.46"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <p>Compute both MBE energy and gradient in a single pass
+This is more efficient than calling compute_mbe_energy and compute_mbe_gradient separately
+as it only builds the lookup table once and processes all fragments in one loop</p>
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-polymers~9"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>polymers</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment_count~4"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment_count</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_level~8"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_level</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-results~5"></span>
+              type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>results</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sys_geom~13"></span>
+              type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sys_geom</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-total_energy~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>total_energy</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-total_gradient~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>total_gradient</strong>(:,:)</td>
+            <td>
+                <p>(3, total_atoms)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~compute_mbe_energy_gradient~~CallsGraph Pages: 1 -->
+<svg id="proccompute_mbe_energy_gradientCallsGraph" width="641pt" height="468pt"
+ viewBox="0.00 0.00 641.00 468.42" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph" class="graph" transform="scale(0.69 0.69) rotate(0) translate(4 676.34)">
+<title>proc~~compute_mbe_energy_gradient~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-676.34 927,-676.34 927,4 -4,4"/>
+<!-- proc~compute_mbe_energy_gradient -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node1" class="node">
+<title>proc~compute_mbe_energy_gradient</title>
+<polygon fill="none" stroke="black" points="182,-338 0,-338 0,-314 182,-314 182,-338"/>
+<text text-anchor="middle" x="91" y="-323.6" font-family="Helvetica,sans-Serif" font-size="10.50">compute_mbe_energy_gradient</text>
+</g>
+<!-- configuration -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node2" class="node">
+<title>configuration</title>
+<polygon fill="#777777" stroke="#777777" points="901,-633 817,-633 817,-609 901,-609 901,-633"/>
+<text text-anchor="middle" x="859" y="-618.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">configuration</text>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;configuration -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge1" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;configuration</title>
+<path fill="none" stroke="#ff0000" d="M93.43,-338.06C99.29,-381.46 125.71,-530.46 218,-593 402.73,-718.2 691.06,-664.34 807.09,-635.2"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="807.97,-638.58 816.79,-632.72 806.24,-631.8 807.97,-638.58"/>
+</g>
+<!-- debug -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node3" class="node">
+<title>debug</title>
+<polygon fill="#777777" stroke="#777777" points="886,-582 832,-582 832,-558 886,-558 886,-582"/>
+<text text-anchor="middle" x="859" y="-567.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">debug</text>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;debug -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge2" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;debug</title>
+<path fill="none" stroke="#ff0000" d="M95.44,-338.18C106.36,-374.26 143.92,-480.77 218,-525 269.92,-556 694.23,-566.79 821.83,-569.35"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="821.81,-572.85 831.88,-569.54 821.95,-565.85 821.81,-572.85"/>
+</g>
+<!-- error -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node4" class="node">
+<title>error</title>
+<polygon fill="#777777" stroke="#777777" points="662,-396 608,-396 608,-372 662,-372 662,-396"/>
+<text text-anchor="middle" x="635" y="-381.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">error</text>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;error -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge3" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;error</title>
+<path fill="none" stroke="#ff0000" d="M154.64,-338.04C174.82,-341.62 197.3,-345.3 218,-348 357.77,-366.22 525.2,-377.53 597.65,-381.92"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="597.44,-385.41 607.63,-382.51 597.86,-378.42 597.44,-385.41"/>
+</g>
+<!-- get_elapsed_time -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node5" class="node">
+<title>get_elapsed_time</title>
+<polygon fill="#777777" stroke="#777777" points="399.5,-234 293.5,-234 293.5,-210 399.5,-210 399.5,-234"/>
+<text text-anchor="middle" x="346.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_elapsed_time</text>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;get_elapsed_time -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge4" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;get_elapsed_time</title>
+<path fill="none" stroke="#ff0000" d="M106,-313.86C128.15,-295.37 173.36,-260.46 218,-243 238.47,-234.99 261.94,-230.04 283.13,-226.97"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="283.87,-230.41 293.32,-225.62 282.94,-223.47 283.87,-230.41"/>
+</g>
+<!-- info -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node6" class="node">
+<title>info</title>
+<polygon fill="#777777" stroke="#777777" points="662,-354 608,-354 608,-330 662,-330 662,-354"/>
+<text text-anchor="middle" x="635" y="-339.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">info</text>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;info -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge5" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;info</title>
+<path fill="none" stroke="#ff0000" d="M182.11,-328.66C303.49,-332.24 513.99,-338.46 597.93,-340.94"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="597.89,-344.44 607.99,-341.23 598.1,-337.44 597.89,-344.44"/>
+</g>
+<!-- proc~compute_mbe -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node7" class="node">
+<title>proc~compute_mbe</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CallsGraph_node7"><a xlink:href="../proc/compute_mbe.html" xlink:title="compute_mbe">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="391,-438 302,-438 302,-414 391,-414 391,-438"/>
+<text text-anchor="middle" x="346.5" y="-423.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;proc~compute_mbe -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge6" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;proc~compute_mbe</title>
+<path fill="none" stroke="#ff0000" d="M109.1,-338.03C132.58,-354.01 176.62,-382.06 218,-398 241.49,-407.05 268.59,-413.51 291.76,-417.94"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="291.29,-421.41 301.76,-419.77 292.55,-414.52 291.29,-421.41"/>
+</g>
+<!-- proc~compute_mbe_gradient -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node8" class="node">
+<title>proc~compute_mbe_gradient</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CallsGraph_node8"><a xlink:href="../proc/compute_mbe_gradient.html" xlink:title="compute_mbe_gradient">
+<polygon fill="#d9534f" stroke="#d9534f" points="416,-480 277,-480 277,-456 416,-456 416,-480"/>
+<text text-anchor="middle" x="346.5" y="-465.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe_gradient</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;proc~compute_mbe_gradient -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge7" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;proc~compute_mbe_gradient</title>
+<path fill="none" stroke="#ff0000" d="M100.48,-338.06C118.76,-363.02 164.58,-420.25 218,-447 232.95,-454.49 250,-459.39 266.67,-462.59"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="266.52,-466.11 276.97,-464.36 267.71,-459.22 266.52,-466.11"/>
+</g>
+<!-- proc~energy_total -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node9" class="node">
+<title>proc~energy_total</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CallsGraph_node9"><a xlink:href="../proc/energy_total.html" xlink:title="energy_t%energy_total">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="414.5,-192 278.5,-192 278.5,-168 414.5,-168 414.5,-192"/>
+<text text-anchor="middle" x="346.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">energy_t%energy_total</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;proc~energy_total -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge8" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;proc~energy_total</title>
+<path fill="none" stroke="#ff0000" d="M100.11,-313.93C118.01,-288.35 163.67,-228.76 218,-201 233.36,-193.15 251,-188.12 268.16,-184.93"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="268.91,-188.35 278.19,-183.25 267.75,-181.45 268.91,-188.35"/>
+</g>
+<!-- proc~fragment_lookup_destroy -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node10" class="node">
+<title>proc~fragment_lookup_destroy</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CallsGraph_node10"><a xlink:href="../proc/fragment_lookup_destroy.html" xlink:title="fragment_lookup_t%fragment_lookup_destroy">
+<polygon fill="#d9534f" stroke="#d9534f" points="475,-150 218,-150 218,-126 475,-126 475,-150"/>
+<text text-anchor="middle" x="346.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_lookup_t%fragment_lookup_destroy</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;proc~fragment_lookup_destroy -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge9" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;proc~fragment_lookup_destroy</title>
+<path fill="none" stroke="#ff0000" d="M97.21,-313.81C111.4,-282.26 153.98,-197.71 218,-159 220.88,-157.26 223.86,-155.65 226.92,-154.16"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="228.55,-157.27 236.31,-150.06 225.74,-150.86 228.55,-157.27"/>
+</g>
+<!-- proc~fragment_lookup_init -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node11" class="node">
+<title>proc~fragment_lookup_init</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CallsGraph_node11"><a xlink:href="../proc/fragment_lookup_init.html" xlink:title="fragment_lookup_t%fragment_lookup_init">
+<polygon fill="#d9534f" stroke="#d9534f" points="464,-108 229,-108 229,-84 464,-84 464,-108"/>
+<text text-anchor="middle" x="346.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_lookup_t%fragment_lookup_init</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;proc~fragment_lookup_init -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge10" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;proc~fragment_lookup_init</title>
+<path fill="none" stroke="#ff0000" d="M95.37,-313.81C106.21,-277.14 143.83,-167.28 218,-117 220.31,-115.43 222.7,-113.97 225.16,-112.6"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="226.91,-115.64 234.3,-108.05 223.79,-109.37 226.91,-115.64"/>
+</g>
+<!-- proc~fragment_lookup_insert -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node12" class="node">
+<title>proc~fragment_lookup_insert</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CallsGraph_node12"><a xlink:href="../proc/fragment_lookup_insert.html" xlink:title="fragment_lookup_t%fragment_lookup_insert">
+<polygon fill="#d9534f" stroke="#d9534f" points="759,-522 511,-522 511,-498 759,-498 759,-522"/>
+<text text-anchor="middle" x="635" y="-507.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_lookup_t%fragment_lookup_insert</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;proc~fragment_lookup_insert -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge11" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;proc~fragment_lookup_insert</title>
+<path fill="none" stroke="#ff0000" d="M97.07,-338.32C110.9,-370.12 152.7,-454.87 218,-489 327.58,-546.27 476.35,-536.41 563.09,-523.54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="563.74,-526.98 573.09,-522 562.67,-520.06 563.74,-526.98"/>
+</g>
+<!-- proc~map_fragment_to_system_gradient -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node13" class="node">
+<title>proc~map_fragment_to_system_gradient</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CallsGraph_node13"><a xlink:href="../proc/map_fragment_to_system_gradient.html" xlink:title="map_fragment_to_system_gradient">
+<polygon fill="#d9534f" stroke="#d9534f" points="735,-602 535,-602 535,-578 735,-578 735,-602"/>
+<text text-anchor="middle" x="635" y="-587.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">map_fragment_to_system_gradient</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;proc~map_fragment_to_system_gradient -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge12" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;proc~map_fragment_to_system_gradient</title>
+<path fill="none" stroke="#ff0000" d="M94.16,-338.16C102.08,-378.67 133.55,-509.49 218,-564 266.89,-595.55 418.51,-597.72 524.5,-594.98"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="524.72,-598.47 534.62,-594.7 524.52,-591.47 524.72,-598.47"/>
+</g>
+<!-- proc~print_detailed_breakdown -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node14" class="node">
+<title>proc~print_detailed_breakdown</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CallsGraph_node14"><a xlink:href="../proc/print_detailed_breakdown.html" xlink:title="print_detailed_breakdown">
+<polygon fill="#d9534f" stroke="#d9534f" points="421.5,-276 271.5,-276 271.5,-252 421.5,-252 421.5,-276"/>
+<text text-anchor="middle" x="346.5" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_detailed_breakdown</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;proc~print_detailed_breakdown -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge13" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;proc~print_detailed_breakdown</title>
+<path fill="none" stroke="#ff0000" d="M124.51,-313.92C149.72,-304.92 185.7,-292.87 218,-285 231.9,-281.61 246.79,-278.61 261.31,-276.01"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="262.04,-279.44 271.29,-274.28 260.84,-272.54 262.04,-279.44"/>
+</g>
+<!-- proc~print_detailed_breakdown_json -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node15" class="node">
+<title>proc~print_detailed_breakdown_json</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CallsGraph_node15"><a xlink:href="../proc/print_detailed_breakdown_json.html" xlink:title="print_detailed_breakdown_json">
+<polygon fill="#d9534f" stroke="#d9534f" points="435,-318 258,-318 258,-294 435,-294 435,-318"/>
+<text text-anchor="middle" x="346.5" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_detailed_breakdown_json</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;proc~print_detailed_breakdown_json -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge14" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;proc~print_detailed_breakdown_json</title>
+<path fill="none" stroke="#ff0000" d="M182.09,-318.89C203.34,-317.22 226.1,-315.42 247.68,-313.72"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="248.14,-317.19 257.83,-312.92 247.59,-310.21 248.14,-317.19"/>
+</g>
+<!-- start -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node16" class="node">
+<title>start</title>
+<polygon fill="#777777" stroke="#777777" points="373.5,-66 319.5,-66 319.5,-42 373.5,-42 373.5,-66"/>
+<text text-anchor="middle" x="346.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">start</text>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;start -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge15" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;start</title>
+<path fill="none" stroke="#ff0000" d="M94.11,-313.82C101.94,-272.57 133.37,-137.28 218,-75 244.28,-55.66 281.84,-51.52 309.39,-51.55"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="309.35,-55.05 319.42,-51.74 309.49,-48.05 309.35,-55.05"/>
+</g>
+<!-- to_char -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node17" class="node">
+<title>to_char</title>
+<polygon fill="#777777" stroke="#777777" points="373.5,-24 319.5,-24 319.5,0 373.5,0 373.5,-24"/>
+<text text-anchor="middle" x="346.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">to_char</text>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;to_char -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge16" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;to_char</title>
+<path fill="none" stroke="#ff0000" d="M93.19,-313.78C98.29,-268.29 122.71,-107.56 218,-33 243.77,-12.83 281.57,-8.83 309.32,-9.12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="309.32,-12.62 319.42,-9.41 309.52,-5.62 309.32,-12.62"/>
+</g>
+<!-- proc~fragment_lookup_find -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node21" class="node">
+<title>proc~fragment_lookup_find</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CallsGraph_node21"><a xlink:href="../proc/fragment_lookup_find.html" xlink:title="fragment_lookup_t%fragment_lookup_find">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="754,-480 516,-480 516,-456 754,-456 754,-480"/>
+<text text-anchor="middle" x="635" y="-465.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_lookup_t%fragment_lookup_find</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe&#45;&gt;proc~fragment_lookup_find -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge17" class="edge">
+<title>proc~compute_mbe&#45;&gt;proc~fragment_lookup_find</title>
+<path fill="none" stroke="#1fff00" d="M391.01,-432.38C430.93,-438.23 491.36,-447.09 541.97,-454.51"/>
+<polygon fill="#1fff00" stroke="#1fff00" points="541.55,-457.98 551.95,-455.97 542.56,-451.06 541.55,-457.98"/>
+</g>
+<!-- proc~get_next_combination -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node23" class="node">
+<title>proc~get_next_combination</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CallsGraph_node23"><a xlink:href="../proc/get_next_combination.html" xlink:title="get_next_combination">
+<polygon fill="#d9534f" stroke="#d9534f" points="700,-438 570,-438 570,-414 700,-414 700,-438"/>
+<text text-anchor="middle" x="635" y="-423.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_next_combination</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe&#45;&gt;proc~get_next_combination -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge18" class="edge">
+<title>proc~compute_mbe&#45;&gt;proc~get_next_combination</title>
+<path fill="none" stroke="#1fff00" d="M391.01,-426C435.72,-426 506.15,-426 559.71,-426"/>
+<polygon fill="#1fff00" stroke="#1fff00" points="559.84,-429.5 569.84,-426 559.84,-422.5 559.84,-429.5"/>
+</g>
+<!-- proc~compute_mbe_gradient&#45;&gt;proc~map_fragment_to_system_gradient -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge21" class="edge">
+<title>proc~compute_mbe_gradient&#45;&gt;proc~map_fragment_to_system_gradient</title>
+<path fill="none" stroke="#00ff3f" d="M375.75,-480.03C427.64,-502.13 538.11,-549.17 596.32,-573.95"/>
+<polygon fill="#00ff3f" stroke="#00ff3f" points="594.96,-577.18 605.53,-577.88 597.7,-570.74 594.96,-577.18"/>
+</g>
+<!-- proc~compute_mbe_gradient&#45;&gt;proc~fragment_lookup_find -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge19" class="edge">
+<title>proc~compute_mbe_gradient&#45;&gt;proc~fragment_lookup_find</title>
+<path fill="none" stroke="#00ff3f" d="M416.12,-468C442.97,-468 474.67,-468 505.45,-468"/>
+<polygon fill="#00ff3f" stroke="#00ff3f" points="505.85,-471.5 515.85,-468 505.85,-464.5 505.85,-471.5"/>
+</g>
+<!-- proc~compute_mbe_gradient&#45;&gt;proc~get_next_combination -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge20" class="edge">
+<title>proc~compute_mbe_gradient&#45;&gt;proc~get_next_combination</title>
+<path fill="none" stroke="#00ff3f" d="M416.12,-457.94C459.43,-451.59 515.37,-443.39 559.72,-436.89"/>
+<polygon fill="#00ff3f" stroke="#00ff3f" points="560.48,-440.32 569.86,-435.4 559.46,-433.39 560.48,-440.32"/>
+</g>
+<!-- proc~mp2_total -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node24" class="node">
+<title>proc~mp2_total</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CallsGraph_node24"><a xlink:href="../proc/mp2_total.html" xlink:title="mp2_energy_t%mp2_total">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="710.5,-102 559.5,-102 559.5,-78 710.5,-78 710.5,-102"/>
+<text text-anchor="middle" x="635" y="-87.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mp2_energy_t%mp2_total</text>
+</a>
+</g>
+</g>
+<!-- proc~energy_total&#45;&gt;proc~mp2_total -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge22" class="edge">
+<title>proc~energy_total&#45;&gt;proc~mp2_total</title>
+<path fill="none" stroke="#00ff9f" d="M414.72,-178.51C435.22,-175.61 457.07,-169.88 475,-159 497.8,-145.17 488.24,-124.9 511,-111 522.6,-103.91 535.91,-99.04 549.39,-95.72"/>
+<polygon fill="#00ff9f" stroke="#00ff9f" points="550.19,-99.13 559.21,-93.57 548.7,-92.29 550.19,-99.13"/>
+</g>
+<!-- proc~next_prime_internal -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node25" class="node">
+<title>proc~next_prime_internal</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CallsGraph_node25"><a xlink:href="../proc/next_prime_internal.html" xlink:title="next_prime_internal">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="694,-60 576,-60 576,-36 694,-36 694,-60"/>
+<text text-anchor="middle" x="635" y="-45.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">next_prime_internal</text>
+</a>
+</g>
+</g>
+<!-- proc~fragment_lookup_init&#45;&gt;proc~next_prime_internal -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge23" class="edge">
+<title>proc~fragment_lookup_init&#45;&gt;proc~next_prime_internal</title>
+<path fill="none" stroke="#009fff" d="M421,-83.96C438.69,-81.04 457.52,-77.92 475,-75 504.76,-70.02 537.64,-64.45 565.74,-59.67"/>
+<polygon fill="#009fff" stroke="#009fff" points="566.59,-63.07 575.86,-57.94 565.42,-56.17 566.59,-63.07"/>
+</g>
+<!-- fnv_1a_hash -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node18" class="node">
+<title>fnv_1a_hash</title>
+<polygon fill="#777777" stroke="#777777" points="898.5,-522 819.5,-522 819.5,-498 898.5,-498 898.5,-522"/>
+<text text-anchor="middle" x="859" y="-507.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fnv_1a_hash</text>
+</g>
+<!-- proc~fragment_lookup_insert&#45;&gt;fnv_1a_hash -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge24" class="edge">
+<title>proc~fragment_lookup_insert&#45;&gt;fnv_1a_hash</title>
+<path fill="none" stroke="#003fff" d="M759.01,-510C776.73,-510 794.04,-510 809.1,-510"/>
+<polygon fill="#003fff" stroke="#003fff" points="809.14,-513.5 819.14,-510 809.14,-506.5 809.14,-513.5"/>
+</g>
+<!-- sort -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node26" class="node">
+<title>sort</title>
+<polygon fill="#777777" stroke="#777777" points="886,-480 832,-480 832,-456 886,-456 886,-480"/>
+<text text-anchor="middle" x="859" y="-465.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sort</text>
+</g>
+<!-- proc~fragment_lookup_insert&#45;&gt;sort -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge25" class="edge">
+<title>proc~fragment_lookup_insert&#45;&gt;sort</title>
+<path fill="none" stroke="#003fff" d="M709.26,-497.99C725.65,-495.16 742.94,-492.07 759,-489 779.82,-485.02 803.01,-480.12 821.7,-476.06"/>
+<polygon fill="#003fff" stroke="#003fff" points="822.56,-479.46 831.59,-473.9 821.07,-472.62 822.56,-479.46"/>
+</g>
+<!-- proc~map_fragment_to_system_gradient&#45;&gt;configuration -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge26" class="edge">
+<title>proc~map_fragment_to_system_gradient&#45;&gt;configuration</title>
+<path fill="none" stroke="#1f00ff" d="M722.15,-602.03C750.75,-606.02 781.67,-610.34 806.78,-613.85"/>
+<polygon fill="#1f00ff" stroke="#1f00ff" points="806.42,-617.33 816.8,-615.25 807.38,-610.4 806.42,-617.33"/>
+</g>
+<!-- proc~map_fragment_to_system_gradient&#45;&gt;debug -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge27" class="edge">
+<title>proc~map_fragment_to_system_gradient&#45;&gt;debug</title>
+<path fill="none" stroke="#1f00ff" d="M735.31,-581.05C765.95,-578.29 797.78,-575.42 821.35,-573.3"/>
+<polygon fill="#1f00ff" stroke="#1f00ff" points="821.91,-576.77 831.56,-572.38 821.28,-569.79 821.91,-576.77"/>
+</g>
+<!-- header -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node19" class="node">
+<title>header</title>
+<polygon fill="#777777" stroke="#777777" points="662,-228 608,-228 608,-204 662,-204 662,-228"/>
+<text text-anchor="middle" x="635" y="-213.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">header</text>
+</g>
+<!-- proc~print_detailed_breakdown&#45;&gt;header -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge28" class="edge">
+<title>proc~print_detailed_breakdown&#45;&gt;header</title>
+<path fill="none" stroke="#7f00ff" d="M421,-251.96C438.69,-249.04 457.52,-245.92 475,-243 517.24,-235.94 565.76,-227.67 597.98,-222.17"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="598.57,-225.62 607.84,-220.48 597.39,-218.72 598.57,-225.62"/>
+</g>
+<!-- level_name -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node20" class="node">
+<title>level_name</title>
+<polygon fill="#777777" stroke="#777777" points="672,-186 598,-186 598,-162 672,-162 672,-186"/>
+<text text-anchor="middle" x="635" y="-171.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">level_name</text>
+</g>
+<!-- proc~print_detailed_breakdown&#45;&gt;level_name -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge29" class="edge">
+<title>proc~print_detailed_breakdown&#45;&gt;level_name</title>
+<path fill="none" stroke="#7f00ff" d="M421.67,-261.42C440.08,-258.26 459.08,-252.66 475,-243 497.8,-229.17 488.24,-208.9 511,-195 533.89,-181.02 563.41,-175.65 587.79,-173.83"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="588.11,-177.32 597.89,-173.26 587.71,-170.33 588.11,-177.32"/>
+</g>
+<!-- proc~get_frag_level_name -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node22" class="node">
+<title>proc~get_frag_level_name</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CallsGraph_node22"><a xlink:href="../proc/get_frag_level_name.html" xlink:title="get_frag_level_name">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="697,-312 573,-312 573,-288 697,-288 697,-312"/>
+<text text-anchor="middle" x="635" y="-297.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_frag_level_name</text>
+</a>
+</g>
+</g>
+<!-- proc~print_detailed_breakdown&#45;&gt;proc~get_frag_level_name -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge30" class="edge">
+<title>proc~print_detailed_breakdown&#45;&gt;proc~get_frag_level_name</title>
+<path fill="none" stroke="#7f00ff" d="M421.65,-273.32C465.09,-278.78 519.68,-285.63 562.63,-291.03"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="562.36,-294.53 572.72,-292.3 563.23,-287.58 562.36,-294.53"/>
+</g>
+<!-- verbose -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node27" class="node">
+<title>verbose</title>
+<polygon fill="#777777" stroke="#777777" points="662.5,-144 607.5,-144 607.5,-120 662.5,-120 662.5,-144"/>
+<text text-anchor="middle" x="635" y="-129.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">verbose</text>
+</g>
+<!-- proc~print_detailed_breakdown&#45;&gt;verbose -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge31" class="edge">
+<title>proc~print_detailed_breakdown&#45;&gt;verbose</title>
+<path fill="none" stroke="#7f00ff" d="M421.6,-264.5C440.64,-261.42 459.96,-255.08 475,-243 508.59,-216.02 477.49,-180.08 511,-153 535.1,-133.53 570.66,-129.26 597.35,-129.28"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="597.4,-132.78 607.47,-129.49 597.54,-125.78 597.4,-132.78"/>
+</g>
+<!-- warning -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node28" class="node">
+<title>warning</title>
+<polygon fill="#777777" stroke="#777777" points="662.5,-270 607.5,-270 607.5,-246 662.5,-246 662.5,-270"/>
+<text text-anchor="middle" x="635" y="-255.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">warning</text>
+</g>
+<!-- proc~print_detailed_breakdown&#45;&gt;warning -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge32" class="edge">
+<title>proc~print_detailed_breakdown&#45;&gt;warning</title>
+<path fill="none" stroke="#7f00ff" d="M421.65,-262.45C477.87,-261.27 552.75,-259.7 596.92,-258.78"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="597.27,-262.27 607.19,-258.56 597.12,-255.27 597.27,-262.27"/>
+</g>
+<!-- proc~print_detailed_breakdown_json&#45;&gt;error -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge33" class="edge">
+<title>proc~print_detailed_breakdown_json&#45;&gt;error</title>
+<path fill="none" stroke="#df00ff" d="M377.17,-318.03C409.59,-330.76 463.26,-350.69 511,-363 539.82,-370.43 573.13,-375.93 597.81,-379.44"/>
+<polygon fill="#df00ff" stroke="#df00ff" points="597.43,-382.92 607.82,-380.82 598.39,-375.98 597.43,-382.92"/>
+</g>
+<!-- proc~print_detailed_breakdown_json&#45;&gt;info -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge34" class="edge">
+<title>proc~print_detailed_breakdown_json&#45;&gt;info</title>
+<path fill="none" stroke="#df00ff" d="M435.02,-317C489.67,-323.86 557.13,-332.34 597.8,-337.45"/>
+<polygon fill="#df00ff" stroke="#df00ff" points="597.43,-340.93 607.79,-338.71 598.3,-333.99 597.43,-340.93"/>
+</g>
+<!-- proc~print_detailed_breakdown_json&#45;&gt;proc~get_frag_level_name -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge35" class="edge">
+<title>proc~print_detailed_breakdown_json&#45;&gt;proc~get_frag_level_name</title>
+<path fill="none" stroke="#df00ff" d="M435.02,-304.17C475.95,-303.31 524.09,-302.3 562.76,-301.49"/>
+<polygon fill="#df00ff" stroke="#df00ff" points="562.96,-304.99 572.88,-301.28 562.81,-297.99 562.96,-304.99"/>
+</g>
+<!-- proc~print_detailed_breakdown_json&#45;&gt;warning -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge36" class="edge">
+<title>proc~print_detailed_breakdown_json&#45;&gt;warning</title>
+<path fill="none" stroke="#df00ff" d="M421,-293.96C438.69,-291.04 457.52,-287.92 475,-285 516.99,-277.98 565.19,-269.77 597.41,-264.27"/>
+<polygon fill="#df00ff" stroke="#df00ff" points="598.01,-267.71 607.28,-262.58 596.83,-260.81 598.01,-267.71"/>
+</g>
+<!-- proc~fragment_lookup_find&#45;&gt;fnv_1a_hash -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge37" class="edge">
+<title>proc~fragment_lookup_find&#45;&gt;fnv_1a_hash</title>
+<path fill="none" stroke="#5cff00" d="M709.26,-480.01C725.65,-482.84 742.94,-485.93 759,-489 775.28,-492.12 793,-495.79 808.9,-499.18"/>
+<polygon fill="#5cff00" stroke="#5cff00" points="808.53,-502.68 819.05,-501.36 810.01,-495.84 808.53,-502.68"/>
+</g>
+<!-- proc~fragment_lookup_find&#45;&gt;sort -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge39" class="edge">
+<title>proc~fragment_lookup_find&#45;&gt;sort</title>
+<path fill="none" stroke="#5cff00" d="M754.15,-468C778.67,-468 802.73,-468 821.51,-468"/>
+<polygon fill="#5cff00" stroke="#5cff00" points="821.64,-471.5 831.64,-468 821.64,-464.5 821.64,-471.5"/>
+</g>
+<!-- proc~arrays_equal_internal -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_node29" class="node">
+<title>proc~arrays_equal_internal</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CallsGraph_node29"><a xlink:href="../proc/arrays_equal_internal.html" xlink:title="arrays_equal_internal">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="923,-438 795,-438 795,-414 923,-414 923,-438"/>
+<text text-anchor="middle" x="859" y="-423.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">arrays_equal_internal</text>
+</a>
+</g>
+</g>
+<!-- proc~fragment_lookup_find&#45;&gt;proc~arrays_equal_internal -->
+<g id="proc~~compute_mbe_energy_gradient~~CallsGraph_edge38" class="edge">
+<title>proc~fragment_lookup_find&#45;&gt;proc~arrays_equal_internal</title>
+<path fill="none" stroke="#5cff00" d="M709.26,-455.99C725.65,-453.16 742.94,-450.07 759,-447 770.08,-444.88 781.83,-442.5 793.21,-440.13"/>
+<polygon fill="#5cff00" stroke="#5cff00" points="794.03,-443.54 803.1,-438.05 792.59,-436.68 794.03,-443.54"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panproccompute_mbe_energy_gradientCallsGraph = svgPanZoom('#proccompute_mbe_energy_gradientCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~compute_mbe_energy_gradient~~CalledByGraph Pages: 1 -->
+<svg id="proccompute_mbe_energy_gradientCalledByGraph" width="641pt" height="59pt"
+ viewBox="0.00 0.00 641.00 59.37" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~compute_mbe_energy_gradient~~CalledByGraph" class="graph" transform="scale(0.8 0.8) rotate(0) translate(4 70)">
+<title>proc~~compute_mbe_energy_gradient~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 795,-70 795,4 -4,4"/>
+<!-- proc~compute_mbe_energy_gradient -->
+<g id="proc~~compute_mbe_energy_gradient~~CalledByGraph_node1" class="node">
+<title>proc~compute_mbe_energy_gradient</title>
+<polygon fill="none" stroke="black" points="791,-45 609,-45 609,-21 791,-21 791,-45"/>
+<text text-anchor="middle" x="700" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">compute_mbe_energy_gradient</text>
+</g>
+<!-- proc~global_coordinator -->
+<g id="proc~~compute_mbe_energy_gradient~~CalledByGraph_node2" class="node">
+<title>proc~global_coordinator</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CalledByGraph_node2"><a xlink:href="../proc/global_coordinator.html" xlink:title="global_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="552.5,-66 439.5,-66 439.5,-42 552.5,-42 552.5,-66"/>
+<text text-anchor="middle" x="496" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">global_coordinator</text>
+</a>
+</g>
+</g>
+<!-- proc~global_coordinator&#45;&gt;proc~compute_mbe_energy_gradient -->
+<g id="proc~~compute_mbe_energy_gradient~~CalledByGraph_edge1" class="edge">
+<title>proc~global_coordinator&#45;&gt;proc~compute_mbe_energy_gradient</title>
+<path fill="none" stroke="#ff0000" d="M552.73,-48.21C567.01,-46.72 582.8,-45.08 598.58,-43.44"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="599.34,-46.88 608.92,-42.36 598.62,-39.92 599.34,-46.88"/>
+</g>
+<!-- proc~serial_fragment_processor -->
+<g id="proc~~compute_mbe_energy_gradient~~CalledByGraph_node3" class="node">
+<title>proc~serial_fragment_processor</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CalledByGraph_node3"><a xlink:href="../proc/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
+<polygon fill="#d9534f" stroke="#d9534f" points="573,-24 419,-24 419,0 573,0 573,-24"/>
+<text text-anchor="middle" x="496" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
+</a>
+</g>
+</g>
+<!-- proc~serial_fragment_processor&#45;&gt;proc~compute_mbe_energy_gradient -->
+<g id="proc~~compute_mbe_energy_gradient~~CalledByGraph_edge2" class="edge">
+<title>proc~serial_fragment_processor&#45;&gt;proc~compute_mbe_energy_gradient</title>
+<path fill="none" stroke="#ff0000" d="M573.08,-19.91C581.44,-20.78 590.04,-21.67 598.64,-22.57"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="598.4,-26.06 608.71,-23.61 599.13,-19.1 598.4,-26.06"/>
+</g>
+<!-- proc~run_fragmented_calculation -->
+<g id="proc~~compute_mbe_energy_gradient~~CalledByGraph_node4" class="node">
+<title>proc~run_fragmented_calculation</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CalledByGraph_node4"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="383,-45 220,-45 220,-21 383,-21 383,-45"/>
+<text text-anchor="middle" x="301.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_fragmented_calculation&#45;&gt;proc~global_coordinator -->
+<g id="proc~~compute_mbe_energy_gradient~~CalledByGraph_edge3" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;proc~global_coordinator</title>
+<path fill="none" stroke="#ff0000" d="M383.02,-41.78C398.42,-43.46 414.38,-45.21 429.25,-46.83"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="429.03,-50.32 439.35,-47.93 429.79,-43.37 429.03,-50.32"/>
+</g>
+<!-- proc~run_fragmented_calculation&#45;&gt;proc~serial_fragment_processor -->
+<g id="proc~~compute_mbe_energy_gradient~~CalledByGraph_edge4" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;proc~serial_fragment_processor</title>
+<path fill="none" stroke="#00ffff" d="M383.02,-24.22C391.54,-23.29 400.22,-22.34 408.8,-21.4"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="409.24,-24.88 418.8,-20.31 408.48,-17.92 409.24,-24.88"/>
+</g>
+<!-- proc~run_calculation -->
+<g id="proc~~compute_mbe_energy_gradient~~CalledByGraph_node5" class="node">
+<title>proc~run_calculation</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CalledByGraph_node5"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="184,-45 90,-45 90,-21 184,-21 184,-45"/>
+<text text-anchor="middle" x="137" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_calculation&#45;&gt;proc~run_fragmented_calculation -->
+<g id="proc~~compute_mbe_energy_gradient~~CalledByGraph_edge5" class="edge">
+<title>proc~run_calculation&#45;&gt;proc~run_fragmented_calculation</title>
+<path fill="none" stroke="#ff0000" d="M184.13,-33C192.24,-33 200.94,-33 209.78,-33"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="209.8,-36.5 219.8,-33 209.8,-29.5 209.8,-36.5"/>
+</g>
+<!-- program~main -->
+<g id="proc~~compute_mbe_energy_gradient~~CalledByGraph_node6" class="node">
+<title>program~main</title>
+<g id="a_proc~~compute_mbe_energy_gradient~~CalledByGraph_node6"><a xlink:href="../program/main.html" xlink:title="main">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="54,-45 0,-45 0,-21 54,-21 54,-45"/>
+<text text-anchor="middle" x="27" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
+</a>
+</g>
+</g>
+<!-- program~main&#45;&gt;proc~run_calculation -->
+<g id="proc~~compute_mbe_energy_gradient~~CalledByGraph_edge6" class="edge">
+<title>program~main&#45;&gt;proc~run_calculation</title>
+<path fill="none" stroke="#ff0000" d="M54.14,-33C61.95,-33 70.81,-33 79.77,-33"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="79.86,-36.5 89.86,-33 79.86,-29.5 79.86,-36.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panproccompute_mbe_energy_gradientCalledByGraph = svgPanZoom('#proccompute_mbe_energy_gradientCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    <section>    
+      <h2>Variables</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-body_level~2"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>body_level</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-current_log_level~5"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>current_log_level</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-delta_e~3"></span>
+              real(kind=dp),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>delta_E</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-delta_energies~5"></span>
+              real(kind=dp),
+            </td>
+              <td>private,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>delta_energies</strong>(:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-delta_gradients~2"></span>
+              real(kind=dp),
+            </td>
+              <td>private,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>delta_gradients</strong>(:,:,:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>(3, total_atoms, fragment_count)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-do_detailed_print~2"></span>
+              logical,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>do_detailed_print</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-energies~5"></span>
+              real(kind=dp),
+            </td>
+              <td>private,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>energies</strong>(:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment_size~9"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment_size</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~21"></span>
+              integer(kind=int64),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iatom~5"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iatom</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lookup~4"></span>
+              type(<a href='../type/fragment_lookup_t.html'>fragment_lookup_t</a>),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lookup</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lookup_timer~2"></span>
+              type(timer_type),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lookup_timer</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sum_by_level~3"></span>
+              real(kind=dp),
+            </td>
+              <td>private,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>sum_by_level</strong>(:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">compute_mbe_energy_gradient</span><span class="p">(</span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span><span class="p">,</span><span class="w"> </span><span class="n">results</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                          </span><span class="n">total_energy</span><span class="p">,</span><span class="w"> </span><span class="n">total_gradient</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!! Compute both MBE energy and gradient in a single pass</span>
+<span class="w">      </span><span class="c">!! This is more efficient than calling compute_mbe_energy and compute_mbe_gradient separately</span>
+<span class="w">      </span><span class="c">!! as it only builds the lookup table once and processes all fragments in one loop</span>
+<span class="w">      </span><span class="k">use </span><span class="n">mqc_result_types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">calculation_result_t</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_count</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">polymers</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="n">max_level</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">calculation_result_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">results</span><span class="p">(:)</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">system_geometry_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sys_geom</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">total_energy</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">total_gradient</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w">  </span><span class="c">!! (3, total_atoms)</span>
+
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="n">body_level</span><span class="p">,</span><span class="w"> </span><span class="n">current_log_level</span><span class="p">,</span><span class="w"> </span><span class="n">iatom</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sum_by_level</span><span class="p">(:),</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">(:),</span><span class="w"> </span><span class="n">energies</span><span class="p">(:)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">delta_gradients</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="p">:)</span><span class="w">  </span><span class="c">!! (3, total_atoms, fragment_count)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">delta_E</span>
+<span class="w">      </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">do_detailed_print</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">fragment_lookup_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lookup</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">timer_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lookup_timer</span>
+
+<span class="w">      </span><span class="c">! Validate that all fragments have gradients</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1_int64</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">results</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">has_gradient</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Fragment &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot; does not have gradient!&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="k">error stop</span><span class="w"> </span><span class="s2">&quot;Missing gradient in compute_mbe_energy_gradient&quot;</span>
+<span class="w">         </span><span class="k">end if</span>
+<span class="k">      end do</span>
+
+<span class="k">      call </span><span class="n">logger</span><span class="p">%</span><span class="n">configuration</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">current_log_level</span><span class="p">)</span>
+<span class="w">      </span><span class="n">do_detailed_print</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">current_log_level</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">verbose_level</span><span class="p">)</span>
+
+<span class="w">      </span><span class="c">! Allocate arrays for energy</span>
+<span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">sum_by_level</span><span class="p">(</span><span class="n">max_level</span><span class="p">))</span>
+<span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">delta_energies</span><span class="p">(</span><span class="n">fragment_count</span><span class="p">))</span>
+<span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">energies</span><span class="p">(</span><span class="n">fragment_count</span><span class="p">))</span>
+<span class="w">      </span><span class="n">sum_by_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span>
+<span class="w">      </span><span class="n">delta_energies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span>
+
+<span class="w">      </span><span class="c">! Extract total energies from results</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1_int64</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span>
+<span class="w">         </span><span class="n">energies</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">results</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">energy</span><span class="p">%</span><span class="n">total</span><span class="p">()</span>
+<span class="w">      </span><span class="k">end do</span>
+
+<span class="w">      </span><span class="c">! Allocate arrays for gradient</span>
+<span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">delta_gradients</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">%</span><span class="n">total_atoms</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span><span class="p">))</span>
+<span class="w">      </span><span class="n">delta_gradients</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span>
+<span class="w">      </span><span class="n">total_gradient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span>
+
+<span class="w">      </span><span class="c">! Build hash table for fast fragment lookups (shared for both energy and gradient)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">lookup_timer</span><span class="p">%</span><span class="n">start</span><span class="p">()</span>
+<span class="w">      </span><span class="k">call </span><span class="n">lookup</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fragment_count</span><span class="p">)</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1_int64</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span>
+<span class="w">         </span><span class="n">fragment_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="p">(</span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">lookup</span><span class="p">%</span><span class="n">insert</span><span class="p">(</span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span>
+<span class="w">      </span><span class="k">end do</span>
+<span class="k">      call </span><span class="n">lookup_timer</span><span class="p">%</span><span class="k">stop</span><span class="p">()</span>
+<span class="w">      </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Time to build lookup table: &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">lookup_timer</span><span class="p">%</span><span class="n">get_elapsed_time</span><span class="p">())</span><span class="o">//</span><span class="s2">&quot; s&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Hash table size: &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">lookup</span><span class="p">%</span><span class="n">table_size</span><span class="p">)</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                        </span><span class="s2">&quot;, entries: &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">lookup</span><span class="p">%</span><span class="n">n_entries</span><span class="p">))</span>
+
+<span class="w">      </span><span class="c">! Bottom-up computation: process fragments by size (1-body, 2-body, 3-body, etc.)</span>
+<span class="w">      </span><span class="c">! Compute both energy and gradient deltas in the same loop</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1_int64</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span>
+<span class="w">         </span><span class="n">fragment_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="p">(</span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_size</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c">! 1-body: deltaE = E, deltaG = G (no subsets to subtract)</span>
+<span class="w">            </span><span class="n">delta_energies</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">energies</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">            </span><span class="n">sum_by_level</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sum_by_level</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+<span class="w">            </span><span class="c">! Map fragment gradient to system coordinates</span>
+<span class="w">            </span><span class="k">call </span><span class="n">map_fragment_to_system_gradient</span><span class="p">(</span><span class="n">results</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">gradient</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">fragment_size</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                                 </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">delta_gradients</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="n">i</span><span class="p">))</span>
+
+<span class="w">         </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_size</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">fragment_size</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">max_level</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c">! n-body: deltaE = E - sum(all subset deltaEs), deltaG = G - sum(all subset deltaGs)</span>
+<span class="w">            </span><span class="c">! Energy delta</span>
+<span class="w">            </span><span class="n">delta_E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_mbe</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">fragment_size</span><span class="p">),</span><span class="w"> </span><span class="n">lookup</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                  </span><span class="n">energies</span><span class="p">,</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">)</span>
+<span class="w">            </span><span class="n">delta_energies</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delta_E</span>
+<span class="w">            </span><span class="n">sum_by_level</span><span class="p">(</span><span class="n">fragment_size</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sum_by_level</span><span class="p">(</span><span class="n">fragment_size</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">delta_E</span>
+
+<span class="w">            </span><span class="c">! Gradient delta</span>
+<span class="w">            </span><span class="k">call </span><span class="n">compute_mbe_gradient</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">fragment_size</span><span class="p">),</span><span class="w"> </span><span class="n">lookup</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                      </span><span class="n">results</span><span class="p">,</span><span class="w"> </span><span class="n">delta_gradients</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">)</span>
+<span class="w">         </span><span class="k">end if</span>
+<span class="k">      end do</span>
+
+<span class="w">      </span><span class="c">! Clean up lookup table</span>
+<span class="w">      </span><span class="k">call </span><span class="n">lookup</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
+
+<span class="w">      </span><span class="c">! Compute total energy</span>
+<span class="w">      </span><span class="n">total_energy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">sum_by_level</span><span class="p">)</span>
+
+<span class="w">      </span><span class="c">! Compute total gradient</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1_int64</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span>
+<span class="w">         </span><span class="n">fragment_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="p">(</span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_size</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">max_level</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">total_gradient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">total_gradient</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">delta_gradients</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span>
+<span class="w">         </span><span class="k">end if</span>
+<span class="k">      end do</span>
+
+<span class="w">      </span><span class="c">! Print energy breakdown</span>
+<span class="w">      </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;MBE Energy breakdown:&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">do </span><span class="n">body_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">sum_by_level</span><span class="p">(</span><span class="n">body_level</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">1e-15_dp</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            block</span>
+<span class="k">               </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">energy_line</span>
+<span class="w">               </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">energy_line</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a,i0,a,f20.10)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;  &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">body_level</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;-body:  &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sum_by_level</span><span class="p">(</span><span class="n">body_level</span><span class="p">)</span>
+<span class="w">               </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">energy_line</span><span class="p">))</span>
+<span class="w">            </span><span class="k">end block</span>
+<span class="k">         end if</span>
+<span class="k">      end do</span>
+<span class="k">      block</span>
+<span class="k">         </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">total_line</span>
+<span class="w">         </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">total_line</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a,f20.10)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;  Total:   &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">total_energy</span>
+<span class="w">         </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">total_line</span><span class="p">))</span>
+<span class="w">      </span><span class="k">end block</span>
+
+<span class="w">      </span><span class="c">! Print gradient info</span>
+<span class="w">      </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;MBE gradient computation completed&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Total gradient norm: &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="nb">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">total_gradient</span><span class="o">**</span><span class="mi">2</span><span class="p">))))</span>
+
+<span class="w">      </span><span class="c">! Print detailed gradient if verbose and small system</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">current_log_level</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">info_level</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">%</span><span class="n">total_atoms</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Total MBE Gradient (Hartree/Bohr):&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">do </span><span class="n">iatom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">%</span><span class="n">total_atoms</span>
+<span class="w">            </span><span class="k">block</span>
+<span class="k">               </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">grad_line</span>
+<span class="w">               </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">grad_line</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a,i5,a,3f20.12)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;  Atom &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">iatom</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;: &quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                  </span><span class="n">total_gradient</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">iatom</span><span class="p">),</span><span class="w"> </span><span class="n">total_gradient</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">iatom</span><span class="p">),</span><span class="w"> </span><span class="n">total_gradient</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">iatom</span><span class="p">)</span>
+<span class="w">               </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">grad_line</span><span class="p">))</span>
+<span class="w">            </span><span class="k">end block</span>
+<span class="k">         end do</span>
+<span class="k">         call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">end if</span>
+
+<span class="w">      </span><span class="c">! Print detailed breakdown if requested</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">do_detailed_print</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         call </span><span class="n">print_detailed_breakdown</span><span class="p">(</span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span><span class="p">,</span><span class="w"> </span><span class="n">energies</span><span class="p">,</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">)</span>
+<span class="w">      </span><span class="k">end if</span>
+
+<span class="w">      </span><span class="c">! Always write JSON file for machine-readable output (include gradient)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">print_detailed_breakdown_json</span><span class="p">(</span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span><span class="p">,</span><span class="w"> </span><span class="n">energies</span><span class="p">,</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                         </span><span class="n">sum_by_level</span><span class="p">,</span><span class="w"> </span><span class="n">total_energy</span><span class="p">,</span><span class="w"> </span><span class="n">total_gradient</span><span class="p">)</span>
+
+<span class="w">      </span><span class="k">deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">sum_by_level</span><span class="p">,</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">,</span><span class="w"> </span><span class="n">energies</span><span class="p">,</span><span class="w"> </span><span class="n">delta_gradients</span><span class="p">)</span>
+
+<span class="w">   </span><span class="k">end subroutine </span><span class="n">compute_mbe_energy_gradient</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              metalquicha
+ was developed by Jorge Luis Galvez Vallejo<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-12-26 23:03 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

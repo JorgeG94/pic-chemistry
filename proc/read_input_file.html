@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 3.7% of total for procedures.">93 statements</a>
+                 title=" 3.7% of total for procedures.">105 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -140,7 +140,7 @@
             <a class="list-group-item" href="../proc/read_input_file.html#variable-file_exists~4">file_exists</a>
             <a class="list-group-item" href="../proc/read_input_file.html#variable-io_stat~4">io_stat</a>
             <a class="list-group-item" href="../proc/read_input_file.html#variable-key~2">key</a>
-            <a class="list-group-item" href="../proc/read_input_file.html#variable-line">line</a>
+            <a class="list-group-item" href="../proc/read_input_file.html#variable-line~10">line</a>
             <a class="list-group-item" href="../proc/read_input_file.html#variable-unit~4">unit</a>
             <a class="list-group-item" href="../proc/read_input_file.html#variable-value~2">value</a>
         </div>
@@ -186,6 +186,7 @@
 Looks for: geom=&rdquo;path/to/geometry.xyz&rdquo;
            monomer_symbols=&rdquo;path/to/monomer.xyz&rdquo;
            method=&rdquo;gfn1&rdquo; or &ldquo;gfn2&rdquo; (defaults to gfn2)
+           calc_type=&rdquo;energy&rdquo; or &ldquo;gradient&rdquo; (defaults to energy)
            nlevel=N (fragmentation level, defaults to 1)
            log_level=&rdquo;debug|verbose|info|performance|warning|error|knowledge&rdquo; (defaults to info)</p>
 
@@ -233,7 +234,7 @@ Looks for: geom=&rdquo;path/to/geometry.xyz&rdquo;
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stat~8"></span>
+              <span class="anchor" id="variable-stat~14"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -248,7 +249,7 @@ Looks for: geom=&rdquo;path/to/geometry.xyz&rdquo;
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-errmsg~7"></span>
+              <span class="anchor" id="variable-errmsg~11"></span>
               character(len=:),
             </td>
 <td>intent(out),</td>
@@ -590,7 +591,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-line"></span>
+              <span class="anchor" id="variable-line~10"></span>
               character(len=512),
             </td>
               <td>private</td>
@@ -660,6 +661,7 @@ large graphs.</div>
 <span class="w">      </span><span class="c">!! Looks for: geom=&quot;path/to/geometry.xyz&quot;</span>
 <span class="w">      </span><span class="c">!!            monomer_symbols=&quot;path/to/monomer.xyz&quot;</span>
 <span class="w">      </span><span class="c">!!            method=&quot;gfn1&quot; or &quot;gfn2&quot; (defaults to gfn2)</span>
+<span class="w">      </span><span class="c">!!            calc_type=&quot;energy&quot; or &quot;gradient&quot; (defaults to energy)</span>
 <span class="w">      </span><span class="c">!!            nlevel=N (fragmentation level, defaults to 1)</span>
 <span class="w">      </span><span class="c">!!            log_level=&quot;debug|verbose|info|performance|warning|error|knowledge&quot; (defaults to info)</span>
 <span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filename</span><span class="w">  </span><span class="c">!! Path to input file to parse</span>
@@ -728,6 +730,16 @@ large graphs.</div>
 <span class="w">               </span><span class="n">errmsg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Invalid method: &quot;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="k">value</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot; (supported: gfn1, gfn2)&quot;</span>
 <span class="w">               </span><span class="k">return</span>
 <span class="k">            end select</span>
+<span class="k">         case</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;calc_type&#39;</span><span class="p">)</span>
+<span class="w">            </span><span class="c">! Validate that calc_type is energy or gradient</span>
+<span class="w">            </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="k">value</span><span class="p">))</span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;gradient&#39;</span><span class="p">)</span>
+<span class="w">               </span><span class="n">config</span><span class="p">%</span><span class="n">calc_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="k">value</span><span class="p">)</span>
+<span class="w">            </span><span class="k">case </span><span class="n">default</span>
+<span class="w">               </span><span class="nb">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">               </span><span class="n">errmsg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Invalid calc_type: &quot;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="k">value</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot; (supported: energy, gradient)&quot;</span>
+<span class="w">               </span><span class="k">return</span>
+<span class="k">            end select</span>
 <span class="k">         case</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;nlevel&#39;</span><span class="p">)</span>
 <span class="w">            </span><span class="k">read</span><span class="w"> </span><span class="p">(</span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">io_stat</span><span class="p">)</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">nlevel</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">io_stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
@@ -783,6 +795,11 @@ large graphs.</div>
 <span class="k">         </span><span class="n">config</span><span class="p">%</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;gfn2&quot;</span><span class="w">  </span><span class="c">! Default to GFN2-xTB</span>
 <span class="w">      </span><span class="k">end if</span>
 
+<span class="w">      </span><span class="c">! Set default calc_type if not specified</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="nb">allocated</span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">calc_type</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         </span><span class="n">config</span><span class="p">%</span><span class="n">calc_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;energy&quot;</span><span class="w">  </span><span class="c">! Default to energy-only calculation</span>
+<span class="w">      </span><span class="k">end if</span>
+
 <span class="w">      </span><span class="c">! Set default log_level if not specified</span>
 <span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="nb">allocated</span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">log_level</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
 <span class="k">         </span><span class="n">config</span><span class="p">%</span><span class="n">log_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;info&quot;</span><span class="w">  </span><span class="c">! Default to info level</span>
@@ -812,7 +829,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-26 13:02 +0000             </p>
+ on 2025-12-26 23:03 +0000             </p>
           </div>
         </div>
         <br>
