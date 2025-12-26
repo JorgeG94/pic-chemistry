@@ -7,20 +7,46 @@ module mqc_result_types
    implicit none
    private
 
+   public :: mp2_energy_t          !! MP2 energy components type
+   public :: cc_energy_t           !! Coupled cluster energy components type
    public :: energy_t              !! Energy components type
    public :: calculation_result_t  !! Main result container type
    public :: result_send, result_isend  !! Send result over MPI
    public :: result_recv, result_irecv  !! Receive result over MPI
 
+   ! SCS-MP2 scaling parameters
+   real(dp), parameter :: SCS_SS_SCALE = 1.0_dp/3.0_dp  !! SCS same-spin scaling factor
+   real(dp), parameter :: SCS_OS_SCALE = 1.2_dp         !! SCS opposite-spin scaling factor
+
+   type :: mp2_energy_t
+      !! Container for MP2 energy components (SS/OS)
+      real(dp) :: ss = 0.0_dp  !! Same-spin correlation energy (Hartree)
+      real(dp) :: os = 0.0_dp  !! Opposite-spin correlation energy (Hartree)
+   contains
+      procedure :: total => mp2_total     !! Compute total MP2 correlation
+      procedure :: scs => mp2_scs         !! Compute SCS-MP2 correlation
+      procedure :: reset => mp2_reset     !! Reset both components to zero
+   end type mp2_energy_t
+
+   type :: cc_energy_t
+      !! Container for coupled cluster energy components
+      real(dp) :: singles = 0.0_dp   !! Singles contribution (Hartree)
+      real(dp) :: doubles = 0.0_dp   !! Doubles contribution (Hartree)
+      real(dp) :: triples = 0.0_dp   !! Triples contribution (Hartree)
+   contains
+      procedure :: total => cc_total      !! Compute total CC correlation
+      procedure :: reset => cc_reset      !! Reset all components to zero
+   end type cc_energy_t
+
    type :: energy_t
       !! Container for quantum chemistry energy components
       !!
       !! Stores energy contributions from different levels of theory.
-      !! Total energy is computed as: scf + mp2_correction + ccsd_correction + ccsd_t_correction
-      real(dp) :: scf = 0.0_dp                 !! SCF/HF reference energy (Hartree)
-      real(dp) :: mp2_correction = 0.0_dp      !! MP2 correlation correction (Hartree)
-      real(dp) :: ccsd_correction = 0.0_dp     !! CCSD correlation correction (Hartree)
-      real(dp) :: ccsd_t_correction = 0.0_dp   !! CCSD(T) triples correction (Hartree)
+      !! Total energy is computed as: scf + mp2%total() + cc%total()
+      real(dp) :: scf = 0.0_dp           !! SCF/HF reference energy (Hartree)
+      type(mp2_energy_t) :: mp2          !! MP2 correlation components
+      type(cc_energy_t) :: cc            !! Coupled cluster correlation components
+      ! add more as needed, also need to modify the total energy function
    contains
       procedure :: total => energy_total     !! Compute total energy from components
       procedure :: reset => energy_reset     !! Reset all components to zero
@@ -48,21 +74,61 @@ module mqc_result_types
 
 contains
 
+   pure function mp2_total(this) result(total)
+      !! Compute total MP2 correlation energy
+      class(mp2_energy_t), intent(in) :: this
+      real(dp) :: total
+
+      total = this%ss + this%os
+   end function mp2_total
+
+   pure function mp2_scs(this) result(scs_energy)
+      !! Compute SCS-MP2 (Spin-Component Scaled MP2) correlation energy
+      !! SCS-MP2 uses: E_SCS = (1/3)*E_SS + 1.2*E_OS
+      class(mp2_energy_t), intent(in) :: this
+      real(dp) :: scs_energy
+
+      scs_energy = SCS_SS_SCALE*this%ss + SCS_OS_SCALE*this%os
+   end function mp2_scs
+
+   subroutine mp2_reset(this)
+      !! Reset both MP2 components to zero
+      class(mp2_energy_t), intent(inout) :: this
+      this%ss = 0.0_dp
+      this%os = 0.0_dp
+   end subroutine mp2_reset
+
+   pure function cc_total(this) result(total)
+      !! Compute total CC correlation energy
+      class(cc_energy_t), intent(in) :: this
+      real(dp) :: total
+
+      total = this%singles + this%doubles + this%triples
+   end function cc_total
+
+   subroutine cc_reset(this)
+      !! Reset all CC components to zero
+      class(cc_energy_t), intent(inout) :: this
+      this%singles = 0.0_dp
+      this%doubles = 0.0_dp
+      this%triples = 0.0_dp
+   end subroutine cc_reset
+
    pure function energy_total(this) result(total)
       !! Compute total energy from all components
       class(energy_t), intent(in) :: this
       real(dp) :: total
 
-      total = this%scf + this%mp2_correction + this%ccsd_correction + this%ccsd_t_correction
+      ! this line needs to me modified if more components are added
+      total = this%scf + this%mp2%total() + this%cc%total()
    end function energy_total
 
    subroutine energy_reset(this)
       !! Reset all energy components to zero
       class(energy_t), intent(inout) :: this
       this%scf = 0.0_dp
-      this%mp2_correction = 0.0_dp
-      this%ccsd_correction = 0.0_dp
-      this%ccsd_t_correction = 0.0_dp
+      call this%mp2%reset()
+      call this%cc%reset()
    end subroutine energy_reset
 
    subroutine result_destroy(this)
@@ -93,9 +159,11 @@ contains
 
       ! Send energy components
       call send(comm, result%energy%scf, dest, tag)
-      call send(comm, result%energy%mp2_correction, dest, tag)
-      call send(comm, result%energy%ccsd_correction, dest, tag)
-      call send(comm, result%energy%ccsd_t_correction, dest, tag)
+      call send(comm, result%energy%mp2%ss, dest, tag)
+      call send(comm, result%energy%mp2%os, dest, tag)
+      call send(comm, result%energy%cc%singles, dest, tag)
+      call send(comm, result%energy%cc%doubles, dest, tag)
+      call send(comm, result%energy%cc%triples, dest, tag)
 
       ! Send gradient flag and data if present
       call send(comm, result%has_gradient, dest, tag)
@@ -116,9 +184,11 @@ contains
       call isend(comm, result%energy%scf, dest, tag, req)
 
       ! Send other energy components (blocking to avoid needing multiple request handles)
-      call send(comm, result%energy%mp2_correction, dest, tag)
-      call send(comm, result%energy%ccsd_correction, dest, tag)
-      call send(comm, result%energy%ccsd_t_correction, dest, tag)
+      call send(comm, result%energy%mp2%ss, dest, tag)
+      call send(comm, result%energy%mp2%os, dest, tag)
+      call send(comm, result%energy%cc%singles, dest, tag)
+      call send(comm, result%energy%cc%doubles, dest, tag)
+      call send(comm, result%energy%cc%triples, dest, tag)
 
       ! Send gradient flag and data (blocking to avoid needing multiple request handles)
       call send(comm, result%has_gradient, dest, tag)
@@ -137,9 +207,11 @@ contains
 
       ! Receive energy components
       call recv(comm, result%energy%scf, source, tag, status)
-      call recv(comm, result%energy%mp2_correction, source, tag, status)
-      call recv(comm, result%energy%ccsd_correction, source, tag, status)
-      call recv(comm, result%energy%ccsd_t_correction, source, tag, status)
+      call recv(comm, result%energy%mp2%ss, source, tag, status)
+      call recv(comm, result%energy%mp2%os, source, tag, status)
+      call recv(comm, result%energy%cc%singles, source, tag, status)
+      call recv(comm, result%energy%cc%doubles, source, tag, status)
+      call recv(comm, result%energy%cc%triples, source, tag, status)
       result%has_energy = .true.
 
       ! Receive gradient flag and data if present
@@ -163,9 +235,11 @@ contains
       call irecv(comm, result%energy%scf, source, tag, req)
 
       ! Receive other energy components (blocking to avoid needing multiple request handles)
-      call recv(comm, result%energy%mp2_correction, source, tag, status)
-      call recv(comm, result%energy%ccsd_correction, source, tag, status)
-      call recv(comm, result%energy%ccsd_t_correction, source, tag, status)
+      call recv(comm, result%energy%mp2%ss, source, tag, status)
+      call recv(comm, result%energy%mp2%os, source, tag, status)
+      call recv(comm, result%energy%cc%singles, source, tag, status)
+      call recv(comm, result%energy%cc%doubles, source, tag, status)
+      call recv(comm, result%energy%cc%triples, source, tag, status)
       result%has_energy = .true.
 
       ! Receive gradient flag and data (blocking to avoid needing multiple request handles)
