@@ -10,7 +10,7 @@
     <meta name="author" content="Jorge Luis Galvez Vallejo" >
     <link rel="icon" href="../favicon.png">
 
-    <title>remove_quotes &ndash; metalquicha</title>
+    <title>skip_to_end &ndash; metalquicha</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -83,8 +83,8 @@
 
     <div class="container">
   <div class="row">
-    <h1>remove_quotes
-      <small>Function</small>
+    <h1>skip_to_end
+      <small>Subroutine</small>
       
     </h1>
       <div class="container p-2 mb-4 bg-light border rounded-3">
@@ -94,21 +94,21 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.8% of total for procedures.">24 statements</a>
+                 title=" 0.5% of total for procedures.">18 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/mqc_input_parser.f90"> Source File</a>
+              <a href="../src/mqc_config_parser.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/mqc_input_parser.f90.html'>mqc_input_parser.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/mqc_input_parser.html'>mqc_input_parser</a></li>
-            <li class="breadcrumb-item active" aria-current="page">remove_quotes</li>
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_config_parser.f90.html'>mqc_config_parser.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/mqc_config_parser.html'>mqc_config_parser</a></li>
+            <li class="breadcrumb-item active" aria-current="page">skip_to_end</li>
           </ol>
         </nav>
       </div>
@@ -136,9 +136,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/remove_quotes.html#variable-end_pos~2">end_pos</a>
-            <a class="list-group-item" href="../proc/remove_quotes.html#variable-start_pos~2">start_pos</a>
-            <a class="list-group-item" href="../proc/remove_quotes.html#variable-temp">temp</a>
+            <a class="list-group-item" href="../proc/skip_to_end.html#variable-io_stat~17">io_stat</a>
+            <a class="list-group-item" href="../proc/skip_to_end.html#variable-line~23">line</a>
         </div>
       </div>
     </div>
@@ -164,7 +163,7 @@
     <div class="card card-primary">
       <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../proc/remove_quotes.html#src">remove_quotes</a>
+        <a class="list-group-item" href="../proc/skip_to_end.html#src">skip_to_end</a>
       </div>
     </div>
 
@@ -174,11 +173,11 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private  function remove_quotes(str) result(cleaned)  
+    <h2>private  subroutine skip_to_end(unit, stat, errmsg)  
 </h2>
     
 
-    <p>Remove surrounding quotes from string</p>
+    <p>Skip lines until &lsquo;end&rsquo; marker is found</p>
 
 
     <h3>Arguments</h3>
@@ -194,15 +193,45 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-str~3"></span>
-              character(len=*),
+              <span class="anchor" id="variable-unit~16"></span>
+              integer,
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>str</strong></td>
+            <td><strong>unit</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stat~29"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stat</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-errmsg~26"></span>
+              character(len=:),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>errmsg</strong></td>
             <td>
                 
             </td>
@@ -210,13 +239,6 @@
     </tbody>
   </table>
 
-      <h3>Return Value
-        <small>
-          <span class="anchor" id="variable-cleaned"></span>
-          character(len=:), allocatable
-        </small>
-      </h3>
-      
     <br>
     <div class="card">
       <div class="card-header">
@@ -228,47 +250,89 @@
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~remove_quotes~~CalledByGraph Pages: 1 -->
-<svg id="procremove_quotesCalledByGraph" width="319pt" height="32pt"
- viewBox="0.00 0.00 319.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~remove_quotes~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
-<title>proc~~remove_quotes~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 315,-28 315,4 -4,4"/>
-<!-- proc~remove_quotes -->
-<g id="proc~~remove_quotes~~CalledByGraph_node1" class="node">
-<title>proc~remove_quotes</title>
-<polygon fill="none" stroke="black" points="311,-24 217,-24 217,0 311,0 311,-24"/>
-<text text-anchor="middle" x="264" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">remove_quotes</text>
+<!-- Title: proc~~skip_to_end~~CalledByGraph Pages: 1 -->
+<svg id="procskip_to_endCalledByGraph" width="488pt" height="90pt"
+ viewBox="0.00 0.00 488.00 90.09" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~skip_to_end~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 86.09)">
+<title>proc~~skip_to_end~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-86.09 484,-86.09 484,4 -4,4"/>
+<!-- proc~skip_to_end -->
+<g id="proc~~skip_to_end~~CalledByGraph_node1" class="node">
+<title>proc~skip_to_end</title>
+<polygon fill="none" stroke="black" points="480,-66 405,-66 405,-42 480,-42 480,-66"/>
+<text text-anchor="middle" x="442.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">skip_to_end</text>
 </g>
-<!-- proc~read_input_file -->
-<g id="proc~~remove_quotes~~CalledByGraph_node2" class="node">
-<title>proc~read_input_file</title>
-<g id="a_proc~~remove_quotes~~CalledByGraph_node2"><a xlink:href="../proc/read_input_file.html" xlink:title="read_input_file">
-<polygon fill="#d9534f" stroke="#d9534f" points="181,-24 90,-24 90,0 181,0 181,-24"/>
-<text text-anchor="middle" x="135.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_input_file</text>
+<!-- proc~parse_connectivity_section -->
+<g id="proc~~skip_to_end~~CalledByGraph_node2" class="node">
+<title>proc~parse_connectivity_section</title>
+<g id="a_proc~~skip_to_end~~CalledByGraph_node2"><a xlink:href="../proc/parse_connectivity_section.html" xlink:title="parse_connectivity_section">
+<polygon fill="#d9534f" stroke="#d9534f" points="369,-66 213,-66 213,-42 369,-42 369,-66"/>
+<text text-anchor="middle" x="291" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_connectivity_section</text>
 </a>
 </g>
 </g>
-<!-- proc~read_input_file&#45;&gt;proc~remove_quotes -->
-<g id="proc~~remove_quotes~~CalledByGraph_edge1" class="edge">
-<title>proc~read_input_file&#45;&gt;proc~remove_quotes</title>
-<path fill="none" stroke="#ff0000" d="M181.1,-12C189.29,-12 197.94,-12 206.43,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="206.66,-15.5 216.66,-12 206.66,-8.5 206.66,-15.5"/>
+<!-- proc~parse_connectivity_section&#45;&gt;proc~skip_to_end -->
+<g id="proc~~skip_to_end~~CalledByGraph_edge1" class="edge">
+<title>proc~parse_connectivity_section&#45;&gt;proc~skip_to_end</title>
+<path fill="none" stroke="#ff0000" d="M369.38,-54C378.09,-54 386.76,-54 394.91,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="394.91,-57.5 404.91,-54 394.91,-50.5 394.91,-57.5"/>
+</g>
+<!-- proc~parse_fragments_section -->
+<g id="proc~~skip_to_end~~CalledByGraph_node3" class="node">
+<title>proc~parse_fragments_section</title>
+<g id="a_proc~~skip_to_end~~CalledByGraph_node3"><a xlink:href="../proc/parse_fragments_section.html" xlink:title="parse_fragments_section">
+<polygon fill="#d9534f" stroke="#d9534f" points="364,-24 218,-24 218,0 364,0 364,-24"/>
+<text text-anchor="middle" x="291" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragments_section</text>
+</a>
+</g>
+</g>
+<!-- proc~parse_fragments_section&#45;&gt;proc~skip_to_end -->
+<g id="proc~~skip_to_end~~CalledByGraph_edge2" class="edge">
+<title>proc~parse_fragments_section&#45;&gt;proc~skip_to_end</title>
+<path fill="none" stroke="#ff0000" d="M336.82,-24.1C347.38,-26.98 358.6,-30.07 369,-33 377.34,-35.35 386.21,-37.88 394.78,-40.35"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="394.07,-43.79 404.65,-43.2 396.02,-37.06 394.07,-43.79"/>
+</g>
+<!-- proc~read_mqc_file -->
+<g id="proc~~skip_to_end~~CalledByGraph_node4" class="node">
+<title>proc~read_mqc_file</title>
+<g id="a_proc~~skip_to_end~~CalledByGraph_node4"><a xlink:href="../proc/read_mqc_file.html" xlink:title="read_mqc_file">
+<polygon fill="#d9534f" stroke="#d9534f" points="177,-66 90,-66 90,-42 177,-42 177,-66"/>
+<text text-anchor="middle" x="133.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_mqc_file</text>
+</a>
+</g>
+</g>
+<!-- proc~read_mqc_file&#45;&gt;proc~skip_to_end -->
+<g id="proc~~skip_to_end~~CalledByGraph_edge3" class="edge">
+<title>proc~read_mqc_file&#45;&gt;proc~skip_to_end</title>
+<path fill="none" stroke="#ff0000" d="M171.63,-66.06C184.58,-69.7 199.29,-73.2 213,-75 281.74,-84.04 300.35,-84.74 369,-75 378.34,-73.67 388.15,-71.44 397.44,-68.9"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="398.63,-72.2 407.27,-66.06 396.69,-65.47 398.63,-72.2"/>
+</g>
+<!-- proc~read_mqc_file&#45;&gt;proc~parse_connectivity_section -->
+<g id="proc~~skip_to_end~~CalledByGraph_edge4" class="edge">
+<title>proc~read_mqc_file&#45;&gt;proc~parse_connectivity_section</title>
+<path fill="none" stroke="#ff0000" d="M177.4,-54C185.44,-54 194.1,-54 202.92,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="202.92,-57.5 212.92,-54 202.92,-50.5 202.92,-57.5"/>
+</g>
+<!-- proc~read_mqc_file&#45;&gt;proc~parse_fragments_section -->
+<g id="proc~~skip_to_end~~CalledByGraph_edge5" class="edge">
+<title>proc~read_mqc_file&#45;&gt;proc~parse_fragments_section</title>
+<path fill="none" stroke="#00ff00" d="M177.4,-42.41C195.39,-37.55 216.52,-31.85 235.59,-26.7"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="236.6,-30.05 245.34,-24.06 234.77,-23.29 236.6,-30.05"/>
 </g>
 <!-- program~main -->
-<g id="proc~~remove_quotes~~CalledByGraph_node3" class="node">
+<g id="proc~~skip_to_end~~CalledByGraph_node5" class="node">
 <title>program~main</title>
-<g id="a_proc~~remove_quotes~~CalledByGraph_node3"><a xlink:href="../program/main.html" xlink:title="main">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="54,-24 0,-24 0,0 54,0 54,-24"/>
-<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
+<g id="a_proc~~skip_to_end~~CalledByGraph_node5"><a xlink:href="../program/main.html" xlink:title="main">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
+<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
 </a>
 </g>
 </g>
-<!-- program~main&#45;&gt;proc~read_input_file -->
-<g id="proc~~remove_quotes~~CalledByGraph_edge2" class="edge">
-<title>program~main&#45;&gt;proc~read_input_file</title>
-<path fill="none" stroke="#ff0000" d="M54.05,-12C61.84,-12 70.68,-12 79.59,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="79.62,-15.5 89.62,-12 79.62,-8.5 79.62,-15.5"/>
+<!-- program~main&#45;&gt;proc~read_mqc_file -->
+<g id="proc~~skip_to_end~~CalledByGraph_edge6" class="edge">
+<title>program~main&#45;&gt;proc~read_mqc_file</title>
+<path fill="none" stroke="#0000ff" d="M54.1,-54C61.83,-54 70.6,-54 79.4,-54"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="79.68,-57.5 89.68,-54 79.68,-50.5 79.68,-57.5"/>
 </g>
 </g>
 </svg>
@@ -370,7 +434,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-end_pos~2"></span>
+              <span class="anchor" id="variable-io_stat~17"></span>
               integer,
             </td>
               <td>private</td>
@@ -378,7 +442,7 @@ large graphs.</div>
               
             </td>
             <td>::</td>
-            <td><strong>end_pos</strong></td>
+            <td><strong>io_stat</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -387,32 +451,15 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-start_pos~2"></span>
-              integer,
+              <span class="anchor" id="variable-line~23"></span>
+              character(len=MAX_LINE_LEN),
             </td>
               <td>private</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>start_pos</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-temp"></span>
-              character(len=len),
-            </td>
-              <td>private</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>temp</strong></td>
+            <td><strong>line</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -435,38 +482,30 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">function </span><span class="n">remove_quotes</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">cleaned</span><span class="p">)</span>
-<span class="w">      </span><span class="c">!! Remove surrounding quotes from string</span>
-<span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">str</span>
-<span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cleaned</span>
-<span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">str</span><span class="p">))</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">temp</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">start_pos</span><span class="p">,</span><span class="w"> </span><span class="n">end_pos</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">skip_to_end</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="p">,</span><span class="w"> </span><span class="n">errmsg</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!! Skip lines until &#39;end&#39; marker is found</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">unit</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
+<span class="nb">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">errmsg</span>
 
-<span class="w">      </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">adjustl</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
-<span class="w">      </span><span class="n">start_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">      </span><span class="n">end_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">len_trim</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+<span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">MAX_LINE_LEN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">io_stat</span>
 
-<span class="w">      </span><span class="c">! Remove leading quote</span>
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">end_pos</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">         if</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;&quot;&#39;</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">temp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;&#39;&quot;</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">start_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
-<span class="w">         </span><span class="k">end if</span>
-<span class="k">      end if</span>
+<span class="w">      </span><span class="nb">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 
-<span class="w">      </span><span class="c">! Remove trailing quote</span>
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">end_pos</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">         if</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="p">(</span><span class="n">end_pos</span><span class="p">:</span><span class="n">end_pos</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;&quot;&#39;</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">temp</span><span class="p">(</span><span class="n">end_pos</span><span class="p">:</span><span class="n">end_pos</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;&#39;&quot;</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">end_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">end_pos</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">         </span><span class="k">end if</span>
-<span class="k">      end if</span>
+<span class="w">      </span><span class="k">do</span>
+<span class="k">         read</span><span class="w"> </span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(A)&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">io_stat</span><span class="p">)</span><span class="w"> </span><span class="n">line</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">io_stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="nb">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="n">errmsg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Unexpected end of file while skipping section&quot;</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="k">         end if</span>
 
-<span class="k">      if</span><span class="w"> </span><span class="p">(</span><span class="n">end_pos</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">start_pos</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">         </span><span class="n">cleaned</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">(</span><span class="n">start_pos</span><span class="p">:</span><span class="n">end_pos</span><span class="p">)</span>
-<span class="w">      </span><span class="k">else</span>
-<span class="k">         </span><span class="n">cleaned</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<span class="w">      </span><span class="k">end if</span>
+<span class="k">         </span><span class="n">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">adjustl</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;end&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">exit</span>
+<span class="k">      end do</span>
 
-<span class="k">   end function </span><span class="n">remove_quotes</span>
+<span class="k">   end subroutine </span><span class="n">skip_to_end</span>
 </pre></div>
 
     </section>
@@ -490,7 +529,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-27 01:38 +0000             </p>
+ on 2025-12-27 08:26 +0000             </p>
           </div>
         </div>
         <br>
