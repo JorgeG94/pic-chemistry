@@ -32,6 +32,9 @@ pic-blas = { git = "https://github.com/JorgeG94/pic-blas.git", branch = "main"}
 tblite = { git = "https://github.com/JorgeG94/tblite", branch = "main"}
 test-drive.git = "https://github.com/JorgeG94/test-drive"
 [extra.fortitude.check]
-select = ["C", "E", "S"]
+select = ["C", "E", "S", "PORT"]
+# S212 is the warning that a program and a module are in the same file, this would make our tests stupid
+# C003 is 'implicit none' missing 'external', this does not always work with other compilers, so we ignore it
+# C072 is character '{name}' has assumed size but does not have intent(in), since this is a bit too much
 ignore = ["C003", "C072", "S212"]
 line-length = 132
