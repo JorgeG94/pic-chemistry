@@ -82,6 +82,14 @@ class Fragmentation:
     cutoffs: Optional[FragCutoffs]
 
 @dataclass
+class Logger:
+    level: str = "info"
+
+@dataclass
+class System:
+    logger: Logger
+
+@dataclass
 class Molecule:
     symbols: List[str]
     geom_xyz: Any  # Nx3 list-of-lists or numpy array
@@ -102,6 +110,7 @@ class Input:
     title: Optional[str] = None
     scf: Optional[SCF] = None
     fragmentation: Optional[Fragmentation] = None
+    system: Optional[System] = None
 
 
 # ----------------------------
@@ -272,6 +281,20 @@ def parse_keywords(d: Dict[str, Any]) -> Tuple[Optional[SCF], Optional[Fragmenta
 
     return scf, frag
 
+def parse_system(d: Dict[str, Any]) -> System:
+    require_only_keys(d, {"logger"}, "system")
+
+    logger_data = req_type(d.get("logger"), dict, "system.logger")
+    require_only_keys(logger_data, {"level"}, "system.logger")
+
+    level = req_type(logger_data.get("level"), str, "system.logger.level")
+    # Validate log level (case-insensitive check)
+    valid_levels = {"debug", "verbose", "info", "performance", "warning", "error", "knowledge"}
+    if level.lower() not in valid_levels:
+        die(f"system.logger.level must be one of: {', '.join(sorted(valid_levels))}")
+
+    return System(logger=Logger(level=level))
+
 def parse_molecule(m: Dict[str, Any], base_dir: Path, mi: int) -> Molecule:
     require_only_keys(
         m,
@@ -416,7 +439,7 @@ def parse_json_to_input(json_path: Union[str, Path]) -> Input:
     req_type(data, dict, "top-level")
 
     # strict top-level keys
-    require_only_keys(data, {"schema", "molecules", "model", "keywords", "driver", "title"}, "top-level")
+    require_only_keys(data, {"schema", "molecules", "model", "keywords", "driver", "title", "system"}, "top-level")
 
     schema = parse_schema(data.get("schema"))
 
@@ -431,6 +454,12 @@ def parse_json_to_input(json_path: Union[str, Path]) -> Input:
     req_type(kw, dict, "keywords")
     scf, frag = parse_keywords(kw)
 
+    # Parse system section (optional)
+    system = None
+    sys_data = data.get("system")
+    if sys_data is not None:
+        system = parse_system(req_type(sys_data, dict, "system"))
+
     mols = req_type(data.get("molecules"), list, "molecules")
     if len(mols) == 0:
         die("molecules must be non-empty list")
@@ -438,7 +467,7 @@ def parse_json_to_input(json_path: Union[str, Path]) -> Input:
     for mi, m in enumerate(mols):
         molecules.append(parse_molecule(req_type(m, dict, f"molecules[{mi}]"), base_dir, mi))
 
-    return Input(schema=schema, model=model, driver=driver, molecules=molecules, title=title, scf=scf, fragmentation=frag)
+    return Input(schema=schema, model=model, driver=driver, molecules=molecules, title=title, scf=scf, fragmentation=frag, system=system)
 
 
 # ----------------------------
@@ -574,6 +603,12 @@ def emit_v1(inp: Input, json_path: Path) -> Tuple[str, Path]:
     buf.write("%driver\n")
     buf.write(f"type = {inp.driver}\n")
     buf.write("end\n\n")
+
+    # %system (optional)
+    if inp.system is not None:
+        buf.write("%system\n")
+        buf.write(f"log_level = {inp.system.logger.level}\n")
+        buf.write("end\n\n")
 
     # %structure (always)
     write_structure(buf, mol)

@@ -1,7 +1,7 @@
 {
     "schema": { "name": "mqc-frag", "version": "1.0" },
     "molecules": [{
-        "xyz": "sample_inputs/gly10.xyz",
+        "xyz": "sample_inputs/prism.xyz",
         "molecular_charge": 0,
         "molecular_multiplicity": 1
     }],
@@ -14,6 +14,11 @@
     "scf": {
       "maxiter": 300,
       "tolerance": 1e-6
+    }
+  },
+  "system": {
+    "logger":{
+      "level": "Verbose"
     }
   },
   "driver": "Energy"
