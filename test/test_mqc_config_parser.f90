@@ -16,6 +16,7 @@ program test_mqc_config_parser
                new_unittest("parse_with_connectivity", test_parse_with_connectivity), &
                new_unittest("parse_no_fragments", test_parse_no_fragments), &
                new_unittest("parse_method_xtb", test_parse_method_xtb), &
+               new_unittest("parse_system_log_level", test_parse_system_log_level), &
                new_unittest("error_missing_schema", test_error_missing_schema), &
                new_unittest("error_missing_geometry", test_error_missing_geometry) &
                ]
@@ -374,6 +375,53 @@ contains
       close (unit, status='delete')
 
    end subroutine test_parse_method_xtb
+
+   subroutine test_parse_system_log_level(error)
+      !! Test parsing %system section with log_level
+      type(error_type), allocatable, intent(out) :: error
+
+      type(mqc_config_t) :: config
+      integer :: stat, unit
+      character(len=:), allocatable :: errmsg
+      character(len=*), parameter :: test_file = "test_system.mqc"
+
+      ! Create test file with %system section
+      open (newunit=unit, file=test_file, status='replace', action='write')
+      write (unit, '(A)') '%schema'
+      write (unit, '(A)') 'name = mqc-frag'
+      write (unit, '(A)') 'version = 1.0'
+      write (unit, '(A)') 'index_base = 0'
+      write (unit, '(A)') 'units = angstrom'
+      write (unit, '(A)') 'end'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%system'
+      write (unit, '(A)') 'log_level = verbose'
+      write (unit, '(A)') 'end'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%geometry'
+      write (unit, '(A)') '1'
+      write (unit, '(A)') ''
+      write (unit, '(A)') 'H 0.0 0.0 0.0'
+      write (unit, '(A)') 'end'
+      close (unit)
+
+      ! Parse file
+      call read_mqc_file(test_file, config, stat, errmsg)
+
+      call check(error, stat, 0, "Parser should succeed")
+      if (allocated(error)) return
+
+      call check(error, allocated(config%log_level), "log_level should be allocated")
+      if (allocated(error)) return
+
+      call check(error, config%log_level, "verbose", "log_level should be 'verbose'")
+      if (allocated(error)) return
+
+      call config%destroy()
+      open (newunit=unit, file=test_file, status='old')
+      close (unit, status='delete')
+
+   end subroutine test_parse_system_log_level
 
    subroutine test_error_missing_schema(error)
       !! Test error handling when schema section is missing
