@@ -179,7 +179,7 @@ contains
    subroutine create_test_basis_file(filename)
       character(len=*), intent(in) :: filename
       integer :: unit
-      open (newunit=unit, file=filename, status="replace")
+      open (newunit=unit, file=filename, status="replace", action="write")
       write (unit, '(a)') "$DATA"
       write (unit, '(a)') "$END"
       close (unit)
@@ -188,14 +188,14 @@ contains
    subroutine delete_file(filename)
       character(len=*), intent(in) :: filename
       integer :: unit, stat
-      open (newunit=unit, file=filename, status="old", iostat=stat)
+      open (newunit=unit, file=filename, status="old", action="read", iostat=stat)
       if (stat == 0) close (unit, status="delete")
    end subroutine delete_file
 
 end module test_mqc_cli_parser
 
 program tester
-   use iso_fortran_env, only: error_unit
+   use, intrinsic :: iso_fortran_env, only: error_unit
    use testdrive, only: run_testsuite, new_testsuite, testsuite_type
    use test_mqc_cli_parser, only: collect_mqc_cli_parser_tests
    implicit none
