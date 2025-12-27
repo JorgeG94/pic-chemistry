@@ -221,6 +221,9 @@ contains
          case (LINE_UNKNOWN)
             ! Skip blank lines and comments
             continue
+         case default
+            ! Skip any other line types (e.g., LINE_FUNCTION)
+            continue
          end select
 
          line_start = line_end
@@ -423,6 +426,9 @@ contains
                end if
             end if
 
+         case default
+            ! Skip unknown line types (e.g., LINE_UNKNOWN, blank lines, comments)
+            continue
          end select
 
          line_start = line_end
