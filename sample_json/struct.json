@@ -478,5 +478,10 @@
         }
     }
   },
+  "system": {
+    "logger":{
+      "level": "Verbose"
+    }
+  },
   "driver": "Energy"
 }

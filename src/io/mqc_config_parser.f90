@@ -89,6 +89,25 @@ module mqc_config_parser
 
 contains
 
+   pure function strip_comment(line) result(stripped)
+      !! Remove comments (! or #) from a line and trim result
+      character(len=*), intent(in) :: line
+      character(len=:), allocatable :: stripped
+      integer :: comment_pos
+
+      ! Find first occurrence of ! or #
+      comment_pos = index(line, '!')
+      if (comment_pos == 0) comment_pos = index(line, '#')
+
+      if (comment_pos > 0) then
+         ! Comment found - take everything before it
+         stripped = trim(adjustl(line(1:comment_pos - 1)))
+      else
+         ! No comment - use full line
+         stripped = trim(adjustl(line))
+      end if
+   end function strip_comment
+
    subroutine read_mqc_file(filename, config, stat, errmsg)
       !! Read and parse a .mqc format input file
       character(len=*), intent(in) :: filename
@@ -203,7 +222,7 @@ contains
          if (len_trim(line) == 0) cycle
          if (line(1:1) == '#' .or. line(1:1) == '!') cycle
 
-         if (trim(line) == 'end') exit
+         if (trim(strip_comment(line)) == 'end') exit
 
          eq_pos = index(line, '=')
          if (eq_pos == 0) cycle
@@ -252,7 +271,7 @@ contains
          if (len_trim(line) == 0) cycle
          if (line(1:1) == '#' .or. line(1:1) == '!') cycle
 
-         if (trim(line) == 'end') exit
+         if (trim(strip_comment(line)) == 'end') exit
 
          eq_pos = index(line, '=')
          if (eq_pos == 0) cycle
@@ -305,7 +324,7 @@ contains
          if (len_trim(line) == 0) cycle
          if (line(1:1) == '#' .or. line(1:1) == '!') cycle
 
-         if (trim(line) == 'end') exit
+         if (trim(strip_comment(line)) == 'end') exit
 
          eq_pos = index(line, '=')
          if (eq_pos == 0) cycle
@@ -353,7 +372,7 @@ contains
          if (len_trim(line) == 0) cycle
          if (line(1:1) == '#' .or. line(1:1) == '!') cycle
 
-         if (trim(line) == 'end') exit
+         if (trim(strip_comment(line)) == 'end') exit
 
          eq_pos = index(line, '=')
          if (eq_pos == 0) cycle
@@ -428,7 +447,7 @@ contains
          end if
 
          line = adjustl(line)
-         if (trim(line) == 'end') then
+         if (trim(strip_comment(line)) == 'end') then
             stat = 1
             errmsg = "Unexpected 'end' while reading geometry"
             return
@@ -456,7 +475,7 @@ contains
       end if
 
       line = adjustl(line)
-      if (trim(line) /= 'end') then
+      if (trim(strip_comment(line)) /= 'end') then
          stat = 1
          errmsg = "Expected 'end' after geometry coordinates"
          return
@@ -489,7 +508,7 @@ contains
          if (len_trim(line) == 0) cycle
          if (line(1:1) == '#' .or. line(1:1) == '!') cycle
 
-         if (trim(line) == 'end') exit
+         if (trim(strip_comment(line)) == 'end') exit
 
          eq_pos = index(line, '=')
          if (eq_pos > 0) then
@@ -527,7 +546,7 @@ contains
          if (len_trim(line) == 0) cycle
          if (line(1:1) == '#' .or. line(1:1) == '!') cycle
 
-         if (trim(line) == 'end') exit
+         if (trim(strip_comment(line)) == 'end') exit
 
          if (trim(line) == '%fragment') then
             ifrag = ifrag + 1
@@ -574,7 +593,7 @@ contains
          if (len_trim(line) == 0) cycle
          if (line(1:1) == '#' .or. line(1:1) == '!') cycle
 
-         if (trim(line) == 'end') then
+         if (trim(strip_comment(line)) == 'end') then
             if (in_indices) then
                in_indices = .false.
                cycle
@@ -691,7 +710,7 @@ contains
          if (len_trim(line) == 0) cycle
          if (line(1:1) == '#' .or. line(1:1) == '!') cycle
 
-         if (trim(line) == 'end') exit
+         if (trim(strip_comment(line)) == 'end') exit
 
          eq_pos = index(line, '=')
          if (eq_pos > 0) then
@@ -740,7 +759,7 @@ contains
             cycle
          end if
 
-         if (trim(line) == 'end') exit
+         if (trim(strip_comment(line)) == 'end') exit
 
          ! Parse bond line: atom_i atom_j order broken/preserved
          read (line, *, iostat=io_stat) atom_i, atom_j, order, status_str
@@ -788,7 +807,7 @@ contains
          if (len_trim(line) == 0) cycle
          if (line(1:1) == '#' .or. line(1:1) == '!') cycle
 
-         if (trim(line) == 'end') exit
+         if (trim(strip_comment(line)) == 'end') exit
 
          eq_pos = index(line, '=')
          if (eq_pos == 0) cycle
@@ -835,7 +854,7 @@ contains
          if (len_trim(line) == 0) cycle
          if (line(1:1) == '#' .or. line(1:1) == '!') cycle
 
-         if (trim(line) == 'end') then
+         if (trim(strip_comment(line)) == 'end') then
             if (in_cutoffs) then
                in_cutoffs = .false.
                cycle
@@ -913,7 +932,7 @@ contains
          if (len_trim(line) == 0) cycle
          if (line(1:1) == '#' .or. line(1:1) == '!') cycle
 
-         if (trim(line) == 'end') exit
+         if (trim(strip_comment(line)) == 'end') exit
 
          eq_pos = index(line, '=')
          if (eq_pos == 0) cycle
@@ -953,7 +972,7 @@ contains
          end if
 
          line = adjustl(line)
-         if (trim(line) == 'end') exit
+         if (trim(strip_comment(line)) == 'end') exit
       end do
 
    end subroutine skip_to_end
