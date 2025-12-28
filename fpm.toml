@@ -14,7 +14,7 @@ auto-examples = false
 module-naming = false
 external-modules = ["mpi_f08", "mpi"]
 [[executable]]
-name = "metalquicha"
+name = "mqc"
 source-dir = "app"
 main = "main.f90"
 [install]
@@ -31,6 +31,7 @@ pic-mpi = { git = "https://github.com/JorgeG94/pic-mpi.git", branch = "main"}
 pic-blas = { git = "https://github.com/JorgeG94/pic-blas.git", branch = "main"}
 tblite = { git = "https://github.com/JorgeG94/tblite", branch = "main"}
 test-drive.git = "https://github.com/JorgeG94/test-drive"
+openmp = "*"
 [extra.fortitude.check]
 select = ["C", "E", "S", "PORT"]
 # S212 is the warning that a program and a module are in the same file, this would make our tests stupid
