@@ -483,7 +483,7 @@ def write_indices_block(f, indices: List[int], per_line: int = 20) -> None:
     for i in range(0, len(indices), per_line):
         chunk = indices[i:i+per_line]
         f.write(" ".join(str(v) for v in chunk) + "\n")
-    f.write("end\n")
+    f.write("end  ! indices\n")
 
 def find_atom_fragment(atom_idx: int, fragments: List[List[int]]) -> Optional[int]:
     """Find which fragment (0-indexed) contains the given atom index"""
@@ -524,14 +524,14 @@ def write_connectivity(f, mol: Molecule) -> None:
             f.write(f"{i} {j} {order} preserved\n")
 
     f.write(f"\nnbroken = {broken_count}\n")
-    f.write("end\n\n")
+    f.write("end  ! connectivity\n\n")
 
 def write_structure(f, mol: Molecule) -> None:
     """Write %structure section with molecular properties"""
     f.write("%structure\n")
     f.write(f"charge = {mol.charge}\n")
     f.write(f"multiplicity = {mol.multiplicity}\n")
-    f.write("end\n\n")
+    f.write("end  ! structure\n\n")
 
 def write_geometry_xyz(f, mol: Molecule) -> None:
     """Write %geometry section in XYZ format"""
@@ -552,7 +552,7 @@ def write_geometry_xyz(f, mol: Molecule) -> None:
             x, y, z = geom[i]
             f.write(f"{s} {fmt_float(float(x))} {fmt_float(float(y))} {fmt_float(float(z))}\n")
 
-    f.write("end\n\n")
+    f.write("end  ! geometry\n\n")
 
 def emit_v1(inp: Input, json_path: Path) -> Tuple[str, Path]:
     """
@@ -588,7 +588,7 @@ def emit_v1(inp: Input, json_path: Path) -> Tuple[str, Path]:
     buf.write(f"version = {inp.schema.version}\n")
     buf.write(f"index_base = {inp.schema.index_base}\n")
     buf.write(f"units = {inp.schema.units}\n")
-    buf.write("end\n\n")
+    buf.write("end  ! schema\n\n")
 
     # %model (always)
     buf.write("%model\n")
@@ -597,18 +597,18 @@ def emit_v1(inp: Input, json_path: Path) -> Tuple[str, Path]:
         buf.write(f"basis = {inp.model.basis}\n")
     if inp.model.aux_basis is not None:
         buf.write(f"aux_basis = {inp.model.aux_basis}\n")
-    buf.write("end\n\n")
+    buf.write("end  ! model\n\n")
 
     # %driver (always)
     buf.write("%driver\n")
     buf.write(f"type = {inp.driver}\n")
-    buf.write("end\n\n")
+    buf.write("end  ! driver\n\n")
 
     # %system (optional)
     if inp.system is not None:
         buf.write("%system\n")
         buf.write(f"log_level = {inp.system.logger.level}\n")
-        buf.write("end\n\n")
+        buf.write("end  ! system\n\n")
 
     # %structure (always)
     write_structure(buf, mol)
@@ -629,22 +629,20 @@ def emit_v1(inp: Input, json_path: Path) -> Tuple[str, Path]:
             buf.write(f"charge = {charge}\n")
             buf.write(f"multiplicity = {mult}\n")
             write_indices_block(buf, frag_atoms, per_line=24)
-            buf.write("end\n\n")
+            buf.write("end  ! fragment\n\n")
 
-        # Write connectivity information (identifies broken bonds)
-        write_connectivity(buf, mol)
+        buf.write("end  ! fragments\n\n")
 
-        buf.write("end\n\n")
-    else:
-        # Unfragmented calculation - still output connectivity if present
-        write_connectivity(buf, mol)
+    # Write connectivity information (identifies broken bonds)
+    # This must be outside %fragments section
+    write_connectivity(buf, mol)
 
     # %scf (optional)
     if inp.scf is not None:
         buf.write("%scf\n")
         buf.write(f"maxiter = {inp.scf.maxiter}\n")
         buf.write(f"tolerance = {fmt_float(inp.scf.tolerance)}\n")
-        buf.write("end\n\n")
+        buf.write("end  ! scf\n\n")
 
     # %fragmentation (optional)
     if inp.fragmentation is not None:
@@ -663,9 +661,9 @@ def emit_v1(inp: Input, json_path: Path) -> Tuple[str, Path]:
                 buf.write(f"dimer = {fmt_float(fk.cutoffs.dimer)}\n")
             if fk.cutoffs.trimer is not None:
                 buf.write(f"trimer = {fmt_float(fk.cutoffs.trimer)}\n")
-            buf.write("end\n")
+            buf.write("end  ! cutoffs\n")
 
-        buf.write("end\n\n")
+        buf.write("end  ! fragmentation\n\n")
 
     text = buf.getvalue()
 

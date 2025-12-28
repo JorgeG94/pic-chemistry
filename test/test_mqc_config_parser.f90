@@ -18,6 +18,7 @@ program test_mqc_config_parser
                new_unittest("parse_no_fragments", test_parse_no_fragments), &
                new_unittest("parse_method_xtb", test_parse_method_xtb), &
                new_unittest("parse_system_log_level", test_parse_system_log_level), &
+               new_unittest("parse_with_comments", test_parse_with_comments), &
                new_unittest("error_missing_schema", test_error_missing_schema), &
                new_unittest("error_missing_geometry", test_error_missing_geometry) &
                ]
@@ -423,6 +424,101 @@ contains
       close (unit, status='delete')
 
    end subroutine test_parse_system_log_level
+
+   subroutine test_parse_with_comments(error)
+      !! Test parsing .mqc file with comments after 'end' keywords
+      type(error_type), allocatable, intent(out) :: error
+
+      type(mqc_config_t) :: config
+      integer :: stat, unit
+      character(len=:), allocatable :: errmsg
+      character(len=*), parameter :: test_file = "test_comments.mqc"
+
+      ! Create test file with comments after 'end' keywords
+      open (newunit=unit, file=test_file, status='replace', action='write')
+      write (unit, '(A)') '%schema'
+      write (unit, '(A)') 'name = mqc-frag'
+      write (unit, '(A)') 'version = 1.0'
+      write (unit, '(A)') 'index_base = 0'
+      write (unit, '(A)') 'units = angstrom'
+      write (unit, '(A)') 'end  ! schema'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%model'
+      write (unit, '(A)') 'method = XTB-GFN2'
+      write (unit, '(A)') 'end  ! model'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%driver'
+      write (unit, '(A)') 'type = Energy'
+      write (unit, '(A)') 'end  ! driver'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%structure'
+      write (unit, '(A)') 'charge = 0'
+      write (unit, '(A)') 'multiplicity = 1'
+      write (unit, '(A)') 'end  ! structure'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%geometry'
+      write (unit, '(A)') '3'
+      write (unit, '(A)') 'Water molecule'
+      write (unit, '(A)') 'O 0.0 0.0 0.0'
+      write (unit, '(A)') 'H 1.0 0.0 0.0'
+      write (unit, '(A)') 'H 0.0 1.0 0.0'
+      write (unit, '(A)') 'end  ! geometry'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%fragments'
+      write (unit, '(A)') 'nfrag = 1'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%fragment'
+      write (unit, '(A)') 'charge = 0'
+      write (unit, '(A)') 'multiplicity = 1'
+      write (unit, '(A)') '%indices'
+      write (unit, '(A)') '0 1 2'
+      write (unit, '(A)') 'end  ! indices'
+      write (unit, '(A)') 'end  ! fragment'
+      write (unit, '(A)') ''
+      write (unit, '(A)') 'end  ! fragments'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%connectivity'
+      write (unit, '(A)') 'nbonds = 2'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '0 1 1 preserved'
+      write (unit, '(A)') '0 2 1 preserved'
+      write (unit, '(A)') ''
+      write (unit, '(A)') 'nbroken = 0'
+      write (unit, '(A)') 'end  ! connectivity'
+      close (unit)
+
+      ! Parse file
+      call read_mqc_file(test_file, config, stat, errmsg)
+
+      call check(error, stat, 0, "Parser should succeed with comments")
+      if (allocated(error)) return
+
+      call check(error, config%schema_name, "mqc-frag", "schema_name should be 'mqc-frag'")
+      if (allocated(error)) return
+
+      call check(error, config%method, METHOD_TYPE_GFN2, "method should be GFN2")
+      if (allocated(error)) return
+
+      call check(error, config%geometry%natoms, 3, "natoms should be 3")
+      if (allocated(error)) return
+
+      call check(error, config%nfrag, 1, "nfrag should be 1")
+      if (allocated(error)) return
+
+      call check(error, size(config%fragments(1)%indices), 3, "Fragment should have 3 indices")
+      if (allocated(error)) return
+
+      call check(error, config%nbonds, 2, "nbonds should be 2")
+      if (allocated(error)) return
+
+      call check(error, config%nbroken, 0, "nbroken should be 0")
+      if (allocated(error)) return
+
+      call config%destroy()
+      open (newunit=unit, file=test_file, status='old', action='read')
+      close (unit, status='delete')
+
+   end subroutine test_parse_with_comments
 
    subroutine test_error_missing_schema(error)
       !! Test error handling when schema section is missing

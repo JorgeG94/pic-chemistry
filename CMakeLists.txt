@@ -9,7 +9,7 @@ project(
 
 set(project_name metalquicha)
 set(main_lib ${project_name})
-set(exe_name ${project_name}.exe)
+set(exe_name mqc)
 set(all_targets ${main_lib} ${exe_name})
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
