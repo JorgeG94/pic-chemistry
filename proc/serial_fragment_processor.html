@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.1% of total for procedures.">77 statements</a>
+                 title=" 2.1% of total for procedures.">78 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -138,15 +138,15 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/serial_fragment_processor.html#variable-calc_type_local~3">calc_type_local</a>
             <a class="list-group-item" href="../proc/serial_fragment_processor.html#variable-coord_timer~2">coord_timer</a>
-            <a class="list-group-item" href="../proc/serial_fragment_processor.html#variable-current_log_level~5">current_log_level</a>
+            <a class="list-group-item" href="../proc/serial_fragment_processor.html#variable-current_log_level~2">current_log_level</a>
             <a class="list-group-item" href="../proc/serial_fragment_processor.html#variable-frag_idx">frag_idx</a>
             <a class="list-group-item" href="../proc/serial_fragment_processor.html#variable-fragment_indices~5">fragment_indices</a>
-            <a class="list-group-item" href="../proc/serial_fragment_processor.html#variable-fragment_size~9">fragment_size</a>
-            <a class="list-group-item" href="../proc/serial_fragment_processor.html#variable-iatom~6">iatom</a>
+            <a class="list-group-item" href="../proc/serial_fragment_processor.html#variable-fragment_size~7">fragment_size</a>
+            <a class="list-group-item" href="../proc/serial_fragment_processor.html#variable-iatom~3">iatom</a>
             <a class="list-group-item" href="../proc/serial_fragment_processor.html#variable-mbe_total_energy">mbe_total_energy</a>
             <a class="list-group-item" href="../proc/serial_fragment_processor.html#variable-mbe_total_gradient">mbe_total_gradient</a>
             <a class="list-group-item" href="../proc/serial_fragment_processor.html#variable-phys_frag~4">phys_frag</a>
-            <a class="list-group-item" href="../proc/serial_fragment_processor.html#variable-results~5">results</a>
+            <a class="list-group-item" href="../proc/serial_fragment_processor.html#variable-results~2">results</a>
         </div>
       </div>
     </div>
@@ -182,7 +182,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public  subroutine serial_fragment_processor(total_fragments, polymers, max_level, sys_geom, method, calc_type)  
+    <h2>public  subroutine serial_fragment_processor(total_fragments, polymers, max_level, sys_geom, method, calc_type, bonds)  
 </h2>
     
 
@@ -218,7 +218,7 @@ This is used when running with only 1 MPI rank</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-polymers~10"></span>
+              <span class="anchor" id="variable-polymers~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -233,7 +233,7 @@ This is used when running with only 1 MPI rank</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_level~10"></span>
+              <span class="anchor" id="variable-max_level~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -248,7 +248,7 @@ This is used when running with only 1 MPI rank</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~17"></span>
+              <span class="anchor" id="variable-sys_geom~13"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -263,7 +263,7 @@ This is used when running with only 1 MPI rank</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~8"></span>
+              <span class="anchor" id="variable-method~7"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -278,7 +278,7 @@ This is used when running with only 1 MPI rank</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-calc_type~12"></span>
+              <span class="anchor" id="variable-calc_type~11"></span>
               integer(kind=int32),
             </td>
 <td>intent(in),</td>
@@ -287,6 +287,21 @@ This is used when running with only 1 MPI rank</p>
             </td>
             <td>::</td>
             <td><strong>calc_type</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bonds~7"></span>
+              type(<a href='../type/bond_t.html'>bond_t</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>bonds</strong>(:)</td>
             <td>
                 
             </td>
@@ -1583,7 +1598,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-current_log_level~5"></span>
+              <span class="anchor" id="variable-current_log_level~2"></span>
               integer,
             </td>
               <td>private</td>
@@ -1634,7 +1649,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_size~9"></span>
+              <span class="anchor" id="variable-fragment_size~7"></span>
               integer,
             </td>
               <td>private</td>
@@ -1651,7 +1666,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iatom~6"></span>
+              <span class="anchor" id="variable-iatom~3"></span>
               integer,
             </td>
               <td>private</td>
@@ -1719,7 +1734,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-results~5"></span>
+              <span class="anchor" id="variable-results~2"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
               <td>private,</td>
@@ -1750,7 +1765,7 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">serial_fragment_processor</span><span class="p">(</span><span class="n">total_fragments</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">serial_fragment_processor</span><span class="p">(</span><span class="n">total_fragments</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">bonds</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Process all fragments serially in single-rank mode</span>
 <span class="w">      </span><span class="c">!! This is used when running with only 1 MPI rank</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">total_fragments</span>
@@ -1758,6 +1773,7 @@ large graphs.</div>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">system_geometry_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sys_geom</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">method</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_type</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">bond_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bonds</span><span class="p">(:)</span>
 
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">frag_idx</span>
 <span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="n">current_log_level</span><span class="p">,</span><span class="w"> </span><span class="n">iatom</span>
@@ -1788,7 +1804,7 @@ large graphs.</div>
 <span class="w">         </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_indices</span><span class="p">(</span><span class="n">fragment_size</span><span class="p">))</span>
 <span class="w">         </span><span class="n">fragment_indices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">frag_idx</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">fragment_size</span><span class="p">)</span>
 
-<span class="w">         </span><span class="k">call </span><span class="n">build_fragment_from_indices</span><span class="p">(</span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_indices</span><span class="p">,</span><span class="w"> </span><span class="n">phys_frag</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">build_fragment_from_indices</span><span class="p">(</span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_indices</span><span class="p">,</span><span class="w"> </span><span class="n">phys_frag</span><span class="p">,</span><span class="w"> </span><span class="n">bonds</span><span class="p">)</span>
 
 <span class="w">         </span><span class="k">call </span><span class="n">do_fragment_work</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">frag_idx</span><span class="p">),</span><span class="w"> </span><span class="n">results</span><span class="p">(</span><span class="n">frag_idx</span><span class="p">),</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">phys_frag</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="o">=</span><span class="n">calc_type_local</span><span class="p">)</span>
 
@@ -1876,7 +1892,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-27 12:24 +0000             </p>
+ on 2025-12-28 06:44 +0000             </p>
           </div>
         </div>
         <br>

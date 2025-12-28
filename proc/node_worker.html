@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.2% of total for procedures.">43 statements</a>
+                 title=" 1.2% of total for procedures.">44 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -137,13 +137,13 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/node_worker.html#variable-dummy_msg~3">dummy_msg</a>
-            <a class="list-group-item" href="../proc/node_worker.html#variable-fragment_idx~10">fragment_idx</a>
+            <a class="list-group-item" href="../proc/node_worker.html#variable-fragment_idx~7">fragment_idx</a>
             <a class="list-group-item" href="../proc/node_worker.html#variable-fragment_indices~4">fragment_indices</a>
-            <a class="list-group-item" href="../proc/node_worker.html#variable-fragment_size~8">fragment_size</a>
+            <a class="list-group-item" href="../proc/node_worker.html#variable-fragment_size~6">fragment_size</a>
             <a class="list-group-item" href="../proc/node_worker.html#variable-phys_frag~3">phys_frag</a>
-            <a class="list-group-item" href="../proc/node_worker.html#variable-req~7">req</a>
-            <a class="list-group-item" href="../proc/node_worker.html#variable-result~12">result</a>
-            <a class="list-group-item" href="../proc/node_worker.html#variable-status~5">status</a>
+            <a class="list-group-item" href="../proc/node_worker.html#variable-req~5">req</a>
+            <a class="list-group-item" href="../proc/node_worker.html#variable-result~4">result</a>
+            <a class="list-group-item" href="../proc/node_worker.html#variable-status~3">status</a>
         </div>
       </div>
     </div>
@@ -179,7 +179,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public  subroutine node_worker(world_comm, node_comm, sys_geom, method, calc_type)  
+    <h2>public  subroutine node_worker(world_comm, node_comm, sys_geom, method, calc_type, bonds)  
 </h2>
     
 
@@ -199,7 +199,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-world_comm~8"></span>
+              <span class="anchor" id="variable-world_comm~7"></span>
               class(comm_t),
             </td>
 <td>intent(in)</td>
@@ -214,7 +214,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_comm~7"></span>
+              <span class="anchor" id="variable-node_comm~6"></span>
               class(comm_t),
             </td>
 <td>intent(in)</td>
@@ -229,7 +229,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~15"></span>
+              <span class="anchor" id="variable-sys_geom~11"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in),</td>
@@ -244,7 +244,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~6"></span>
+              <span class="anchor" id="variable-method~5"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -259,7 +259,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-calc_type~10"></span>
+              <span class="anchor" id="variable-calc_type~9"></span>
               integer(kind=int32),
             </td>
 <td>intent(in),</td>
@@ -268,6 +268,21 @@
             </td>
             <td>::</td>
             <td><strong>calc_type</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bonds~5"></span>
+              type(<a href='../type/bond_t.html'>bond_t</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>bonds</strong>(:)</td>
             <td>
                 
             </td>
@@ -1049,7 +1064,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_idx~10"></span>
+              <span class="anchor" id="variable-fragment_idx~7"></span>
               integer(kind=int32),
             </td>
               <td>private</td>
@@ -1083,7 +1098,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_size~8"></span>
+              <span class="anchor" id="variable-fragment_size~6"></span>
               integer(kind=int32),
             </td>
               <td>private</td>
@@ -1117,7 +1132,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-req~7"></span>
+              <span class="anchor" id="variable-req~5"></span>
               type(request_t),
             </td>
               <td>private</td>
@@ -1134,7 +1149,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~12"></span>
+              <span class="anchor" id="variable-result~4"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
               <td>private</td>
@@ -1151,7 +1166,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-status~5"></span>
+              <span class="anchor" id="variable-status~3"></span>
               type(MPI_Status),
             </td>
               <td>private</td>
@@ -1182,12 +1197,13 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">node_worker</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">node_worker</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">bonds</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Node worker for processing fragments assigned by node coordinator</span>
 <span class="w">      </span><span class="k">class</span><span class="p">(</span><span class="n">comm_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">system_geometry_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sys_geom</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">method</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_type</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">bond_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bonds</span><span class="p">(:)</span>
 
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="n">dummy_msg</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_indices</span><span class="p">(:)</span>
@@ -1216,7 +1232,7 @@ large graphs.</div>
 
 <span class="w">            </span><span class="c">! Build physical fragment from indices if sys_geom is available</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">sys_geom</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               call </span><span class="n">build_fragment_from_indices</span><span class="p">(</span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_indices</span><span class="p">,</span><span class="w"> </span><span class="n">phys_frag</span><span class="p">)</span>
+<span class="k">               call </span><span class="n">build_fragment_from_indices</span><span class="p">(</span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_indices</span><span class="p">,</span><span class="w"> </span><span class="n">phys_frag</span><span class="p">,</span><span class="w"> </span><span class="n">bonds</span><span class="p">)</span>
 
 <span class="w">               </span><span class="c">! Process the chemistry fragment with physical geometry</span>
 <span class="w">               </span><span class="k">call </span><span class="n">do_fragment_work</span><span class="p">(</span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">phys_frag</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">)</span>
@@ -1267,7 +1283,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-27 12:24 +0000             </p>
+ on 2025-12-28 06:44 +0000             </p>
           </div>
         </div>
         <br>

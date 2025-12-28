@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 4.5% of total for derived types.</p>Including implementation: 17 statements,  2.7% of total for derived types.">9 statements</a>
+                 title="<p> 5.4% of total for derived types.</p>Including implementation: 21 statements,  3.3% of total for derived types.">11 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -139,6 +139,8 @@
             <a class="list-group-item" href="../type/system_geometry_t.html#variable-atoms_per_monomer">atoms_per_monomer</a>
             <a class="list-group-item" href="../type/system_geometry_t.html#variable-coordinates~2">coordinates</a>
             <a class="list-group-item" href="../type/system_geometry_t.html#variable-element_numbers~2">element_numbers</a>
+            <a class="list-group-item" href="../type/system_geometry_t.html#variable-fragment_atoms">fragment_atoms</a>
+            <a class="list-group-item" href="../type/system_geometry_t.html#variable-fragment_sizes">fragment_sizes</a>
             <a class="list-group-item" href="../type/system_geometry_t.html#variable-n_monomers">n_monomers</a>
             <a class="list-group-item" href="../type/system_geometry_t.html#variable-total_atoms~2">total_atoms</a>
         </div>
@@ -167,7 +169,7 @@
       </a>
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/system_geometry_t.html#boundprocedure-destroy~9">destroy</a>
+            <a class="list-group-item" href="../type/system_geometry_t.html#boundprocedure-destroy~4">destroy</a>
         </div>
       </div>
     </div>
@@ -220,7 +222,7 @@ by monomers for efficient fragment generation and MBE calculations.</p>
                 <td></td>
                 <td></td>
             <td>
-                <p>Atoms in each monomer (assumed identical)</p>
+                <p>Atoms in each monomer (0 if variable-sized)</p>
             </td>
         </tr>
         <tr>
@@ -259,6 +261,40 @@ by monomers for efficient fragment generation and MBE calculations.</p>
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-fragment_atoms"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>fragment_atoms</strong>(:,:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Atom indices for each fragment (max_frag_size, n_monomers), 0-indexed</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment_sizes"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>fragment_sizes</strong>(:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>Number of atoms in each fragment (n_monomers)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-n_monomers"></span>
               integer,
             </td>
@@ -288,7 +324,7 @@ by monomers for efficient fragment generation and MBE calculations.</p>
                 <td></td>
                 <td></td>
             <td>
-                <p>Total number of atoms (n_monomers × atoms_per_monomer)</p>
+                <p>Total number of atoms</p>
             </td>
         </tr>
     </tbody>
@@ -304,7 +340,7 @@ by monomers for efficient fragment generation and MBE calculations.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-destroy~9"></span>
+      <span class="anchor" id="boundprocedure-destroy~4"></span>
       <h3>
           procedure, public ::
   <strong>destroy</strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/system_destroy.html'>system_destroy</a>
@@ -369,10 +405,14 @@ by monomers for efficient fragment generation and MBE calculations.</p>
 <span class="w">      </span><span class="c">!! Contains the full atomic structure of a molecular cluster organized</span>
 <span class="w">      </span><span class="c">!! by monomers for efficient fragment generation and MBE calculations.</span>
 <span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n_monomers</span><span class="w">        </span><span class="c">!! Number of monomer units in system</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">atoms_per_monomer</span><span class="w">  </span><span class="c">!! Atoms in each monomer (assumed identical)</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">total_atoms</span><span class="w">       </span><span class="c">!! Total number of atoms (n_monomers × atoms_per_monomer)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">atoms_per_monomer</span><span class="w">  </span><span class="c">!! Atoms in each monomer (0 if variable-sized)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">total_atoms</span><span class="w">       </span><span class="c">!! Total number of atoms</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">element_numbers</span><span class="p">(:)</span><span class="w">  </span><span class="c">!! Atomic numbers for all atoms</span>
 <span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">coordinates</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w">  </span><span class="c">!! All coordinates (3, total_atoms) in Bohr</span>
+
+<span class="w">      </span><span class="c">! For variable-sized fragments (explicit fragment definitions)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_sizes</span><span class="p">(:)</span><span class="w">      </span><span class="c">!! Number of atoms in each fragment (n_monomers)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_atoms</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w">   </span><span class="c">!! Atom indices for each fragment (max_frag_size, n_monomers), 0-indexed</span>
 <span class="w">   </span><span class="k">contains</span>
 <span class="k">      procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">destroy</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">system_destroy</span><span class="w">  </span><span class="c">!! Memory cleanup</span>
 <span class="w">   </span><span class="k">end type </span><span class="n">system_geometry_t</span>
@@ -398,7 +438,7 @@ by monomers for efficient fragment generation and MBE calculations.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-27 12:24 +0000             </p>
+ on 2025-12-28 06:44 +0000             </p>
           </div>
         </div>
         <br>
