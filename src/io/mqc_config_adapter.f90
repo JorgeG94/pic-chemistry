@@ -89,7 +89,8 @@ contains
             call error%set(ERROR_VALIDATION, "Invalid molecule_index in multi-molecule mode")
             return
          end if
-         call molecule_to_system_geometry(mqc_config%molecules(molecule_index), sys_geom, use_angstrom, mqc_config%allow_overlapping_fragments, error)
+         call molecule_to_system_geometry(mqc_config%molecules(molecule_index), &
+                                          sys_geom, use_angstrom, mqc_config%allow_overlapping_fragments, error)
       else
          ! Single molecule mode (backward compatible)
          ! Check if geometry is loaded
