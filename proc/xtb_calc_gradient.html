@@ -138,12 +138,12 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/xtb_calc_gradient.html#variable-calc~2">calc</a>
             <a class="list-group-item" href="../proc/xtb_calc_gradient.html#variable-ctx~2">ctx</a>
-            <a class="list-group-item" href="../proc/xtb_calc_gradient.html#variable-energy~2">energy</a>
-            <a class="list-group-item" href="../proc/xtb_calc_gradient.html#variable-error~2">error</a>
-            <a class="list-group-item" href="../proc/xtb_calc_gradient.html#variable-gradient">gradient</a>
-            <a class="list-group-item" href="../proc/xtb_calc_gradient.html#variable-mol~2">mol</a>
+            <a class="list-group-item" href="../proc/xtb_calc_gradient.html#variable-energy~3">energy</a>
+            <a class="list-group-item" href="../proc/xtb_calc_gradient.html#variable-error~34">error</a>
+            <a class="list-group-item" href="../proc/xtb_calc_gradient.html#variable-gradient~2">gradient</a>
+            <a class="list-group-item" href="../proc/xtb_calc_gradient.html#variable-mol~8">mol</a>
             <a class="list-group-item" href="../proc/xtb_calc_gradient.html#variable-num~2">num</a>
-            <a class="list-group-item" href="../proc/xtb_calc_gradient.html#variable-sigma">sigma</a>
+            <a class="list-group-item" href="../proc/xtb_calc_gradient.html#variable-sigma~2">sigma</a>
             <a class="list-group-item" href="../proc/xtb_calc_gradient.html#variable-verbosity~2">verbosity</a>
             <a class="list-group-item" href="../proc/xtb_calc_gradient.html#variable-wfn~2">wfn</a>
             <a class="list-group-item" href="../proc/xtb_calc_gradient.html#variable-xyz~2">xyz</a>
@@ -204,7 +204,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~2"></span>
+              <span class="anchor" id="variable-this~35"></span>
               class(<a href='../type/xtb_method_t.html'>xtb_method_t</a>),
             </td>
 <td>intent(in)</td>
@@ -219,7 +219,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment~2"></span>
+              <span class="anchor" id="variable-fragment~13"></span>
               type(<a href='../type/physical_fragment_t.html'>physical_fragment_t</a>),
             </td>
 <td>intent(in)</td>
@@ -234,7 +234,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~2"></span>
+              <span class="anchor" id="variable-result~13"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(out)</td>
@@ -753,7 +753,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-energy~2"></span>
+              <span class="anchor" id="variable-energy~3"></span>
               real(kind=wp),
             </td>
               <td>private</td>
@@ -770,7 +770,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-error~2"></span>
+              <span class="anchor" id="variable-error~34"></span>
               type(error_type),
             </td>
               <td>private,</td>
@@ -787,7 +787,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gradient"></span>
+              <span class="anchor" id="variable-gradient~2"></span>
               real(kind=wp),
             </td>
               <td>private,</td>
@@ -804,7 +804,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mol~2"></span>
+              <span class="anchor" id="variable-mol~8"></span>
               type(structure_type),
             </td>
               <td>private</td>
@@ -838,7 +838,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sigma"></span>
+              <span class="anchor" id="variable-sigma~2"></span>
               real(kind=wp),
             </td>
               <td>private,</td>
@@ -976,7 +976,7 @@ large graphs.</div>
 <span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">sigma</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span>
 
 <span class="w">      </span><span class="c">! Create wavefunction and run single point calculation with gradient</span>
-<span class="w">      </span><span class="k">call </span><span class="n">new_wavefunction</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span><span class="w"> </span><span class="n">mol</span><span class="p">%</span><span class="n">nat</span><span class="p">,</span><span class="w"> </span><span class="n">calc</span><span class="p">%</span><span class="n">bas</span><span class="p">%</span><span class="n">nsh</span><span class="p">,</span><span class="w"> </span><span class="n">calc</span><span class="p">%</span><span class="n">bas</span><span class="p">%</span><span class="n">nao</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">kt</span><span class="p">)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">new_wavefunction</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span><span class="w"> </span><span class="n">mol</span><span class="p">%</span><span class="n">nat</span><span class="p">,</span><span class="w"> </span><span class="n">calc</span><span class="p">%</span><span class="n">bas</span><span class="p">%</span><span class="n">nsh</span><span class="p">,</span><span class="w"> </span><span class="n">calc</span><span class="p">%</span><span class="n">bas</span><span class="p">%</span><span class="n">nao</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">kt</span><span class="p">,</span><span class="w"> </span><span class="n">grad</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
 <span class="w">      </span><span class="n">energy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span>
 
 <span class="w">      </span><span class="n">verbosity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">merge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">verbose</span><span class="p">)</span>
@@ -1029,7 +1029,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-29 12:30 +0000             </p>
+ on 2025-12-29 13:50 +0000             </p>
           </div>
         </div>
         <br>
