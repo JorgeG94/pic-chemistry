@@ -554,21 +554,48 @@ def write_geometry_xyz(f, mol: Molecule) -> None:
 
     f.write("end  ! geometry\n\n")
 
+def write_molecule_sections(f, mol: Molecule) -> None:
+    """Write all molecule-specific sections (%structure, %geometry, %fragments, %connectivity)"""
+    # %structure (always)
+    write_structure(f, mol)
+
+    # %geometry (always)
+    write_geometry_xyz(f, mol)
+
+    # %fragments (only if fragments are specified)
+    if len(mol.fragments) > 0:
+        f.write("%fragments\n")
+        f.write(f"nfrag = {len(mol.fragments)}\n\n")
+
+        for fi, frag_atoms in enumerate(mol.fragments):
+            charge = mol.fragment_charges[fi]
+            mult = mol.fragment_multiplicities[fi]
+
+            f.write("%fragment\n")
+            f.write(f"charge = {charge}\n")
+            f.write(f"multiplicity = {mult}\n")
+            write_indices_block(f, frag_atoms, per_line=24)
+            f.write("end  ! fragment\n\n")
+
+        f.write("end  ! fragments\n\n")
+
+    # Write connectivity information (identifies broken bonds)
+    # This must be outside %fragments section
+    write_connectivity(f, mol)
+
 def emit_v1(inp: Input, json_path: Path) -> Tuple[str, Path]:
     """
     Generates v1 Fortran-input format and writes to file.
 
     Returns tuple of (text_content, output_path).
-    v1 currently supports exactly one molecule in output.
+    Supports single or multiple molecules.
 
     Output filename is determined by:
     - If inp.title is set, use "{title}.mqc"
     - Otherwise use "{json_stem}.mqc" (e.g., input.json -> input.mqc)
     """
-    if len(inp.molecules) != 1:
-        die(f"v1 emitter currently supports exactly 1 molecule; got {len(inp.molecules)}")
-
-    mol = inp.molecules[0]
+    if len(inp.molecules) == 0:
+        die(f"v1 emitter requires at least 1 molecule; got {len(inp.molecules)}")
 
     # Determine output filename
     if inp.title:
@@ -610,32 +637,24 @@ def emit_v1(inp: Input, json_path: Path) -> Tuple[str, Path]:
         buf.write(f"log_level = {inp.system.logger.level}\n")
         buf.write("end  ! system\n\n")
 
-    # %structure (always)
-    write_structure(buf, mol)
+    # Handle single molecule (backward compatible) vs multiple molecules
+    if len(inp.molecules) == 1:
+        # Single molecule - write at top level (backward compatible format)
+        mol = inp.molecules[0]
+        write_molecule_sections(buf, mol)
+    else:
+        # Multiple molecules - use %molecules section
+        buf.write("%molecules\n")
+        buf.write(f"nmol = {len(inp.molecules)}\n\n")
 
-    # %geometry (always)
-    write_geometry_xyz(buf, mol)
+        for mi, mol in enumerate(inp.molecules):
+            buf.write("%molecule\n")
+            if hasattr(mol, 'name') and mol.name:
+                buf.write(f"name = {mol.name}\n")
+            write_molecule_sections(buf, mol)
+            buf.write("end  ! molecule\n\n")
 
-    # %fragments (only if fragments are specified)
-    if len(mol.fragments) > 0:
-        buf.write("%fragments\n")
-        buf.write(f"nfrag = {len(mol.fragments)}\n\n")
-
-        for fi, frag_atoms in enumerate(mol.fragments):
-            charge = mol.fragment_charges[fi]
-            mult = mol.fragment_multiplicities[fi]
-
-            buf.write("%fragment\n")
-            buf.write(f"charge = {charge}\n")
-            buf.write(f"multiplicity = {mult}\n")
-            write_indices_block(buf, frag_atoms, per_line=24)
-            buf.write("end  ! fragment\n\n")
-
-        buf.write("end  ! fragments\n\n")
-
-    # Write connectivity information (identifies broken bonds)
-    # This must be outside %fragments section
-    write_connectivity(buf, mol)
+        buf.write("end  ! molecules\n\n")
 
     # %scf (optional)
     if inp.scf is not None:

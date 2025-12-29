@@ -83,9 +83,6 @@ program main
       call abort_comm(world_comm, 1)
    end if
 
-   ! Convert to driver configuration
-   call config_to_driver(mqc_config, config)
-
    ! Configure logger
    if (allocated(mqc_config%log_level)) then
       call logger%configure(get_logger_level(mqc_config%log_level))
@@ -94,16 +91,24 @@ program main
       end if
    end if
 
-   ! Convert geometry to system_geometry_t
-   call config_to_system_geometry(mqc_config, sys_geom, stat, errmsg)
-   if (stat /= 0) then
-      if (world_comm%rank() == 0) then
-         call logger%error("Error converting geometry: "//errmsg)
+   ! Handle single vs multiple molecules
+   if (mqc_config%nmol == 0) then
+      ! Single molecule mode (backward compatible)
+      call config_to_driver(mqc_config, config)
+      call config_to_system_geometry(mqc_config, sys_geom, stat, errmsg)
+      if (stat /= 0) then
+         if (world_comm%rank() == 0) then
+            call logger%error("Error converting geometry: "//errmsg)
+         end if
+         call abort_comm(world_comm, 1)
       end if
-      call abort_comm(world_comm, 1)
-   end if
 
-   call run_calculation(world_comm, node_comm, config, sys_geom, mqc_config%bonds)
+      call run_calculation(world_comm, node_comm, config, sys_geom, mqc_config%bonds)
+      call sys_geom%destroy()
+   else
+      ! Multi-molecule mode: loop over all molecules
+      call run_multi_molecule_calculations(world_comm, node_comm, mqc_config)
+   end if
 
    if (world_comm%rank() == 0) then
       call my_timer%stop()
@@ -111,12 +116,79 @@ program main
    end if
 
    call mqc_config%destroy()
-   call sys_geom%destroy()
    call world_comm%finalize()
    call node_comm%finalize()
    call pic_mpi_finalize()
 
 contains
+
+   subroutine run_multi_molecule_calculations(world_comm, node_comm, mqc_config)
+      !! Run calculations for multiple molecules in sequence
+      type(comm_t), intent(in) :: world_comm
+      type(comm_t), intent(in) :: node_comm
+      type(mqc_config_t), intent(in) :: mqc_config
+
+      type(driver_config_t) :: config
+      type(system_geometry_t) :: sys_geom
+      integer :: imol, stat
+      character(len=:), allocatable :: errmsg
+      character(len=:), allocatable :: mol_name
+
+      if (world_comm%rank() == 0) then
+         call logger%info(" ")
+         call logger%info("============================================")
+         call logger%info("Multi-molecule mode: "//to_char(mqc_config%nmol)//" molecules")
+         call logger%info("============================================")
+         call logger%info(" ")
+      end if
+
+      ! Loop over all molecules
+      do imol = 1, mqc_config%nmol
+         ! Determine molecule name for logging
+         if (allocated(mqc_config%molecules(imol)%name)) then
+            mol_name = mqc_config%molecules(imol)%name
+         else
+            mol_name = "molecule_"//to_char(imol)
+         end if
+
+         if (world_comm%rank() == 0) then
+            call logger%info(" ")
+            call logger%info("--------------------------------------------")
+            call logger%info("Processing molecule "//to_char(imol)//"/"//to_char(mqc_config%nmol)//": "//mol_name)
+            call logger%info("--------------------------------------------")
+         end if
+
+         ! Convert to driver configuration for this molecule
+         call config_to_driver(mqc_config, config, molecule_index=imol)
+
+         ! Convert geometry for this molecule
+         call config_to_system_geometry(mqc_config, sys_geom, stat, errmsg, molecule_index=imol)
+         if (stat /= 0) then
+            if (world_comm%rank() == 0) then
+               call logger%error("Error converting geometry for "//mol_name//": "//errmsg)
+            end if
+            call abort_comm(world_comm, 1)
+         end if
+
+         ! Run calculation for this molecule
+         call run_calculation(world_comm, node_comm, config, sys_geom, mqc_config%molecules(imol)%bonds)
+
+         ! Clean up for this molecule
+         call sys_geom%destroy()
+
+         if (world_comm%rank() == 0) then
+            call logger%info("Completed molecule "//to_char(imol)//"/"//to_char(mqc_config%nmol)//": "//mol_name)
+         end if
+      end do
+
+      if (world_comm%rank() == 0) then
+         call logger%info(" ")
+         call logger%info("============================================")
+         call logger%info("All "//to_char(mqc_config%nmol)//" molecules completed")
+         call logger%info("============================================")
+      end if
+
+   end subroutine run_multi_molecule_calculations
 
    logical function ends_with(str, suffix)
       !! Check if string ends with suffix
