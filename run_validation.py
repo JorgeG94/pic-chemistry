@@ -23,12 +23,19 @@ class Colors:
 
 def run_calculation(input_file: str, exe_path: str = "./build/mqc") -> bool:
     """Run a metalquicha calculation"""
+    import os
+
+    # Set environment for reproducible calculations
+    env = os.environ.copy()
+    env['OMP_NUM_THREADS'] = '1'
+
     try:
         result = subprocess.run(
             [exe_path, input_file],
             capture_output=True,
             text=True,
-            timeout=300  # 5 minute timeout
+            timeout=300,  # 5 minute timeout
+            env=env
         )
         return result.returncode == 0
     except subprocess.TimeoutExpired:

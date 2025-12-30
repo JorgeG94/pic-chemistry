@@ -44,6 +44,20 @@ jobs:
           conda activate mqc
           ctest --test-dir build -V -R "mqc"
 
+      - name: Run physics validation tests
+        shell: bash -el {0}
+        run: |
+          conda activate mqc
+          python3 run_validation.py --exe ./build/mqc -v
+
+      - name: Upload validation outputs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-outputs-tblite
+          path: output_*.json
+          retention-days: 7
+
       - name: Clean build dir
         shell: bash -el {0}
         run: |
