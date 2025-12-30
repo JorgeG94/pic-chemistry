@@ -42,8 +42,8 @@
       "name": "Multi-fragment calculation",
       "input": "validation/inputs/multi_frag.mqc",
       "expected_energies": {
-        "frag1": -34.6736678571,
-        "frag2": -34.6736678571
+        "molecule_1": -34.6736678571,
+        "molecule_2": -34.6736678571
       },
       "type": "multi_molecule"
     },
