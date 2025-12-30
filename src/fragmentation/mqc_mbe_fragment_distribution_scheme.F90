@@ -8,7 +8,7 @@ module mqc_mbe_fragment_distribution_scheme
  use pic_mpi_lib, only: comm_t, send, recv, isend, irecv, wait, iprobe, MPI_Status, request_t, MPI_ANY_SOURCE, MPI_ANY_TAG
    use pic_logger, only: logger => global_logger, verbose_level, info_level
    use pic_io, only: to_char
-   use mqc_mbe_io, only: print_fragment_xyz
+   use mqc_mbe_io, only: print_fragment_xyz, print_unfragmented_json
    use omp_lib, only: omp_set_num_threads, omp_get_max_threads
    use mqc_mbe, only: compute_mbe_energy, compute_mbe_energy_gradient
    use mqc_mpi_tags, only: TAG_WORKER_REQUEST, TAG_WORKER_FRAGMENT, TAG_WORKER_FINISH, &
@@ -604,6 +604,7 @@ contains
          end if
       end block
       call logger%info("============================================")
+      call print_unfragmented_json(result)
 
       call result%destroy()
 

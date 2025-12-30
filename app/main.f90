@@ -13,6 +13,7 @@ program main
    use mqc_physical_fragment, only: system_geometry_t
    use mqc_config_parser, only: mqc_config_t, read_mqc_file
    use mqc_config_adapter, only: driver_config_t, config_to_driver, config_to_system_geometry, get_logger_level
+   use mqc_output_filename, only: set_output_json_filename
    use mqc_logo, only: print_logo
    use pic_timer, only: timer_type
    use mqc_error, only: error_t
@@ -58,6 +59,7 @@ program main
       end if
       input_file = trim(input_file)
 
+      call set_output_json_filename(input_file)
       ! Validate file extension
       if (.not. ends_with(input_file, '.mqc')) then
          if (world_comm%rank() == 0) then
