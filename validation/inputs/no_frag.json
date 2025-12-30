@@ -311,5 +311,10 @@
       "tolerance": 1e-6
     }
   },
+  "system":{
+  "logger": {
+  "level": "Verbose"
+  }
+  },
   "driver": "Energy"
 }

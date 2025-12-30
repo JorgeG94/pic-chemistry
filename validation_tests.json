@@ -1,0 +1,64 @@
+{
+  "description": "Physics validation tests for metalquicha",
+  "tolerance": 1.0e-6,
+  "tests": [
+    {
+      "name": "Unfragmented glycine tripeptide",
+      "input": "validation/inputs/no_frag.mqc",
+      "expected_energy": -143.291489223019653,
+      "type": "unfragmented"
+    },
+    {
+      "name": "Charged cluster MBE",
+      "input": "validation/inputs/charged_cluster.mqc",
+      "expected_energy": -45.7161383790,
+      "type": "fragmented"
+    },
+    {
+      "name": "Glycine 10-mer MBE",
+      "input": "validation/inputs/gly10.mqc",
+      "expected_energy": -143.3014637669,
+      "type": "fragmented"
+    },
+    {
+      "name": "Water prism MBE",
+      "input": "validation/inputs/prism.mqc",
+      "expected_energy": -34.6736678571,
+      "type": "fragmented"
+    },
+    {
+      "name": "Water 20-mer isomer MBE",
+      "input": "validation/inputs/w20_isomer.mqc",
+      "expected_energy": -115.6850246841,
+      "type": "fragmented"
+    },
+    {
+      "name": "Hydronium ion unfragmented",
+      "input": "validation/inputs/h3o.mqc",
+      "expected_energy": -5.773131213617977,
+      "type": "unfragmented"
+    },
+    {
+      "name": "Multi-fragment calculation",
+      "input": "validation/inputs/multi_frag.mqc",
+      "expected_energies": {
+        "molecule_1": -34.6736678571,
+        "molecule_2": -34.6736678571
+      },
+      "type": "multi_molecule"
+    },
+    {
+      "name": "Multi-structure conformers",
+      "input": "validation/inputs/multi_structure.mqc",
+      "expected_energies": {
+        "molecule_1": -34.683832133514869,
+        "molecule_2": -34.683832133514869,
+        "molecule_3": -34.683832133514869,
+        "molecule_4": -34.683832133514869,
+        "molecule_5": -34.683832133514869,
+        "molecule_6": -34.683832133514869
+      },
+      "type": "multi_molecule"
+    }
+  ]
+}
