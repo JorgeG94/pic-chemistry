@@ -9,6 +9,7 @@ module mqc_driver
    use omp_lib, only: omp_get_max_threads, omp_set_num_threads
    use mqc_mbe_fragment_distribution_scheme, only: global_coordinator, node_coordinator, node_worker, unfragmented_calculation, &
                                                    serial_fragment_processor, do_fragment_work
+   use mqc_gmbe_fragment_distribution_scheme, only: serial_gmbe_processor, gmbe_coordinator
    use mqc_frag_utils, only: get_nfrags, create_monomer_list, generate_fragment_list, generate_intersections
    use mqc_physical_fragment, only: system_geometry_t, physical_fragment_t, &
                                     build_fragment_from_indices, build_fragment_from_atom_list
@@ -320,8 +321,15 @@ contains
          ! Global coordinator (rank 0, node leader on node 0)
          call omp_set_num_threads(omp_get_max_threads())
          call logger%verbose("Rank 0: Acting as global coordinator")
-         call global_coordinator(world_comm, node_comm, total_fragments, polymers, max_level, &
-                                 node_leader_ranks, num_nodes, sys_geom, calc_type)
+         if (allow_overlapping_fragments) then
+            ! GMBE MPI processing
+            call gmbe_coordinator(world_comm, node_comm, n_monomers, polymers, intersections, intersection_pairs, &
+                                  n_intersections, node_leader_ranks, num_nodes, sys_geom, method, calc_type, bonds)
+         else
+            ! Standard MBE MPI processing
+            call global_coordinator(world_comm, node_comm, total_fragments, polymers, max_level, &
+                                    node_leader_ranks, num_nodes, sys_geom, calc_type)
+         end if
       else if (node_comm%leader()) then
          ! Node coordinator (node leader on other nodes)
          call logger%verbose("Rank "//to_char(world_comm%rank())//": Acting as node coordinator")
@@ -342,77 +350,6 @@ contains
       end if
 
    end subroutine run_fragmented_calculation
-
-   subroutine serial_gmbe_processor(n_monomers, polymers, intersections, intersection_pairs, n_intersections, &
-                                    sys_geom, method, calc_type, bonds)
-      !! Serial GMBE processor: builds all fragments (monomers + intersections) and computes GMBE energy
-      integer, intent(in) :: n_monomers  !! Number of monomers
-      integer, intent(in) :: polymers(:, :)  !! Monomer indices (n_monomers, 1)
-      integer, intent(in) :: intersections(:, :)  !! Intersection atom lists
-      integer, intent(in) :: intersection_pairs(:, :)  !! Pairs that created intersections
-      integer, intent(in) :: n_intersections  !! Number of intersection fragments
-      type(system_geometry_t), intent(in) :: sys_geom
-      integer(int32), intent(in) :: method, calc_type
-      type(bond_t), intent(in), optional :: bonds(:)
-
-      type(calculation_result_t), allocatable :: all_results(:)
-      type(physical_fragment_t) :: phys_frag
-      integer :: i, intersection_size
-      integer, allocatable :: monomer_idx(:), monomer_indices(:)
-      real(dp) :: total_energy
-
-      ! Total results = monomers + intersections
-      allocate (all_results(n_monomers + n_intersections))
-
-      ! Build and calculate monomers
-      call logger%info("Processing "//to_char(n_monomers)//" monomer fragments...")
-      do i = 1, n_monomers
-         allocate (monomer_idx(1))
-         monomer_idx(1) = polymers(i, 1)
-         ! Use build_fragment_from_indices for monomers to preserve fragment charges/multiplicities
-         call build_fragment_from_indices(sys_geom, monomer_idx, phys_frag, bonds)
-         call do_fragment_work(i, all_results(i), method, phys_frag, calc_type)
-         call phys_frag%destroy()
-         deallocate (monomer_idx)
-      end do
-
-      ! Build and calculate intersections
-      if (n_intersections > 0) then
-         call logger%info("Processing "//to_char(n_intersections)//" intersection fragments...")
-         do i = 1, n_intersections
-            ! Find size of this intersection (first zero marks end)
-            intersection_size = 0
-            do while (intersection_size < size(intersections, 1))
-               if (intersections(intersection_size + 1, i) == 0) exit
-               intersection_size = intersection_size + 1
-            end do
-
-            ! Build intersection fragment from atom list
-            call build_fragment_from_atom_list(sys_geom, intersections(1:intersection_size, i), &
-                                               intersection_size, phys_frag, bonds)
-            call do_fragment_work(n_monomers + i, all_results(n_monomers + i), method, phys_frag, calc_type)
-            call phys_frag%destroy()
-         end do
-      end if
-
-      ! Compute GMBE energy
-      allocate (monomer_indices(n_monomers))
-      do i = 1, n_monomers
-         monomer_indices(i) = polymers(i, 1)
-      end do
-
-      call compute_gmbe_energy(monomer_indices, n_monomers, all_results(1:n_monomers), &
-                               n_intersections, all_results(n_monomers + 1:n_monomers + n_intersections), &
-                               intersection_pairs, total_energy)
-
-      call logger%info(" ")
-      call logger%info("GMBE calculation completed successfully")
-      call logger%info("Final GMBE energy: "//to_char(total_energy)//" Hartree")
-      call logger%info(" ")
-
-      deallocate (all_results, monomer_indices)
-
-   end subroutine serial_gmbe_processor
 
    subroutine run_multi_molecule_calculations(world_comm, node_comm, mqc_config)
       !! Run calculations for multiple molecules with MPI parallelization
