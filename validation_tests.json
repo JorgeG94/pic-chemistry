@@ -37,6 +37,28 @@
       "input": "validation/inputs/h3o.mqc",
       "expected_energy": -5.773131213617977,
       "type": "unfragmented"
+    },
+    {
+      "name": "Multi-fragment calculation",
+      "input": "validation/inputs/multi_frag.mqc",
+      "expected_energies": {
+        "frag1": -34.6736678571,
+        "frag2": -34.6736678571
+      },
+      "type": "multi_molecule"
+    },
+    {
+      "name": "Multi-structure conformers",
+      "input": "validation/inputs/multi_structure.mqc",
+      "expected_energies": {
+        "molecule_1": -34.683832133514869,
+        "molecule_2": -34.683832133514869,
+        "molecule_3": -34.683832133514869,
+        "molecule_4": -34.683832133514869,
+        "molecule_5": -34.683832133514869,
+        "molecule_6": -34.683832133514869
+      },
+      "type": "multi_molecule"
     }
   ]
 }
