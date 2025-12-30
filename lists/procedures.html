@@ -212,6 +212,14 @@ Correlation energies should be negative; positive values indicate instability</p
                  <td><p>Get number of basis functions in a shell (Cartesian)</p></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/check_duplicate_atoms.html'>check_duplicate_atoms</a></td>
+                 <td><a href='../module/mqc_physical_fragment.html'>mqc_physical_fragment</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Validate that fragment has no spatially overlapping atoms
+Checks if any two atoms are too close together (&lt; 0.01 Bohr)
+This catches bugs in geometry construction or fragment building</p></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/check_fragment_overlap.html'>check_fragment_overlap</a></td>
                  <td><a href='../module/mqc_config_adapter.html'>mqc_config_adapter</a></td>
                  <td>Subroutine</td>
@@ -552,6 +560,13 @@ Supports both identical and variable-sized fragments</p></td>
 Treats entire system as a single monomer</p></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/get_basename.html'>get_basename</a></td>
+                 <td><a href='../module/mqc_output_filename.html'>mqc_output_filename</a></td>
+                 <td>Function</td>
+                 <td><p>Get the base name without &ldquo;output_&rdquo; prefix and &ldquo;.json&rdquo; suffix
+Example: &ldquo;output_w1.json&rdquo; -&gt; &ldquo;w1&rdquo;</p></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/get_frag_level_name.html'>get_frag_level_name</a></td>
                  <td><a href='../module/mqc_mbe_io.html'>mqc_mbe_io</a></td>
                  <td>Function</td>
@@ -564,6 +579,13 @@ Supports up to decamers (10-mers), then falls back to &ldquo;N-mers&rdquo; forma
                  <td>Function</td>
                  <td><p>Convert string log level to integer value
 This function uses the pic_logger constants</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/get_molecule_name.html'>get_molecule_name</a></td>
+                 <td><a href='../program/main.html'>main</a></td>
+                 <td>Function</td>
+                 <td><p>Extract molecule name from filename
+Example: &ldquo;output_multi_structure_molecule_1.json&rdquo; -&gt; &ldquo;molecule_1&rdquo;</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/get_next_combination.html'>get_next_combination</a></td>
@@ -583,6 +605,12 @@ has_next = .true. if there&rsquo;s a next combination</p></td>
                  <td><a href='../module/mqc_frag_utils.html'>mqc_frag_utils</a></td>
                  <td>Function</td>
                  <td><p>Calculate total number of fragments for given system size and max level</p><a href="../proc/get_nfrags.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/get_output_json_filename.html'>get_output_json_filename</a></td>
+                 <td><a href='../module/mqc_output_filename.html'>mqc_output_filename</a></td>
+                 <td>Function</td>
+                 <td><p>Get the current JSON output filename</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/global_coordinator.html'>global_coordinator</a></td>
@@ -658,6 +686,12 @@ Uses int64 for total_fragments to handle large fragment counts that overflow int
                  <td>Subroutine</td>
                  <td><p>Map fragment gradient to system gradient coordinates
 Zeroes out sys_grad first, then copies fragment gradients to appropriate positions</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/merge_multi_molecule_json.html'>merge_multi_molecule_json</a></td>
+                 <td><a href='../program/main.html'>main</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Merge individual molecule JSON files into a single combined file</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/method_type_from_string.html'>method_type_from_string</a></td>
@@ -954,10 +988,24 @@ Uses int64 for fragment_count to handle large fragment counts that overflow int3
                  <td><p>Print the PIC Chemistry ASCII sunflower logo</p></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/print_unfragmented_json.html'>print_unfragmented_json</a></td>
+                 <td><a href='../module/mqc_mbe_io.html'>mqc_mbe_io</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Write unfragmented calculation results to output JSON file
+Outputs structured JSON with energy and optionally gradient</p></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/print_usage.html'>print_usage</a></td>
                  <td><a href='../module/mqc_cli_parser.html'>mqc_cli_parser</a></td>
                  <td>Subroutine</td>
                  <td><p>Print usage information</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/read_json_content.html'>read_json_content</a></td>
+                 <td><a href='../program/main.html'>main</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Read and write JSON content from an individual molecule file
+Properly handles nested structures from fragmented calculations</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/read_mqc_file.html'>read_mqc_file</a></td>
@@ -1070,6 +1118,20 @@ This is used when running with only 1 MPI rank</p></td>
                  <td><p>Serial GMBE processor: builds all fragments (monomers + intersections) and computes GMBE energy</p></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/set_molecule_suffix.html'>set_molecule_suffix</a></td>
+                 <td><a href='../module/mqc_output_filename.html'>mqc_output_filename</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Append a suffix to the output filename (e.g., for multi-molecule mode)
+Example: suffix=&rdquo;_mol1&rdquo; -&gt; &ldquo;output_multi_structure_mol1.json&rdquo;</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/set_output_json_filename.html'>set_output_json_filename</a></td>
+                 <td><a href='../module/mqc_output_filename.html'>mqc_output_filename</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Set the JSON output filename based on input filename
+Example: &ldquo;water.mqc&rdquo; -&gt; &ldquo;output_water.json&rdquo;</p></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/skip_to_end.html'>skip_to_end</a></td>
                  <td><a href='../module/mqc_config_parser.html'>mqc_config_parser</a></td>
                  <td>Subroutine</td>
@@ -1145,11 +1207,11 @@ This is a simple single-process calculation without MPI distribution</p></td>
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: call~~graph~~CallGraph Pages: 1 -->
-<svg id="callgraphCallGraph" width="347pt" height="6878pt"
- viewBox="0.00 0.00 347.00 6878.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="call~~graph~~CallGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 6874)">
+<svg id="callgraphCallGraph" width="347pt" height="7256pt"
+ viewBox="0.00 0.00 347.00 7256.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="call~~graph~~CallGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 7252)">
 <title>call~~graph~~CallGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-6874 343,-6874 343,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-7252 343,-7252 343,4 -4,4"/>
 <!-- proc~allocate_basis_shells -->
 <g id="call~~graph~~CallGraph_node1" class="node">
 <title>proc~allocate_basis_shells</title>
@@ -1330,1299 +1392,1380 @@ This is a simple single-process calculation without MPI distribution</p></td>
 </a>
 </g>
 </g>
-<!-- proc~check_fragment_overlap -->
+<!-- proc~check_duplicate_atoms -->
 <g id="call~~graph~~CallGraph_node21" class="node">
+<title>proc~check_duplicate_atoms</title>
+<g id="a_call~~graph~~CallGraph_node21"><a xlink:href="../proc/check_duplicate_atoms.html" xlink:title="check_duplicate_atoms">
+<polygon fill="#d9534f" stroke="#d9534f" points="238,-864 101,-864 101,-840 238,-840 238,-864"/>
+<text text-anchor="middle" x="169.5" y="-849.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">check_duplicate_atoms</text>
+</a>
+</g>
+</g>
+<!-- proc~check_fragment_overlap -->
+<g id="call~~graph~~CallGraph_node22" class="node">
 <title>proc~check_fragment_overlap</title>
-<g id="a_call~~graph~~CallGraph_node21"><a xlink:href="../proc/check_fragment_overlap.html" xlink:title="check_fragment_overlap">
-<polygon fill="#d9534f" stroke="#d9534f" points="242,-864 97,-864 97,-840 242,-840 242,-864"/>
-<text text-anchor="middle" x="169.5" y="-849.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">check_fragment_overlap</text>
+<g id="a_call~~graph~~CallGraph_node22"><a xlink:href="../proc/check_fragment_overlap.html" xlink:title="check_fragment_overlap">
+<polygon fill="#d9534f" stroke="#d9534f" points="242,-906 97,-906 97,-882 242,-882 242,-906"/>
+<text text-anchor="middle" x="169.5" y="-891.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">check_fragment_overlap</text>
 </a>
 </g>
 </g>
 <!-- proc~classify_line -->
-<g id="call~~graph~~CallGraph_node22" class="node">
+<g id="call~~graph~~CallGraph_node23" class="node">
 <title>proc~classify_line</title>
-<g id="a_call~~graph~~CallGraph_node22"><a xlink:href="../proc/classify_line.html" xlink:title="classify_line">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="207.5,-906 131.5,-906 131.5,-882 207.5,-882 207.5,-906"/>
-<text text-anchor="middle" x="169.5" y="-891.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">classify_line</text>
+<g id="a_call~~graph~~CallGraph_node23"><a xlink:href="../proc/classify_line.html" xlink:title="classify_line">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="207.5,-948 131.5,-948 131.5,-924 207.5,-924 207.5,-948"/>
+<text text-anchor="middle" x="169.5" y="-933.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">classify_line</text>
 </a>
 </g>
 </g>
 <!-- proc~cli_args_destroy -->
-<g id="call~~graph~~CallGraph_node23" class="node">
+<g id="call~~graph~~CallGraph_node24" class="node">
 <title>proc~cli_args_destroy</title>
-<g id="a_call~~graph~~CallGraph_node23"><a xlink:href="../proc/cli_args_destroy.html" xlink:title="cli_args_type%cli_args_destroy">
-<polygon fill="#d9534f" stroke="#d9534f" points="257.5,-948 81.5,-948 81.5,-924 257.5,-924 257.5,-948"/>
-<text text-anchor="middle" x="169.5" y="-933.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cli_args_type%cli_args_destroy</text>
+<g id="a_call~~graph~~CallGraph_node24"><a xlink:href="../proc/cli_args_destroy.html" xlink:title="cli_args_type%cli_args_destroy">
+<polygon fill="#d9534f" stroke="#d9534f" points="257.5,-990 81.5,-990 81.5,-966 257.5,-966 257.5,-990"/>
+<text text-anchor="middle" x="169.5" y="-975.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cli_args_type%cli_args_destroy</text>
 </a>
 </g>
 </g>
 <!-- proc~combine -->
-<g id="call~~graph~~CallGraph_node24" class="node">
+<g id="call~~graph~~CallGraph_node25" class="node">
 <title>proc~combine</title>
-<g id="a_call~~graph~~CallGraph_node24"><a xlink:href="../proc/combine.html" xlink:title="combine">
-<polygon fill="#d9534f" stroke="#d9534f" points="199,-990 140,-990 140,-966 199,-966 199,-990"/>
-<text text-anchor="middle" x="169.5" y="-975.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">combine</text>
+<g id="a_call~~graph~~CallGraph_node25"><a xlink:href="../proc/combine.html" xlink:title="combine">
+<polygon fill="#d9534f" stroke="#d9534f" points="199,-1032 140,-1032 140,-1008 199,-1008 199,-1032"/>
+<text text-anchor="middle" x="169.5" y="-1017.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">combine</text>
 </a>
 </g>
 </g>
 <!-- proc~combine_util -->
-<g id="call~~graph~~CallGraph_node25" class="node">
+<g id="call~~graph~~CallGraph_node26" class="node">
 <title>proc~combine_util</title>
-<g id="a_call~~graph~~CallGraph_node25"><a xlink:href="../proc/combine_util.html" xlink:title="combine_util">
-<polygon fill="#d9534f" stroke="#d9534f" points="210,-1032 129,-1032 129,-1008 210,-1008 210,-1032"/>
-<text text-anchor="middle" x="169.5" y="-1017.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">combine_util</text>
+<g id="a_call~~graph~~CallGraph_node26"><a xlink:href="../proc/combine_util.html" xlink:title="combine_util">
+<polygon fill="#d9534f" stroke="#d9534f" points="210,-1074 129,-1074 129,-1050 210,-1050 210,-1074"/>
+<text text-anchor="middle" x="169.5" y="-1059.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">combine_util</text>
 </a>
 </g>
 </g>
 <!-- proc~compute_gmbe_energy -->
-<g id="call~~graph~~CallGraph_node26" class="node">
+<g id="call~~graph~~CallGraph_node27" class="node">
 <title>proc~compute_gmbe_energy</title>
-<g id="a_call~~graph~~CallGraph_node26"><a xlink:href="../proc/compute_gmbe_energy.html" xlink:title="compute_gmbe_energy">
-<polygon fill="#d9534f" stroke="#d9534f" points="239,-1074 100,-1074 100,-1050 239,-1050 239,-1074"/>
-<text text-anchor="middle" x="169.5" y="-1059.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_gmbe_energy</text>
+<g id="a_call~~graph~~CallGraph_node27"><a xlink:href="../proc/compute_gmbe_energy.html" xlink:title="compute_gmbe_energy">
+<polygon fill="#d9534f" stroke="#d9534f" points="239,-1116 100,-1116 100,-1092 239,-1092 239,-1116"/>
+<text text-anchor="middle" x="169.5" y="-1101.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_gmbe_energy</text>
 </a>
 </g>
 </g>
 <!-- proc~compute_mbe -->
-<g id="call~~graph~~CallGraph_node27" class="node">
+<g id="call~~graph~~CallGraph_node28" class="node">
 <title>proc~compute_mbe</title>
-<g id="a_call~~graph~~CallGraph_node27"><a xlink:href="../proc/compute_mbe.html" xlink:title="compute_mbe">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="214,-1116 125,-1116 125,-1092 214,-1092 214,-1116"/>
-<text text-anchor="middle" x="169.5" y="-1101.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe</text>
+<g id="a_call~~graph~~CallGraph_node28"><a xlink:href="../proc/compute_mbe.html" xlink:title="compute_mbe">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="214,-1158 125,-1158 125,-1134 214,-1134 214,-1158"/>
+<text text-anchor="middle" x="169.5" y="-1143.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe</text>
 </a>
 </g>
 </g>
 <!-- proc~compute_mbe_energy -->
-<g id="call~~graph~~CallGraph_node28" class="node">
+<g id="call~~graph~~CallGraph_node29" class="node">
 <title>proc~compute_mbe_energy</title>
-<g id="a_call~~graph~~CallGraph_node28"><a xlink:href="../proc/compute_mbe_energy.html" xlink:title="compute_mbe_energy">
-<polygon fill="#d9534f" stroke="#d9534f" points="235.5,-1158 103.5,-1158 103.5,-1134 235.5,-1134 235.5,-1158"/>
-<text text-anchor="middle" x="169.5" y="-1143.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe_energy</text>
+<g id="a_call~~graph~~CallGraph_node29"><a xlink:href="../proc/compute_mbe_energy.html" xlink:title="compute_mbe_energy">
+<polygon fill="#d9534f" stroke="#d9534f" points="235.5,-1200 103.5,-1200 103.5,-1176 235.5,-1176 235.5,-1200"/>
+<text text-anchor="middle" x="169.5" y="-1185.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe_energy</text>
 </a>
 </g>
 </g>
 <!-- proc~compute_mbe_energy_gradient -->
-<g id="call~~graph~~CallGraph_node29" class="node">
+<g id="call~~graph~~CallGraph_node30" class="node">
 <title>proc~compute_mbe_energy_gradient</title>
-<g id="a_call~~graph~~CallGraph_node29"><a xlink:href="../proc/compute_mbe_energy_gradient.html" xlink:title="compute_mbe_energy_gradient">
-<polygon fill="#d9534f" stroke="#d9534f" points="260.5,-1200 78.5,-1200 78.5,-1176 260.5,-1176 260.5,-1200"/>
-<text text-anchor="middle" x="169.5" y="-1185.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe_energy_gradient</text>
+<g id="a_call~~graph~~CallGraph_node30"><a xlink:href="../proc/compute_mbe_energy_gradient.html" xlink:title="compute_mbe_energy_gradient">
+<polygon fill="#d9534f" stroke="#d9534f" points="260.5,-1242 78.5,-1242 78.5,-1218 260.5,-1218 260.5,-1242"/>
+<text text-anchor="middle" x="169.5" y="-1227.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe_energy_gradient</text>
 </a>
 </g>
 </g>
 <!-- proc~compute_mbe_gradient -->
-<g id="call~~graph~~CallGraph_node30" class="node">
+<g id="call~~graph~~CallGraph_node31" class="node">
 <title>proc~compute_mbe_gradient</title>
-<g id="a_call~~graph~~CallGraph_node30"><a xlink:href="../proc/compute_mbe_gradient.html" xlink:title="compute_mbe_gradient">
-<polygon fill="#d9534f" stroke="#d9534f" points="239,-1242 100,-1242 100,-1218 239,-1218 239,-1242"/>
-<text text-anchor="middle" x="169.5" y="-1227.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe_gradient</text>
+<g id="a_call~~graph~~CallGraph_node31"><a xlink:href="../proc/compute_mbe_gradient.html" xlink:title="compute_mbe_gradient">
+<polygon fill="#d9534f" stroke="#d9534f" points="239,-1284 100,-1284 100,-1260 239,-1260 239,-1284"/>
+<text text-anchor="middle" x="169.5" y="-1269.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe_gradient</text>
 </a>
 </g>
 </g>
 <!-- proc~config_destroy -->
-<g id="call~~graph~~CallGraph_node31" class="node">
+<g id="call~~graph~~CallGraph_node32" class="node">
 <title>proc~config_destroy</title>
-<g id="a_call~~graph~~CallGraph_node31"><a xlink:href="../proc/config_destroy.html" xlink:title="mqc_config_t%config_destroy">
-<polygon fill="#d9534f" stroke="#d9534f" points="254.5,-1284 84.5,-1284 84.5,-1260 254.5,-1260 254.5,-1284"/>
-<text text-anchor="middle" x="169.5" y="-1269.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_config_t%config_destroy</text>
+<g id="a_call~~graph~~CallGraph_node32"><a xlink:href="../proc/config_destroy.html" xlink:title="mqc_config_t%config_destroy">
+<polygon fill="#d9534f" stroke="#d9534f" points="254.5,-1326 84.5,-1326 84.5,-1302 254.5,-1302 254.5,-1326"/>
+<text text-anchor="middle" x="169.5" y="-1311.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_config_t%config_destroy</text>
 </a>
 </g>
 </g>
 <!-- proc~config_to_driver -->
-<g id="call~~graph~~CallGraph_node32" class="node">
+<g id="call~~graph~~CallGraph_node33" class="node">
 <title>proc~config_to_driver</title>
-<g id="a_call~~graph~~CallGraph_node32"><a xlink:href="../proc/config_to_driver.html" xlink:title="config_to_driver">
-<polygon fill="#d9534f" stroke="#d9534f" points="218.5,-1326 120.5,-1326 120.5,-1302 218.5,-1302 218.5,-1326"/>
-<text text-anchor="middle" x="169.5" y="-1311.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">config_to_driver</text>
+<g id="a_call~~graph~~CallGraph_node33"><a xlink:href="../proc/config_to_driver.html" xlink:title="config_to_driver">
+<polygon fill="#d9534f" stroke="#d9534f" points="218.5,-1368 120.5,-1368 120.5,-1344 218.5,-1344 218.5,-1368"/>
+<text text-anchor="middle" x="169.5" y="-1353.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">config_to_driver</text>
 </a>
 </g>
 </g>
 <!-- proc~config_to_system_geometry -->
-<g id="call~~graph~~CallGraph_node33" class="node">
+<g id="call~~graph~~CallGraph_node34" class="node">
 <title>proc~config_to_system_geometry</title>
-<g id="a_call~~graph~~CallGraph_node33"><a xlink:href="../proc/config_to_system_geometry.html" xlink:title="config_to_system_geometry">
-<polygon fill="#d9534f" stroke="#d9534f" points="250,-1368 89,-1368 89,-1344 250,-1344 250,-1368"/>
-<text text-anchor="middle" x="169.5" y="-1353.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">config_to_system_geometry</text>
+<g id="a_call~~graph~~CallGraph_node34"><a xlink:href="../proc/config_to_system_geometry.html" xlink:title="config_to_system_geometry">
+<polygon fill="#d9534f" stroke="#d9534f" points="250,-1410 89,-1410 89,-1386 250,-1386 250,-1410"/>
+<text text-anchor="middle" x="169.5" y="-1395.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">config_to_system_geometry</text>
 </a>
 </g>
 </g>
 <!-- proc~copy_atomic_basis -->
-<g id="call~~graph~~CallGraph_node34" class="node">
+<g id="call~~graph~~CallGraph_node35" class="node">
 <title>proc~copy_atomic_basis</title>
-<g id="a_call~~graph~~CallGraph_node34"><a xlink:href="../proc/copy_atomic_basis.html" xlink:title="copy_atomic_basis">
-<polygon fill="#d9534f" stroke="#d9534f" points="225.5,-1410 113.5,-1410 113.5,-1386 225.5,-1386 225.5,-1410"/>
-<text text-anchor="middle" x="169.5" y="-1395.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">copy_atomic_basis</text>
+<g id="a_call~~graph~~CallGraph_node35"><a xlink:href="../proc/copy_atomic_basis.html" xlink:title="copy_atomic_basis">
+<polygon fill="#d9534f" stroke="#d9534f" points="225.5,-1452 113.5,-1452 113.5,-1428 225.5,-1428 225.5,-1452"/>
+<text text-anchor="middle" x="169.5" y="-1437.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">copy_atomic_basis</text>
 </a>
 </g>
 </g>
 <!-- proc~count_shells_for_element -->
-<g id="call~~graph~~CallGraph_node35" class="node">
+<g id="call~~graph~~CallGraph_node36" class="node">
 <title>proc~count_shells_for_element</title>
-<g id="a_call~~graph~~CallGraph_node35"><a xlink:href="../proc/count_shells_for_element.html" xlink:title="count_shells_for_element">
-<polygon fill="#d9534f" stroke="#d9534f" points="243.5,-1452 95.5,-1452 95.5,-1428 243.5,-1428 243.5,-1452"/>
-<text text-anchor="middle" x="169.5" y="-1437.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">count_shells_for_element</text>
+<g id="a_call~~graph~~CallGraph_node36"><a xlink:href="../proc/count_shells_for_element.html" xlink:title="count_shells_for_element">
+<polygon fill="#d9534f" stroke="#d9534f" points="243.5,-1494 95.5,-1494 95.5,-1470 243.5,-1470 243.5,-1494"/>
+<text text-anchor="middle" x="169.5" y="-1479.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">count_shells_for_element</text>
 </a>
 </g>
 </g>
 <!-- proc~create_monomer_list -->
-<g id="call~~graph~~CallGraph_node36" class="node">
+<g id="call~~graph~~CallGraph_node37" class="node">
 <title>proc~create_monomer_list</title>
-<g id="a_call~~graph~~CallGraph_node36"><a xlink:href="../proc/create_monomer_list.html" xlink:title="create_monomer_list">
-<polygon fill="#d9534f" stroke="#d9534f" points="231.5,-1494 107.5,-1494 107.5,-1470 231.5,-1470 231.5,-1494"/>
-<text text-anchor="middle" x="169.5" y="-1479.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">create_monomer_list</text>
+<g id="a_call~~graph~~CallGraph_node37"><a xlink:href="../proc/create_monomer_list.html" xlink:title="create_monomer_list">
+<polygon fill="#d9534f" stroke="#d9534f" points="231.5,-1536 107.5,-1536 107.5,-1512 231.5,-1512 231.5,-1536"/>
+<text text-anchor="middle" x="169.5" y="-1521.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">create_monomer_list</text>
 </a>
 </g>
 </g>
 <!-- proc~distance_between_fragments -->
-<g id="call~~graph~~CallGraph_node37" class="node">
+<g id="call~~graph~~CallGraph_node38" class="node">
 <title>proc~distance_between_fragments</title>
-<g id="a_call~~graph~~CallGraph_node37"><a xlink:href="../proc/distance_between_fragments.html" xlink:title="distance_between_fragments">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="254,-1536 85,-1536 85,-1512 254,-1512 254,-1536"/>
-<text text-anchor="middle" x="169.5" y="-1521.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">distance_between_fragments</text>
+<g id="a_call~~graph~~CallGraph_node38"><a xlink:href="../proc/distance_between_fragments.html" xlink:title="distance_between_fragments">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="254,-1578 85,-1578 85,-1554 254,-1554 254,-1578"/>
+<text text-anchor="middle" x="169.5" y="-1563.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">distance_between_fragments</text>
 </a>
 </g>
 </g>
 <!-- proc~distance_between_points -->
-<g id="call~~graph~~CallGraph_node38" class="node">
+<g id="call~~graph~~CallGraph_node39" class="node">
 <title>proc~distance_between_points</title>
-<g id="a_call~~graph~~CallGraph_node38"><a xlink:href="../proc/distance_between_points.html" xlink:title="distance_between_points">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="242.5,-1578 96.5,-1578 96.5,-1554 242.5,-1554 242.5,-1578"/>
-<text text-anchor="middle" x="169.5" y="-1563.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">distance_between_points</text>
+<g id="a_call~~graph~~CallGraph_node39"><a xlink:href="../proc/distance_between_points.html" xlink:title="distance_between_points">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="242.5,-1620 96.5,-1620 96.5,-1596 242.5,-1596 242.5,-1620"/>
+<text text-anchor="middle" x="169.5" y="-1605.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">distance_between_points</text>
 </a>
 </g>
 </g>
 <!-- proc~do_fragment_work -->
-<g id="call~~graph~~CallGraph_node39" class="node">
+<g id="call~~graph~~CallGraph_node40" class="node">
 <title>proc~do_fragment_work</title>
-<g id="a_call~~graph~~CallGraph_node39"><a xlink:href="../proc/do_fragment_work.html" xlink:title="do_fragment_work">
-<polygon fill="#d9534f" stroke="#d9534f" points="225.5,-1620 113.5,-1620 113.5,-1596 225.5,-1596 225.5,-1620"/>
-<text text-anchor="middle" x="169.5" y="-1605.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">do_fragment_work</text>
+<g id="a_call~~graph~~CallGraph_node40"><a xlink:href="../proc/do_fragment_work.html" xlink:title="do_fragment_work">
+<polygon fill="#d9534f" stroke="#d9534f" points="225.5,-1662 113.5,-1662 113.5,-1638 225.5,-1638 225.5,-1662"/>
+<text text-anchor="middle" x="169.5" y="-1647.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">do_fragment_work</text>
 </a>
 </g>
 </g>
 <!-- proc~element_mass -->
-<g id="call~~graph~~CallGraph_node40" class="node">
+<g id="call~~graph~~CallGraph_node41" class="node">
 <title>proc~element_mass</title>
-<g id="a_call~~graph~~CallGraph_node40"><a xlink:href="../proc/element_mass.html" xlink:title="element_mass">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="214.5,-1662 124.5,-1662 124.5,-1638 214.5,-1638 214.5,-1662"/>
-<text text-anchor="middle" x="169.5" y="-1647.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">element_mass</text>
+<g id="a_call~~graph~~CallGraph_node41"><a xlink:href="../proc/element_mass.html" xlink:title="element_mass">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="214.5,-1704 124.5,-1704 124.5,-1680 214.5,-1680 214.5,-1704"/>
+<text text-anchor="middle" x="169.5" y="-1689.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">element_mass</text>
 </a>
 </g>
 </g>
 <!-- proc~element_number_to_symbol -->
-<g id="call~~graph~~CallGraph_node41" class="node">
+<g id="call~~graph~~CallGraph_node42" class="node">
 <title>proc~element_number_to_symbol</title>
-<g id="a_call~~graph~~CallGraph_node41"><a xlink:href="../proc/element_number_to_symbol.html" xlink:title="element_number_to_symbol">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="251,-1704 88,-1704 88,-1680 251,-1680 251,-1704"/>
-<text text-anchor="middle" x="169.5" y="-1689.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">element_number_to_symbol</text>
+<g id="a_call~~graph~~CallGraph_node42"><a xlink:href="../proc/element_number_to_symbol.html" xlink:title="element_number_to_symbol">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="251,-1746 88,-1746 88,-1722 251,-1722 251,-1746"/>
+<text text-anchor="middle" x="169.5" y="-1731.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">element_number_to_symbol</text>
 </a>
 </g>
 </g>
 <!-- proc~element_symbol_to_number -->
-<g id="call~~graph~~CallGraph_node42" class="node">
+<g id="call~~graph~~CallGraph_node43" class="node">
 <title>proc~element_symbol_to_number</title>
-<g id="a_call~~graph~~CallGraph_node42"><a xlink:href="../proc/element_symbol_to_number.html" xlink:title="element_symbol_to_number">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="251,-1746 88,-1746 88,-1722 251,-1722 251,-1746"/>
-<text text-anchor="middle" x="169.5" y="-1731.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">element_symbol_to_number</text>
+<g id="a_call~~graph~~CallGraph_node43"><a xlink:href="../proc/element_symbol_to_number.html" xlink:title="element_symbol_to_number">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="251,-1788 88,-1788 88,-1764 251,-1764 251,-1788"/>
+<text text-anchor="middle" x="169.5" y="-1773.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">element_symbol_to_number</text>
 </a>
 </g>
 </g>
 <!-- proc~ends_with -->
-<g id="call~~graph~~CallGraph_node43" class="node">
+<g id="call~~graph~~CallGraph_node44" class="node">
 <title>proc~ends_with</title>
-<g id="a_call~~graph~~CallGraph_node43"><a xlink:href="../proc/ends_with.html" xlink:title="ends_with">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="202,-1788 137,-1788 137,-1764 202,-1764 202,-1788"/>
-<text text-anchor="middle" x="169.5" y="-1773.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ends_with</text>
+<g id="a_call~~graph~~CallGraph_node44"><a xlink:href="../proc/ends_with.html" xlink:title="ends_with">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="202,-1830 137,-1830 137,-1806 202,-1806 202,-1830"/>
+<text text-anchor="middle" x="169.5" y="-1815.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ends_with</text>
 </a>
 </g>
 </g>
 <!-- proc~energy_reset -->
-<g id="call~~graph~~CallGraph_node44" class="node">
+<g id="call~~graph~~CallGraph_node45" class="node">
 <title>proc~energy_reset</title>
-<g id="a_call~~graph~~CallGraph_node44"><a xlink:href="../proc/energy_reset.html" xlink:title="energy_t%energy_reset">
-<polygon fill="#d9534f" stroke="#d9534f" points="238.5,-1830 100.5,-1830 100.5,-1806 238.5,-1806 238.5,-1830"/>
-<text text-anchor="middle" x="169.5" y="-1815.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">energy_t%energy_reset</text>
+<g id="a_call~~graph~~CallGraph_node45"><a xlink:href="../proc/energy_reset.html" xlink:title="energy_t%energy_reset">
+<polygon fill="#d9534f" stroke="#d9534f" points="238.5,-1872 100.5,-1872 100.5,-1848 238.5,-1848 238.5,-1872"/>
+<text text-anchor="middle" x="169.5" y="-1857.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">energy_t%energy_reset</text>
 </a>
 </g>
 </g>
 <!-- proc~energy_total -->
-<g id="call~~graph~~CallGraph_node45" class="node">
+<g id="call~~graph~~CallGraph_node46" class="node">
 <title>proc~energy_total</title>
-<g id="a_call~~graph~~CallGraph_node45"><a xlink:href="../proc/energy_total.html" xlink:title="energy_t%energy_total">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="237.5,-1872 101.5,-1872 101.5,-1848 237.5,-1848 237.5,-1872"/>
-<text text-anchor="middle" x="169.5" y="-1857.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">energy_t%energy_total</text>
+<g id="a_call~~graph~~CallGraph_node46"><a xlink:href="../proc/energy_total.html" xlink:title="energy_t%energy_total">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="237.5,-1914 101.5,-1914 101.5,-1890 237.5,-1890 237.5,-1914"/>
+<text text-anchor="middle" x="169.5" y="-1899.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">energy_t%energy_total</text>
 </a>
 </g>
 </g>
 <!-- proc~error_clear -->
-<g id="call~~graph~~CallGraph_node46" class="node">
+<g id="call~~graph~~CallGraph_node47" class="node">
 <title>proc~error_clear</title>
-<g id="a_call~~graph~~CallGraph_node46"><a xlink:href="../proc/error_clear.html" xlink:title="error_t%error_clear">
-<polygon fill="#d9534f" stroke="#d9534f" points="227.5,-1914 111.5,-1914 111.5,-1890 227.5,-1890 227.5,-1914"/>
-<text text-anchor="middle" x="169.5" y="-1899.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">error_t%error_clear</text>
+<g id="a_call~~graph~~CallGraph_node47"><a xlink:href="../proc/error_clear.html" xlink:title="error_t%error_clear">
+<polygon fill="#d9534f" stroke="#d9534f" points="227.5,-1956 111.5,-1956 111.5,-1932 227.5,-1932 227.5,-1956"/>
+<text text-anchor="middle" x="169.5" y="-1941.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">error_t%error_clear</text>
 </a>
 </g>
 </g>
 <!-- proc~error_get_code -->
-<g id="call~~graph~~CallGraph_node47" class="node">
+<g id="call~~graph~~CallGraph_node48" class="node">
 <title>proc~error_get_code</title>
-<g id="a_call~~graph~~CallGraph_node47"><a xlink:href="../proc/error_get_code.html" xlink:title="error_t%error_get_code">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="238.5,-1956 100.5,-1956 100.5,-1932 238.5,-1932 238.5,-1956"/>
-<text text-anchor="middle" x="169.5" y="-1941.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">error_t%error_get_code</text>
+<g id="a_call~~graph~~CallGraph_node48"><a xlink:href="../proc/error_get_code.html" xlink:title="error_t%error_get_code">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="238.5,-1998 100.5,-1998 100.5,-1974 238.5,-1974 238.5,-1998"/>
+<text text-anchor="middle" x="169.5" y="-1983.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">error_t%error_get_code</text>
 </a>
 </g>
 </g>
 <!-- proc~error_get_message -->
-<g id="call~~graph~~CallGraph_node48" class="node">
+<g id="call~~graph~~CallGraph_node49" class="node">
 <title>proc~error_get_message</title>
-<g id="a_call~~graph~~CallGraph_node48"><a xlink:href="../proc/error_get_message.html" xlink:title="error_t%error_get_message">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="249.5,-1998 89.5,-1998 89.5,-1974 249.5,-1974 249.5,-1998"/>
-<text text-anchor="middle" x="169.5" y="-1983.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">error_t%error_get_message</text>
+<g id="a_call~~graph~~CallGraph_node49"><a xlink:href="../proc/error_get_message.html" xlink:title="error_t%error_get_message">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="249.5,-2040 89.5,-2040 89.5,-2016 249.5,-2016 249.5,-2040"/>
+<text text-anchor="middle" x="169.5" y="-2025.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">error_t%error_get_message</text>
 </a>
 </g>
 </g>
 <!-- proc~error_has_error -->
-<g id="call~~graph~~CallGraph_node49" class="node">
+<g id="call~~graph~~CallGraph_node50" class="node">
 <title>proc~error_has_error</title>
-<g id="a_call~~graph~~CallGraph_node49"><a xlink:href="../proc/error_has_error.html" xlink:title="error_t%error_has_error">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="239,-2040 100,-2040 100,-2016 239,-2016 239,-2040"/>
-<text text-anchor="middle" x="169.5" y="-2025.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">error_t%error_has_error</text>
+<g id="a_call~~graph~~CallGraph_node50"><a xlink:href="../proc/error_has_error.html" xlink:title="error_t%error_has_error">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="239,-2082 100,-2082 100,-2058 239,-2058 239,-2082"/>
+<text text-anchor="middle" x="169.5" y="-2067.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">error_t%error_has_error</text>
 </a>
 </g>
 </g>
 <!-- proc~error_set -->
-<g id="call~~graph~~CallGraph_node50" class="node">
+<g id="call~~graph~~CallGraph_node51" class="node">
 <title>proc~error_set</title>
-<g id="a_call~~graph~~CallGraph_node50"><a xlink:href="../proc/error_set.html" xlink:title="error_t%error_set">
-<polygon fill="#d9534f" stroke="#d9534f" points="222,-2082 117,-2082 117,-2058 222,-2058 222,-2082"/>
-<text text-anchor="middle" x="169.5" y="-2067.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">error_t%error_set</text>
+<g id="a_call~~graph~~CallGraph_node51"><a xlink:href="../proc/error_set.html" xlink:title="error_t%error_set">
+<polygon fill="#d9534f" stroke="#d9534f" points="222,-2124 117,-2124 117,-2100 222,-2100 222,-2124"/>
+<text text-anchor="middle" x="169.5" y="-2109.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">error_t%error_set</text>
 </a>
 </g>
 </g>
 <!-- proc~extract_element -->
-<g id="call~~graph~~CallGraph_node51" class="node">
+<g id="call~~graph~~CallGraph_node52" class="node">
 <title>proc~extract_element</title>
-<g id="a_call~~graph~~CallGraph_node51"><a xlink:href="../proc/extract_element.html" xlink:title="extract_element">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="219,-2124 120,-2124 120,-2100 219,-2100 219,-2124"/>
-<text text-anchor="middle" x="169.5" y="-2109.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">extract_element</text>
+<g id="a_call~~graph~~CallGraph_node52"><a xlink:href="../proc/extract_element.html" xlink:title="extract_element">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="219,-2166 120,-2166 120,-2142 219,-2142 219,-2166"/>
+<text text-anchor="middle" x="169.5" y="-2151.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">extract_element</text>
 </a>
 </g>
 </g>
 <!-- proc~fill_element_basis -->
-<g id="call~~graph~~CallGraph_node52" class="node">
+<g id="call~~graph~~CallGraph_node53" class="node">
 <title>proc~fill_element_basis</title>
-<g id="a_call~~graph~~CallGraph_node52"><a xlink:href="../proc/fill_element_basis.html" xlink:title="fill_element_basis">
-<polygon fill="#d9534f" stroke="#d9534f" points="223,-2166 116,-2166 116,-2142 223,-2142 223,-2166"/>
-<text text-anchor="middle" x="169.5" y="-2151.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fill_element_basis</text>
+<g id="a_call~~graph~~CallGraph_node53"><a xlink:href="../proc/fill_element_basis.html" xlink:title="fill_element_basis">
+<polygon fill="#d9534f" stroke="#d9534f" points="223,-2208 116,-2208 116,-2184 223,-2184 223,-2208"/>
+<text text-anchor="middle" x="169.5" y="-2193.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fill_element_basis</text>
 </a>
 </g>
 </g>
 <!-- proc~find_basis_file -->
-<g id="call~~graph~~CallGraph_node53" class="node">
+<g id="call~~graph~~CallGraph_node54" class="node">
 <title>proc~find_basis_file</title>
-<g id="a_call~~graph~~CallGraph_node53"><a xlink:href="../proc/find_basis_file.html" xlink:title="find_basis_file">
-<polygon fill="#d9534f" stroke="#d9534f" points="213,-2208 126,-2208 126,-2184 213,-2184 213,-2208"/>
-<text text-anchor="middle" x="169.5" y="-2193.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">find_basis_file</text>
+<g id="a_call~~graph~~CallGraph_node54"><a xlink:href="../proc/find_basis_file.html" xlink:title="find_basis_file">
+<polygon fill="#d9534f" stroke="#d9534f" points="213,-2250 126,-2250 126,-2226 213,-2226 213,-2250"/>
+<text text-anchor="middle" x="169.5" y="-2235.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">find_basis_file</text>
 </a>
 </g>
 </g>
 <!-- proc~find_fragment_intersection -->
-<g id="call~~graph~~CallGraph_node54" class="node">
+<g id="call~~graph~~CallGraph_node55" class="node">
 <title>proc~find_fragment_intersection</title>
-<g id="a_call~~graph~~CallGraph_node54"><a xlink:href="../proc/find_fragment_intersection.html" xlink:title="find_fragment_intersection">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="247.5,-2250 91.5,-2250 91.5,-2226 247.5,-2226 247.5,-2250"/>
-<text text-anchor="middle" x="169.5" y="-2235.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">find_fragment_intersection</text>
+<g id="a_call~~graph~~CallGraph_node55"><a xlink:href="../proc/find_fragment_intersection.html" xlink:title="find_fragment_intersection">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="247.5,-2292 91.5,-2292 91.5,-2268 247.5,-2268 247.5,-2292"/>
+<text text-anchor="middle" x="169.5" y="-2277.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">find_fragment_intersection</text>
 </a>
 </g>
 </g>
 <!-- proc~find_unique_strings -->
-<g id="call~~graph~~CallGraph_node55" class="node">
+<g id="call~~graph~~CallGraph_node56" class="node">
 <title>proc~find_unique_strings</title>
-<g id="a_call~~graph~~CallGraph_node55"><a xlink:href="../proc/find_unique_strings.html" xlink:title="find_unique_strings">
-<polygon fill="#d9534f" stroke="#d9534f" points="227,-2292 112,-2292 112,-2268 227,-2268 227,-2292"/>
-<text text-anchor="middle" x="169.5" y="-2277.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">find_unique_strings</text>
+<g id="a_call~~graph~~CallGraph_node56"><a xlink:href="../proc/find_unique_strings.html" xlink:title="find_unique_strings">
+<polygon fill="#d9534f" stroke="#d9534f" points="227,-2334 112,-2334 112,-2310 227,-2310 227,-2334"/>
+<text text-anchor="middle" x="169.5" y="-2319.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">find_unique_strings</text>
 </a>
 </g>
 </g>
 <!-- proc~fragment_center_of_mass -->
-<g id="call~~graph~~CallGraph_node56" class="node">
+<g id="call~~graph~~CallGraph_node57" class="node">
 <title>proc~fragment_center_of_mass</title>
-<g id="a_call~~graph~~CallGraph_node56"><a xlink:href="../proc/fragment_center_of_mass.html" xlink:title="fragment_center_of_mass">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="245,-2334 94,-2334 94,-2310 245,-2310 245,-2334"/>
-<text text-anchor="middle" x="169.5" y="-2319.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_center_of_mass</text>
+<g id="a_call~~graph~~CallGraph_node57"><a xlink:href="../proc/fragment_center_of_mass.html" xlink:title="fragment_center_of_mass">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="245,-2376 94,-2376 94,-2352 245,-2352 245,-2376"/>
+<text text-anchor="middle" x="169.5" y="-2361.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_center_of_mass</text>
 </a>
 </g>
 </g>
 <!-- proc~fragment_centroid -->
-<g id="call~~graph~~CallGraph_node57" class="node">
+<g id="call~~graph~~CallGraph_node58" class="node">
 <title>proc~fragment_centroid</title>
-<g id="a_call~~graph~~CallGraph_node57"><a xlink:href="../proc/fragment_centroid.html" xlink:title="fragment_centroid">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="225,-2376 114,-2376 114,-2352 225,-2352 225,-2376"/>
-<text text-anchor="middle" x="169.5" y="-2361.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_centroid</text>
+<g id="a_call~~graph~~CallGraph_node58"><a xlink:href="../proc/fragment_centroid.html" xlink:title="fragment_centroid">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="225,-2418 114,-2418 114,-2394 225,-2394 225,-2418"/>
+<text text-anchor="middle" x="169.5" y="-2403.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_centroid</text>
 </a>
 </g>
 </g>
 <!-- proc~fragment_compute_nelec -->
-<g id="call~~graph~~CallGraph_node58" class="node">
+<g id="call~~graph~~CallGraph_node59" class="node">
 <title>proc~fragment_compute_nelec</title>
-<g id="a_call~~graph~~CallGraph_node58"><a xlink:href="../proc/fragment_compute_nelec.html" xlink:title="physical_fragment_t%fragment_compute_nelec">
-<polygon fill="#d9534f" stroke="#d9534f" points="302.5,-2418 36.5,-2418 36.5,-2394 302.5,-2394 302.5,-2418"/>
-<text text-anchor="middle" x="169.5" y="-2403.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">physical_fragment_t%fragment_compute_nelec</text>
+<g id="a_call~~graph~~CallGraph_node59"><a xlink:href="../proc/fragment_compute_nelec.html" xlink:title="physical_fragment_t%fragment_compute_nelec">
+<polygon fill="#d9534f" stroke="#d9534f" points="302.5,-2460 36.5,-2460 36.5,-2436 302.5,-2436 302.5,-2460"/>
+<text text-anchor="middle" x="169.5" y="-2445.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">physical_fragment_t%fragment_compute_nelec</text>
 </a>
 </g>
 </g>
 <!-- proc~fragment_destroy -->
-<g id="call~~graph~~CallGraph_node59" class="node">
+<g id="call~~graph~~CallGraph_node60" class="node">
 <title>proc~fragment_destroy</title>
-<g id="a_call~~graph~~CallGraph_node59"><a xlink:href="../proc/fragment_destroy.html" xlink:title="physical_fragment_t%fragment_destroy">
-<polygon fill="#d9534f" stroke="#d9534f" points="281,-2460 58,-2460 58,-2436 281,-2436 281,-2460"/>
-<text text-anchor="middle" x="169.5" y="-2445.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">physical_fragment_t%fragment_destroy</text>
+<g id="a_call~~graph~~CallGraph_node60"><a xlink:href="../proc/fragment_destroy.html" xlink:title="physical_fragment_t%fragment_destroy">
+<polygon fill="#d9534f" stroke="#d9534f" points="281,-2502 58,-2502 58,-2478 281,-2478 281,-2502"/>
+<text text-anchor="middle" x="169.5" y="-2487.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">physical_fragment_t%fragment_destroy</text>
 </a>
 </g>
 </g>
 <!-- proc~fragment_lookup_destroy -->
-<g id="call~~graph~~CallGraph_node60" class="node">
+<g id="call~~graph~~CallGraph_node61" class="node">
 <title>proc~fragment_lookup_destroy</title>
-<g id="a_call~~graph~~CallGraph_node60"><a xlink:href="../proc/fragment_lookup_destroy.html" xlink:title="fragment_lookup_t%fragment_lookup_destroy">
-<polygon fill="#d9534f" stroke="#d9534f" points="298,-2502 41,-2502 41,-2478 298,-2478 298,-2502"/>
-<text text-anchor="middle" x="169.5" y="-2487.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_lookup_t%fragment_lookup_destroy</text>
+<g id="a_call~~graph~~CallGraph_node61"><a xlink:href="../proc/fragment_lookup_destroy.html" xlink:title="fragment_lookup_t%fragment_lookup_destroy">
+<polygon fill="#d9534f" stroke="#d9534f" points="298,-2544 41,-2544 41,-2520 298,-2520 298,-2544"/>
+<text text-anchor="middle" x="169.5" y="-2529.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_lookup_t%fragment_lookup_destroy</text>
 </a>
 </g>
 </g>
 <!-- proc~fragment_lookup_find -->
-<g id="call~~graph~~CallGraph_node61" class="node">
+<g id="call~~graph~~CallGraph_node62" class="node">
 <title>proc~fragment_lookup_find</title>
-<g id="a_call~~graph~~CallGraph_node61"><a xlink:href="../proc/fragment_lookup_find.html" xlink:title="fragment_lookup_t%fragment_lookup_find">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="288.5,-2544 50.5,-2544 50.5,-2520 288.5,-2520 288.5,-2544"/>
-<text text-anchor="middle" x="169.5" y="-2529.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_lookup_t%fragment_lookup_find</text>
+<g id="a_call~~graph~~CallGraph_node62"><a xlink:href="../proc/fragment_lookup_find.html" xlink:title="fragment_lookup_t%fragment_lookup_find">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="288.5,-2586 50.5,-2586 50.5,-2562 288.5,-2562 288.5,-2586"/>
+<text text-anchor="middle" x="169.5" y="-2571.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_lookup_t%fragment_lookup_find</text>
 </a>
 </g>
 </g>
 <!-- proc~fragment_lookup_init -->
-<g id="call~~graph~~CallGraph_node62" class="node">
+<g id="call~~graph~~CallGraph_node63" class="node">
 <title>proc~fragment_lookup_init</title>
-<g id="a_call~~graph~~CallGraph_node62"><a xlink:href="../proc/fragment_lookup_init.html" xlink:title="fragment_lookup_t%fragment_lookup_init">
-<polygon fill="#d9534f" stroke="#d9534f" points="287,-2586 52,-2586 52,-2562 287,-2562 287,-2586"/>
-<text text-anchor="middle" x="169.5" y="-2571.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_lookup_t%fragment_lookup_init</text>
+<g id="a_call~~graph~~CallGraph_node63"><a xlink:href="../proc/fragment_lookup_init.html" xlink:title="fragment_lookup_t%fragment_lookup_init">
+<polygon fill="#d9534f" stroke="#d9534f" points="287,-2628 52,-2628 52,-2604 287,-2604 287,-2628"/>
+<text text-anchor="middle" x="169.5" y="-2613.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_lookup_t%fragment_lookup_init</text>
 </a>
 </g>
 </g>
 <!-- proc~fragment_lookup_insert -->
-<g id="call~~graph~~CallGraph_node63" class="node">
+<g id="call~~graph~~CallGraph_node64" class="node">
 <title>proc~fragment_lookup_insert</title>
-<g id="a_call~~graph~~CallGraph_node63"><a xlink:href="../proc/fragment_lookup_insert.html" xlink:title="fragment_lookup_t%fragment_lookup_insert">
-<polygon fill="#d9534f" stroke="#d9534f" points="293.5,-2628 45.5,-2628 45.5,-2604 293.5,-2604 293.5,-2628"/>
-<text text-anchor="middle" x="169.5" y="-2613.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_lookup_t%fragment_lookup_insert</text>
+<g id="a_call~~graph~~CallGraph_node64"><a xlink:href="../proc/fragment_lookup_insert.html" xlink:title="fragment_lookup_t%fragment_lookup_insert">
+<polygon fill="#d9534f" stroke="#d9534f" points="293.5,-2670 45.5,-2670 45.5,-2646 293.5,-2646 293.5,-2670"/>
+<text text-anchor="middle" x="169.5" y="-2655.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_lookup_t%fragment_lookup_insert</text>
 </a>
 </g>
 </g>
 <!-- proc~fragment_set_basis -->
-<g id="call~~graph~~CallGraph_node64" class="node">
+<g id="call~~graph~~CallGraph_node65" class="node">
 <title>proc~fragment_set_basis</title>
-<g id="a_call~~graph~~CallGraph_node64"><a xlink:href="../proc/fragment_set_basis.html" xlink:title="physical_fragment_t%fragment_set_basis">
-<polygon fill="#d9534f" stroke="#d9534f" points="285.5,-2670 53.5,-2670 53.5,-2646 285.5,-2646 285.5,-2670"/>
-<text text-anchor="middle" x="169.5" y="-2655.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">physical_fragment_t%fragment_set_basis</text>
+<g id="a_call~~graph~~CallGraph_node65"><a xlink:href="../proc/fragment_set_basis.html" xlink:title="physical_fragment_t%fragment_set_basis">
+<polygon fill="#d9534f" stroke="#d9534f" points="285.5,-2712 53.5,-2712 53.5,-2688 285.5,-2688 285.5,-2712"/>
+<text text-anchor="middle" x="169.5" y="-2697.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">physical_fragment_t%fragment_set_basis</text>
 </a>
 </g>
 </g>
 <!-- proc~generate_fragment_list -->
-<g id="call~~graph~~CallGraph_node65" class="node">
+<g id="call~~graph~~CallGraph_node66" class="node">
 <title>proc~generate_fragment_list</title>
-<g id="a_call~~graph~~CallGraph_node65"><a xlink:href="../proc/generate_fragment_list.html" xlink:title="generate_fragment_list">
-<polygon fill="#d9534f" stroke="#d9534f" points="237.5,-2712 101.5,-2712 101.5,-2688 237.5,-2688 237.5,-2712"/>
-<text text-anchor="middle" x="169.5" y="-2697.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">generate_fragment_list</text>
+<g id="a_call~~graph~~CallGraph_node66"><a xlink:href="../proc/generate_fragment_list.html" xlink:title="generate_fragment_list">
+<polygon fill="#d9534f" stroke="#d9534f" points="237.5,-2754 101.5,-2754 101.5,-2730 237.5,-2730 237.5,-2754"/>
+<text text-anchor="middle" x="169.5" y="-2739.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">generate_fragment_list</text>
 </a>
 </g>
 </g>
 <!-- proc~generate_intersections -->
-<g id="call~~graph~~CallGraph_node66" class="node">
+<g id="call~~graph~~CallGraph_node67" class="node">
 <title>proc~generate_intersections</title>
-<g id="a_call~~graph~~CallGraph_node66"><a xlink:href="../proc/generate_intersections.html" xlink:title="generate_intersections">
-<polygon fill="#d9534f" stroke="#d9534f" points="237,-2754 102,-2754 102,-2730 237,-2730 237,-2754"/>
-<text text-anchor="middle" x="169.5" y="-2739.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">generate_intersections</text>
+<g id="a_call~~graph~~CallGraph_node67"><a xlink:href="../proc/generate_intersections.html" xlink:title="generate_intersections">
+<polygon fill="#d9534f" stroke="#d9534f" points="237,-2796 102,-2796 102,-2772 237,-2772 237,-2796"/>
+<text text-anchor="middle" x="169.5" y="-2781.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">generate_intersections</text>
 </a>
 </g>
 </g>
 <!-- proc~geometry_destroy -->
-<g id="call~~graph~~CallGraph_node67" class="node">
+<g id="call~~graph~~CallGraph_node68" class="node">
 <title>proc~geometry_destroy</title>
-<g id="a_call~~graph~~CallGraph_node67"><a xlink:href="../proc/geometry_destroy.html" xlink:title="geometry_type%geometry_destroy">
-<polygon fill="#d9534f" stroke="#d9534f" points="269,-2796 70,-2796 70,-2772 269,-2772 269,-2796"/>
-<text text-anchor="middle" x="169.5" y="-2781.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry_type%geometry_destroy</text>
+<g id="a_call~~graph~~CallGraph_node68"><a xlink:href="../proc/geometry_destroy.html" xlink:title="geometry_type%geometry_destroy">
+<polygon fill="#d9534f" stroke="#d9534f" points="269,-2838 70,-2838 70,-2814 269,-2814 269,-2838"/>
+<text text-anchor="middle" x="169.5" y="-2823.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry_type%geometry_destroy</text>
 </a>
 </g>
 </g>
 <!-- proc~geometry_to_system -->
-<g id="call~~graph~~CallGraph_node68" class="node">
+<g id="call~~graph~~CallGraph_node69" class="node">
 <title>proc~geometry_to_system</title>
-<g id="a_call~~graph~~CallGraph_node68"><a xlink:href="../proc/geometry_to_system.html" xlink:title="geometry_to_system">
-<polygon fill="#d9534f" stroke="#d9534f" points="231,-2838 108,-2838 108,-2814 231,-2814 231,-2838"/>
-<text text-anchor="middle" x="169.5" y="-2823.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry_to_system</text>
+<g id="a_call~~graph~~CallGraph_node69"><a xlink:href="../proc/geometry_to_system.html" xlink:title="geometry_to_system">
+<polygon fill="#d9534f" stroke="#d9534f" points="231,-2880 108,-2880 108,-2856 231,-2856 231,-2880"/>
+<text text-anchor="middle" x="169.5" y="-2865.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry_to_system</text>
 </a>
 </g>
 </g>
 <!-- proc~geometry_to_system_fragmented -->
-<g id="call~~graph~~CallGraph_node69" class="node">
+<g id="call~~graph~~CallGraph_node70" class="node">
 <title>proc~geometry_to_system_fragmented</title>
-<g id="a_call~~graph~~CallGraph_node69"><a xlink:href="../proc/geometry_to_system_fragmented.html" xlink:title="geometry_to_system_fragmented">
-<polygon fill="#d9534f" stroke="#d9534f" points="265,-2880 74,-2880 74,-2856 265,-2856 265,-2880"/>
-<text text-anchor="middle" x="169.5" y="-2865.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry_to_system_fragmented</text>
+<g id="a_call~~graph~~CallGraph_node70"><a xlink:href="../proc/geometry_to_system_fragmented.html" xlink:title="geometry_to_system_fragmented">
+<polygon fill="#d9534f" stroke="#d9534f" points="265,-2922 74,-2922 74,-2898 265,-2898 265,-2922"/>
+<text text-anchor="middle" x="169.5" y="-2907.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry_to_system_fragmented</text>
 </a>
 </g>
 </g>
 <!-- proc~geometry_to_system_unfragmented -->
-<g id="call~~graph~~CallGraph_node70" class="node">
+<g id="call~~graph~~CallGraph_node71" class="node">
 <title>proc~geometry_to_system_unfragmented</title>
-<g id="a_call~~graph~~CallGraph_node70"><a xlink:href="../proc/geometry_to_system_unfragmented.html" xlink:title="geometry_to_system_unfragmented">
-<polygon fill="#d9534f" stroke="#d9534f" points="272,-2922 67,-2922 67,-2898 272,-2898 272,-2922"/>
-<text text-anchor="middle" x="169.5" y="-2907.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry_to_system_unfragmented</text>
+<g id="a_call~~graph~~CallGraph_node71"><a xlink:href="../proc/geometry_to_system_unfragmented.html" xlink:title="geometry_to_system_unfragmented">
+<polygon fill="#d9534f" stroke="#d9534f" points="272,-2964 67,-2964 67,-2940 272,-2940 272,-2964"/>
+<text text-anchor="middle" x="169.5" y="-2949.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry_to_system_unfragmented</text>
+</a>
+</g>
+</g>
+<!-- proc~get_basename -->
+<g id="call~~graph~~CallGraph_node72" class="node">
+<title>proc~get_basename</title>
+<g id="a_call~~graph~~CallGraph_node72"><a xlink:href="../proc/get_basename.html" xlink:title="get_basename">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="215,-3006 124,-3006 124,-2982 215,-2982 215,-3006"/>
+<text text-anchor="middle" x="169.5" y="-2991.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_basename</text>
 </a>
 </g>
 </g>
 <!-- proc~get_frag_level_name -->
-<g id="call~~graph~~CallGraph_node71" class="node">
+<g id="call~~graph~~CallGraph_node73" class="node">
 <title>proc~get_frag_level_name</title>
-<g id="a_call~~graph~~CallGraph_node71"><a xlink:href="../proc/get_frag_level_name.html" xlink:title="get_frag_level_name">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="231.5,-2964 107.5,-2964 107.5,-2940 231.5,-2940 231.5,-2964"/>
-<text text-anchor="middle" x="169.5" y="-2949.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_frag_level_name</text>
+<g id="a_call~~graph~~CallGraph_node73"><a xlink:href="../proc/get_frag_level_name.html" xlink:title="get_frag_level_name">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="231.5,-3048 107.5,-3048 107.5,-3024 231.5,-3024 231.5,-3048"/>
+<text text-anchor="middle" x="169.5" y="-3033.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_frag_level_name</text>
 </a>
 </g>
 </g>
 <!-- proc~get_logger_level -->
-<g id="call~~graph~~CallGraph_node72" class="node">
+<g id="call~~graph~~CallGraph_node74" class="node">
 <title>proc~get_logger_level</title>
-<g id="a_call~~graph~~CallGraph_node72"><a xlink:href="../proc/get_logger_level.html" xlink:title="get_logger_level">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="219.5,-3006 119.5,-3006 119.5,-2982 219.5,-2982 219.5,-3006"/>
-<text text-anchor="middle" x="169.5" y="-2991.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_logger_level</text>
+<g id="a_call~~graph~~CallGraph_node74"><a xlink:href="../proc/get_logger_level.html" xlink:title="get_logger_level">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="219.5,-3090 119.5,-3090 119.5,-3066 219.5,-3066 219.5,-3090"/>
+<text text-anchor="middle" x="169.5" y="-3075.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_logger_level</text>
+</a>
+</g>
+</g>
+<!-- proc~get_molecule_name -->
+<g id="call~~graph~~CallGraph_node75" class="node">
+<title>proc~get_molecule_name</title>
+<g id="a_call~~graph~~CallGraph_node75"><a xlink:href="../proc/get_molecule_name.html" xlink:title="get_molecule_name">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="230,-3132 109,-3132 109,-3108 230,-3108 230,-3132"/>
+<text text-anchor="middle" x="169.5" y="-3117.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_molecule_name</text>
 </a>
 </g>
 </g>
 <!-- proc~get_next_combination -->
-<g id="call~~graph~~CallGraph_node73" class="node">
+<g id="call~~graph~~CallGraph_node76" class="node">
 <title>proc~get_next_combination</title>
-<g id="a_call~~graph~~CallGraph_node73"><a xlink:href="../proc/get_next_combination.html" xlink:title="get_next_combination">
-<polygon fill="#d9534f" stroke="#d9534f" points="234.5,-3048 104.5,-3048 104.5,-3024 234.5,-3024 234.5,-3048"/>
-<text text-anchor="middle" x="169.5" y="-3033.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_next_combination</text>
+<g id="a_call~~graph~~CallGraph_node76"><a xlink:href="../proc/get_next_combination.html" xlink:title="get_next_combination">
+<polygon fill="#d9534f" stroke="#d9534f" points="234.5,-3174 104.5,-3174 104.5,-3150 234.5,-3150 234.5,-3174"/>
+<text text-anchor="middle" x="169.5" y="-3159.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_next_combination</text>
 </a>
 </g>
 </g>
 <!-- proc~get_next_line -->
-<g id="call~~graph~~CallGraph_node74" class="node">
+<g id="call~~graph~~CallGraph_node77" class="node">
 <title>proc~get_next_line</title>
-<g id="a_call~~graph~~CallGraph_node74"><a xlink:href="../proc/get_next_line.html" xlink:title="get_next_line">
-<polygon fill="#d9534f" stroke="#d9534f" points="210.5,-3090 128.5,-3090 128.5,-3066 210.5,-3066 210.5,-3090"/>
-<text text-anchor="middle" x="169.5" y="-3075.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_next_line</text>
+<g id="a_call~~graph~~CallGraph_node77"><a xlink:href="../proc/get_next_line.html" xlink:title="get_next_line">
+<polygon fill="#d9534f" stroke="#d9534f" points="210.5,-3216 128.5,-3216 128.5,-3192 210.5,-3192 210.5,-3216"/>
+<text text-anchor="middle" x="169.5" y="-3201.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_next_line</text>
 </a>
 </g>
 </g>
 <!-- proc~get_nfrags -->
-<g id="call~~graph~~CallGraph_node75" class="node">
+<g id="call~~graph~~CallGraph_node78" class="node">
 <title>proc~get_nfrags</title>
-<g id="a_call~~graph~~CallGraph_node75"><a xlink:href="../proc/get_nfrags.html" xlink:title="get_nfrags">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="204,-3132 135,-3132 135,-3108 204,-3108 204,-3132"/>
-<text text-anchor="middle" x="169.5" y="-3117.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_nfrags</text>
+<g id="a_call~~graph~~CallGraph_node78"><a xlink:href="../proc/get_nfrags.html" xlink:title="get_nfrags">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="204,-3258 135,-3258 135,-3234 204,-3234 204,-3258"/>
+<text text-anchor="middle" x="169.5" y="-3243.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_nfrags</text>
+</a>
+</g>
+</g>
+<!-- proc~get_output_json_filename -->
+<g id="call~~graph~~CallGraph_node79" class="node">
+<title>proc~get_output_json_filename</title>
+<g id="a_call~~graph~~CallGraph_node79"><a xlink:href="../proc/get_output_json_filename.html" xlink:title="get_output_json_filename">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="244,-3300 95,-3300 95,-3276 244,-3276 244,-3300"/>
+<text text-anchor="middle" x="169.5" y="-3285.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_output_json_filename</text>
 </a>
 </g>
 </g>
 <!-- proc~global_coordinator -->
-<g id="call~~graph~~CallGraph_node76" class="node">
+<g id="call~~graph~~CallGraph_node80" class="node">
 <title>proc~global_coordinator</title>
-<g id="a_call~~graph~~CallGraph_node76"><a xlink:href="../proc/global_coordinator.html" xlink:title="global_coordinator">
-<polygon fill="#d9534f" stroke="#d9534f" points="226,-3174 113,-3174 113,-3150 226,-3150 226,-3174"/>
-<text text-anchor="middle" x="169.5" y="-3159.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">global_coordinator</text>
+<g id="a_call~~graph~~CallGraph_node80"><a xlink:href="../proc/global_coordinator.html" xlink:title="global_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="226,-3342 113,-3342 113,-3318 226,-3318 226,-3342"/>
+<text text-anchor="middle" x="169.5" y="-3327.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">global_coordinator</text>
 </a>
 </g>
 </g>
 <!-- proc~hf_calc_energy -->
-<g id="call~~graph~~CallGraph_node77" class="node">
+<g id="call~~graph~~CallGraph_node81" class="node">
 <title>proc~hf_calc_energy</title>
-<g id="a_call~~graph~~CallGraph_node77"><a xlink:href="../proc/hf_calc_energy.html" xlink:title="hf_method_t%hf_calc_energy">
-<polygon fill="#d9534f" stroke="#d9534f" points="254,-3216 85,-3216 85,-3192 254,-3192 254,-3216"/>
-<text text-anchor="middle" x="169.5" y="-3201.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hf_method_t%hf_calc_energy</text>
+<g id="a_call~~graph~~CallGraph_node81"><a xlink:href="../proc/hf_calc_energy.html" xlink:title="hf_method_t%hf_calc_energy">
+<polygon fill="#d9534f" stroke="#d9534f" points="254,-3384 85,-3384 85,-3360 254,-3360 254,-3384"/>
+<text text-anchor="middle" x="169.5" y="-3369.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hf_method_t%hf_calc_energy</text>
 </a>
 </g>
 </g>
 <!-- proc~hf_calc_gradient -->
-<g id="call~~graph~~CallGraph_node78" class="node">
+<g id="call~~graph~~CallGraph_node82" class="node">
 <title>proc~hf_calc_gradient</title>
-<g id="a_call~~graph~~CallGraph_node78"><a xlink:href="../proc/hf_calc_gradient.html" xlink:title="hf_method_t%hf_calc_gradient">
-<polygon fill="#d9534f" stroke="#d9534f" points="257.5,-3258 81.5,-3258 81.5,-3234 257.5,-3234 257.5,-3258"/>
-<text text-anchor="middle" x="169.5" y="-3243.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hf_method_t%hf_calc_gradient</text>
+<g id="a_call~~graph~~CallGraph_node82"><a xlink:href="../proc/hf_calc_gradient.html" xlink:title="hf_method_t%hf_calc_gradient">
+<polygon fill="#d9534f" stroke="#d9534f" points="257.5,-3426 81.5,-3426 81.5,-3402 257.5,-3402 257.5,-3426"/>
+<text text-anchor="middle" x="169.5" y="-3411.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hf_method_t%hf_calc_gradient</text>
 </a>
 </g>
 </g>
 <!-- proc~initialize_system_geometry -->
-<g id="call~~graph~~CallGraph_node79" class="node">
+<g id="call~~graph~~CallGraph_node83" class="node">
 <title>proc~initialize_system_geometry</title>
-<g id="a_call~~graph~~CallGraph_node79"><a xlink:href="../proc/initialize_system_geometry.html" xlink:title="initialize_system_geometry">
-<polygon fill="#d9534f" stroke="#d9534f" points="248,-3300 91,-3300 91,-3276 248,-3276 248,-3300"/>
-<text text-anchor="middle" x="169.5" y="-3285.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_system_geometry</text>
+<g id="a_call~~graph~~CallGraph_node83"><a xlink:href="../proc/initialize_system_geometry.html" xlink:title="initialize_system_geometry">
+<polygon fill="#d9534f" stroke="#d9534f" points="248,-3468 91,-3468 91,-3444 248,-3444 248,-3468"/>
+<text text-anchor="middle" x="169.5" y="-3453.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_system_geometry</text>
 </a>
 </g>
 </g>
 <!-- proc~input_fragment_destroy -->
-<g id="call~~graph~~CallGraph_node80" class="node">
+<g id="call~~graph~~CallGraph_node84" class="node">
 <title>proc~input_fragment_destroy</title>
-<g id="a_call~~graph~~CallGraph_node80"><a xlink:href="../proc/input_fragment_destroy.html" xlink:title="input_fragment_t%input_fragment_destroy">
-<polygon fill="#d9534f" stroke="#d9534f" points="289,-3342 50,-3342 50,-3318 289,-3318 289,-3342"/>
-<text text-anchor="middle" x="169.5" y="-3327.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_fragment_t%input_fragment_destroy</text>
+<g id="a_call~~graph~~CallGraph_node84"><a xlink:href="../proc/input_fragment_destroy.html" xlink:title="input_fragment_t%input_fragment_destroy">
+<polygon fill="#d9534f" stroke="#d9534f" points="289,-3510 50,-3510 50,-3486 289,-3486 289,-3510"/>
+<text text-anchor="middle" x="169.5" y="-3495.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_fragment_t%input_fragment_destroy</text>
 </a>
 </g>
 </g>
 <!-- proc~int_to_string -->
-<g id="call~~graph~~CallGraph_node81" class="node">
+<g id="call~~graph~~CallGraph_node85" class="node">
 <title>proc~int_to_string</title>
-<g id="a_call~~graph~~CallGraph_node81"><a xlink:href="../proc/int_to_string.html" xlink:title="int_to_string">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="208,-3384 131,-3384 131,-3360 208,-3360 208,-3384"/>
-<text text-anchor="middle" x="169.5" y="-3369.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">int_to_string</text>
+<g id="a_call~~graph~~CallGraph_node85"><a xlink:href="../proc/int_to_string.html" xlink:title="int_to_string">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="208,-3552 131,-3552 131,-3528 208,-3528 208,-3552"/>
+<text text-anchor="middle" x="169.5" y="-3537.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">int_to_string</text>
 </a>
 </g>
 </g>
 <!-- proc~is_blank_or_control -->
-<g id="call~~graph~~CallGraph_node82" class="node">
+<g id="call~~graph~~CallGraph_node86" class="node">
 <title>proc~is_blank_or_control</title>
-<g id="a_call~~graph~~CallGraph_node82"><a xlink:href="../proc/is_blank_or_control.html" xlink:title="is_blank_or_control">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="226.5,-3426 112.5,-3426 112.5,-3402 226.5,-3402 226.5,-3426"/>
-<text text-anchor="middle" x="169.5" y="-3411.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">is_blank_or_control</text>
+<g id="a_call~~graph~~CallGraph_node86"><a xlink:href="../proc/is_blank_or_control.html" xlink:title="is_blank_or_control">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="226.5,-3594 112.5,-3594 112.5,-3570 226.5,-3570 226.5,-3594"/>
+<text text-anchor="middle" x="169.5" y="-3579.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">is_blank_or_control</text>
 </a>
 </g>
 </g>
 <!-- proc~is_function_line -->
-<g id="call~~graph~~CallGraph_node83" class="node">
+<g id="call~~graph~~CallGraph_node87" class="node">
 <title>proc~is_function_line</title>
-<g id="a_call~~graph~~CallGraph_node83"><a xlink:href="../proc/is_function_line.html" xlink:title="is_function_line">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="216.5,-3468 122.5,-3468 122.5,-3444 216.5,-3444 216.5,-3468"/>
-<text text-anchor="middle" x="169.5" y="-3453.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">is_function_line</text>
+<g id="a_call~~graph~~CallGraph_node87"><a xlink:href="../proc/is_function_line.html" xlink:title="is_function_line">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="216.5,-3636 122.5,-3636 122.5,-3612 216.5,-3612 216.5,-3636"/>
+<text text-anchor="middle" x="169.5" y="-3621.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">is_function_line</text>
 </a>
 </g>
 </g>
 <!-- proc~is_letter -->
-<g id="call~~graph~~CallGraph_node84" class="node">
+<g id="call~~graph~~CallGraph_node88" class="node">
 <title>proc~is_letter</title>
-<g id="a_call~~graph~~CallGraph_node84"><a xlink:href="../proc/is_letter.html" xlink:title="is_letter">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="197,-3510 142,-3510 142,-3486 197,-3486 197,-3510"/>
-<text text-anchor="middle" x="169.5" y="-3495.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">is_letter</text>
+<g id="a_call~~graph~~CallGraph_node88"><a xlink:href="../proc/is_letter.html" xlink:title="is_letter">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="197,-3678 142,-3678 142,-3654 197,-3654 197,-3678"/>
+<text text-anchor="middle" x="169.5" y="-3663.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">is_letter</text>
 </a>
 </g>
 </g>
 <!-- proc~is_shell_header -->
-<g id="call~~graph~~CallGraph_node85" class="node">
+<g id="call~~graph~~CallGraph_node89" class="node">
 <title>proc~is_shell_header</title>
-<g id="a_call~~graph~~CallGraph_node85"><a xlink:href="../proc/is_shell_header.html" xlink:title="is_shell_header">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="216.5,-3552 122.5,-3552 122.5,-3528 216.5,-3528 216.5,-3552"/>
-<text text-anchor="middle" x="169.5" y="-3537.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">is_shell_header</text>
+<g id="a_call~~graph~~CallGraph_node89"><a xlink:href="../proc/is_shell_header.html" xlink:title="is_shell_header">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="216.5,-3720 122.5,-3720 122.5,-3696 216.5,-3696 216.5,-3720"/>
+<text text-anchor="middle" x="169.5" y="-3705.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">is_shell_header</text>
 </a>
 </g>
 </g>
 <!-- proc~is_uppercase_letter -->
-<g id="call~~graph~~CallGraph_node86" class="node">
+<g id="call~~graph~~CallGraph_node90" class="node">
 <title>proc~is_uppercase_letter</title>
-<g id="a_call~~graph~~CallGraph_node86"><a xlink:href="../proc/is_uppercase_letter.html" xlink:title="is_uppercase_letter">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="227,-3594 112,-3594 112,-3570 227,-3570 227,-3594"/>
-<text text-anchor="middle" x="169.5" y="-3579.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">is_uppercase_letter</text>
+<g id="a_call~~graph~~CallGraph_node90"><a xlink:href="../proc/is_uppercase_letter.html" xlink:title="is_uppercase_letter">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="227,-3762 112,-3762 112,-3738 227,-3738 227,-3762"/>
+<text text-anchor="middle" x="169.5" y="-3747.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">is_uppercase_letter</text>
 </a>
 </g>
 </g>
 <!-- proc~map_fragment_to_system_gradient -->
-<g id="call~~graph~~CallGraph_node87" class="node">
+<g id="call~~graph~~CallGraph_node91" class="node">
 <title>proc~map_fragment_to_system_gradient</title>
-<g id="a_call~~graph~~CallGraph_node87"><a xlink:href="../proc/map_fragment_to_system_gradient.html" xlink:title="map_fragment_to_system_gradient">
-<polygon fill="#d9534f" stroke="#d9534f" points="269.5,-3636 69.5,-3636 69.5,-3612 269.5,-3612 269.5,-3636"/>
-<text text-anchor="middle" x="169.5" y="-3621.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">map_fragment_to_system_gradient</text>
+<g id="a_call~~graph~~CallGraph_node91"><a xlink:href="../proc/map_fragment_to_system_gradient.html" xlink:title="map_fragment_to_system_gradient">
+<polygon fill="#d9534f" stroke="#d9534f" points="269.5,-3804 69.5,-3804 69.5,-3780 269.5,-3780 269.5,-3804"/>
+<text text-anchor="middle" x="169.5" y="-3789.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">map_fragment_to_system_gradient</text>
+</a>
+</g>
+</g>
+<!-- proc~merge_multi_molecule_json -->
+<g id="call~~graph~~CallGraph_node92" class="node">
+<title>proc~merge_multi_molecule_json</title>
+<g id="a_call~~graph~~CallGraph_node92"><a xlink:href="../proc/merge_multi_molecule_json.html" xlink:title="merge_multi_molecule_json">
+<polygon fill="#d9534f" stroke="#d9534f" points="250.5,-3846 88.5,-3846 88.5,-3822 250.5,-3822 250.5,-3846"/>
+<text text-anchor="middle" x="169.5" y="-3831.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">merge_multi_molecule_json</text>
 </a>
 </g>
 </g>
 <!-- proc~method_type_from_string -->
-<g id="call~~graph~~CallGraph_node88" class="node">
+<g id="call~~graph~~CallGraph_node93" class="node">
 <title>proc~method_type_from_string</title>
-<g id="a_call~~graph~~CallGraph_node88"><a xlink:href="../proc/method_type_from_string.html" xlink:title="method_type_from_string">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="243.5,-3678 95.5,-3678 95.5,-3654 243.5,-3654 243.5,-3678"/>
-<text text-anchor="middle" x="169.5" y="-3663.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">method_type_from_string</text>
+<g id="a_call~~graph~~CallGraph_node93"><a xlink:href="../proc/method_type_from_string.html" xlink:title="method_type_from_string">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="243.5,-3888 95.5,-3888 95.5,-3864 243.5,-3864 243.5,-3888"/>
+<text text-anchor="middle" x="169.5" y="-3873.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">method_type_from_string</text>
 </a>
 </g>
 </g>
 <!-- proc~method_type_to_string -->
-<g id="call~~graph~~CallGraph_node89" class="node">
+<g id="call~~graph~~CallGraph_node94" class="node">
 <title>proc~method_type_to_string</title>
-<g id="a_call~~graph~~CallGraph_node89"><a xlink:href="../proc/method_type_to_string.html" xlink:title="method_type_to_string">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="236,-3720 103,-3720 103,-3696 236,-3696 236,-3720"/>
-<text text-anchor="middle" x="169.5" y="-3705.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">method_type_to_string</text>
+<g id="a_call~~graph~~CallGraph_node94"><a xlink:href="../proc/method_type_to_string.html" xlink:title="method_type_to_string">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="236,-3930 103,-3930 103,-3906 236,-3906 236,-3930"/>
+<text text-anchor="middle" x="169.5" y="-3915.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">method_type_to_string</text>
 </a>
 </g>
 </g>
 <!-- proc~minimal_distance_between_fragments -->
-<g id="call~~graph~~CallGraph_node90" class="node">
+<g id="call~~graph~~CallGraph_node95" class="node">
 <title>proc~minimal_distance_between_fragments</title>
-<g id="a_call~~graph~~CallGraph_node90"><a xlink:href="../proc/minimal_distance_between_fragments.html" xlink:title="minimal_distance_between_fragments">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="278,-3762 61,-3762 61,-3738 278,-3738 278,-3762"/>
-<text text-anchor="middle" x="169.5" y="-3747.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">minimal_distance_between_fragments</text>
+<g id="a_call~~graph~~CallGraph_node95"><a xlink:href="../proc/minimal_distance_between_fragments.html" xlink:title="minimal_distance_between_fragments">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="278,-3972 61,-3972 61,-3948 278,-3948 278,-3972"/>
+<text text-anchor="middle" x="169.5" y="-3957.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">minimal_distance_between_fragments</text>
 </a>
 </g>
 </g>
 <!-- proc~molecular_basis_num_basis_functions -->
-<g id="call~~graph~~CallGraph_node91" class="node">
+<g id="call~~graph~~CallGraph_node96" class="node">
 <title>proc~molecular_basis_num_basis_functions</title>
-<g id="a_call~~graph~~CallGraph_node91"><a xlink:href="../proc/molecular_basis_num_basis_functions.html" xlink:title="molecular_basis_type%molecular_basis_num_basis_functions">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="339,-3804 0,-3804 0,-3780 339,-3780 339,-3804"/>
-<text text-anchor="middle" x="169.5" y="-3789.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">molecular_basis_type%molecular_basis_num_basis_functions</text>
+<g id="a_call~~graph~~CallGraph_node96"><a xlink:href="../proc/molecular_basis_num_basis_functions.html" xlink:title="molecular_basis_type%molecular_basis_num_basis_functions">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="339,-4014 0,-4014 0,-3990 339,-3990 339,-4014"/>
+<text text-anchor="middle" x="169.5" y="-3999.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">molecular_basis_type%molecular_basis_num_basis_functions</text>
 </a>
 </g>
 </g>
 <!-- proc~molecule_destroy -->
-<g id="call~~graph~~CallGraph_node92" class="node">
+<g id="call~~graph~~CallGraph_node97" class="node">
 <title>proc~molecule_destroy</title>
-<g id="a_call~~graph~~CallGraph_node92"><a xlink:href="../proc/molecule_destroy.html" xlink:title="molecule_t%molecule_destroy">
-<polygon fill="#d9534f" stroke="#d9534f" points="257,-3846 82,-3846 82,-3822 257,-3822 257,-3846"/>
-<text text-anchor="middle" x="169.5" y="-3831.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">molecule_t%molecule_destroy</text>
+<g id="a_call~~graph~~CallGraph_node97"><a xlink:href="../proc/molecule_destroy.html" xlink:title="molecule_t%molecule_destroy">
+<polygon fill="#d9534f" stroke="#d9534f" points="257,-4056 82,-4056 82,-4032 257,-4032 257,-4056"/>
+<text text-anchor="middle" x="169.5" y="-4041.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">molecule_t%molecule_destroy</text>
 </a>
 </g>
 </g>
 <!-- proc~molecule_to_system_geometry -->
-<g id="call~~graph~~CallGraph_node93" class="node">
+<g id="call~~graph~~CallGraph_node98" class="node">
 <title>proc~molecule_to_system_geometry</title>
-<g id="a_call~~graph~~CallGraph_node93"><a xlink:href="../proc/molecule_to_system_geometry.html" xlink:title="molecule_to_system_geometry">
-<polygon fill="#d9534f" stroke="#d9534f" points="258.5,-3888 80.5,-3888 80.5,-3864 258.5,-3864 258.5,-3888"/>
-<text text-anchor="middle" x="169.5" y="-3873.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">molecule_to_system_geometry</text>
+<g id="a_call~~graph~~CallGraph_node98"><a xlink:href="../proc/molecule_to_system_geometry.html" xlink:title="molecule_to_system_geometry">
+<polygon fill="#d9534f" stroke="#d9534f" points="258.5,-4098 80.5,-4098 80.5,-4074 258.5,-4074 258.5,-4098"/>
+<text text-anchor="middle" x="169.5" y="-4083.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">molecule_to_system_geometry</text>
 </a>
 </g>
 </g>
 <!-- proc~mp2_check_stability -->
-<g id="call~~graph~~CallGraph_node94" class="node">
+<g id="call~~graph~~CallGraph_node99" class="node">
 <title>proc~mp2_check_stability</title>
-<g id="a_call~~graph~~CallGraph_node94"><a xlink:href="../proc/mp2_check_stability.html" xlink:title="mp2_energy_t%mp2_check_stability">
-<polygon fill="#d9534f" stroke="#d9534f" points="272,-3930 67,-3930 67,-3906 272,-3906 272,-3930"/>
-<text text-anchor="middle" x="169.5" y="-3915.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mp2_energy_t%mp2_check_stability</text>
+<g id="a_call~~graph~~CallGraph_node99"><a xlink:href="../proc/mp2_check_stability.html" xlink:title="mp2_energy_t%mp2_check_stability">
+<polygon fill="#d9534f" stroke="#d9534f" points="272,-4140 67,-4140 67,-4116 272,-4116 272,-4140"/>
+<text text-anchor="middle" x="169.5" y="-4125.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mp2_energy_t%mp2_check_stability</text>
 </a>
 </g>
 </g>
 <!-- proc~mp2_reset -->
-<g id="call~~graph~~CallGraph_node95" class="node">
+<g id="call~~graph~~CallGraph_node100" class="node">
 <title>proc~mp2_reset</title>
-<g id="a_call~~graph~~CallGraph_node95"><a xlink:href="../proc/mp2_reset.html" xlink:title="mp2_energy_t%mp2_reset">
-<polygon fill="#d9534f" stroke="#d9534f" points="246.5,-3972 92.5,-3972 92.5,-3948 246.5,-3948 246.5,-3972"/>
-<text text-anchor="middle" x="169.5" y="-3957.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mp2_energy_t%mp2_reset</text>
+<g id="a_call~~graph~~CallGraph_node100"><a xlink:href="../proc/mp2_reset.html" xlink:title="mp2_energy_t%mp2_reset">
+<polygon fill="#d9534f" stroke="#d9534f" points="246.5,-4182 92.5,-4182 92.5,-4158 246.5,-4158 246.5,-4182"/>
+<text text-anchor="middle" x="169.5" y="-4167.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mp2_energy_t%mp2_reset</text>
 </a>
 </g>
 </g>
 <!-- proc~mp2_scs -->
-<g id="call~~graph~~CallGraph_node96" class="node">
+<g id="call~~graph~~CallGraph_node101" class="node">
 <title>proc~mp2_scs</title>
-<g id="a_call~~graph~~CallGraph_node96"><a xlink:href="../proc/mp2_scs.html" xlink:title="mp2_energy_t%mp2_scs">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="241.5,-4014 97.5,-4014 97.5,-3990 241.5,-3990 241.5,-4014"/>
-<text text-anchor="middle" x="169.5" y="-3999.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mp2_energy_t%mp2_scs</text>
+<g id="a_call~~graph~~CallGraph_node101"><a xlink:href="../proc/mp2_scs.html" xlink:title="mp2_energy_t%mp2_scs">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="241.5,-4224 97.5,-4224 97.5,-4200 241.5,-4200 241.5,-4224"/>
+<text text-anchor="middle" x="169.5" y="-4209.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mp2_energy_t%mp2_scs</text>
 </a>
 </g>
 </g>
 <!-- proc~mp2_total -->
-<g id="call~~graph~~CallGraph_node97" class="node">
+<g id="call~~graph~~CallGraph_node102" class="node">
 <title>proc~mp2_total</title>
-<g id="a_call~~graph~~CallGraph_node97"><a xlink:href="../proc/mp2_total.html" xlink:title="mp2_energy_t%mp2_total">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="245,-4056 94,-4056 94,-4032 245,-4032 245,-4056"/>
-<text text-anchor="middle" x="169.5" y="-4041.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mp2_energy_t%mp2_total</text>
+<g id="a_call~~graph~~CallGraph_node102"><a xlink:href="../proc/mp2_total.html" xlink:title="mp2_energy_t%mp2_total">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="245,-4266 94,-4266 94,-4242 245,-4242 245,-4266"/>
+<text text-anchor="middle" x="169.5" y="-4251.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mp2_energy_t%mp2_total</text>
 </a>
 </g>
 </g>
 <!-- proc~next_prime_internal -->
-<g id="call~~graph~~CallGraph_node98" class="node">
+<g id="call~~graph~~CallGraph_node103" class="node">
 <title>proc~next_prime_internal</title>
-<g id="a_call~~graph~~CallGraph_node98"><a xlink:href="../proc/next_prime_internal.html" xlink:title="next_prime_internal">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="228.5,-4098 110.5,-4098 110.5,-4074 228.5,-4074 228.5,-4098"/>
-<text text-anchor="middle" x="169.5" y="-4083.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">next_prime_internal</text>
+<g id="a_call~~graph~~CallGraph_node103"><a xlink:href="../proc/next_prime_internal.html" xlink:title="next_prime_internal">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="228.5,-4308 110.5,-4308 110.5,-4284 228.5,-4284 228.5,-4308"/>
+<text text-anchor="middle" x="169.5" y="-4293.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">next_prime_internal</text>
 </a>
 </g>
 </g>
 <!-- proc~node_coordinator -->
-<g id="call~~graph~~CallGraph_node99" class="node">
+<g id="call~~graph~~CallGraph_node104" class="node">
 <title>proc~node_coordinator</title>
-<g id="a_call~~graph~~CallGraph_node99"><a xlink:href="../proc/node_coordinator.html" xlink:title="node_coordinator">
-<polygon fill="#d9534f" stroke="#d9534f" points="223,-4140 116,-4140 116,-4116 223,-4116 223,-4140"/>
-<text text-anchor="middle" x="169.5" y="-4125.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">node_coordinator</text>
+<g id="a_call~~graph~~CallGraph_node104"><a xlink:href="../proc/node_coordinator.html" xlink:title="node_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="223,-4350 116,-4350 116,-4326 223,-4326 223,-4350"/>
+<text text-anchor="middle" x="169.5" y="-4335.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">node_coordinator</text>
 </a>
 </g>
 </g>
 <!-- proc~node_worker -->
-<g id="call~~graph~~CallGraph_node100" class="node">
+<g id="call~~graph~~CallGraph_node105" class="node">
 <title>proc~node_worker</title>
-<g id="a_call~~graph~~CallGraph_node100"><a xlink:href="../proc/node_worker.html" xlink:title="node_worker">
-<polygon fill="#d9534f" stroke="#d9534f" points="210.5,-4182 128.5,-4182 128.5,-4158 210.5,-4158 210.5,-4182"/>
-<text text-anchor="middle" x="169.5" y="-4167.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">node_worker</text>
+<g id="a_call~~graph~~CallGraph_node105"><a xlink:href="../proc/node_worker.html" xlink:title="node_worker">
+<polygon fill="#d9534f" stroke="#d9534f" points="210.5,-4392 128.5,-4392 128.5,-4368 210.5,-4368 210.5,-4392"/>
+<text text-anchor="middle" x="169.5" y="-4377.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">node_worker</text>
 </a>
 </g>
 </g>
 <!-- proc~normalize_basis_name -->
-<g id="call~~graph~~CallGraph_node101" class="node">
+<g id="call~~graph~~CallGraph_node106" class="node">
 <title>proc~normalize_basis_name</title>
-<g id="a_call~~graph~~CallGraph_node101"><a xlink:href="../proc/normalize_basis_name.html" xlink:title="normalize_basis_name">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="236.5,-4224 102.5,-4224 102.5,-4200 236.5,-4200 236.5,-4224"/>
-<text text-anchor="middle" x="169.5" y="-4209.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">normalize_basis_name</text>
+<g id="a_call~~graph~~CallGraph_node106"><a xlink:href="../proc/normalize_basis_name.html" xlink:title="normalize_basis_name">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="236.5,-4434 102.5,-4434 102.5,-4410 236.5,-4410 236.5,-4434"/>
+<text text-anchor="middle" x="169.5" y="-4419.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">normalize_basis_name</text>
 </a>
 </g>
 </g>
 <!-- proc~open_basis_file -->
-<g id="call~~graph~~CallGraph_node102" class="node">
+<g id="call~~graph~~CallGraph_node107" class="node">
 <title>proc~open_basis_file</title>
-<g id="a_call~~graph~~CallGraph_node102"><a xlink:href="../proc/open_basis_file.html" xlink:title="open_basis_file">
-<polygon fill="#d9534f" stroke="#d9534f" points="216.5,-4266 122.5,-4266 122.5,-4242 216.5,-4242 216.5,-4266"/>
-<text text-anchor="middle" x="169.5" y="-4251.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">open_basis_file</text>
+<g id="a_call~~graph~~CallGraph_node107"><a xlink:href="../proc/open_basis_file.html" xlink:title="open_basis_file">
+<polygon fill="#d9534f" stroke="#d9534f" points="216.5,-4476 122.5,-4476 122.5,-4452 216.5,-4452 216.5,-4476"/>
+<text text-anchor="middle" x="169.5" y="-4461.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">open_basis_file</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_command_line -->
-<g id="call~~graph~~CallGraph_node103" class="node">
+<g id="call~~graph~~CallGraph_node108" class="node">
 <title>proc~parse_command_line</title>
-<g id="a_call~~graph~~CallGraph_node103"><a xlink:href="../proc/parse_command_line.html" xlink:title="parse_command_line">
-<polygon fill="#d9534f" stroke="#d9534f" points="233,-4308 106,-4308 106,-4284 233,-4284 233,-4308"/>
-<text text-anchor="middle" x="169.5" y="-4293.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_command_line</text>
+<g id="a_call~~graph~~CallGraph_node108"><a xlink:href="../proc/parse_command_line.html" xlink:title="parse_command_line">
+<polygon fill="#d9534f" stroke="#d9534f" points="233,-4518 106,-4518 106,-4494 233,-4494 233,-4518"/>
+<text text-anchor="middle" x="169.5" y="-4503.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_command_line</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_connectivity_generic -->
-<g id="call~~graph~~CallGraph_node104" class="node">
+<g id="call~~graph~~CallGraph_node109" class="node">
 <title>proc~parse_connectivity_generic</title>
-<g id="a_call~~graph~~CallGraph_node104"><a xlink:href="../proc/parse_connectivity_generic.html" xlink:title="parse_connectivity_generic">
-<polygon fill="#d9534f" stroke="#d9534f" points="248.5,-4350 90.5,-4350 90.5,-4326 248.5,-4326 248.5,-4350"/>
-<text text-anchor="middle" x="169.5" y="-4335.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_connectivity_generic</text>
+<g id="a_call~~graph~~CallGraph_node109"><a xlink:href="../proc/parse_connectivity_generic.html" xlink:title="parse_connectivity_generic">
+<polygon fill="#d9534f" stroke="#d9534f" points="248.5,-4560 90.5,-4560 90.5,-4536 248.5,-4536 248.5,-4560"/>
+<text text-anchor="middle" x="169.5" y="-4545.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_connectivity_generic</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_connectivity_section -->
-<g id="call~~graph~~CallGraph_node105" class="node">
+<g id="call~~graph~~CallGraph_node110" class="node">
 <title>proc~parse_connectivity_section</title>
-<g id="a_call~~graph~~CallGraph_node105"><a xlink:href="../proc/parse_connectivity_section.html" xlink:title="parse_connectivity_section">
-<polygon fill="#d9534f" stroke="#d9534f" points="247.5,-4392 91.5,-4392 91.5,-4368 247.5,-4368 247.5,-4392"/>
-<text text-anchor="middle" x="169.5" y="-4377.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_connectivity_section</text>
+<g id="a_call~~graph~~CallGraph_node110"><a xlink:href="../proc/parse_connectivity_section.html" xlink:title="parse_connectivity_section">
+<polygon fill="#d9534f" stroke="#d9534f" points="247.5,-4602 91.5,-4602 91.5,-4578 247.5,-4578 247.5,-4602"/>
+<text text-anchor="middle" x="169.5" y="-4587.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_connectivity_section</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_driver_section -->
-<g id="call~~graph~~CallGraph_node106" class="node">
+<g id="call~~graph~~CallGraph_node111" class="node">
 <title>proc~parse_driver_section</title>
-<g id="a_call~~graph~~CallGraph_node106"><a xlink:href="../proc/parse_driver_section.html" xlink:title="parse_driver_section">
-<polygon fill="#d9534f" stroke="#d9534f" points="231,-4434 108,-4434 108,-4410 231,-4410 231,-4434"/>
-<text text-anchor="middle" x="169.5" y="-4419.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_driver_section</text>
+<g id="a_call~~graph~~CallGraph_node111"><a xlink:href="../proc/parse_driver_section.html" xlink:title="parse_driver_section">
+<polygon fill="#d9534f" stroke="#d9534f" points="231,-4644 108,-4644 108,-4620 231,-4620 231,-4644"/>
+<text text-anchor="middle" x="169.5" y="-4629.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_driver_section</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_element_basis -->
-<g id="call~~graph~~CallGraph_node107" class="node">
+<g id="call~~graph~~CallGraph_node112" class="node">
 <title>proc~parse_element_basis</title>
-<g id="a_call~~graph~~CallGraph_node107"><a xlink:href="../proc/parse_element_basis.html" xlink:title="parse_element_basis">
-<polygon fill="#d9534f" stroke="#d9534f" points="231.5,-4476 107.5,-4476 107.5,-4452 231.5,-4452 231.5,-4476"/>
-<text text-anchor="middle" x="169.5" y="-4461.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_element_basis</text>
+<g id="a_call~~graph~~CallGraph_node112"><a xlink:href="../proc/parse_element_basis.html" xlink:title="parse_element_basis">
+<polygon fill="#d9534f" stroke="#d9534f" points="231.5,-4686 107.5,-4686 107.5,-4662 231.5,-4662 231.5,-4686"/>
+<text text-anchor="middle" x="169.5" y="-4671.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_element_basis</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_fragment -->
-<g id="call~~graph~~CallGraph_node108" class="node">
+<g id="call~~graph~~CallGraph_node113" class="node">
 <title>proc~parse_fragment</title>
-<g id="a_call~~graph~~CallGraph_node108"><a xlink:href="../proc/parse_fragment.html" xlink:title="parse_fragment">
-<polygon fill="#d9534f" stroke="#d9534f" points="218,-4518 121,-4518 121,-4494 218,-4494 218,-4518"/>
-<text text-anchor="middle" x="169.5" y="-4503.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragment</text>
+<g id="a_call~~graph~~CallGraph_node113"><a xlink:href="../proc/parse_fragment.html" xlink:title="parse_fragment">
+<polygon fill="#d9534f" stroke="#d9534f" points="218,-4728 121,-4728 121,-4704 218,-4704 218,-4728"/>
+<text text-anchor="middle" x="169.5" y="-4713.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragment</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_fragmentation_section -->
-<g id="call~~graph~~CallGraph_node109" class="node">
+<g id="call~~graph~~CallGraph_node114" class="node">
 <title>proc~parse_fragmentation_section</title>
-<g id="a_call~~graph~~CallGraph_node109"><a xlink:href="../proc/parse_fragmentation_section.html" xlink:title="parse_fragmentation_section">
-<polygon fill="#d9534f" stroke="#d9534f" points="253.5,-4560 85.5,-4560 85.5,-4536 253.5,-4536 253.5,-4560"/>
-<text text-anchor="middle" x="169.5" y="-4545.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragmentation_section</text>
+<g id="a_call~~graph~~CallGraph_node114"><a xlink:href="../proc/parse_fragmentation_section.html" xlink:title="parse_fragmentation_section">
+<polygon fill="#d9534f" stroke="#d9534f" points="253.5,-4770 85.5,-4770 85.5,-4746 253.5,-4746 253.5,-4770"/>
+<text text-anchor="middle" x="169.5" y="-4755.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragmentation_section</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_fragments_generic -->
-<g id="call~~graph~~CallGraph_node110" class="node">
+<g id="call~~graph~~CallGraph_node115" class="node">
 <title>proc~parse_fragments_generic</title>
-<g id="a_call~~graph~~CallGraph_node110"><a xlink:href="../proc/parse_fragments_generic.html" xlink:title="parse_fragments_generic">
-<polygon fill="#d9534f" stroke="#d9534f" points="243.5,-4602 95.5,-4602 95.5,-4578 243.5,-4578 243.5,-4602"/>
-<text text-anchor="middle" x="169.5" y="-4587.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragments_generic</text>
+<g id="a_call~~graph~~CallGraph_node115"><a xlink:href="../proc/parse_fragments_generic.html" xlink:title="parse_fragments_generic">
+<polygon fill="#d9534f" stroke="#d9534f" points="243.5,-4812 95.5,-4812 95.5,-4788 243.5,-4788 243.5,-4812"/>
+<text text-anchor="middle" x="169.5" y="-4797.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragments_generic</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_fragments_section -->
-<g id="call~~graph~~CallGraph_node111" class="node">
+<g id="call~~graph~~CallGraph_node116" class="node">
 <title>proc~parse_fragments_section</title>
-<g id="a_call~~graph~~CallGraph_node111"><a xlink:href="../proc/parse_fragments_section.html" xlink:title="parse_fragments_section">
-<polygon fill="#d9534f" stroke="#d9534f" points="242.5,-4644 96.5,-4644 96.5,-4620 242.5,-4620 242.5,-4644"/>
-<text text-anchor="middle" x="169.5" y="-4629.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragments_section</text>
+<g id="a_call~~graph~~CallGraph_node116"><a xlink:href="../proc/parse_fragments_section.html" xlink:title="parse_fragments_section">
+<polygon fill="#d9534f" stroke="#d9534f" points="242.5,-4854 96.5,-4854 96.5,-4830 242.5,-4830 242.5,-4854"/>
+<text text-anchor="middle" x="169.5" y="-4839.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragments_section</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_function_line -->
-<g id="call~~graph~~CallGraph_node112" class="node">
+<g id="call~~graph~~CallGraph_node117" class="node">
 <title>proc~parse_function_line</title>
-<g id="a_call~~graph~~CallGraph_node112"><a xlink:href="../proc/parse_function_line.html" xlink:title="parse_function_line">
-<polygon fill="#d9534f" stroke="#d9534f" points="227.5,-4686 111.5,-4686 111.5,-4662 227.5,-4662 227.5,-4686"/>
-<text text-anchor="middle" x="169.5" y="-4671.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_function_line</text>
+<g id="a_call~~graph~~CallGraph_node117"><a xlink:href="../proc/parse_function_line.html" xlink:title="parse_function_line">
+<polygon fill="#d9534f" stroke="#d9534f" points="227.5,-4896 111.5,-4896 111.5,-4872 227.5,-4872 227.5,-4896"/>
+<text text-anchor="middle" x="169.5" y="-4881.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_function_line</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_geometry_generic -->
-<g id="call~~graph~~CallGraph_node113" class="node">
+<g id="call~~graph~~CallGraph_node118" class="node">
 <title>proc~parse_geometry_generic</title>
-<g id="a_call~~graph~~CallGraph_node113"><a xlink:href="../proc/parse_geometry_generic.html" xlink:title="parse_geometry_generic">
-<polygon fill="#d9534f" stroke="#d9534f" points="242,-4728 97,-4728 97,-4704 242,-4704 242,-4728"/>
-<text text-anchor="middle" x="169.5" y="-4713.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_geometry_generic</text>
+<g id="a_call~~graph~~CallGraph_node118"><a xlink:href="../proc/parse_geometry_generic.html" xlink:title="parse_geometry_generic">
+<polygon fill="#d9534f" stroke="#d9534f" points="242,-4938 97,-4938 97,-4914 242,-4914 242,-4938"/>
+<text text-anchor="middle" x="169.5" y="-4923.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_geometry_generic</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_geometry_section -->
-<g id="call~~graph~~CallGraph_node114" class="node">
+<g id="call~~graph~~CallGraph_node119" class="node">
 <title>proc~parse_geometry_section</title>
-<g id="a_call~~graph~~CallGraph_node114"><a xlink:href="../proc/parse_geometry_section.html" xlink:title="parse_geometry_section">
-<polygon fill="#d9534f" stroke="#d9534f" points="241,-4770 98,-4770 98,-4746 241,-4746 241,-4770"/>
-<text text-anchor="middle" x="169.5" y="-4755.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_geometry_section</text>
+<g id="a_call~~graph~~CallGraph_node119"><a xlink:href="../proc/parse_geometry_section.html" xlink:title="parse_geometry_section">
+<polygon fill="#d9534f" stroke="#d9534f" points="241,-4980 98,-4980 98,-4956 241,-4956 241,-4980"/>
+<text text-anchor="middle" x="169.5" y="-4965.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_geometry_section</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_indices_line -->
-<g id="call~~graph~~CallGraph_node115" class="node">
+<g id="call~~graph~~CallGraph_node120" class="node">
 <title>proc~parse_indices_line</title>
-<g id="a_call~~graph~~CallGraph_node115"><a xlink:href="../proc/parse_indices_line.html" xlink:title="parse_indices_line">
-<polygon fill="#d9534f" stroke="#d9534f" points="224.5,-4812 114.5,-4812 114.5,-4788 224.5,-4788 224.5,-4812"/>
-<text text-anchor="middle" x="169.5" y="-4797.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_indices_line</text>
+<g id="a_call~~graph~~CallGraph_node120"><a xlink:href="../proc/parse_indices_line.html" xlink:title="parse_indices_line">
+<polygon fill="#d9534f" stroke="#d9534f" points="224.5,-5022 114.5,-5022 114.5,-4998 224.5,-4998 224.5,-5022"/>
+<text text-anchor="middle" x="169.5" y="-5007.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_indices_line</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_method_string -->
-<g id="call~~graph~~CallGraph_node116" class="node">
+<g id="call~~graph~~CallGraph_node121" class="node">
 <title>proc~parse_method_string</title>
-<g id="a_call~~graph~~CallGraph_node116"><a xlink:href="../proc/parse_method_string.html" xlink:title="parse_method_string">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="231.5,-4854 107.5,-4854 107.5,-4830 231.5,-4830 231.5,-4854"/>
-<text text-anchor="middle" x="169.5" y="-4839.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_method_string</text>
+<g id="a_call~~graph~~CallGraph_node121"><a xlink:href="../proc/parse_method_string.html" xlink:title="parse_method_string">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="231.5,-5064 107.5,-5064 107.5,-5040 231.5,-5040 231.5,-5064"/>
+<text text-anchor="middle" x="169.5" y="-5049.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_method_string</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_model_section -->
-<g id="call~~graph~~CallGraph_node117" class="node">
+<g id="call~~graph~~CallGraph_node122" class="node">
 <title>proc~parse_model_section</title>
-<g id="a_call~~graph~~CallGraph_node117"><a xlink:href="../proc/parse_model_section.html" xlink:title="parse_model_section">
-<polygon fill="#d9534f" stroke="#d9534f" points="232,-4896 107,-4896 107,-4872 232,-4872 232,-4896"/>
-<text text-anchor="middle" x="169.5" y="-4881.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_model_section</text>
+<g id="a_call~~graph~~CallGraph_node122"><a xlink:href="../proc/parse_model_section.html" xlink:title="parse_model_section">
+<polygon fill="#d9534f" stroke="#d9534f" points="232,-5106 107,-5106 107,-5082 232,-5082 232,-5106"/>
+<text text-anchor="middle" x="169.5" y="-5091.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_model_section</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_molecule_connectivity -->
-<g id="call~~graph~~CallGraph_node118" class="node">
+<g id="call~~graph~~CallGraph_node123" class="node">
 <title>proc~parse_molecule_connectivity</title>
-<g id="a_call~~graph~~CallGraph_node118"><a xlink:href="../proc/parse_molecule_connectivity.html" xlink:title="parse_molecule_connectivity">
-<polygon fill="#d9534f" stroke="#d9534f" points="253,-4938 86,-4938 86,-4914 253,-4914 253,-4938"/>
-<text text-anchor="middle" x="169.5" y="-4923.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_molecule_connectivity</text>
+<g id="a_call~~graph~~CallGraph_node123"><a xlink:href="../proc/parse_molecule_connectivity.html" xlink:title="parse_molecule_connectivity">
+<polygon fill="#d9534f" stroke="#d9534f" points="253,-5148 86,-5148 86,-5124 253,-5124 253,-5148"/>
+<text text-anchor="middle" x="169.5" y="-5133.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_molecule_connectivity</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_molecule_fragments -->
-<g id="call~~graph~~CallGraph_node119" class="node">
+<g id="call~~graph~~CallGraph_node124" class="node">
 <title>proc~parse_molecule_fragments</title>
-<g id="a_call~~graph~~CallGraph_node119"><a xlink:href="../proc/parse_molecule_fragments.html" xlink:title="parse_molecule_fragments">
-<polygon fill="#d9534f" stroke="#d9534f" points="248,-4980 91,-4980 91,-4956 248,-4956 248,-4980"/>
-<text text-anchor="middle" x="169.5" y="-4965.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_molecule_fragments</text>
+<g id="a_call~~graph~~CallGraph_node124"><a xlink:href="../proc/parse_molecule_fragments.html" xlink:title="parse_molecule_fragments">
+<polygon fill="#d9534f" stroke="#d9534f" points="248,-5190 91,-5190 91,-5166 248,-5166 248,-5190"/>
+<text text-anchor="middle" x="169.5" y="-5175.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_molecule_fragments</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_molecule_geometry -->
-<g id="call~~graph~~CallGraph_node120" class="node">
+<g id="call~~graph~~CallGraph_node125" class="node">
 <title>proc~parse_molecule_geometry</title>
-<g id="a_call~~graph~~CallGraph_node120"><a xlink:href="../proc/parse_molecule_geometry.html" xlink:title="parse_molecule_geometry">
-<polygon fill="#d9534f" stroke="#d9534f" points="246.5,-5022 92.5,-5022 92.5,-4998 246.5,-4998 246.5,-5022"/>
-<text text-anchor="middle" x="169.5" y="-5007.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_molecule_geometry</text>
+<g id="a_call~~graph~~CallGraph_node125"><a xlink:href="../proc/parse_molecule_geometry.html" xlink:title="parse_molecule_geometry">
+<polygon fill="#d9534f" stroke="#d9534f" points="246.5,-5232 92.5,-5232 92.5,-5208 246.5,-5208 246.5,-5232"/>
+<text text-anchor="middle" x="169.5" y="-5217.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_molecule_geometry</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_molecule_structure -->
-<g id="call~~graph~~CallGraph_node121" class="node">
+<g id="call~~graph~~CallGraph_node126" class="node">
 <title>proc~parse_molecule_structure</title>
-<g id="a_call~~graph~~CallGraph_node121"><a xlink:href="../proc/parse_molecule_structure.html" xlink:title="parse_molecule_structure">
-<polygon fill="#d9534f" stroke="#d9534f" points="244.5,-5064 94.5,-5064 94.5,-5040 244.5,-5040 244.5,-5064"/>
-<text text-anchor="middle" x="169.5" y="-5049.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_molecule_structure</text>
+<g id="a_call~~graph~~CallGraph_node126"><a xlink:href="../proc/parse_molecule_structure.html" xlink:title="parse_molecule_structure">
+<polygon fill="#d9534f" stroke="#d9534f" points="244.5,-5274 94.5,-5274 94.5,-5250 244.5,-5250 244.5,-5274"/>
+<text text-anchor="middle" x="169.5" y="-5259.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_molecule_structure</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_molecules_section -->
-<g id="call~~graph~~CallGraph_node122" class="node">
+<g id="call~~graph~~CallGraph_node127" class="node">
 <title>proc~parse_molecules_section</title>
-<g id="a_call~~graph~~CallGraph_node122"><a xlink:href="../proc/parse_molecules_section.html" xlink:title="parse_molecules_section">
-<polygon fill="#d9534f" stroke="#d9534f" points="242.5,-5106 96.5,-5106 96.5,-5082 242.5,-5082 242.5,-5106"/>
-<text text-anchor="middle" x="169.5" y="-5091.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_molecules_section</text>
+<g id="a_call~~graph~~CallGraph_node127"><a xlink:href="../proc/parse_molecules_section.html" xlink:title="parse_molecules_section">
+<polygon fill="#d9534f" stroke="#d9534f" points="242.5,-5316 96.5,-5316 96.5,-5292 242.5,-5292 242.5,-5316"/>
+<text text-anchor="middle" x="169.5" y="-5301.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_molecules_section</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_scf_section -->
-<g id="call~~graph~~CallGraph_node123" class="node">
+<g id="call~~graph~~CallGraph_node128" class="node">
 <title>proc~parse_scf_section</title>
-<g id="a_call~~graph~~CallGraph_node123"><a xlink:href="../proc/parse_scf_section.html" xlink:title="parse_scf_section">
-<polygon fill="#d9534f" stroke="#d9534f" points="222.5,-5148 116.5,-5148 116.5,-5124 222.5,-5124 222.5,-5148"/>
-<text text-anchor="middle" x="169.5" y="-5133.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_scf_section</text>
+<g id="a_call~~graph~~CallGraph_node128"><a xlink:href="../proc/parse_scf_section.html" xlink:title="parse_scf_section">
+<polygon fill="#d9534f" stroke="#d9534f" points="222.5,-5358 116.5,-5358 116.5,-5334 222.5,-5334 222.5,-5358"/>
+<text text-anchor="middle" x="169.5" y="-5343.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_scf_section</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_schema_section -->
-<g id="call~~graph~~CallGraph_node124" class="node">
+<g id="call~~graph~~CallGraph_node129" class="node">
 <title>proc~parse_schema_section</title>
-<g id="a_call~~graph~~CallGraph_node124"><a xlink:href="../proc/parse_schema_section.html" xlink:title="parse_schema_section">
-<polygon fill="#d9534f" stroke="#d9534f" points="236,-5190 103,-5190 103,-5166 236,-5166 236,-5190"/>
-<text text-anchor="middle" x="169.5" y="-5175.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_schema_section</text>
+<g id="a_call~~graph~~CallGraph_node129"><a xlink:href="../proc/parse_schema_section.html" xlink:title="parse_schema_section">
+<polygon fill="#d9534f" stroke="#d9534f" points="236,-5400 103,-5400 103,-5376 236,-5376 236,-5400"/>
+<text text-anchor="middle" x="169.5" y="-5385.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_schema_section</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_shell_header -->
-<g id="call~~graph~~CallGraph_node125" class="node">
+<g id="call~~graph~~CallGraph_node130" class="node">
 <title>proc~parse_shell_header</title>
-<g id="a_call~~graph~~CallGraph_node125"><a xlink:href="../proc/parse_shell_header.html" xlink:title="parse_shell_header">
-<polygon fill="#d9534f" stroke="#d9534f" points="227.5,-5232 111.5,-5232 111.5,-5208 227.5,-5208 227.5,-5232"/>
-<text text-anchor="middle" x="169.5" y="-5217.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_shell_header</text>
+<g id="a_call~~graph~~CallGraph_node130"><a xlink:href="../proc/parse_shell_header.html" xlink:title="parse_shell_header">
+<polygon fill="#d9534f" stroke="#d9534f" points="227.5,-5442 111.5,-5442 111.5,-5418 227.5,-5418 227.5,-5442"/>
+<text text-anchor="middle" x="169.5" y="-5427.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_shell_header</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_single_molecule -->
-<g id="call~~graph~~CallGraph_node126" class="node">
+<g id="call~~graph~~CallGraph_node131" class="node">
 <title>proc~parse_single_molecule</title>
-<g id="a_call~~graph~~CallGraph_node126"><a xlink:href="../proc/parse_single_molecule.html" xlink:title="parse_single_molecule">
-<polygon fill="#d9534f" stroke="#d9534f" points="236.5,-5274 102.5,-5274 102.5,-5250 236.5,-5250 236.5,-5274"/>
-<text text-anchor="middle" x="169.5" y="-5259.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_single_molecule</text>
+<g id="a_call~~graph~~CallGraph_node131"><a xlink:href="../proc/parse_single_molecule.html" xlink:title="parse_single_molecule">
+<polygon fill="#d9534f" stroke="#d9534f" points="236.5,-5484 102.5,-5484 102.5,-5460 236.5,-5460 236.5,-5484"/>
+<text text-anchor="middle" x="169.5" y="-5469.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_single_molecule</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_structure_generic -->
-<g id="call~~graph~~CallGraph_node127" class="node">
+<g id="call~~graph~~CallGraph_node132" class="node">
 <title>proc~parse_structure_generic</title>
-<g id="a_call~~graph~~CallGraph_node127"><a xlink:href="../proc/parse_structure_generic.html" xlink:title="parse_structure_generic">
-<polygon fill="#d9534f" stroke="#d9534f" points="240,-5316 99,-5316 99,-5292 240,-5292 240,-5316"/>
-<text text-anchor="middle" x="169.5" y="-5301.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_structure_generic</text>
+<g id="a_call~~graph~~CallGraph_node132"><a xlink:href="../proc/parse_structure_generic.html" xlink:title="parse_structure_generic">
+<polygon fill="#d9534f" stroke="#d9534f" points="240,-5526 99,-5526 99,-5502 240,-5502 240,-5526"/>
+<text text-anchor="middle" x="169.5" y="-5511.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_structure_generic</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_structure_section -->
-<g id="call~~graph~~CallGraph_node128" class="node">
+<g id="call~~graph~~CallGraph_node133" class="node">
 <title>proc~parse_structure_section</title>
-<g id="a_call~~graph~~CallGraph_node128"><a xlink:href="../proc/parse_structure_section.html" xlink:title="parse_structure_section">
-<polygon fill="#d9534f" stroke="#d9534f" points="239,-5358 100,-5358 100,-5334 239,-5334 239,-5358"/>
-<text text-anchor="middle" x="169.5" y="-5343.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_structure_section</text>
+<g id="a_call~~graph~~CallGraph_node133"><a xlink:href="../proc/parse_structure_section.html" xlink:title="parse_structure_section">
+<polygon fill="#d9534f" stroke="#d9534f" points="239,-5568 100,-5568 100,-5544 239,-5544 239,-5568"/>
+<text text-anchor="middle" x="169.5" y="-5553.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_structure_section</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_system_section -->
-<g id="call~~graph~~CallGraph_node129" class="node">
+<g id="call~~graph~~CallGraph_node134" class="node">
 <title>proc~parse_system_section</title>
-<g id="a_call~~graph~~CallGraph_node129"><a xlink:href="../proc/parse_system_section.html" xlink:title="parse_system_section">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-5400 105,-5400 105,-5376 234,-5376 234,-5400"/>
-<text text-anchor="middle" x="169.5" y="-5385.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_system_section</text>
+<g id="a_call~~graph~~CallGraph_node134"><a xlink:href="../proc/parse_system_section.html" xlink:title="parse_system_section">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-5610 105,-5610 105,-5586 234,-5586 234,-5610"/>
+<text text-anchor="middle" x="169.5" y="-5595.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_system_section</text>
 </a>
 </g>
 </g>
 <!-- proc~print_combos -->
-<g id="call~~graph~~CallGraph_node130" class="node">
+<g id="call~~graph~~CallGraph_node135" class="node">
 <title>proc~print_combos</title>
-<g id="a_call~~graph~~CallGraph_node130"><a xlink:href="../proc/print_combos.html" xlink:title="print_combos">
-<polygon fill="#d9534f" stroke="#d9534f" points="212,-5442 127,-5442 127,-5418 212,-5418 212,-5442"/>
-<text text-anchor="middle" x="169.5" y="-5427.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_combos</text>
+<g id="a_call~~graph~~CallGraph_node135"><a xlink:href="../proc/print_combos.html" xlink:title="print_combos">
+<polygon fill="#d9534f" stroke="#d9534f" points="212,-5652 127,-5652 127,-5628 212,-5628 212,-5652"/>
+<text text-anchor="middle" x="169.5" y="-5637.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_combos</text>
 </a>
 </g>
 </g>
 <!-- proc~print_detailed_breakdown -->
-<g id="call~~graph~~CallGraph_node131" class="node">
+<g id="call~~graph~~CallGraph_node136" class="node">
 <title>proc~print_detailed_breakdown</title>
-<g id="a_call~~graph~~CallGraph_node131"><a xlink:href="../proc/print_detailed_breakdown.html" xlink:title="print_detailed_breakdown">
-<polygon fill="#d9534f" stroke="#d9534f" points="244.5,-5484 94.5,-5484 94.5,-5460 244.5,-5460 244.5,-5484"/>
-<text text-anchor="middle" x="169.5" y="-5469.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_detailed_breakdown</text>
+<g id="a_call~~graph~~CallGraph_node136"><a xlink:href="../proc/print_detailed_breakdown.html" xlink:title="print_detailed_breakdown">
+<polygon fill="#d9534f" stroke="#d9534f" points="244.5,-5694 94.5,-5694 94.5,-5670 244.5,-5670 244.5,-5694"/>
+<text text-anchor="middle" x="169.5" y="-5679.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_detailed_breakdown</text>
 </a>
 </g>
 </g>
 <!-- proc~print_detailed_breakdown_json -->
-<g id="call~~graph~~CallGraph_node132" class="node">
+<g id="call~~graph~~CallGraph_node137" class="node">
 <title>proc~print_detailed_breakdown_json</title>
-<g id="a_call~~graph~~CallGraph_node132"><a xlink:href="../proc/print_detailed_breakdown_json.html" xlink:title="print_detailed_breakdown_json">
-<polygon fill="#d9534f" stroke="#d9534f" points="258,-5526 81,-5526 81,-5502 258,-5502 258,-5526"/>
-<text text-anchor="middle" x="169.5" y="-5511.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_detailed_breakdown_json</text>
+<g id="a_call~~graph~~CallGraph_node137"><a xlink:href="../proc/print_detailed_breakdown_json.html" xlink:title="print_detailed_breakdown_json">
+<polygon fill="#d9534f" stroke="#d9534f" points="258,-5736 81,-5736 81,-5712 258,-5712 258,-5736"/>
+<text text-anchor="middle" x="169.5" y="-5721.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_detailed_breakdown_json</text>
 </a>
 </g>
 </g>
 <!-- proc~print_fragment_xyz -->
-<g id="call~~graph~~CallGraph_node133" class="node">
+<g id="call~~graph~~CallGraph_node138" class="node">
 <title>proc~print_fragment_xyz</title>
-<g id="a_call~~graph~~CallGraph_node133"><a xlink:href="../proc/print_fragment_xyz.html" xlink:title="print_fragment_xyz">
-<polygon fill="#d9534f" stroke="#d9534f" points="227,-5568 112,-5568 112,-5544 227,-5544 227,-5568"/>
-<text text-anchor="middle" x="169.5" y="-5553.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_fragment_xyz</text>
+<g id="a_call~~graph~~CallGraph_node138"><a xlink:href="../proc/print_fragment_xyz.html" xlink:title="print_fragment_xyz">
+<polygon fill="#d9534f" stroke="#d9534f" points="227,-5778 112,-5778 112,-5754 227,-5754 227,-5778"/>
+<text text-anchor="middle" x="169.5" y="-5763.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_fragment_xyz</text>
 </a>
 </g>
 </g>
 <!-- proc~print_logo -->
-<g id="call~~graph~~CallGraph_node134" class="node">
+<g id="call~~graph~~CallGraph_node139" class="node">
 <title>proc~print_logo</title>
-<g id="a_call~~graph~~CallGraph_node134"><a xlink:href="../proc/print_logo.html" xlink:title="print_logo">
-<polygon fill="#d9534f" stroke="#d9534f" points="202.5,-5610 136.5,-5610 136.5,-5586 202.5,-5586 202.5,-5610"/>
-<text text-anchor="middle" x="169.5" y="-5595.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_logo</text>
+<g id="a_call~~graph~~CallGraph_node139"><a xlink:href="../proc/print_logo.html" xlink:title="print_logo">
+<polygon fill="#d9534f" stroke="#d9534f" points="202.5,-5820 136.5,-5820 136.5,-5796 202.5,-5796 202.5,-5820"/>
+<text text-anchor="middle" x="169.5" y="-5805.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_logo</text>
+</a>
+</g>
+</g>
+<!-- proc~print_unfragmented_json -->
+<g id="call~~graph~~CallGraph_node140" class="node">
+<title>proc~print_unfragmented_json</title>
+<g id="a_call~~graph~~CallGraph_node140"><a xlink:href="../proc/print_unfragmented_json.html" xlink:title="print_unfragmented_json">
+<polygon fill="#d9534f" stroke="#d9534f" points="242.5,-5862 96.5,-5862 96.5,-5838 242.5,-5838 242.5,-5862"/>
+<text text-anchor="middle" x="169.5" y="-5847.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_unfragmented_json</text>
 </a>
 </g>
 </g>
 <!-- proc~print_usage -->
-<g id="call~~graph~~CallGraph_node135" class="node">
+<g id="call~~graph~~CallGraph_node141" class="node">
 <title>proc~print_usage</title>
-<g id="a_call~~graph~~CallGraph_node135"><a xlink:href="../proc/print_usage.html" xlink:title="print_usage">
-<polygon fill="#d9534f" stroke="#d9534f" points="207,-5652 132,-5652 132,-5628 207,-5628 207,-5652"/>
-<text text-anchor="middle" x="169.5" y="-5637.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_usage</text>
+<g id="a_call~~graph~~CallGraph_node141"><a xlink:href="../proc/print_usage.html" xlink:title="print_usage">
+<polygon fill="#d9534f" stroke="#d9534f" points="207,-5904 132,-5904 132,-5880 207,-5880 207,-5904"/>
+<text text-anchor="middle" x="169.5" y="-5889.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_usage</text>
+</a>
+</g>
+</g>
+<!-- proc~read_json_content -->
+<g id="call~~graph~~CallGraph_node142" class="node">
+<title>proc~read_json_content</title>
+<g id="a_call~~graph~~CallGraph_node142"><a xlink:href="../proc/read_json_content.html" xlink:title="read_json_content">
+<polygon fill="#d9534f" stroke="#d9534f" points="224,-5946 115,-5946 115,-5922 224,-5922 224,-5946"/>
+<text text-anchor="middle" x="169.5" y="-5931.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_json_content</text>
 </a>
 </g>
 </g>
 <!-- proc~read_mqc_file -->
-<g id="call~~graph~~CallGraph_node136" class="node">
+<g id="call~~graph~~CallGraph_node143" class="node">
 <title>proc~read_mqc_file</title>
-<g id="a_call~~graph~~CallGraph_node136"><a xlink:href="../proc/read_mqc_file.html" xlink:title="read_mqc_file">
-<polygon fill="#d9534f" stroke="#d9534f" points="213,-5694 126,-5694 126,-5670 213,-5670 213,-5694"/>
-<text text-anchor="middle" x="169.5" y="-5679.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_mqc_file</text>
+<g id="a_call~~graph~~CallGraph_node143"><a xlink:href="../proc/read_mqc_file.html" xlink:title="read_mqc_file">
+<polygon fill="#d9534f" stroke="#d9534f" points="213,-5988 126,-5988 126,-5964 213,-5964 213,-5988"/>
+<text text-anchor="middle" x="169.5" y="-5973.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_mqc_file</text>
 </a>
 </g>
 </g>
 <!-- proc~read_xyz_file -->
-<g id="call~~graph~~CallGraph_node137" class="node">
+<g id="call~~graph~~CallGraph_node144" class="node">
 <title>proc~read_xyz_file</title>
-<g id="a_call~~graph~~CallGraph_node137"><a xlink:href="../proc/read_xyz_file.html" xlink:title="read_xyz_file">
-<polygon fill="#d9534f" stroke="#d9534f" points="210,-5736 129,-5736 129,-5712 210,-5712 210,-5736"/>
-<text text-anchor="middle" x="169.5" y="-5721.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_xyz_file</text>
+<g id="a_call~~graph~~CallGraph_node144"><a xlink:href="../proc/read_xyz_file.html" xlink:title="read_xyz_file">
+<polygon fill="#d9534f" stroke="#d9534f" points="210,-6030 129,-6030 129,-6006 210,-6006 210,-6030"/>
+<text text-anchor="middle" x="169.5" y="-6015.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_xyz_file</text>
 </a>
 </g>
 </g>
 <!-- proc~read_xyz_string -->
-<g id="call~~graph~~CallGraph_node138" class="node">
+<g id="call~~graph~~CallGraph_node145" class="node">
 <title>proc~read_xyz_string</title>
-<g id="a_call~~graph~~CallGraph_node138"><a xlink:href="../proc/read_xyz_string.html" xlink:title="read_xyz_string">
-<polygon fill="#d9534f" stroke="#d9534f" points="216.5,-5778 122.5,-5778 122.5,-5754 216.5,-5754 216.5,-5778"/>
-<text text-anchor="middle" x="169.5" y="-5763.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_xyz_string</text>
+<g id="a_call~~graph~~CallGraph_node145"><a xlink:href="../proc/read_xyz_string.html" xlink:title="read_xyz_string">
+<polygon fill="#d9534f" stroke="#d9534f" points="216.5,-6072 122.5,-6072 122.5,-6048 216.5,-6048 216.5,-6072"/>
+<text text-anchor="middle" x="169.5" y="-6057.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_xyz_string</text>
 </a>
 </g>
 </g>
 <!-- proc~result_destroy -->
-<g id="call~~graph~~CallGraph_node139" class="node">
+<g id="call~~graph~~CallGraph_node146" class="node">
 <title>proc~result_destroy</title>
-<g id="a_call~~graph~~CallGraph_node139"><a xlink:href="../proc/result_destroy.html" xlink:title="calculation_result_t%result_destroy">
-<polygon fill="#d9534f" stroke="#d9534f" points="268.5,-5820 70.5,-5820 70.5,-5796 268.5,-5796 268.5,-5820"/>
-<text text-anchor="middle" x="169.5" y="-5805.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calculation_result_t%result_destroy</text>
+<g id="a_call~~graph~~CallGraph_node146"><a xlink:href="../proc/result_destroy.html" xlink:title="calculation_result_t%result_destroy">
+<polygon fill="#d9534f" stroke="#d9534f" points="268.5,-6114 70.5,-6114 70.5,-6090 268.5,-6090 268.5,-6114"/>
+<text text-anchor="middle" x="169.5" y="-6099.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calculation_result_t%result_destroy</text>
 </a>
 </g>
 </g>
 <!-- proc~result_irecv -->
-<g id="call~~graph~~CallGraph_node140" class="node">
+<g id="call~~graph~~CallGraph_node147" class="node">
 <title>proc~result_irecv</title>
-<g id="a_call~~graph~~CallGraph_node140"><a xlink:href="../proc/result_irecv.html" xlink:title="result_irecv">
-<polygon fill="#d9534f" stroke="#d9534f" points="206,-5862 133,-5862 133,-5838 206,-5838 206,-5862"/>
-<text text-anchor="middle" x="169.5" y="-5847.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">result_irecv</text>
+<g id="a_call~~graph~~CallGraph_node147"><a xlink:href="../proc/result_irecv.html" xlink:title="result_irecv">
+<polygon fill="#d9534f" stroke="#d9534f" points="206,-6156 133,-6156 133,-6132 206,-6132 206,-6156"/>
+<text text-anchor="middle" x="169.5" y="-6141.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">result_irecv</text>
 </a>
 </g>
 </g>
 <!-- proc~result_isend -->
-<g id="call~~graph~~CallGraph_node141" class="node">
+<g id="call~~graph~~CallGraph_node148" class="node">
 <title>proc~result_isend</title>
-<g id="a_call~~graph~~CallGraph_node141"><a xlink:href="../proc/result_isend.html" xlink:title="result_isend">
-<polygon fill="#d9534f" stroke="#d9534f" points="207.5,-5904 131.5,-5904 131.5,-5880 207.5,-5880 207.5,-5904"/>
-<text text-anchor="middle" x="169.5" y="-5889.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">result_isend</text>
+<g id="a_call~~graph~~CallGraph_node148"><a xlink:href="../proc/result_isend.html" xlink:title="result_isend">
+<polygon fill="#d9534f" stroke="#d9534f" points="207.5,-6198 131.5,-6198 131.5,-6174 207.5,-6174 207.5,-6198"/>
+<text text-anchor="middle" x="169.5" y="-6183.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">result_isend</text>
 </a>
 </g>
 </g>
 <!-- proc~result_recv -->
-<g id="call~~graph~~CallGraph_node142" class="node">
+<g id="call~~graph~~CallGraph_node149" class="node">
 <title>proc~result_recv</title>
-<g id="a_call~~graph~~CallGraph_node142"><a xlink:href="../proc/result_recv.html" xlink:title="result_recv">
-<polygon fill="#d9534f" stroke="#d9534f" points="204.5,-5946 134.5,-5946 134.5,-5922 204.5,-5922 204.5,-5946"/>
-<text text-anchor="middle" x="169.5" y="-5931.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">result_recv</text>
+<g id="a_call~~graph~~CallGraph_node149"><a xlink:href="../proc/result_recv.html" xlink:title="result_recv">
+<polygon fill="#d9534f" stroke="#d9534f" points="204.5,-6240 134.5,-6240 134.5,-6216 204.5,-6216 204.5,-6240"/>
+<text text-anchor="middle" x="169.5" y="-6225.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">result_recv</text>
 </a>
 </g>
 </g>
 <!-- proc~result_reset -->
-<g id="call~~graph~~CallGraph_node143" class="node">
+<g id="call~~graph~~CallGraph_node150" class="node">
 <title>proc~result_reset</title>
-<g id="a_call~~graph~~CallGraph_node143"><a xlink:href="../proc/result_reset.html" xlink:title="calculation_result_t%result_reset">
-<polygon fill="#d9534f" stroke="#d9534f" points="262,-5988 77,-5988 77,-5964 262,-5964 262,-5988"/>
-<text text-anchor="middle" x="169.5" y="-5973.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calculation_result_t%result_reset</text>
+<g id="a_call~~graph~~CallGraph_node150"><a xlink:href="../proc/result_reset.html" xlink:title="calculation_result_t%result_reset">
+<polygon fill="#d9534f" stroke="#d9534f" points="262,-6282 77,-6282 77,-6258 262,-6258 262,-6282"/>
+<text text-anchor="middle" x="169.5" y="-6267.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calculation_result_t%result_reset</text>
 </a>
 </g>
 </g>
 <!-- proc~result_send -->
-<g id="call~~graph~~CallGraph_node144" class="node">
+<g id="call~~graph~~CallGraph_node151" class="node">
 <title>proc~result_send</title>
-<g id="a_call~~graph~~CallGraph_node144"><a xlink:href="../proc/result_send.html" xlink:title="result_send">
-<polygon fill="#d9534f" stroke="#d9534f" points="206,-6030 133,-6030 133,-6006 206,-6006 206,-6030"/>
-<text text-anchor="middle" x="169.5" y="-6015.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">result_send</text>
+<g id="a_call~~graph~~CallGraph_node151"><a xlink:href="../proc/result_send.html" xlink:title="result_send">
+<polygon fill="#d9534f" stroke="#d9534f" points="206,-6324 133,-6324 133,-6300 206,-6300 206,-6324"/>
+<text text-anchor="middle" x="169.5" y="-6309.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">result_send</text>
 </a>
 </g>
 </g>
 <!-- proc~run_calculation -->
-<g id="call~~graph~~CallGraph_node145" class="node">
+<g id="call~~graph~~CallGraph_node152" class="node">
 <title>proc~run_calculation</title>
-<g id="a_call~~graph~~CallGraph_node145"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
-<polygon fill="#d9534f" stroke="#d9534f" points="216.5,-6072 122.5,-6072 122.5,-6048 216.5,-6048 216.5,-6072"/>
-<text text-anchor="middle" x="169.5" y="-6057.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
+<g id="a_call~~graph~~CallGraph_node152"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="216.5,-6366 122.5,-6366 122.5,-6342 216.5,-6342 216.5,-6366"/>
+<text text-anchor="middle" x="169.5" y="-6351.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
 </a>
 </g>
 </g>
 <!-- proc~run_fragmented_calculation -->
-<g id="call~~graph~~CallGraph_node146" class="node">
+<g id="call~~graph~~CallGraph_node153" class="node">
 <title>proc~run_fragmented_calculation</title>
-<g id="a_call~~graph~~CallGraph_node146"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
-<polygon fill="#d9534f" stroke="#d9534f" points="251,-6114 88,-6114 88,-6090 251,-6090 251,-6114"/>
-<text text-anchor="middle" x="169.5" y="-6099.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
+<g id="a_call~~graph~~CallGraph_node153"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="251,-6408 88,-6408 88,-6384 251,-6384 251,-6408"/>
+<text text-anchor="middle" x="169.5" y="-6393.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
 </a>
 </g>
 </g>
 <!-- proc~run_multi_molecule_calculations -->
-<g id="call~~graph~~CallGraph_node147" class="node">
+<g id="call~~graph~~CallGraph_node154" class="node">
 <title>proc~run_multi_molecule_calculations</title>
-<g id="a_call~~graph~~CallGraph_node147"><a xlink:href="../proc/run_multi_molecule_calculations.html" xlink:title="run_multi_molecule_calculations">
-<polygon fill="#d9534f" stroke="#d9534f" points="263,-6156 76,-6156 76,-6132 263,-6132 263,-6156"/>
-<text text-anchor="middle" x="169.5" y="-6141.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_multi_molecule_calculations</text>
+<g id="a_call~~graph~~CallGraph_node154"><a xlink:href="../proc/run_multi_molecule_calculations.html" xlink:title="run_multi_molecule_calculations">
+<polygon fill="#d9534f" stroke="#d9534f" points="263,-6450 76,-6450 76,-6426 263,-6426 263,-6450"/>
+<text text-anchor="middle" x="169.5" y="-6435.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_multi_molecule_calculations</text>
 </a>
 </g>
 </g>
 <!-- proc~run_unfragmented_calculation -->
-<g id="call~~graph~~CallGraph_node148" class="node">
+<g id="call~~graph~~CallGraph_node155" class="node">
 <title>proc~run_unfragmented_calculation</title>
-<g id="a_call~~graph~~CallGraph_node148"><a xlink:href="../proc/run_unfragmented_calculation.html" xlink:title="run_unfragmented_calculation">
-<polygon fill="#d9534f" stroke="#d9534f" points="257.5,-6198 81.5,-6198 81.5,-6174 257.5,-6174 257.5,-6198"/>
-<text text-anchor="middle" x="169.5" y="-6183.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_unfragmented_calculation</text>
+<g id="a_call~~graph~~CallGraph_node155"><a xlink:href="../proc/run_unfragmented_calculation.html" xlink:title="run_unfragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="257.5,-6492 81.5,-6492 81.5,-6468 257.5,-6468 257.5,-6492"/>
+<text text-anchor="middle" x="169.5" y="-6477.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_unfragmented_calculation</text>
 </a>
 </g>
 </g>
 <!-- proc~send_fragment_to_node -->
-<g id="call~~graph~~CallGraph_node149" class="node">
+<g id="call~~graph~~CallGraph_node156" class="node">
 <title>proc~send_fragment_to_node</title>
-<g id="a_call~~graph~~CallGraph_node149"><a xlink:href="../proc/send_fragment_to_node.html" xlink:title="send_fragment_to_node">
-<polygon fill="#d9534f" stroke="#d9534f" points="240,-6240 99,-6240 99,-6216 240,-6216 240,-6240"/>
-<text text-anchor="middle" x="169.5" y="-6225.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">send_fragment_to_node</text>
+<g id="a_call~~graph~~CallGraph_node156"><a xlink:href="../proc/send_fragment_to_node.html" xlink:title="send_fragment_to_node">
+<polygon fill="#d9534f" stroke="#d9534f" points="240,-6534 99,-6534 99,-6510 240,-6510 240,-6534"/>
+<text text-anchor="middle" x="169.5" y="-6519.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">send_fragment_to_node</text>
 </a>
 </g>
 </g>
 <!-- proc~send_fragment_to_worker -->
-<g id="call~~graph~~CallGraph_node150" class="node">
+<g id="call~~graph~~CallGraph_node157" class="node">
 <title>proc~send_fragment_to_worker</title>
-<g id="a_call~~graph~~CallGraph_node150"><a xlink:href="../proc/send_fragment_to_worker.html" xlink:title="send_fragment_to_worker">
-<polygon fill="#d9534f" stroke="#d9534f" points="245,-6282 94,-6282 94,-6258 245,-6258 245,-6282"/>
-<text text-anchor="middle" x="169.5" y="-6267.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">send_fragment_to_worker</text>
+<g id="a_call~~graph~~CallGraph_node157"><a xlink:href="../proc/send_fragment_to_worker.html" xlink:title="send_fragment_to_worker">
+<polygon fill="#d9534f" stroke="#d9534f" points="245,-6576 94,-6576 94,-6552 245,-6552 245,-6576"/>
+<text text-anchor="middle" x="169.5" y="-6561.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">send_fragment_to_worker</text>
 </a>
 </g>
 </g>
 <!-- proc~serial_fragment_processor -->
-<g id="call~~graph~~CallGraph_node151" class="node">
+<g id="call~~graph~~CallGraph_node158" class="node">
 <title>proc~serial_fragment_processor</title>
-<g id="a_call~~graph~~CallGraph_node151"><a xlink:href="../proc/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
-<polygon fill="#d9534f" stroke="#d9534f" points="246.5,-6324 92.5,-6324 92.5,-6300 246.5,-6300 246.5,-6324"/>
-<text text-anchor="middle" x="169.5" y="-6309.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
+<g id="a_call~~graph~~CallGraph_node158"><a xlink:href="../proc/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
+<polygon fill="#d9534f" stroke="#d9534f" points="246.5,-6618 92.5,-6618 92.5,-6594 246.5,-6594 246.5,-6618"/>
+<text text-anchor="middle" x="169.5" y="-6603.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
 </a>
 </g>
 </g>
 <!-- proc~serial_gmbe_processor -->
-<g id="call~~graph~~CallGraph_node152" class="node">
+<g id="call~~graph~~CallGraph_node159" class="node">
 <title>proc~serial_gmbe_processor</title>
-<g id="a_call~~graph~~CallGraph_node152"><a xlink:href="../proc/serial_gmbe_processor.html" xlink:title="serial_gmbe_processor">
-<polygon fill="#d9534f" stroke="#d9534f" points="237,-6366 102,-6366 102,-6342 237,-6342 237,-6366"/>
-<text text-anchor="middle" x="169.5" y="-6351.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_gmbe_processor</text>
+<g id="a_call~~graph~~CallGraph_node159"><a xlink:href="../proc/serial_gmbe_processor.html" xlink:title="serial_gmbe_processor">
+<polygon fill="#d9534f" stroke="#d9534f" points="237,-6660 102,-6660 102,-6636 237,-6636 237,-6660"/>
+<text text-anchor="middle" x="169.5" y="-6645.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_gmbe_processor</text>
+</a>
+</g>
+</g>
+<!-- proc~set_molecule_suffix -->
+<g id="call~~graph~~CallGraph_node160" class="node">
+<title>proc~set_molecule_suffix</title>
+<g id="a_call~~graph~~CallGraph_node160"><a xlink:href="../proc/set_molecule_suffix.html" xlink:title="set_molecule_suffix">
+<polygon fill="#d9534f" stroke="#d9534f" points="228,-6702 111,-6702 111,-6678 228,-6678 228,-6702"/>
+<text text-anchor="middle" x="169.5" y="-6687.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">set_molecule_suffix</text>
+</a>
+</g>
+</g>
+<!-- proc~set_output_json_filename -->
+<g id="call~~graph~~CallGraph_node161" class="node">
+<title>proc~set_output_json_filename</title>
+<g id="a_call~~graph~~CallGraph_node161"><a xlink:href="../proc/set_output_json_filename.html" xlink:title="set_output_json_filename">
+<polygon fill="#d9534f" stroke="#d9534f" points="243.5,-6744 95.5,-6744 95.5,-6720 243.5,-6720 243.5,-6744"/>
+<text text-anchor="middle" x="169.5" y="-6729.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">set_output_json_filename</text>
 </a>
 </g>
 </g>
 <!-- proc~skip_to_end -->
-<g id="call~~graph~~CallGraph_node153" class="node">
+<g id="call~~graph~~CallGraph_node162" class="node">
 <title>proc~skip_to_end</title>
-<g id="a_call~~graph~~CallGraph_node153"><a xlink:href="../proc/skip_to_end.html" xlink:title="skip_to_end">
-<polygon fill="#d9534f" stroke="#d9534f" points="207,-6408 132,-6408 132,-6384 207,-6384 207,-6408"/>
-<text text-anchor="middle" x="169.5" y="-6393.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">skip_to_end</text>
+<g id="a_call~~graph~~CallGraph_node162"><a xlink:href="../proc/skip_to_end.html" xlink:title="skip_to_end">
+<polygon fill="#d9534f" stroke="#d9534f" points="207,-6786 132,-6786 132,-6762 207,-6762 207,-6786"/>
+<text text-anchor="middle" x="169.5" y="-6771.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">skip_to_end</text>
 </a>
 </g>
 </g>
 <!-- proc~split_lines -->
-<g id="call~~graph~~CallGraph_node154" class="node">
+<g id="call~~graph~~CallGraph_node163" class="node">
 <title>proc~split_lines</title>
-<g id="a_call~~graph~~CallGraph_node154"><a xlink:href="../proc/split_lines.html" xlink:title="split_lines">
-<polygon fill="#d9534f" stroke="#d9534f" points="201.5,-6450 137.5,-6450 137.5,-6426 201.5,-6426 201.5,-6450"/>
-<text text-anchor="middle" x="169.5" y="-6435.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">split_lines</text>
+<g id="a_call~~graph~~CallGraph_node163"><a xlink:href="../proc/split_lines.html" xlink:title="split_lines">
+<polygon fill="#d9534f" stroke="#d9534f" points="201.5,-6828 137.5,-6828 137.5,-6804 201.5,-6804 201.5,-6828"/>
+<text text-anchor="middle" x="169.5" y="-6813.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">split_lines</text>
 </a>
 </g>
 </g>
 <!-- proc~strings_equal -->
-<g id="call~~graph~~CallGraph_node155" class="node">
+<g id="call~~graph~~CallGraph_node164" class="node">
 <title>proc~strings_equal</title>
-<g id="a_call~~graph~~CallGraph_node155"><a xlink:href="../proc/strings_equal.html" xlink:title="strings_equal">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="211,-6492 128,-6492 128,-6468 211,-6468 211,-6492"/>
-<text text-anchor="middle" x="169.5" y="-6477.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">strings_equal</text>
+<g id="a_call~~graph~~CallGraph_node164"><a xlink:href="../proc/strings_equal.html" xlink:title="strings_equal">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="211,-6870 128,-6870 128,-6846 211,-6846 211,-6870"/>
+<text text-anchor="middle" x="169.5" y="-6855.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">strings_equal</text>
 </a>
 </g>
 </g>
 <!-- proc~strip_comment -->
-<g id="call~~graph~~CallGraph_node156" class="node">
+<g id="call~~graph~~CallGraph_node165" class="node">
 <title>proc~strip_comment</title>
-<g id="a_call~~graph~~CallGraph_node156"><a xlink:href="../proc/strip_comment.html" xlink:title="strip_comment">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="215.5,-6534 123.5,-6534 123.5,-6510 215.5,-6510 215.5,-6534"/>
-<text text-anchor="middle" x="169.5" y="-6519.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">strip_comment</text>
+<g id="a_call~~graph~~CallGraph_node165"><a xlink:href="../proc/strip_comment.html" xlink:title="strip_comment">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="215.5,-6912 123.5,-6912 123.5,-6888 215.5,-6888 215.5,-6912"/>
+<text text-anchor="middle" x="169.5" y="-6897.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">strip_comment</text>
 </a>
 </g>
 </g>
 <!-- proc~system_destroy -->
-<g id="call~~graph~~CallGraph_node157" class="node">
+<g id="call~~graph~~CallGraph_node166" class="node">
 <title>proc~system_destroy</title>
-<g id="a_call~~graph~~CallGraph_node157"><a xlink:href="../proc/system_destroy.html" xlink:title="system_geometry_t%system_destroy">
-<polygon fill="#d9534f" stroke="#d9534f" points="273.5,-6576 65.5,-6576 65.5,-6552 273.5,-6552 273.5,-6576"/>
-<text text-anchor="middle" x="169.5" y="-6561.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">system_geometry_t%system_destroy</text>
+<g id="a_call~~graph~~CallGraph_node166"><a xlink:href="../proc/system_destroy.html" xlink:title="system_geometry_t%system_destroy">
+<polygon fill="#d9534f" stroke="#d9534f" points="273.5,-6954 65.5,-6954 65.5,-6930 273.5,-6930 273.5,-6954"/>
+<text text-anchor="middle" x="169.5" y="-6939.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">system_geometry_t%system_destroy</text>
 </a>
 </g>
 </g>
 <!-- proc~to_angstrom -->
-<g id="call~~graph~~CallGraph_node158" class="node">
+<g id="call~~graph~~CallGraph_node167" class="node">
 <title>proc~to_angstrom</title>
-<g id="a_call~~graph~~CallGraph_node158"><a xlink:href="../proc/to_angstrom.html" xlink:title="to_angstrom">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="209,-6618 130,-6618 130,-6594 209,-6594 209,-6618"/>
-<text text-anchor="middle" x="169.5" y="-6603.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">to_angstrom</text>
+<g id="a_call~~graph~~CallGraph_node167"><a xlink:href="../proc/to_angstrom.html" xlink:title="to_angstrom">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="209,-6996 130,-6996 130,-6972 209,-6972 209,-6996"/>
+<text text-anchor="middle" x="169.5" y="-6981.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">to_angstrom</text>
 </a>
 </g>
 </g>
 <!-- proc~to_bohr -->
-<g id="call~~graph~~CallGraph_node159" class="node">
+<g id="call~~graph~~CallGraph_node168" class="node">
 <title>proc~to_bohr</title>
-<g id="a_call~~graph~~CallGraph_node159"><a xlink:href="../proc/to_bohr.html" xlink:title="to_bohr">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="196.5,-6660 142.5,-6660 142.5,-6636 196.5,-6636 196.5,-6660"/>
-<text text-anchor="middle" x="169.5" y="-6645.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">to_bohr</text>
+<g id="a_call~~graph~~CallGraph_node168"><a xlink:href="../proc/to_bohr.html" xlink:title="to_bohr">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="196.5,-7038 142.5,-7038 142.5,-7014 196.5,-7014 196.5,-7038"/>
+<text text-anchor="middle" x="169.5" y="-7023.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">to_bohr</text>
 </a>
 </g>
 </g>
 <!-- proc~unfragmented_calculation -->
-<g id="call~~graph~~CallGraph_node160" class="node">
+<g id="call~~graph~~CallGraph_node169" class="node">
 <title>proc~unfragmented_calculation</title>
-<g id="a_call~~graph~~CallGraph_node160"><a xlink:href="../proc/unfragmented_calculation.html" xlink:title="unfragmented_calculation">
-<polygon fill="#d9534f" stroke="#d9534f" points="246,-6702 93,-6702 93,-6678 246,-6678 246,-6702"/>
-<text text-anchor="middle" x="169.5" y="-6687.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unfragmented_calculation</text>
+<g id="a_call~~graph~~CallGraph_node169"><a xlink:href="../proc/unfragmented_calculation.html" xlink:title="unfragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="246,-7080 93,-7080 93,-7056 246,-7056 246,-7080"/>
+<text text-anchor="middle" x="169.5" y="-7065.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unfragmented_calculation</text>
 </a>
 </g>
 </g>
 <!-- proc~uppercase -->
-<g id="call~~graph~~CallGraph_node161" class="node">
+<g id="call~~graph~~CallGraph_node170" class="node">
 <title>proc~uppercase</title>
-<g id="a_call~~graph~~CallGraph_node161"><a xlink:href="../proc/uppercase.html" xlink:title="uppercase">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="203.5,-6744 135.5,-6744 135.5,-6720 203.5,-6720 203.5,-6744"/>
-<text text-anchor="middle" x="169.5" y="-6729.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">uppercase</text>
+<g id="a_call~~graph~~CallGraph_node170"><a xlink:href="../proc/uppercase.html" xlink:title="uppercase">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="203.5,-7122 135.5,-7122 135.5,-7098 203.5,-7098 203.5,-7122"/>
+<text text-anchor="middle" x="169.5" y="-7107.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">uppercase</text>
 </a>
 </g>
 </g>
 <!-- proc~xtb_calc_energy -->
-<g id="call~~graph~~CallGraph_node162" class="node">
+<g id="call~~graph~~CallGraph_node171" class="node">
 <title>proc~xtb_calc_energy</title>
-<g id="a_call~~graph~~CallGraph_node162"><a xlink:href="../proc/xtb_calc_energy.html" xlink:title="xtb_method_t%xtb_calc_energy">
-<polygon fill="#d9534f" stroke="#d9534f" points="260,-6786 79,-6786 79,-6762 260,-6762 260,-6786"/>
-<text text-anchor="middle" x="169.5" y="-6771.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">xtb_method_t%xtb_calc_energy</text>
+<g id="a_call~~graph~~CallGraph_node171"><a xlink:href="../proc/xtb_calc_energy.html" xlink:title="xtb_method_t%xtb_calc_energy">
+<polygon fill="#d9534f" stroke="#d9534f" points="260,-7164 79,-7164 79,-7140 260,-7140 260,-7164"/>
+<text text-anchor="middle" x="169.5" y="-7149.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">xtb_method_t%xtb_calc_energy</text>
 </a>
 </g>
 </g>
 <!-- proc~xtb_calc_gradient -->
-<g id="call~~graph~~CallGraph_node163" class="node">
+<g id="call~~graph~~CallGraph_node172" class="node">
 <title>proc~xtb_calc_gradient</title>
-<g id="a_call~~graph~~CallGraph_node163"><a xlink:href="../proc/xtb_calc_gradient.html" xlink:title="xtb_method_t%xtb_calc_gradient">
-<polygon fill="#d9534f" stroke="#d9534f" points="263.5,-6828 75.5,-6828 75.5,-6804 263.5,-6804 263.5,-6828"/>
-<text text-anchor="middle" x="169.5" y="-6813.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">xtb_method_t%xtb_calc_gradient</text>
+<g id="a_call~~graph~~CallGraph_node172"><a xlink:href="../proc/xtb_calc_gradient.html" xlink:title="xtb_method_t%xtb_calc_gradient">
+<polygon fill="#d9534f" stroke="#d9534f" points="263.5,-7206 75.5,-7206 75.5,-7182 263.5,-7182 263.5,-7206"/>
+<text text-anchor="middle" x="169.5" y="-7191.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">xtb_method_t%xtb_calc_gradient</text>
 </a>
 </g>
 </g>
 <!-- program~main -->
-<g id="call~~graph~~CallGraph_node164" class="node">
+<g id="call~~graph~~CallGraph_node173" class="node">
 <title>program~main</title>
-<g id="a_call~~graph~~CallGraph_node164"><a xlink:href="../program/main.html" xlink:title="main">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="196.5,-6870 142.5,-6870 142.5,-6846 196.5,-6846 196.5,-6870"/>
-<text text-anchor="middle" x="169.5" y="-6855.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
+<g id="a_call~~graph~~CallGraph_node173"><a xlink:href="../program/main.html" xlink:title="main">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="196.5,-7248 142.5,-7248 142.5,-7224 196.5,-7224 196.5,-7248"/>
+<text text-anchor="middle" x="169.5" y="-7233.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
 </a>
 </g>
 </g>
@@ -2724,7 +2867,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-30 10:28 +0000             </p>
+ on 2025-12-30 14:04 +0000             </p>
           </div>
         </div>
         <br>

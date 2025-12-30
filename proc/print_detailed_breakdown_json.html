@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.6% of total for procedures.">113 statements</a>
+                 title=" 2.5% of total for procedures.">117 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -136,19 +136,21 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-basename~2">basename</a>
             <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-count_by_level~2">count_by_level</a>
             <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-first_fragment">first_fragment</a>
             <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-first_level">first_level</a>
-            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-frag_level~4">frag_level</a>
-            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-fragment_size~4">fragment_size</a>
-            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-i~19">i</a>
-            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-iatom~3">iatom</a>
-            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-io_stat~17">io_stat</a>
-            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-j~4">j</a>
+            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-frag_level~3">frag_level</a>
+            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-fragment_size~7">fragment_size</a>
+            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-i~40">i</a>
+            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-iatom~5">iatom</a>
+            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-io_stat~5">io_stat</a>
+            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-j~13">j</a>
             <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-json_line">json_line</a>
             <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-level_name~2">level_name</a>
-            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-total_atoms~2">total_atoms</a>
-            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-unit~24">unit</a>
+            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-output_file~2">output_file</a>
+            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-total_atoms~3">total_atoms</a>
+            <a class="list-group-item" href="../proc/print_detailed_breakdown_json.html#variable-unit~3">unit</a>
         </div>
       </div>
     </div>
@@ -207,7 +209,7 @@ Uses int64 for fragment_count to handle large fragment counts that overflow int3
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-polymers~4"></span>
+              <span class="anchor" id="variable-polymers~10"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -222,7 +224,7 @@ Uses int64 for fragment_count to handle large fragment counts that overflow int3
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_count~4"></span>
+              <span class="anchor" id="variable-fragment_count~2"></span>
               integer(kind=int64),
             </td>
 <td>intent(in)</td>
@@ -237,7 +239,7 @@ Uses int64 for fragment_count to handle large fragment counts that overflow int3
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_level~4"></span>
+              <span class="anchor" id="variable-max_level~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -252,7 +254,7 @@ Uses int64 for fragment_count to handle large fragment counts that overflow int3
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-energies~5"></span>
+              <span class="anchor" id="variable-energies~2"></span>
               real(kind=dp),
             </td>
 <td>intent(in)</td>
@@ -267,7 +269,7 @@ Uses int64 for fragment_count to handle large fragment counts that overflow int3
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-delta_energies~5"></span>
+              <span class="anchor" id="variable-delta_energies~2"></span>
               real(kind=dp),
             </td>
 <td>intent(in)</td>
@@ -282,7 +284,7 @@ Uses int64 for fragment_count to handle large fragment counts that overflow int3
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sum_by_level~3"></span>
+              <span class="anchor" id="variable-sum_by_level"></span>
               real(kind=dp),
             </td>
 <td>intent(in)</td>
@@ -297,7 +299,7 @@ Uses int64 for fragment_count to handle large fragment counts that overflow int3
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_energy~4"></span>
+              <span class="anchor" id="variable-total_energy~2"></span>
               real(kind=dp),
             </td>
 <td>intent(in)</td>
@@ -312,7 +314,7 @@ Uses int64 for fragment_count to handle large fragment counts that overflow int3
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_gradient~2"></span>
+              <span class="anchor" id="variable-total_gradient"></span>
               real(kind=dp),
             </td>
 <td>intent(in),</td>
@@ -340,67 +342,97 @@ Uses int64 for fragment_count to handle large fragment counts that overflow int3
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~print_detailed_breakdown_json~~CallsGraph Pages: 1 -->
-<svg id="procprint_detailed_breakdown_jsonCallsGraph" width="345pt" height="158pt"
- viewBox="0.00 0.00 345.00 158.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~print_detailed_breakdown_json~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 154)">
+<svg id="procprint_detailed_breakdown_jsonCallsGraph" width="370pt" height="242pt"
+ viewBox="0.00 0.00 370.00 242.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~print_detailed_breakdown_json~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 238)">
 <title>proc~~print_detailed_breakdown_json~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-154 341,-154 341,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-238 366,-238 366,4 -4,4"/>
 <!-- proc~print_detailed_breakdown_json -->
 <g id="proc~~print_detailed_breakdown_json~~CallsGraph_node1" class="node">
 <title>proc~print_detailed_breakdown_json</title>
-<polygon fill="none" stroke="black" points="177,-87 0,-87 0,-63 177,-63 177,-87"/>
-<text text-anchor="middle" x="88.5" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50">print_detailed_breakdown_json</text>
+<polygon fill="none" stroke="black" points="177,-129 0,-129 0,-105 177,-105 177,-129"/>
+<text text-anchor="middle" x="88.5" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50">print_detailed_breakdown_json</text>
 </g>
 <!-- error -->
 <g id="proc~~print_detailed_breakdown_json~~CallsGraph_node2" class="node">
 <title>error</title>
-<polygon fill="#777777" stroke="#777777" points="302,-150 248,-150 248,-126 302,-126 302,-150"/>
-<text text-anchor="middle" x="275" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">error</text>
+<polygon fill="#777777" stroke="#777777" points="314.5,-234 260.5,-234 260.5,-210 314.5,-210 314.5,-234"/>
+<text text-anchor="middle" x="287.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">error</text>
 </g>
 <!-- proc~print_detailed_breakdown_json&#45;&gt;error -->
 <g id="proc~~print_detailed_breakdown_json~~CallsGraph_edge1" class="edge">
 <title>proc~print_detailed_breakdown_json&#45;&gt;error</title>
-<path fill="none" stroke="#ff0000" d="M125.07,-87.15C157.62,-98.26 205.54,-114.62 238.17,-125.77"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="237.18,-129.13 247.77,-129.04 239.44,-122.5 237.18,-129.13"/>
+<path fill="none" stroke="#ff0000" d="M104.14,-129.28C126.36,-147.35 170.49,-181.1 213,-201 224.74,-206.49 238.22,-210.85 250.4,-214.14"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="249.71,-217.58 260.26,-216.66 251.43,-210.79 249.71,-217.58"/>
 </g>
 <!-- info -->
 <g id="proc~~print_detailed_breakdown_json~~CallsGraph_node3" class="node">
 <title>info</title>
-<polygon fill="#777777" stroke="#777777" points="302,-108 248,-108 248,-84 302,-84 302,-108"/>
-<text text-anchor="middle" x="275" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">info</text>
+<polygon fill="#777777" stroke="#777777" points="314.5,-192 260.5,-192 260.5,-168 314.5,-168 314.5,-192"/>
+<text text-anchor="middle" x="287.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">info</text>
 </g>
 <!-- proc~print_detailed_breakdown_json&#45;&gt;info -->
 <g id="proc~~print_detailed_breakdown_json~~CallsGraph_edge2" class="edge">
 <title>proc~print_detailed_breakdown_json&#45;&gt;info</title>
-<path fill="none" stroke="#ff0000" d="M177.16,-84.98C198.41,-87.4 219.98,-89.85 237.36,-91.83"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="237.27,-95.34 247.6,-92.99 238.06,-88.39 237.27,-95.34"/>
+<path fill="none" stroke="#ff0000" d="M123.42,-129.04C148.15,-137.7 182.52,-149.47 213,-159 225.17,-162.81 238.56,-166.71 250.54,-170.11"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="249.64,-173.49 260.21,-172.83 251.53,-166.75 249.64,-173.49"/>
+</g>
+<!-- proc~get_basename -->
+<g id="proc~~print_detailed_breakdown_json~~CallsGraph_node4" class="node">
+<title>proc~get_basename</title>
+<g id="a_proc~~print_detailed_breakdown_json~~CallsGraph_node4"><a xlink:href="../proc/get_basename.html" xlink:title="get_basename">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="333,-150 242,-150 242,-126 333,-126 333,-150"/>
+<text text-anchor="middle" x="287.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_basename</text>
+</a>
+</g>
+</g>
+<!-- proc~print_detailed_breakdown_json&#45;&gt;proc~get_basename -->
+<g id="proc~~print_detailed_breakdown_json~~CallsGraph_edge3" class="edge">
+<title>proc~print_detailed_breakdown_json&#45;&gt;proc~get_basename</title>
+<path fill="none" stroke="#ff0000" d="M177.05,-126.33C195.61,-128.31 214.68,-130.34 231.61,-132.15"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="231.53,-135.66 241.84,-133.24 232.27,-128.7 231.53,-135.66"/>
 </g>
 <!-- proc~get_frag_level_name -->
-<g id="proc~~print_detailed_breakdown_json~~CallsGraph_node4" class="node">
+<g id="proc~~print_detailed_breakdown_json~~CallsGraph_node5" class="node">
 <title>proc~get_frag_level_name</title>
-<g id="a_proc~~print_detailed_breakdown_json~~CallsGraph_node4"><a xlink:href="../proc/get_frag_level_name.html" xlink:title="get_frag_level_name">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="337,-66 213,-66 213,-42 337,-42 337,-66"/>
-<text text-anchor="middle" x="275" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_frag_level_name</text>
+<g id="a_proc~~print_detailed_breakdown_json~~CallsGraph_node5"><a xlink:href="../proc/get_frag_level_name.html" xlink:title="get_frag_level_name">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="349.5,-108 225.5,-108 225.5,-84 349.5,-84 349.5,-108"/>
+<text text-anchor="middle" x="287.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_frag_level_name</text>
 </a>
 </g>
 </g>
 <!-- proc~print_detailed_breakdown_json&#45;&gt;proc~get_frag_level_name -->
-<g id="proc~~print_detailed_breakdown_json~~CallsGraph_edge3" class="edge">
+<g id="proc~~print_detailed_breakdown_json~~CallsGraph_edge4" class="edge">
 <title>proc~print_detailed_breakdown_json&#45;&gt;proc~get_frag_level_name</title>
-<path fill="none" stroke="#ff0000" d="M177.16,-65.02C185.75,-64.04 194.4,-63.06 202.8,-62.1"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="203.36,-65.56 212.9,-60.95 202.57,-58.61 203.36,-65.56"/>
+<path fill="none" stroke="#ff0000" d="M177.05,-107.67C189.82,-106.31 202.83,-104.92 215.22,-103.6"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="215.89,-107.05 225.46,-102.51 215.15,-100.09 215.89,-107.05"/>
+</g>
+<!-- proc~get_output_json_filename -->
+<g id="proc~~print_detailed_breakdown_json~~CallsGraph_node6" class="node">
+<title>proc~get_output_json_filename</title>
+<g id="a_proc~~print_detailed_breakdown_json~~CallsGraph_node6"><a xlink:href="../proc/get_output_json_filename.html" xlink:title="get_output_json_filename">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="362,-66 213,-66 213,-42 362,-42 362,-66"/>
+<text text-anchor="middle" x="287.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_output_json_filename</text>
+</a>
+</g>
+</g>
+<!-- proc~print_detailed_breakdown_json&#45;&gt;proc~get_output_json_filename -->
+<g id="proc~~print_detailed_breakdown_json~~CallsGraph_edge5" class="edge">
+<title>proc~print_detailed_breakdown_json&#45;&gt;proc~get_output_json_filename</title>
+<path fill="none" stroke="#ff0000" d="M123.42,-104.96C148.15,-96.3 182.52,-84.53 213,-75 219.47,-72.98 226.28,-70.93 233.04,-68.94"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="234.24,-72.24 242.86,-66.08 232.29,-65.51 234.24,-72.24"/>
 </g>
 <!-- warning -->
-<g id="proc~~print_detailed_breakdown_json~~CallsGraph_node5" class="node">
+<g id="proc~~print_detailed_breakdown_json~~CallsGraph_node7" class="node">
 <title>warning</title>
-<polygon fill="#777777" stroke="#777777" points="302.5,-24 247.5,-24 247.5,0 302.5,0 302.5,-24"/>
-<text text-anchor="middle" x="275" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">warning</text>
+<polygon fill="#777777" stroke="#777777" points="315,-24 260,-24 260,0 315,0 315,-24"/>
+<text text-anchor="middle" x="287.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">warning</text>
 </g>
 <!-- proc~print_detailed_breakdown_json&#45;&gt;warning -->
-<g id="proc~~print_detailed_breakdown_json~~CallsGraph_edge4" class="edge">
+<g id="proc~~print_detailed_breakdown_json~~CallsGraph_edge6" class="edge">
 <title>proc~print_detailed_breakdown_json&#45;&gt;warning</title>
-<path fill="none" stroke="#ff0000" d="M125.07,-62.85C157.53,-51.77 205.26,-35.47 237.89,-24.33"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="239.16,-27.6 247.49,-21.05 236.9,-20.97 239.16,-27.6"/>
+<path fill="none" stroke="#ff0000" d="M104.14,-104.72C126.36,-86.65 170.49,-52.9 213,-33 224.64,-27.55 238,-23.22 250.11,-19.94"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="251.09,-23.3 259.92,-17.43 249.36,-16.52 251.09,-23.3"/>
 </g>
 </g>
 </svg>
@@ -749,6 +781,23 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
+              <span class="anchor" id="variable-basename~2"></span>
+              character(len=256),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>basename</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-count_by_level~2"></span>
               integer(kind=int64),
             </td>
@@ -800,7 +849,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-frag_level~4"></span>
+              <span class="anchor" id="variable-frag_level~3"></span>
               integer,
             </td>
               <td>private</td>
@@ -817,7 +866,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_size~4"></span>
+              <span class="anchor" id="variable-fragment_size~7"></span>
               integer,
             </td>
               <td>private</td>
@@ -834,7 +883,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~19"></span>
+              <span class="anchor" id="variable-i~40"></span>
               integer(kind=int64),
             </td>
               <td>private</td>
@@ -851,7 +900,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iatom~3"></span>
+              <span class="anchor" id="variable-iatom~5"></span>
               integer,
             </td>
               <td>private</td>
@@ -868,7 +917,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_stat~17"></span>
+              <span class="anchor" id="variable-io_stat~5"></span>
               integer,
             </td>
               <td>private</td>
@@ -885,7 +934,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-j~4"></span>
+              <span class="anchor" id="variable-j~13"></span>
               integer,
             </td>
               <td>private</td>
@@ -936,7 +985,24 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_atoms~2"></span>
+              <span class="anchor" id="variable-output_file~2"></span>
+              character(len=256),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>output_file</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-total_atoms~3"></span>
               integer,
             </td>
               <td>private</td>
@@ -953,7 +1019,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit~24"></span>
+              <span class="anchor" id="variable-unit~3"></span>
               integer,
             </td>
               <td>private</td>
@@ -1004,14 +1070,18 @@ large graphs.</div>
 <span class="w">      </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">first_level</span><span class="p">,</span><span class="w"> </span><span class="n">first_fragment</span>
 <span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">level_name</span>
 <span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">total_atoms</span>
+<span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">output_file</span><span class="p">,</span><span class="w"> </span><span class="n">basename</span>
 
-<span class="w">      </span><span class="k">open</span><span class="w"> </span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="s1">&#39;results.json&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;write&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">io_stat</span><span class="p">)</span>
+<span class="w">      </span><span class="n">output_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_output_json_filename</span><span class="p">()</span>
+<span class="w">      </span><span class="n">basename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_basename</span><span class="p">()</span>
+
+<span class="w">      </span><span class="k">open</span><span class="w"> </span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">output_file</span><span class="p">),</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;write&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">io_stat</span><span class="p">)</span>
 <span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">io_stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">         call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Failed to open results.json for writing&quot;</span><span class="p">)</span>
+<span class="k">         call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Failed to open &quot;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot; for writing&quot;</span><span class="p">)</span>
 <span class="w">         </span><span class="k">return</span>
 <span class="k">      end if</span>
 
-<span class="k">      call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Writing JSON output to results.json&quot;</span><span class="p">)</span>
+<span class="k">      call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Writing JSON output to &quot;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">output_file</span><span class="p">))</span>
 
 <span class="w">      </span><span class="c">! Warn if we have very high fragmentation levels</span>
 <span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">max_level</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
@@ -1019,7 +1089,8 @@ large graphs.</div>
 <span class="w">      </span><span class="k">end if</span>
 
 <span class="k">      write</span><span class="w"> </span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;{&quot;</span>
-<span class="w">      </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;  &quot;mbe_breakdown&quot;: {&#39;</span>
+<span class="w">      </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">json_line</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a,a,a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;  &quot;&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">basename</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;&quot;: {&#39;</span>
+<span class="w">      </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">json_line</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">json_line</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a,f20.10,a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;    &quot;total_energy&quot;: &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">total_energy</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;,&#39;</span>
 <span class="w">      </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">json_line</span><span class="p">)</span>
@@ -1135,7 +1206,7 @@ large graphs.</div>
 <span class="k">      write</span><span class="w"> </span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;}&#39;</span>
 
 <span class="w">      </span><span class="k">close</span><span class="w"> </span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
-<span class="w">      </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;JSON output written successfully to results.json&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;JSON output written successfully to &quot;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">output_file</span><span class="p">))</span>
 
 <span class="w">   </span><span class="k">end subroutine </span><span class="n">print_detailed_breakdown_json</span>
 </pre></div>
@@ -1161,7 +1232,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-12-30 10:28 +0000             </p>
+ on 2025-12-30 14:04 +0000             </p>
           </div>
         </div>
         <br>

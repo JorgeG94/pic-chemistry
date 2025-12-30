@@ -4,9 +4,12 @@ module mqc_mbe_io
    use pic_io, only: to_char
    use mqc_physical_fragment, only: physical_fragment_t, to_angstrom
    use mqc_elements, only: element_number_to_symbol
+   use mqc_result_types, only: calculation_result_t
+   use mqc_output_filename, only: get_output_json_filename, get_basename
    implicit none
    private
    public :: print_fragment_xyz, print_detailed_breakdown, print_detailed_breakdown_json
+   public :: print_unfragmented_json
 
 contains
 
@@ -167,14 +170,18 @@ contains
       logical :: first_level, first_fragment
       character(len=32) :: level_name
       integer :: total_atoms
+      character(len=256) :: output_file, basename
 
-      open (newunit=unit, file='results.json', status='replace', action='write', iostat=io_stat)
+      output_file = get_output_json_filename()
+      basename = get_basename()
+
+      open (newunit=unit, file=trim(output_file), status='replace', action='write', iostat=io_stat)
       if (io_stat /= 0) then
-         call logger%error("Failed to open results.json for writing")
+         call logger%error("Failed to open "//trim(output_file)//" for writing")
          return
       end if
 
-      call logger%info("Writing JSON output to results.json")
+      call logger%info("Writing JSON output to "//trim(output_file))
 
       ! Warn if we have very high fragmentation levels
       if (max_level > 10) then
@@ -182,7 +189,8 @@ contains
       end if
 
       write (unit, '(a)') "{"
-      write (unit, '(a)') '  "mbe_breakdown": {'
+      write (json_line, '(a,a,a)') '  "', trim(basename), '": {'
+      write (unit, '(a)') trim(json_line)
 
       write (json_line, '(a,f20.10,a)') '    "total_energy": ', total_energy, ','
       write (unit, '(a)') trim(json_line)
@@ -298,8 +306,72 @@ contains
       write (unit, '(a)') '}'
 
       close (unit)
-      call logger%info("JSON output written successfully to results.json")
+      call logger%info("JSON output written successfully to "//trim(output_file))
 
    end subroutine print_detailed_breakdown_json
+
+   subroutine print_unfragmented_json(result)
+      !! Write unfragmented calculation results to output JSON file
+      !! Outputs structured JSON with energy and optionally gradient
+      type(calculation_result_t), intent(in) :: result
+
+      integer :: unit, io_stat, iatom, total_atoms
+      character(len=512) :: json_line
+      character(len=256) :: output_file, basename
+
+      output_file = get_output_json_filename()
+      basename = get_basename()
+
+      open (newunit=unit, file=trim(output_file), status='replace', action='write', iostat=io_stat)
+      if (io_stat /= 0) then
+         call logger%error("Failed to open "//trim(output_file)//" for writing")
+         return
+      end if
+
+      call logger%info("Writing JSON output to "//trim(output_file))
+
+      write (unit, '(a)') "{"
+      write (json_line, '(a,a,a)') '  "', trim(basename), '": {'
+      write (unit, '(a)') trim(json_line)
+
+      if (result%has_energy) then
+         write (json_line, '(a,f25.15)') '    "total_energy": ', result%energy%total()
+         if (result%has_gradient) then
+            write (json_line, '(a,a)') trim(json_line), ','
+         end if
+         write (unit, '(a)') trim(json_line)
+      end if
+
+      ! Add gradient section if present
+      if (result%has_gradient) then
+         total_atoms = size(result%gradient, 2)
+
+         write (unit, '(a)') '    "gradient": {'
+         write (json_line, '(a,f25.15,a)') '      "norm": ', sqrt(sum(result%gradient**2)), ','
+         write (unit, '(a)') trim(json_line)
+         write (unit, '(a)') '      "components": ['
+
+         do iatom = 1, total_atoms
+            write (json_line, '(a,3(f25.15,a))') '        [', &
+               result%gradient(1, iatom), ', ', &
+               result%gradient(2, iatom), ', ', &
+               result%gradient(3, iatom), ']'
+            if (iatom < total_atoms) then
+               write (json_line, '(a,a)') trim(json_line), ','
+            end if
+            write (unit, '(a)') trim(json_line)
+         end do
+
+         write (unit, '(a)') '      ]'
+         write (unit, '(a)') '    }'
+      end if
+
+      write (unit, '(a)') '  }'
+      write (unit, '(a)') '}'
+
+      close (unit)
+      call logger%info("JSON output written successfully to "//trim(output_file))
+
+   end subroutine print_unfragmented_json
 
 end module mqc_mbe_io

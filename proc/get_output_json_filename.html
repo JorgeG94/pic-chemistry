@@ -1,0 +1,556 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A demonstration of PIC as a framework for scientific applications targetting quantum chemistry">
+    <meta name="author" content="Jorge Luis Galvez Vallejo" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>get_output_json_filename &ndash; metalquicha</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">metalquicha </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../program/main.html">Program</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>get_output_json_filename
+      <small>Function</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.1% of total for procedures.">4 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/mqc_output_filename.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_output_filename.f90.html'>mqc_output_filename.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/mqc_output_filename.html'>mqc_output_filename</a></li>
+            <li class="breadcrumb-item active" aria-current="page">get_output_json_filename</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/get_output_json_filename.html#src">get_output_json_filename</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  function get_output_json_filename() result(filename)  
+</h2>
+    
+
+    <p>Get the current JSON output filename</p>
+
+
+    <h3>Arguments</h3>
+    <em>None</em>
+    <br>
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-filename~6"></span>
+          character(len=256)
+        </small>
+      </h3>
+      
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~get_output_json_filename~~CalledByGraph Pages: 1 -->
+<svg id="procget_output_json_filenameCalledByGraph" width="641pt" height="64pt"
+ viewBox="0.00 0.00 641.00 64.41" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~get_output_json_filename~~CalledByGraph" class="graph" transform="scale(0.45 0.45) rotate(0) translate(4 140)">
+<title>proc~~get_output_json_filename~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-140 1429,-140 1429,4 -4,4"/>
+<!-- proc~get_output_json_filename -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_node1" class="node">
+<title>proc~get_output_json_filename</title>
+<polygon fill="none" stroke="black" points="1425,-72 1276,-72 1276,-48 1425,-48 1425,-72"/>
+<text text-anchor="middle" x="1350.5" y="-57.6" font-family="Helvetica,sans-Serif" font-size="10.50">get_output_json_filename</text>
+</g>
+<!-- proc~print_detailed_breakdown_json -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_node2" class="node">
+<title>proc~print_detailed_breakdown_json</title>
+<g id="a_proc~~get_output_json_filename~~CalledByGraph_node2"><a xlink:href="../proc/print_detailed_breakdown_json.html" xlink:title="print_detailed_breakdown_json">
+<polygon fill="#d9534f" stroke="#d9534f" points="1240,-72 1063,-72 1063,-48 1240,-48 1240,-72"/>
+<text text-anchor="middle" x="1151.5" y="-57.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_detailed_breakdown_json</text>
+</a>
+</g>
+</g>
+<!-- proc~print_detailed_breakdown_json&#45;&gt;proc~get_output_json_filename -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge1" class="edge">
+<title>proc~print_detailed_breakdown_json&#45;&gt;proc~get_output_json_filename</title>
+<path fill="none" stroke="#ff0000" d="M1240.05,-60C1248.53,-60 1257.11,-60 1265.55,-60"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1265.75,-63.5 1275.75,-60 1265.75,-56.5 1265.75,-63.5"/>
+</g>
+<!-- proc~print_unfragmented_json -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_node3" class="node">
+<title>proc~print_unfragmented_json</title>
+<g id="a_proc~~get_output_json_filename~~CalledByGraph_node3"><a xlink:href="../proc/print_unfragmented_json.html" xlink:title="print_unfragmented_json">
+<polygon fill="#d9534f" stroke="#d9534f" points="1224.5,-124 1078.5,-124 1078.5,-100 1224.5,-100 1224.5,-124"/>
+<text text-anchor="middle" x="1151.5" y="-109.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_unfragmented_json</text>
+</a>
+</g>
+</g>
+<!-- proc~print_unfragmented_json&#45;&gt;proc~get_output_json_filename -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge2" class="edge">
+<title>proc~print_unfragmented_json&#45;&gt;proc~get_output_json_filename</title>
+<path fill="none" stroke="#ff0000" d="M1198.19,-99.94C1226.68,-92.42 1263.54,-82.69 1293.75,-74.72"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1294.94,-78.02 1303.72,-72.09 1293.15,-71.25 1294.94,-78.02"/>
+</g>
+<!-- proc~run_multi_molecule_calculations -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_node4" class="node">
+<title>proc~run_multi_molecule_calculations</title>
+<g id="a_proc~~get_output_json_filename~~CalledByGraph_node4"><a xlink:href="../proc/run_multi_molecule_calculations.html" xlink:title="run_multi_molecule_calculations">
+<polygon fill="#d9534f" stroke="#d9534f" points="277,-33 90,-33 90,-9 277,-9 277,-33"/>
+<text text-anchor="middle" x="183.5" y="-18.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_multi_molecule_calculations</text>
+</a>
+</g>
+</g>
+<!-- proc~run_multi_molecule_calculations&#45;&gt;proc~get_output_json_filename -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge3" class="edge">
+<title>proc~run_multi_molecule_calculations&#45;&gt;proc~get_output_json_filename</title>
+<path fill="none" stroke="#ff0000" d="M277.16,-12.31C346.67,-6.53 444.22,0 530,0 530,0 530,0 937,0 1063.48,0 1209.53,-27.97 1289.47,-45.71"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1288.84,-49.16 1299.36,-47.93 1290.37,-42.33 1288.84,-49.16"/>
+</g>
+<!-- proc~run_calculation -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_node12" class="node">
+<title>proc~run_calculation</title>
+<g id="a_proc~~get_output_json_filename~~CalledByGraph_node12"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="407,-73 313,-73 313,-49 407,-49 407,-73"/>
+<text text-anchor="middle" x="360" y="-58.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_multi_molecule_calculations&#45;&gt;proc~run_calculation -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge16" class="edge">
+<title>proc~run_multi_molecule_calculations&#45;&gt;proc~run_calculation</title>
+<path fill="none" stroke="#ff0000" d="M236.86,-33C257.74,-37.79 281.82,-43.31 303.05,-48.18"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="302.37,-51.61 312.9,-50.43 303.94,-44.79 302.37,-51.61"/>
+</g>
+<!-- proc~compute_mbe_energy -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_node5" class="node">
+<title>proc~compute_mbe_energy</title>
+<g id="a_proc~~get_output_json_filename~~CalledByGraph_node5"><a xlink:href="../proc/compute_mbe_energy.html" xlink:title="compute_mbe_energy">
+<polygon fill="#d9534f" stroke="#d9534f" points="1002,-94 870,-94 870,-70 1002,-70 1002,-94"/>
+<text text-anchor="middle" x="936" y="-79.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe_energy</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe_energy&#45;&gt;proc~print_detailed_breakdown_json -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge4" class="edge">
+<title>proc~compute_mbe_energy&#45;&gt;proc~print_detailed_breakdown_json</title>
+<path fill="none" stroke="#ff0000" d="M1002.22,-75.28C1018.21,-73.63 1035.67,-71.83 1052.82,-70.06"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1053.28,-73.54 1062.87,-69.03 1052.57,-66.57 1053.28,-73.54"/>
+</g>
+<!-- proc~compute_mbe_energy_gradient -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_node6" class="node">
+<title>proc~compute_mbe_energy_gradient</title>
+<g id="a_proc~~get_output_json_filename~~CalledByGraph_node6"><a xlink:href="../proc/compute_mbe_energy_gradient.html" xlink:title="compute_mbe_energy_gradient">
+<polygon fill="#d9534f" stroke="#d9534f" points="1027,-52 845,-52 845,-28 1027,-28 1027,-52"/>
+<text text-anchor="middle" x="936" y="-37.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe_energy_gradient</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;proc~print_detailed_breakdown_json -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge5" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;proc~print_detailed_breakdown_json</title>
+<path fill="none" stroke="#ff0000" d="M1027.23,-48.45C1035.74,-49.25 1044.39,-50.06 1052.96,-50.86"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1052.69,-54.35 1062.97,-51.8 1053.34,-47.38 1052.69,-54.35"/>
+</g>
+<!-- proc~unfragmented_calculation -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_node7" class="node">
+<title>proc~unfragmented_calculation</title>
+<g id="a_proc~~get_output_json_filename~~CalledByGraph_node7"><a xlink:href="../proc/unfragmented_calculation.html" xlink:title="unfragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="808.5,-136 655.5,-136 655.5,-112 808.5,-112 808.5,-136"/>
+<text text-anchor="middle" x="732" y="-121.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unfragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~unfragmented_calculation&#45;&gt;proc~print_unfragmented_json -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge6" class="edge">
+<title>proc~unfragmented_calculation&#45;&gt;proc~print_unfragmented_json</title>
+<path fill="none" stroke="#00ff00" d="M808.61,-121.83C881.77,-119.72 992.38,-116.54 1067.84,-114.38"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="1068.35,-117.86 1078.25,-114.08 1068.15,-110.87 1068.35,-117.86"/>
+</g>
+<!-- program~main -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_node8" class="node">
+<title>program~main</title>
+<g id="a_proc~~get_output_json_filename~~CalledByGraph_node8"><a xlink:href="../program/main.html" xlink:title="main">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="54,-53 0,-53 0,-29 54,-29 54,-53"/>
+<text text-anchor="middle" x="27" y="-38.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
+</a>
+</g>
+</g>
+<!-- program~main&#45;&gt;proc~run_multi_molecule_calculations -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge7" class="edge">
+<title>program~main&#45;&gt;proc~run_multi_molecule_calculations</title>
+<path fill="none" stroke="#0000ff" d="M54.21,-37.61C61.81,-36.62 70.61,-35.48 79.96,-34.27"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="80.42,-37.74 89.89,-32.99 79.52,-30.8 80.42,-37.74"/>
+</g>
+<!-- program~main&#45;&gt;proc~run_calculation -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge17" class="edge">
+<title>program~main&#45;&gt;proc~run_calculation</title>
+<path fill="none" stroke="#ff0000" d="M54.25,-42.59C107.66,-45.81 230.05,-53.21 302.43,-57.58"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="302.54,-61.09 312.73,-58.2 302.96,-54.11 302.54,-61.09"/>
+</g>
+<!-- proc~global_coordinator -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_node9" class="node">
+<title>proc~global_coordinator</title>
+<g id="a_proc~~get_output_json_filename~~CalledByGraph_node9"><a xlink:href="../proc/global_coordinator.html" xlink:title="global_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="788.5,-94 675.5,-94 675.5,-70 788.5,-70 788.5,-94"/>
+<text text-anchor="middle" x="732" y="-79.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">global_coordinator</text>
+</a>
+</g>
+</g>
+<!-- proc~global_coordinator&#45;&gt;proc~compute_mbe_energy -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge8" class="edge">
+<title>proc~global_coordinator&#45;&gt;proc~compute_mbe_energy</title>
+<path fill="none" stroke="#ff0000" d="M788.73,-82C810.6,-82 836.04,-82 859.52,-82"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="859.79,-85.5 869.79,-82 859.79,-78.5 859.79,-85.5"/>
+</g>
+<!-- proc~global_coordinator&#45;&gt;proc~compute_mbe_energy_gradient -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge10" class="edge">
+<title>proc~global_coordinator&#45;&gt;proc~compute_mbe_energy_gradient</title>
+<path fill="none" stroke="#7fff00" d="M788.73,-70.41C812.96,-65.37 841.57,-59.43 867.03,-54.13"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="867.91,-57.53 876.98,-52.06 866.48,-50.67 867.91,-57.53"/>
+</g>
+<!-- proc~run_unfragmented_calculation -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_node10" class="node">
+<title>proc~run_unfragmented_calculation</title>
+<g id="a_proc~~get_output_json_filename~~CalledByGraph_node10"><a xlink:href="../proc/run_unfragmented_calculation.html" xlink:title="run_unfragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="619,-125 443,-125 443,-101 619,-101 619,-125"/>
+<text text-anchor="middle" x="531" y="-110.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_unfragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_unfragmented_calculation&#45;&gt;proc~unfragmented_calculation -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge12" class="edge">
+<title>proc~run_unfragmented_calculation&#45;&gt;proc~unfragmented_calculation</title>
+<path fill="none" stroke="#00ffff" d="M619.28,-117.82C627.92,-118.3 636.67,-118.79 645.29,-119.26"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="645.14,-122.76 655.32,-119.82 645.53,-115.77 645.14,-122.76"/>
+</g>
+<!-- proc~serial_fragment_processor -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_node11" class="node">
+<title>proc~serial_fragment_processor</title>
+<g id="a_proc~~get_output_json_filename~~CalledByGraph_node11"><a xlink:href="../proc/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
+<polygon fill="#d9534f" stroke="#d9534f" points="809,-52 655,-52 655,-28 809,-28 809,-52"/>
+<text text-anchor="middle" x="732" y="-37.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
+</a>
+</g>
+</g>
+<!-- proc~serial_fragment_processor&#45;&gt;proc~compute_mbe_energy -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge9" class="edge">
+<title>proc~serial_fragment_processor&#45;&gt;proc~compute_mbe_energy</title>
+<path fill="none" stroke="#ff0000" d="M790.89,-52.04C814.66,-56.98 842.35,-62.74 867.07,-67.88"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="866.6,-71.35 877.11,-69.96 868.03,-64.5 866.6,-71.35"/>
+</g>
+<!-- proc~serial_fragment_processor&#45;&gt;proc~compute_mbe_energy_gradient -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge11" class="edge">
+<title>proc~serial_fragment_processor&#45;&gt;proc~compute_mbe_energy_gradient</title>
+<path fill="none" stroke="#7fff00" d="M809.08,-40C817.44,-40 826.04,-40 834.64,-40"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="834.71,-43.5 844.71,-40 834.71,-36.5 834.71,-43.5"/>
+</g>
+<!-- proc~run_calculation&#45;&gt;proc~run_unfragmented_calculation -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge14" class="edge">
+<title>proc~run_calculation&#45;&gt;proc~run_unfragmented_calculation</title>
+<path fill="none" stroke="#00ff00" d="M400.2,-73.06C424.32,-80.48 455.44,-90.06 481.16,-97.97"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="480.14,-101.32 490.72,-100.91 482.19,-94.63 480.14,-101.32"/>
+</g>
+<!-- proc~run_fragmented_calculation -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_node13" class="node">
+<title>proc~run_fragmented_calculation</title>
+<g id="a_proc~~get_output_json_filename~~CalledByGraph_node13"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="612.5,-73 449.5,-73 449.5,-49 612.5,-49 612.5,-73"/>
+<text text-anchor="middle" x="531" y="-58.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_calculation&#45;&gt;proc~run_fragmented_calculation -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge18" class="edge">
+<title>proc~run_calculation&#45;&gt;proc~run_fragmented_calculation</title>
+<path fill="none" stroke="#00ffff" d="M407.18,-61C417.21,-61 428.15,-61 439.23,-61"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="439.43,-64.5 449.43,-61 439.43,-57.5 439.43,-64.5"/>
+</g>
+<!-- proc~run_fragmented_calculation&#45;&gt;proc~global_coordinator -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge13" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;proc~global_coordinator</title>
+<path fill="none" stroke="#ff0000" d="M612.65,-69.51C630.05,-71.35 648.25,-73.27 665.01,-75.04"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="664.93,-78.55 675.24,-76.12 665.66,-71.59 664.93,-78.55"/>
+</g>
+<!-- proc~run_fragmented_calculation&#45;&gt;proc~serial_fragment_processor -->
+<g id="proc~~get_output_json_filename~~CalledByGraph_edge15" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;proc~serial_fragment_processor</title>
+<path fill="none" stroke="#0000ff" d="M612.65,-52.49C623.19,-51.38 634.01,-50.24 644.63,-49.11"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="645.16,-52.58 654.74,-48.05 644.43,-45.62 645.16,-52.58"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocget_output_json_filenameCalledByGraph = svgPanZoom('#procget_output_json_filenameCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">function </span><span class="n">get_output_json_filename</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!! Get the current JSON output filename</span>
+<span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filename</span>
+<span class="w">      </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">output_json_filename</span><span class="p">)</span>
+<span class="w">   </span><span class="k">end function </span><span class="n">get_output_json_filename</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              metalquicha
+ was developed by Jorge Luis Galvez Vallejo<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-12-30 14:04 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

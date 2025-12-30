@@ -1,0 +1,621 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A demonstration of PIC as a framework for scientific applications targetting quantum chemistry">
+    <meta name="author" content="Jorge Luis Galvez Vallejo" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>get_basename &ndash; metalquicha</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">metalquicha </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../program/main.html">Program</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>get_basename
+      <small>Function</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.2% of total for procedures.">11 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/mqc_output_filename.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_output_filename.f90.html'>mqc_output_filename.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/mqc_output_filename.html'>mqc_output_filename</a></li>
+            <li class="breadcrumb-item active" aria-current="page">get_basename</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../proc/get_basename.html#variable-end_pos~3">end_pos</a>
+            <a class="list-group-item" href="../proc/get_basename.html#variable-start_pos~3">start_pos</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/get_basename.html#src">get_basename</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  function get_basename() result(basename)  
+</h2>
+    
+
+    <p>Get the base name without &ldquo;output_&rdquo; prefix and &ldquo;.json&rdquo; suffix
+Example: &ldquo;output_w1.json&rdquo; -&gt; &ldquo;w1&rdquo;</p>
+
+
+    <h3>Arguments</h3>
+    <em>None</em>
+    <br>
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-basename~5"></span>
+          character(len=256)
+        </small>
+      </h3>
+      
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~get_basename~~CalledByGraph Pages: 1 -->
+<svg id="procget_basenameCalledByGraph" width="641pt" height="58pt"
+ viewBox="0.00 0.00 641.00 57.86" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~get_basename~~CalledByGraph" class="graph" transform="scale(0.5 0.5) rotate(0) translate(4 112)">
+<title>proc~~get_basename~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 1281,-112 1281,4 -4,4"/>
+<!-- proc~get_basename -->
+<g id="proc~~get_basename~~CalledByGraph_node1" class="node">
+<title>proc~get_basename</title>
+<polygon fill="none" stroke="black" points="1277,-45 1186,-45 1186,-21 1277,-21 1277,-45"/>
+<text text-anchor="middle" x="1231.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">get_basename</text>
+</g>
+<!-- proc~print_detailed_breakdown_json -->
+<g id="proc~~get_basename~~CalledByGraph_node2" class="node">
+<title>proc~print_detailed_breakdown_json</title>
+<g id="a_proc~~get_basename~~CalledByGraph_node2"><a xlink:href="../proc/print_detailed_breakdown_json.html" xlink:title="print_detailed_breakdown_json">
+<polygon fill="#d9534f" stroke="#d9534f" points="1150,-66 973,-66 973,-42 1150,-42 1150,-66"/>
+<text text-anchor="middle" x="1061.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_detailed_breakdown_json</text>
+</a>
+</g>
+</g>
+<!-- proc~print_detailed_breakdown_json&#45;&gt;proc~get_basename -->
+<g id="proc~~get_basename~~CalledByGraph_edge1" class="edge">
+<title>proc~print_detailed_breakdown_json&#45;&gt;proc~get_basename</title>
+<path fill="none" stroke="#ff0000" d="M1150.44,-43.01C1159.03,-41.93 1167.57,-40.87 1175.7,-39.85"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1176.25,-43.31 1185.74,-38.59 1175.38,-36.36 1176.25,-43.31"/>
+</g>
+<!-- proc~print_unfragmented_json -->
+<g id="proc~~get_basename~~CalledByGraph_node3" class="node">
+<title>proc~print_unfragmented_json</title>
+<g id="a_proc~~get_basename~~CalledByGraph_node3"><a xlink:href="../proc/print_unfragmented_json.html" xlink:title="print_unfragmented_json">
+<polygon fill="#d9534f" stroke="#d9534f" points="1134.5,-24 988.5,-24 988.5,0 1134.5,0 1134.5,-24"/>
+<text text-anchor="middle" x="1061.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_unfragmented_json</text>
+</a>
+</g>
+</g>
+<!-- proc~print_unfragmented_json&#45;&gt;proc~get_basename -->
+<g id="proc~~get_basename~~CalledByGraph_edge2" class="edge">
+<title>proc~print_unfragmented_json&#45;&gt;proc~get_basename</title>
+<path fill="none" stroke="#ff0000" d="M1134.72,-21.03C1148.34,-22.73 1162.37,-24.48 1175.36,-26.11"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1175.16,-29.61 1185.52,-27.38 1176.03,-22.66 1175.16,-29.61"/>
+</g>
+<!-- proc~compute_mbe_energy -->
+<g id="proc~~get_basename~~CalledByGraph_node4" class="node">
+<title>proc~compute_mbe_energy</title>
+<g id="a_proc~~get_basename~~CalledByGraph_node4"><a xlink:href="../proc/compute_mbe_energy.html" xlink:title="compute_mbe_energy">
+<polygon fill="#d9534f" stroke="#d9534f" points="912,-108 780,-108 780,-84 912,-84 912,-108"/>
+<text text-anchor="middle" x="846" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe_energy</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe_energy&#45;&gt;proc~print_detailed_breakdown_json -->
+<g id="proc~~get_basename~~CalledByGraph_edge3" class="edge">
+<title>proc~compute_mbe_energy&#45;&gt;proc~print_detailed_breakdown_json</title>
+<path fill="none" stroke="#ff0000" d="M908.18,-83.96C933.53,-78.98 963.1,-73.16 989.4,-67.99"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="990.17,-71.4 999.31,-66.04 988.82,-64.53 990.17,-71.4"/>
+</g>
+<!-- proc~compute_mbe_energy_gradient -->
+<g id="proc~~get_basename~~CalledByGraph_node5" class="node">
+<title>proc~compute_mbe_energy_gradient</title>
+<g id="a_proc~~get_basename~~CalledByGraph_node5"><a xlink:href="../proc/compute_mbe_energy_gradient.html" xlink:title="compute_mbe_energy_gradient">
+<polygon fill="#d9534f" stroke="#d9534f" points="937,-66 755,-66 755,-42 937,-42 937,-66"/>
+<text text-anchor="middle" x="846" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe_energy_gradient</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;proc~print_detailed_breakdown_json -->
+<g id="proc~~get_basename~~CalledByGraph_edge4" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;proc~print_detailed_breakdown_json</title>
+<path fill="none" stroke="#ff0000" d="M937.23,-54C945.74,-54 954.39,-54 962.96,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="962.97,-57.5 972.97,-54 962.97,-50.5 962.97,-57.5"/>
+</g>
+<!-- proc~unfragmented_calculation -->
+<g id="proc~~get_basename~~CalledByGraph_node6" class="node">
+<title>proc~unfragmented_calculation</title>
+<g id="a_proc~~get_basename~~CalledByGraph_node6"><a xlink:href="../proc/unfragmented_calculation.html" xlink:title="unfragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="718.5,-24 565.5,-24 565.5,0 718.5,0 718.5,-24"/>
+<text text-anchor="middle" x="642" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unfragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~unfragmented_calculation&#45;&gt;proc~print_unfragmented_json -->
+<g id="proc~~get_basename~~CalledByGraph_edge5" class="edge">
+<title>proc~unfragmented_calculation&#45;&gt;proc~print_unfragmented_json</title>
+<path fill="none" stroke="#00ffff" d="M718.61,-12C791.77,-12 902.38,-12 977.84,-12"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="978.25,-15.5 988.25,-12 978.25,-8.5 978.25,-15.5"/>
+</g>
+<!-- proc~global_coordinator -->
+<g id="proc~~get_basename~~CalledByGraph_node7" class="node">
+<title>proc~global_coordinator</title>
+<g id="a_proc~~get_basename~~CalledByGraph_node7"><a xlink:href="../proc/global_coordinator.html" xlink:title="global_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="698.5,-108 585.5,-108 585.5,-84 698.5,-84 698.5,-108"/>
+<text text-anchor="middle" x="642" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">global_coordinator</text>
+</a>
+</g>
+</g>
+<!-- proc~global_coordinator&#45;&gt;proc~compute_mbe_energy -->
+<g id="proc~~get_basename~~CalledByGraph_edge6" class="edge">
+<title>proc~global_coordinator&#45;&gt;proc~compute_mbe_energy</title>
+<path fill="none" stroke="#ff0000" d="M698.73,-96C720.6,-96 746.04,-96 769.52,-96"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="769.79,-99.5 779.79,-96 769.79,-92.5 769.79,-99.5"/>
+</g>
+<!-- proc~global_coordinator&#45;&gt;proc~compute_mbe_energy_gradient -->
+<g id="proc~~get_basename~~CalledByGraph_edge8" class="edge">
+<title>proc~global_coordinator&#45;&gt;proc~compute_mbe_energy_gradient</title>
+<path fill="none" stroke="#00ff00" d="M698.73,-84.41C722.96,-79.37 751.57,-73.43 777.03,-68.13"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="777.91,-71.53 786.98,-66.06 776.48,-64.67 777.91,-71.53"/>
+</g>
+<!-- proc~run_unfragmented_calculation -->
+<g id="proc~~get_basename~~CalledByGraph_node8" class="node">
+<title>proc~run_unfragmented_calculation</title>
+<g id="a_proc~~get_basename~~CalledByGraph_node8"><a xlink:href="../proc/run_unfragmented_calculation.html" xlink:title="run_unfragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="529,-24 353,-24 353,0 529,0 529,-24"/>
+<text text-anchor="middle" x="441" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_unfragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_unfragmented_calculation&#45;&gt;proc~unfragmented_calculation -->
+<g id="proc~~get_basename~~CalledByGraph_edge10" class="edge">
+<title>proc~run_unfragmented_calculation&#45;&gt;proc~unfragmented_calculation</title>
+<path fill="none" stroke="#0000ff" d="M529.28,-12C537.92,-12 546.67,-12 555.29,-12"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="555.32,-15.5 565.32,-12 555.32,-8.5 555.32,-15.5"/>
+</g>
+<!-- proc~serial_fragment_processor -->
+<g id="proc~~get_basename~~CalledByGraph_node9" class="node">
+<title>proc~serial_fragment_processor</title>
+<g id="a_proc~~get_basename~~CalledByGraph_node9"><a xlink:href="../proc/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
+<polygon fill="#d9534f" stroke="#d9534f" points="719,-66 565,-66 565,-42 719,-42 719,-66"/>
+<text text-anchor="middle" x="642" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
+</a>
+</g>
+</g>
+<!-- proc~serial_fragment_processor&#45;&gt;proc~compute_mbe_energy -->
+<g id="proc~~get_basename~~CalledByGraph_edge7" class="edge">
+<title>proc~serial_fragment_processor&#45;&gt;proc~compute_mbe_energy</title>
+<path fill="none" stroke="#ff0000" d="M700.89,-66.04C724.66,-70.98 752.35,-76.74 777.07,-81.88"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="776.6,-85.35 787.11,-83.96 778.03,-78.5 776.6,-85.35"/>
+</g>
+<!-- proc~serial_fragment_processor&#45;&gt;proc~compute_mbe_energy_gradient -->
+<g id="proc~~get_basename~~CalledByGraph_edge9" class="edge">
+<title>proc~serial_fragment_processor&#45;&gt;proc~compute_mbe_energy_gradient</title>
+<path fill="none" stroke="#00ff00" d="M719.08,-54C727.44,-54 736.04,-54 744.64,-54"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="744.71,-57.5 754.71,-54 744.71,-50.5 744.71,-57.5"/>
+</g>
+<!-- proc~run_calculation -->
+<g id="proc~~get_basename~~CalledByGraph_node10" class="node">
+<title>proc~run_calculation</title>
+<g id="a_proc~~get_basename~~CalledByGraph_node10"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="317,-45 223,-45 223,-21 317,-21 317,-45"/>
+<text text-anchor="middle" x="270" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_calculation&#45;&gt;proc~run_unfragmented_calculation -->
+<g id="proc~~get_basename~~CalledByGraph_edge12" class="edge">
+<title>proc~run_calculation&#45;&gt;proc~run_unfragmented_calculation</title>
+<path fill="none" stroke="#00ff00" d="M317.18,-27.26C325.27,-26.26 333.96,-25.18 342.85,-24.07"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="343.44,-27.53 352.93,-22.82 342.58,-20.58 343.44,-27.53"/>
+</g>
+<!-- proc~run_fragmented_calculation -->
+<g id="proc~~get_basename~~CalledByGraph_node11" class="node">
+<title>proc~run_fragmented_calculation</title>
+<g id="a_proc~~get_basename~~CalledByGraph_node11"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="522.5,-66 359.5,-66 359.5,-42 522.5,-42 522.5,-66"/>
+<text text-anchor="middle" x="441" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_calculation&#45;&gt;proc~run_fragmented_calculation -->
+<g id="proc~~get_basename~~CalledByGraph_edge16" class="edge">
+<title>proc~run_calculation&#45;&gt;proc~run_fragmented_calculation</title>
+<path fill="none" stroke="#00ffff" d="M317.18,-38.74C327.21,-39.98 338.15,-41.34 349.23,-42.72"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="349.07,-46.23 359.43,-43.99 349.94,-39.28 349.07,-46.23"/>
+</g>
+<!-- proc~run_fragmented_calculation&#45;&gt;proc~global_coordinator -->
+<g id="proc~~get_basename~~CalledByGraph_edge11" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;proc~global_coordinator</title>
+<path fill="none" stroke="#ff0000" d="M499.03,-66.04C522.85,-71.06 550.67,-76.94 575.34,-82.14"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="574.83,-85.61 585.34,-84.25 576.28,-78.76 574.83,-85.61"/>
+</g>
+<!-- proc~run_fragmented_calculation&#45;&gt;proc~serial_fragment_processor -->
+<g id="proc~~get_basename~~CalledByGraph_edge13" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;proc~serial_fragment_processor</title>
+<path fill="none" stroke="#0000ff" d="M522.65,-54C533.19,-54 544.01,-54 554.63,-54"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="554.74,-57.5 564.74,-54 554.74,-50.5 554.74,-57.5"/>
+</g>
+<!-- proc~run_multi_molecule_calculations -->
+<g id="proc~~get_basename~~CalledByGraph_node12" class="node">
+<title>proc~run_multi_molecule_calculations</title>
+<g id="a_proc~~get_basename~~CalledByGraph_node12"><a xlink:href="../proc/run_multi_molecule_calculations.html" xlink:title="run_multi_molecule_calculations">
+<polygon fill="#d9534f" stroke="#d9534f" points="187,-66 0,-66 0,-42 187,-42 187,-66"/>
+<text text-anchor="middle" x="93.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_multi_molecule_calculations</text>
+</a>
+</g>
+</g>
+<!-- proc~run_multi_molecule_calculations&#45;&gt;proc~run_calculation -->
+<g id="proc~~get_basename~~CalledByGraph_edge14" class="edge">
+<title>proc~run_multi_molecule_calculations&#45;&gt;proc~run_calculation</title>
+<path fill="none" stroke="#ff0000" d="M187.11,-42.85C195.83,-41.81 204.48,-40.76 212.7,-39.77"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="213.36,-43.22 222.87,-38.55 212.52,-36.27 213.36,-43.22"/>
+</g>
+<!-- program~main -->
+<g id="proc~~get_basename~~CalledByGraph_node13" class="node">
+<title>program~main</title>
+<g id="a_proc~~get_basename~~CalledByGraph_node13"><a xlink:href="../program/main.html" xlink:title="main">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="120.5,-24 66.5,-24 66.5,0 120.5,0 120.5,-24"/>
+<text text-anchor="middle" x="93.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
+</a>
+</g>
+</g>
+<!-- program~main&#45;&gt;proc~run_calculation -->
+<g id="proc~~get_basename~~CalledByGraph_edge15" class="edge">
+<title>program~main&#45;&gt;proc~run_calculation</title>
+<path fill="none" stroke="#ff0000" d="M120.62,-15.14C144.88,-18.06 181.81,-22.51 212.76,-26.23"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="212.65,-29.74 223,-27.46 213.49,-22.79 212.65,-29.74"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocget_basenameCalledByGraph = svgPanZoom('#procget_basenameCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    <section>    
+      <h2>Variables</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-end_pos~3"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>end_pos</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-start_pos~3"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>start_pos</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">function </span><span class="n">get_basename</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">basename</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!! Get the base name without &quot;output_&quot; prefix and &quot;.json&quot; suffix</span>
+<span class="w">      </span><span class="c">!! Example: &quot;output_w1.json&quot; -&gt; &quot;w1&quot;</span>
+<span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">basename</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">start_pos</span><span class="p">,</span><span class="w"> </span><span class="n">end_pos</span>
+
+<span class="w">      </span><span class="c">! Remove &quot;output_&quot; prefix (7 characters)</span>
+<span class="w">      </span><span class="n">start_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span>
+
+<span class="w">      </span><span class="c">! Find &quot;.json&quot; suffix</span>
+<span class="w">      </span><span class="n">end_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="n">output_json_filename</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;.json&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">end_pos</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">start_pos</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         </span><span class="n">basename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">output_json_filename</span><span class="p">(</span><span class="n">start_pos</span><span class="p">:</span><span class="n">end_pos</span><span class="p">)</span>
+<span class="w">      </span><span class="k">else</span>
+<span class="k">         </span><span class="n">basename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;unknown&quot;</span>
+<span class="w">      </span><span class="k">end if</span>
+<span class="k">   end function </span><span class="n">get_basename</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              metalquicha
+ was developed by Jorge Luis Galvez Vallejo<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-12-30 14:04 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
