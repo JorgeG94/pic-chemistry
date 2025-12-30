@@ -346,6 +346,7 @@ contains
       do i = 1, n_monomers
          allocate (monomer_idx(1))
          monomer_idx(1) = polymers(i, 1)
+         ! Use build_fragment_from_indices for monomers to preserve fragment charges/multiplicities
          call build_fragment_from_indices(sys_geom, monomer_idx, phys_frag, bonds)
          call do_fragment_work(i, all_results(i), method, phys_frag, calc_type)
          call phys_frag%destroy()
