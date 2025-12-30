@@ -116,7 +116,6 @@ contains
       end if
 
       ! Validate gradient calculations with H-capping
-      ! Gradients with H-caps are not physically meaningful since H-caps are artificial atoms
       if (max_level > 0 .and. config%calc_type == CALC_TYPE_GRADIENT) then
          if (present(bonds)) then
             has_broken_bonds = .false.
@@ -130,11 +129,7 @@ contains
             if (has_broken_bonds) then
                if (world_comm%rank() == 0) then
                   call logger%error(" ")
-                  call logger%error("ERROR: Gradient calculations with hydrogen capping are not supported")
-                  call logger%error(" ")
-                  call logger%error("Hydrogen caps are artificial atoms added where bonds are broken.")
-                  call logger%error("Their gradients are not physically meaningful and would give")
-                  call logger%error("incorrect results for geometry optimization or force calculations.")
+                  call logger%error("ERROR: Gradient calculations with hydrogen capping are not supported yet")
                   call logger%error(" ")
                   call logger%error("Solutions:")
                   call logger%error("  1. Use calc_type = Energy instead of Gradient")
