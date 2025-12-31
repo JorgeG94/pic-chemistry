@@ -259,6 +259,9 @@ contains
                total_fragments = 0_int64
                call combine(monomers, sys_geom%n_monomers, max_level, polymers, total_fragments)
 
+               ! Set n_monomers to the number of N-level polymers (these are the "base" fragments for GMBE(N))
+               n_monomers = int(total_fragments)
+
                ! Compute intersections between the N-level polymers
                call generate_polymer_intersections(sys_geom, polymers(:total_fragments, :), int(total_fragments), &
                                                    max_intersection_level, &
@@ -268,7 +271,7 @@ contains
                total_fragments = total_fragments + int(n_intersections, int64)
 
                call logger%info("Generated GMBE("//to_char(max_level)//") fragments:")
-               call logger%info("  "//to_char(max_level)//"-level polymers: "//to_char(total_fragments - n_intersections))
+               call logger%info("  "//to_char(max_level)//"-level polymers: "//to_char(n_monomers))
                call logger%info("  Intersections: "//to_char(n_intersections))
                call logger%info("  Total fragments: "//to_char(total_fragments))
 
