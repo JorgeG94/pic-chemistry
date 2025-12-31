@@ -693,7 +693,7 @@ contains
       integer, allocatable :: polymer_atoms(:, :)  !! Atom lists for each polymer
       integer, allocatable :: polymer_n_atoms(:)   !! Number of atoms in each polymer
       integer :: max_atoms_per_polymer
-      integer :: i, polymer_size
+      integer :: i, polymer_size, max_intersection_level
 
       call logger%info("Computing atom compositions for "//to_char(n_polymers)//" polymers...")
 
@@ -725,21 +725,31 @@ contains
 
       call logger%info("Finding intersections between polymers...")
 
+      ! For GMBE(N), limit intersections to level N+1 to prevent combinatorial explosion
+      ! GMBE(2): dimers → 3-way intersections max
+      ! GMBE(3): trimers → 4-way intersections max
+      max_intersection_level = max_level + 1
+      call logger%info("Limiting intersections to level "//to_char(max_intersection_level)// &
+                       " (polymer level "//to_char(max_level)//" + 1)")
+
       ! Now generate intersections between these polymer atom sets
       call generate_intersections_from_atom_lists(polymer_atoms, polymer_n_atoms, n_polymers, &
+                                                  max_intersection_level, &
                                                   intersections, intersection_sets, intersection_levels, n_intersections)
 
       deallocate (polymer_atoms, polymer_n_atoms)
    end subroutine generate_polymer_intersections
 
-   subroutine generate_intersections_from_atom_lists(atom_lists, n_atoms_list, n_sets, &
+   subroutine generate_intersections_from_atom_lists(atom_lists, n_atoms_list, n_sets, max_k_level, &
                                                    intersections, intersection_sets, intersection_levels, n_intersections)
-      !! Generate all k-way intersections from arbitrary atom lists (not tied to sys_geom)
+      !! Generate k-way intersections from arbitrary atom lists (not tied to sys_geom)
+      !! max_k_level limits the maximum intersection order to prevent combinatorial explosion
       use pic_logger, only: logger => global_logger
       use pic_io, only: to_char
       integer, intent(in) :: atom_lists(:, :)  !! (max_atoms, n_sets)
       integer, intent(in) :: n_atoms_list(:)   !! Number of atoms in each set
-      integer, intent(in) :: n_sets
+      integer, intent(in) :: n_sets            !! Number of sets (polymers)
+      integer, intent(in) :: max_k_level       !! Maximum intersection level to compute
       integer, allocatable, intent(out) :: intersections(:, :)
       integer, allocatable, intent(out) :: intersection_sets(:, :)
       integer, allocatable, intent(out) :: intersection_levels(:)
@@ -747,13 +757,16 @@ contains
 
       integer :: max_intersections, max_atoms
       integer, allocatable :: temp_intersections(:, :), temp_sets(:, :), temp_levels(:)
-      integer :: intersection_count, k, idx
+      integer :: intersection_count, k, idx, actual_max_k
       integer, allocatable :: combination(:)
 
       if (n_sets < 2) then
          n_intersections = 0
          return
       end if
+
+      ! Limit k-way intersections to min(max_k_level, n_sets)
+      actual_max_k = min(max_k_level, n_sets)
 
       max_intersections = 2**n_sets - n_sets - 1
       max_atoms = maxval(n_atoms_list)
@@ -765,10 +778,10 @@ contains
       temp_sets = 0
       intersection_count = 0
 
-      call logger%info("Generating all k-way intersections (k=2 to "//to_char(n_sets)//")")
+      call logger%info("Generating k-way intersections (k=2 to "//to_char(actual_max_k)//")")
 
-      ! Loop over intersection levels k from 2 to n_sets
-      do k = 2, n_sets
+      ! Loop over intersection levels k from 2 to actual_max_k
+      do k = 2, actual_max_k
          allocate (combination(k))
          call generate_k_way_intersections_from_lists(atom_lists, n_atoms_list, n_sets, k, &
                                                       combination, max_atoms, &
@@ -788,7 +801,7 @@ contains
          intersection_levels = temp_levels(1:n_intersections)
 
          call logger%info("Generated "//to_char(n_intersections)//" total intersections:")
-         do k = 2, n_sets
+         do k = 2, actual_max_k
             idx = count(intersection_levels == k)
             if (idx > 0) then
                call logger%info("  "//to_char(idx)//" intersections at level "//to_char(k))
