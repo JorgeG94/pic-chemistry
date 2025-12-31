@@ -178,7 +178,7 @@ def run_validation_tests(manifest_file: str = "validation_tests.json",
     with open(manifest_file, 'r') as f:
         manifest = json.load(f)
 
-    tolerance = manifest.get("tolerance", 1.0e-6)
+    tolerance = manifest.get("tolerance", 1.0e-9)
     tests = manifest.get("tests", [])
 
     passed = 0

@@ -2,6 +2,11 @@
   "description": "Physics validation tests for metalquicha",
   "tolerance": 1.0e-6,
   "tests": [
+    { "name": "GMBE(1) test gly3",
+      "input": "validation/inputs/overlapping_gly3.mqc",
+      "expected_energy": -47.0192718920,
+      "type" : "fragmented"
+      },
     {
       "name": "Unfragmented glycine tripeptide",
       "input": "validation/inputs/no_frag.mqc",
