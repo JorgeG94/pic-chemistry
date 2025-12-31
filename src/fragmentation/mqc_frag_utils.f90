@@ -20,6 +20,7 @@ module mqc_frag_utils
    public :: generate_intersections     !! Generate all k-way intersections for GMBE (base fragments)
    public :: compute_polymer_atoms      !! Compute atom list for a polymer (union of base fragments)
    public :: generate_polymer_intersections  !! Generate intersections for polymers at any level
+   public :: gmbe_enumerate_pie_terms   !! DFS-based PIE coefficient enumeration for GMBE(N)
 
    type :: hash_entry_t
       !! Single entry in hash table (private helper type)
@@ -896,5 +897,253 @@ contains
          if (.not. next_combination(combination, k, n_sets)) exit
       end do
    end subroutine generate_k_way_intersections_from_lists
+
+   subroutine gmbe_enumerate_pie_terms(sys_geom, primaries, n_primaries, polymer_level, max_k_level, &
+                                       pie_atom_sets, pie_coefficients, n_pie_terms)
+      !! Enumerate all unique intersections via DFS and accumulate PIE coefficients
+      !! This implements the GMBE(N) algorithm with inclusion-exclusion principle
+      !!
+      !! Algorithm:
+      !! 1. For each primary i, start DFS with clique=[i]
+      !! 2. Recursively grow cliques by adding overlapping primaries
+      !! 3. For each clique of size k, compute intersection and add PIE coefficient:
+      !!    coefficient = (+1) if k odd, (-1) if k even
+      !! 4. Accumulate coefficients for each unique atom set
+      use mqc_physical_fragment, only: system_geometry_t
+
+      type(system_geometry_t), intent(in) :: sys_geom
+      integer, intent(in) :: primaries(:, :)   !! Primary polymers (n_primaries, polymer_level)
+      integer, intent(in) :: n_primaries       !! Number of primary polymers
+      integer, intent(in) :: polymer_level     !! Level of primaries (1=monomers, 2=dimers, etc.)
+      integer, intent(in) :: max_k_level       !! Maximum clique size (intersection depth limit)
+      integer, allocatable, intent(out) :: pie_atom_sets(:, :)  !! Unique atom sets (max_atoms, n_terms)
+      integer, allocatable, intent(out) :: pie_coefficients(:)  !! PIE coefficient for each term
+      integer, intent(out) :: n_pie_terms      !! Number of unique PIE terms
+
+      ! Temporary storage for PIE terms (allocate generously)
+      integer, parameter :: MAX_PIE_TERMS = 100000  ! Adjust if needed
+      integer, allocatable :: temp_atom_sets(:, :)
+      integer, allocatable :: temp_coefficients(:)
+      integer, allocatable :: primary_atoms(:, :)    !! Precomputed atom lists for each primary
+      integer, allocatable :: primary_n_atoms(:)     !! Atom counts for each primary
+      integer, allocatable :: clique(:)              !! Current clique being built
+      integer, allocatable :: current_atoms(:)       !! Current intersection atoms
+      integer, allocatable :: candidates(:)          !! Candidate primaries to add
+      integer :: i, j, max_atoms, n_candidates
+
+      call logger%info("Enumerating GMBE PIE terms via DFS...")
+
+      ! Find maximum atoms in any fragment
+      max_atoms = sys_geom%total_atoms
+
+      ! Allocate temporary storage
+      allocate (temp_atom_sets(max_atoms, MAX_PIE_TERMS))
+      allocate (temp_coefficients(MAX_PIE_TERMS))
+      temp_atom_sets = -1
+      temp_coefficients = 0
+      n_pie_terms = 0
+
+      ! Precompute atom lists for all primaries
+      allocate (primary_atoms(max_atoms, n_primaries))
+      allocate (primary_n_atoms(n_primaries))
+      primary_atoms = -1
+
+      do i = 1, n_primaries
+         block
+            integer, allocatable :: atom_list(:)
+            integer :: n_atoms
+            call compute_polymer_atoms(sys_geom, primaries(i, :), polymer_level, atom_list, n_atoms)
+            primary_n_atoms(i) = n_atoms
+            primary_atoms(1:n_atoms, i) = atom_list(1:n_atoms)
+            deallocate (atom_list)
+         end block
+      end do
+
+      ! Allocate work arrays
+      allocate (clique(max_k_level))
+      allocate (current_atoms(max_atoms))
+      allocate (candidates(n_primaries))
+
+      ! Start DFS from each primary
+      do i = 1, n_primaries
+         ! Initial clique: just primary i
+         clique(1) = i
+         current_atoms(1:primary_n_atoms(i)) = primary_atoms(1:primary_n_atoms(i), i)
+
+         ! Candidates: all primaries after i (to avoid duplicates)
+         n_candidates = n_primaries - i
+         if (n_candidates > 0) then
+            candidates(1:n_candidates) = [(i + j, j=1, n_candidates)]
+         end if
+
+         ! DFS from this primary
+         call dfs_pie_accumulate(primary_atoms, primary_n_atoms, n_primaries, max_atoms, &
+                                 clique, 1, current_atoms(1:primary_n_atoms(i)), primary_n_atoms(i), &
+                                 candidates, n_candidates, max_k_level, &
+                                 temp_atom_sets, temp_coefficients, n_pie_terms, MAX_PIE_TERMS)
+      end do
+
+      ! Copy to output arrays
+      if (n_pie_terms > 0) then
+         allocate (pie_atom_sets(max_atoms, n_pie_terms))
+         allocate (pie_coefficients(n_pie_terms))
+         pie_atom_sets = temp_atom_sets(:, 1:n_pie_terms)
+         pie_coefficients = temp_coefficients(1:n_pie_terms)
+      end if
+
+      call logger%info("Generated "//to_char(n_pie_terms)//" unique PIE terms")
+
+      ! Cleanup
+      deallocate (temp_atom_sets, temp_coefficients, primary_atoms, primary_n_atoms)
+      deallocate (clique, current_atoms, candidates)
+
+   end subroutine gmbe_enumerate_pie_terms
+
+   recursive subroutine dfs_pie_accumulate(primary_atoms, primary_n_atoms, n_primaries, max_atoms, &
+                                           clique, clique_size, current_atoms, n_current_atoms, &
+                                           candidates, n_candidates, max_k_level, &
+                                           atom_sets, coefficients, n_terms, max_terms)
+      !! DFS helper: accumulate PIE coefficients for intersections
+      integer, intent(in) :: primary_atoms(:, :)    !! Precomputed atom lists
+      integer, intent(in) :: primary_n_atoms(:)     !! Atom counts
+      integer, intent(in) :: n_primaries, max_atoms
+      integer, intent(in) :: clique(:)              !! Current clique
+      integer, intent(in) :: clique_size            !! Size of current clique
+      integer, intent(in) :: current_atoms(:)       !! Atoms in current intersection
+      integer, intent(in) :: n_current_atoms        !! Number of atoms in intersection
+      integer, intent(in) :: candidates(:)          !! Candidate primaries
+      integer, intent(in) :: n_candidates
+      integer, intent(in) :: max_k_level
+      integer, intent(inout) :: atom_sets(:, :)
+      integer, intent(inout) :: coefficients(:)
+      integer, intent(inout) :: n_terms
+      integer, intent(in) :: max_terms
+
+      integer :: sign, term_idx, i, candidate_idx
+      integer, allocatable :: new_atoms(:), new_candidates(:)
+      integer :: n_new_atoms, n_new_candidates
+      logical :: found
+
+      ! Skip empty intersections
+      if (n_current_atoms == 0) return
+
+      ! Compute PIE sign: (+1) for odd clique size, (-1) for even
+      sign = merge(1, -1, mod(clique_size, 2) == 1)
+
+      ! Find or create entry for this atom set
+      found = .false.
+      do i = 1, n_terms
+         if (atom_sets_equal(atom_sets(:, i), current_atoms, n_current_atoms)) then
+            coefficients(i) = coefficients(i) + sign
+            found = .true.
+            exit
+         end if
+      end do
+
+      if (.not. found) then
+         ! New atom set
+         if (n_terms >= max_terms) then
+            call logger%error("Exceeded maximum PIE terms ("//to_char(max_terms)//")")
+            return
+         end if
+         n_terms = n_terms + 1
+         atom_sets(1:n_current_atoms, n_terms) = current_atoms(1:n_current_atoms)
+         atom_sets(n_current_atoms + 1:, n_terms) = -1
+         coefficients(n_terms) = sign
+      end if
+
+      ! Stop if we've reached maximum clique size
+      if (clique_size >= max_k_level) return
+      if (n_candidates == 0) return
+
+      ! Try adding each candidate to the clique
+      allocate (new_atoms(max_atoms))
+      allocate (new_candidates(n_primaries))
+
+      do i = 1, n_candidates
+         candidate_idx = candidates(i)
+
+         ! Compute intersection with this candidate
+         call intersect_atom_lists(current_atoms, n_current_atoms, &
+                                   primary_atoms(:, candidate_idx), primary_n_atoms(candidate_idx), &
+                                   new_atoms, n_new_atoms)
+
+         ! Skip if no intersection
+         if (n_new_atoms == 0) cycle
+
+         ! New candidates: must come after this one and overlap with new_atoms
+         n_new_candidates = 0
+         do term_idx = i + 1, n_candidates
+            block
+               integer :: test_candidate, test_n_intersect
+               integer, allocatable :: test_intersect(:)
+               test_candidate = candidates(term_idx)
+
+               allocate (test_intersect(max_atoms))
+               call intersect_atom_lists(new_atoms, n_new_atoms, &
+                                         primary_atoms(:, test_candidate), primary_n_atoms(test_candidate), &
+                                         test_intersect, test_n_intersect)
+
+               if (test_n_intersect > 0) then
+                  n_new_candidates = n_new_candidates + 1
+                  new_candidates(n_new_candidates) = test_candidate
+               end if
+               deallocate (test_intersect)
+            end block
+         end do
+
+         ! Recurse
+         block
+            integer :: new_clique(clique_size + 1)
+            new_clique(1:clique_size) = clique(1:clique_size)
+            new_clique(clique_size + 1) = candidate_idx
+
+            call dfs_pie_accumulate(primary_atoms, primary_n_atoms, n_primaries, max_atoms, &
+                                    new_clique, clique_size + 1, new_atoms, n_new_atoms, &
+                                    new_candidates, n_new_candidates, max_k_level, &
+                                    atom_sets, coefficients, n_terms, max_terms)
+         end block
+      end do
+
+      deallocate (new_atoms, new_candidates)
+
+   end subroutine dfs_pie_accumulate
+
+   function atom_sets_equal(set1, set2, n_atoms) result(equal)
+      !! Check if two atom sets are equal (assuming sorted)
+      integer, intent(in) :: set1(:), set2(:)
+      integer, intent(in) :: n_atoms
+      logical :: equal
+      integer :: i
+
+      equal = .true.
+      do i = 1, n_atoms
+         if (set1(i) /= set2(i)) then
+            equal = .false.
+            return
+         end if
+      end do
+   end function atom_sets_equal
+
+   subroutine intersect_atom_lists(atoms1, n1, atoms2, n2, intersection, n_intersect)
+      !! Compute intersection of two atom lists
+      integer, intent(in) :: atoms1(:), n1, atoms2(:), n2
+      integer, intent(out) :: intersection(:)
+      integer, intent(out) :: n_intersect
+      integer :: i, j
+
+      n_intersect = 0
+      do i = 1, n1
+         if (atoms1(i) < 0) cycle
+         do j = 1, n2
+            if (atoms2(j) < 0) cycle
+            if (atoms1(i) == atoms2(j)) then
+               n_intersect = n_intersect + 1
+               intersection(n_intersect) = atoms1(i)
+               exit
+            end if
+         end do
+      end do
+   end subroutine intersect_atom_lists
 
 end module mqc_frag_utils

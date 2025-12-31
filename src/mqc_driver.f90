@@ -9,8 +9,9 @@ module mqc_driver
    use omp_lib, only: omp_get_max_threads, omp_set_num_threads
    use mqc_mbe_fragment_distribution_scheme, only: global_coordinator, node_coordinator, node_worker, unfragmented_calculation, &
                                                    serial_fragment_processor, do_fragment_work
-   use mqc_gmbe_fragment_distribution_scheme, only: serial_gmbe_processor, gmbe_coordinator
-   use mqc_frag_utils, only: get_nfrags, create_monomer_list, generate_fragment_list, generate_intersections
+   use mqc_gmbe_fragment_distribution_scheme, only: serial_gmbe_processor, gmbe_coordinator, serial_gmbe_pie_processor
+   use mqc_frag_utils, only: get_nfrags, create_monomer_list, generate_fragment_list, generate_intersections, &
+                             gmbe_enumerate_pie_terms, binomial, combine
    use mqc_physical_fragment, only: system_geometry_t, physical_fragment_t, &
                                     build_fragment_from_indices, build_fragment_from_atom_list
    use mqc_config_adapter, only: driver_config_t, config_to_driver, config_to_system_geometry
@@ -74,23 +75,11 @@ contains
          end if
       end if
 
-      ! Validate GMBE (overlapping fragments) settings - only nlevel=1 supported
-      if (config%allow_overlapping_fragments .and. max_level > 1) then
-         if (world_comm%rank() == 0) then
-            call logger%error(" ")
-            call logger%error("ERROR: Overlapping fragments (GMBE) only supported with nlevel=1")
-            call logger%error(" ")
-            call logger%error("Current settings:")
-            call logger%error("  nlevel = "//to_char(max_level))
-            call logger%error("  allow_overlapping_fragments = true")
-            call logger%error(" ")
-            call logger%error("GMBE uses inclusion-exclusion on overlapping BASE fragments only.")
-            call logger%error("For higher-order MBE with overlapping fragments, use nlevel=1.")
-            call logger%error("To control intersection depth, use max_intersection_level parameter.")
-            call logger%error(" ")
-         end if
-         call abort_comm(world_comm, 1)
-      end if
+      ! GMBE (overlapping fragments) with inclusion-exclusion principle
+      ! GMBE(1): Base fragments are monomers
+      ! GMBE(N): Base fragments are N-mers (e.g., dimers for N=2)
+      ! Algorithm: Generate primaries, use DFS to enumerate overlapping cliques,
+      ! accumulate PIE coefficients per unique atom set, evaluate each once
 
       ! Validate gradient calculations with overlapping fragments
       if (config%allow_overlapping_fragments .and. max_level > 0 .and. config%calc_type == CALC_TYPE_GRADIENT) then
@@ -211,44 +200,60 @@ contains
       integer :: global_node_rank  !! Global rank if this process leads a node, -1 otherwise
       integer, allocatable :: all_node_leader_ranks(:)  !! Node leader status for all ranks
 
-      ! GMBE-specific variables
+      ! GMBE-specific variables (old approach - kept for compatibility)
       integer, allocatable :: intersections(:, :)  !! Intersection atom lists (max_atoms, n_intersections)
       integer, allocatable :: intersection_sets(:, :)  !! k-tuples for each intersection (n_monomers, n_intersections)
       integer, allocatable :: intersection_levels(:)  !! Level k of each intersection (n_intersections)
       integer :: n_intersections, n_monomers  !! Counts for GMBE
 
+      ! GMBE PIE-based variables (new approach)
+      integer :: n_primaries  !! Number of primary polymers
+      integer(int64) :: n_primaries_i64  !! For binomial calculation
+      integer, allocatable :: pie_atom_sets(:, :)  !! Unique atom sets (max_atoms, n_pie_terms)
+      integer, allocatable :: pie_coefficients(:)  !! PIE coefficient for each term
+      integer :: n_pie_terms  !! Number of unique PIE terms
+
       ! Generate fragments
       if (world_comm%rank() == 0) then
          if (allow_overlapping_fragments) then
-            ! GMBE mode: inclusion-exclusion on overlapping base fragments
-            ! Only nlevel=1 is supported (validated above)
-            n_monomers = sys_geom%n_monomers
-            allocate (monomers(n_monomers))
-            allocate (polymers(n_monomers, 1))
-            polymers = 0
+            ! GMBE mode: PIE-based inclusion-exclusion
+            ! GMBE(1): primaries are monomers
+            ! GMBE(N): primaries are N-mers (e.g., dimers for N=2)
 
-            ! Create monomer list
-            call create_monomer_list(monomers)
+            ! Generate primaries
+            if (max_level == 1) then
+               ! GMBE(1): primaries are base monomers
+               n_primaries = sys_geom%n_monomers
+               allocate (polymers(n_primaries, 1))
+               do i = 1, n_primaries
+                  polymers(i, 1) = i
+               end do
+            else
+               ! GMBE(N): primaries are all C(M, N) N-tuples
+               n_primaries_i64 = binomial(sys_geom%n_monomers, max_level)
+               n_primaries = int(n_primaries_i64)
+               allocate (monomers(sys_geom%n_monomers))
+               allocate (polymers(n_primaries, max_level))
+               polymers = 0
 
-            ! Add monomers to polymers array
-            do i = 1, n_monomers
-               polymers(i, 1) = i
-            end do
+               call create_monomer_list(monomers)
+               total_fragments = 0_int64
+               call combine(monomers, sys_geom%n_monomers, max_level, polymers, total_fragments)
+               n_primaries = int(total_fragments)
+               deallocate (monomers)
+            end if
 
-            ! Generate k-way intersections of base monomers
-            call generate_intersections(sys_geom, monomers, polymers, n_monomers, &
-                                        max_intersection_level, &
-                                        intersections, intersection_sets, intersection_levels, n_intersections)
+            call logger%info("Generated "//to_char(n_primaries)//" primary "//to_char(max_level)//"-mers for GMBE("// &
+                             to_char(max_level)//")")
 
-            ! Total fragments = base monomers + intersections
-            total_fragments = int(n_monomers, int64) + int(n_intersections, int64)
+            ! Use DFS to enumerate PIE terms with coefficients
+            call gmbe_enumerate_pie_terms(sys_geom, polymers, n_primaries, max_level, max_intersection_level, &
+                                          pie_atom_sets, pie_coefficients, n_pie_terms)
 
-            call logger%info("Generated GMBE fragments:")
-            call logger%info("  Base monomers: "//to_char(n_monomers))
-            call logger%info("  Intersections: "//to_char(n_intersections))
-            call logger%info("  Total fragments: "//to_char(total_fragments))
+            call logger%info("GMBE PIE enumeration complete: "//to_char(n_pie_terms)//" unique subsystems to evaluate")
 
-            deallocate (monomers)
+            ! For now: total_fragments = n_pie_terms (each PIE term is a subsystem to evaluate)
+            total_fragments = int(n_pie_terms, int64)
          else
             ! Standard MBE mode
             ! Calculate expected number of fragments
@@ -314,9 +319,8 @@ contains
          ! Single rank: process fragments serially
          call logger%info("Running in serial mode (single MPI rank)")
          if (allow_overlapping_fragments) then
-            ! GMBE serial processing
-            call serial_gmbe_processor(n_monomers, polymers, intersections, intersection_sets, intersection_levels, &
-                                       n_intersections, sys_geom, method, calc_type, bonds)
+            ! GMBE serial processing with PIE coefficients
+          call serial_gmbe_pie_processor(pie_atom_sets, pie_coefficients, n_pie_terms, sys_geom, method, calc_type, bonds)
          else
             ! Standard MBE serial processing
             call serial_fragment_processor(total_fragments, polymers, max_level, sys_geom, method, calc_type, bonds)
@@ -352,6 +356,8 @@ contains
          if (allocated(intersections)) deallocate (intersections)
          if (allocated(intersection_sets)) deallocate (intersection_sets)
          if (allocated(intersection_levels)) deallocate (intersection_levels)
+         if (allocated(pie_atom_sets)) deallocate (pie_atom_sets)
+         if (allocated(pie_coefficients)) deallocate (pie_coefficients)
       end if
 
    end subroutine run_fragmented_calculation

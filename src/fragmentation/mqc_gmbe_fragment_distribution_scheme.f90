@@ -22,6 +22,7 @@ module mqc_gmbe_fragment_distribution_scheme
 
    ! Public interface
    public :: serial_gmbe_processor, gmbe_coordinator
+   public :: serial_gmbe_pie_processor  !! New PIE-based processor
 
 contains
 
@@ -442,5 +443,69 @@ contains
 
       deallocate (fragment_indices)
    end subroutine send_gmbe_fragment_to_worker
+
+   subroutine serial_gmbe_pie_processor(pie_atom_sets, pie_coefficients, n_pie_terms, sys_geom, method, calc_type, bonds)
+      !! Serial GMBE processor using PIE coefficients
+      !! Evaluates each unique atom set once and sums with PIE coefficients
+      integer, intent(in) :: pie_atom_sets(:, :)  !! Unique atom sets (max_atoms, n_pie_terms)
+      integer, intent(in) :: pie_coefficients(:)  !! PIE coefficient for each term
+      integer, intent(in) :: n_pie_terms
+      type(system_geometry_t), intent(in) :: sys_geom
+      integer(int32), intent(in) :: method, calc_type
+      type(bond_t), intent(in), optional :: bonds(:)
+
+      type(physical_fragment_t) :: phys_frag
+      type(calculation_result_t) :: result
+      integer :: i, n_atoms, max_atoms
+      integer, allocatable :: atom_list(:)
+      real(dp) :: total_energy, term_energy
+      integer :: coeff
+
+      call logger%info("Processing "//to_char(n_pie_terms)//" unique PIE terms...")
+
+      total_energy = 0.0_dp
+      max_atoms = size(pie_atom_sets, 1)
+
+      do i = 1, n_pie_terms
+         coeff = pie_coefficients(i)
+
+         ! Skip terms with zero coefficient (shouldn't happen, but safety check)
+         if (coeff == 0) cycle
+
+         ! Extract atom list for this term
+         n_atoms = 0
+         do while (n_atoms < max_atoms .and. pie_atom_sets(n_atoms + 1, i) >= 0)
+            n_atoms = n_atoms + 1
+         end do
+
+         if (n_atoms == 0) cycle
+
+         allocate (atom_list(n_atoms))
+         atom_list = pie_atom_sets(1:n_atoms, i)
+
+         ! Build fragment from atom list
+         call build_fragment_from_atom_list(sys_geom, atom_list, n_atoms, phys_frag, bonds)
+
+         ! Compute energy
+         call do_fragment_work(i, result, method, phys_frag, calc_type)
+         term_energy = result%energy%total()
+
+         ! Accumulate with PIE coefficient
+         total_energy = total_energy + real(coeff, dp)*term_energy
+
+         call logger%verbose("PIE term "//to_char(i)//"/"//to_char(n_pie_terms)// &
+                             ": "//to_char(n_atoms)//" atoms, coeff="//to_char(coeff)// &
+                             ", E="//to_char(term_energy))
+
+         deallocate (atom_list)
+         call phys_frag%destroy()
+      end do
+
+      call logger%info(" ")
+      call logger%info("GMBE PIE Energy Calculation:")
+      call logger%info("  Total GMBE energy: "//to_char(total_energy)//" Hartree")
+      call logger%info(" ")
+
+   end subroutine serial_gmbe_pie_processor
 
 end module mqc_gmbe_fragment_distribution_scheme
