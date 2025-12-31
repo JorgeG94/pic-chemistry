@@ -16,7 +16,9 @@ module mqc_frag_utils
    public :: get_next_combination      !! Generate next combination in sequence
    public :: fragment_lookup_t     !! Hash-based lookup table for fast fragment index retrieval
    public :: find_fragment_intersection  !! Find shared atoms between two fragments (for GMBE)
-   public :: generate_intersections     !! Generate all pairwise intersections for GMBE
+   public :: generate_intersections     !! Generate all k-way intersections for GMBE (base fragments)
+   public :: compute_polymer_atoms      !! Compute atom list for a polymer (union of base fragments)
+   public :: generate_polymer_intersections  !! Generate intersections for polymers at any level
 
    type :: hash_entry_t
       !! Single entry in hash table (private helper type)
@@ -615,5 +617,260 @@ contains
       has_next = .false.
 
    end function next_combination
+
+   subroutine compute_polymer_atoms(sys_geom, polymer, polymer_size, atom_list, n_atoms)
+      !! Compute the atom list for a polymer (union of atoms from base fragments)
+      !! polymer(:) contains base fragment indices (1-based)
+      use mqc_physical_fragment, only: system_geometry_t
+      type(system_geometry_t), intent(in) :: sys_geom
+      integer, intent(in) :: polymer(:)  !! Base fragment indices in this polymer
+      integer, intent(in) :: polymer_size  !! Number of base fragments in polymer
+      integer, allocatable, intent(out) :: atom_list(:)  !! Unique atoms in this polymer
+      integer, intent(out) :: n_atoms  !! Number of unique atoms
+
+      integer, allocatable :: temp_atoms(:)
+      integer :: i, j, frag_idx, frag_size, temp_count
+      logical :: already_present
+
+      ! Allocate temporary array (worst case: all atoms from all fragments)
+      allocate (temp_atoms(sys_geom%total_atoms))
+      temp_count = 0
+
+      ! Loop through each base fragment in the polymer
+      do i = 1, polymer_size
+         frag_idx = polymer(i)
+         if (frag_idx == 0) exit  ! Padding zeros
+
+         frag_size = sys_geom%fragment_sizes(frag_idx)
+
+         ! Add each atom from this fragment (avoid duplicates)
+         do j = 1, frag_size
+            already_present = .false.
+
+            ! Check if this atom is already in our list
+            block
+               integer :: k, current_atom
+               current_atom = sys_geom%fragment_atoms(j, frag_idx)
+               do k = 1, temp_count
+                  if (temp_atoms(k) == current_atom) then
+                     already_present = .true.
+                     exit
+                  end if
+               end do
+            end block
+
+            ! Add if not already present
+            if (.not. already_present) then
+               temp_count = temp_count + 1
+               temp_atoms(temp_count) = sys_geom%fragment_atoms(j, frag_idx)
+            end if
+         end do
+      end do
+
+      ! Copy to output array
+      n_atoms = temp_count
+      allocate (atom_list(n_atoms))
+      atom_list = temp_atoms(1:n_atoms)
+
+      deallocate (temp_atoms)
+   end subroutine compute_polymer_atoms
+
+   subroutine generate_polymer_intersections(sys_geom, polymers, n_polymers, max_level, &
+                                             intersections, intersection_sets, intersection_levels, n_intersections)
+      !! Generate all k-way intersections for polymers at any level (GMBE-N)
+      !! This works with dynamically generated polymers, not just base fragments
+      use mqc_physical_fragment, only: system_geometry_t
+      use pic_logger, only: logger => global_logger
+      use pic_io, only: to_char
+      type(system_geometry_t), intent(in) :: sys_geom
+      integer, intent(in) :: polymers(:, :)  !! Polymer definitions (n_polymers, max_level)
+      integer, intent(in) :: n_polymers, max_level
+      integer, allocatable, intent(out) :: intersections(:, :)
+      integer, allocatable, intent(out) :: intersection_sets(:, :)
+      integer, allocatable, intent(out) :: intersection_levels(:)
+      integer, intent(out) :: n_intersections
+
+      integer, allocatable :: polymer_atoms(:, :)  !! Atom lists for each polymer
+      integer, allocatable :: polymer_n_atoms(:)   !! Number of atoms in each polymer
+      integer :: max_atoms_per_polymer
+      integer :: i, polymer_size
+
+      call logger%info("Computing atom compositions for "//to_char(n_polymers)//" polymers...")
+
+      ! First, compute atom list for each polymer
+      ! Find max atoms needed
+      max_atoms_per_polymer = 0
+      do i = 1, n_polymers
+         polymer_size = count(polymers(i, :) > 0)
+         ! Worst case: all atoms from all fragments in this polymer
+         max_atoms_per_polymer = max(max_atoms_per_polymer, polymer_size*maxval(sys_geom%fragment_sizes))
+      end do
+
+      allocate (polymer_atoms(max_atoms_per_polymer, n_polymers))
+      allocate (polymer_n_atoms(n_polymers))
+      polymer_atoms = 0
+
+      ! Compute atoms for each polymer
+      do i = 1, n_polymers
+         polymer_size = count(polymers(i, :) > 0)
+         block
+            integer, allocatable :: atom_list(:)
+            integer :: n_atoms
+            call compute_polymer_atoms(sys_geom, polymers(i, 1:polymer_size), polymer_size, atom_list, n_atoms)
+            polymer_n_atoms(i) = n_atoms
+            polymer_atoms(1:n_atoms, i) = atom_list
+            deallocate (atom_list)
+         end block
+      end do
+
+      call logger%info("Finding intersections between polymers...")
+
+      ! Now generate intersections between these polymer atom sets
+      call generate_intersections_from_atom_lists(polymer_atoms, polymer_n_atoms, n_polymers, &
+                                                  intersections, intersection_sets, intersection_levels, n_intersections)
+
+      deallocate (polymer_atoms, polymer_n_atoms)
+   end subroutine generate_polymer_intersections
+
+   subroutine generate_intersections_from_atom_lists(atom_lists, n_atoms_list, n_sets, &
+                                                   intersections, intersection_sets, intersection_levels, n_intersections)
+      !! Generate all k-way intersections from arbitrary atom lists (not tied to sys_geom)
+      use pic_logger, only: logger => global_logger
+      use pic_io, only: to_char
+      integer, intent(in) :: atom_lists(:, :)  !! (max_atoms, n_sets)
+      integer, intent(in) :: n_atoms_list(:)   !! Number of atoms in each set
+      integer, intent(in) :: n_sets
+      integer, allocatable, intent(out) :: intersections(:, :)
+      integer, allocatable, intent(out) :: intersection_sets(:, :)
+      integer, allocatable, intent(out) :: intersection_levels(:)
+      integer, intent(out) :: n_intersections
+
+      integer :: max_intersections, max_atoms
+      integer, allocatable :: temp_intersections(:, :), temp_sets(:, :), temp_levels(:)
+      integer :: intersection_count, k, idx
+      integer, allocatable :: combination(:)
+
+      if (n_sets < 2) then
+         n_intersections = 0
+         return
+      end if
+
+      max_intersections = 2**n_sets - n_sets - 1
+      max_atoms = maxval(n_atoms_list)
+
+      allocate (temp_intersections(max_atoms, max_intersections))
+      allocate (temp_sets(n_sets, max_intersections))
+      allocate (temp_levels(max_intersections))
+      temp_intersections = 0
+      temp_sets = 0
+      intersection_count = 0
+
+      call logger%info("Generating all k-way intersections (k=2 to "//to_char(n_sets)//")")
+
+      ! Loop over intersection levels k from 2 to n_sets
+      do k = 2, n_sets
+         allocate (combination(k))
+         call generate_k_way_intersections_from_lists(atom_lists, n_atoms_list, n_sets, k, &
+                                                      combination, max_atoms, &
+                                                      temp_intersections, temp_sets, temp_levels, intersection_count)
+         deallocate (combination)
+      end do
+
+      n_intersections = intersection_count
+
+      ! Allocate output arrays
+      if (n_intersections > 0) then
+         allocate (intersections(max_atoms, n_intersections))
+         allocate (intersection_sets(n_sets, n_intersections))
+         allocate (intersection_levels(n_intersections))
+         intersections = temp_intersections(1:max_atoms, 1:n_intersections)
+         intersection_sets = temp_sets(1:n_sets, 1:n_intersections)
+         intersection_levels = temp_levels(1:n_intersections)
+
+         call logger%info("Generated "//to_char(n_intersections)//" total intersections:")
+         do k = 2, n_sets
+            idx = count(intersection_levels == k)
+            if (idx > 0) then
+               call logger%info("  "//to_char(idx)//" intersections at level "//to_char(k))
+            end if
+         end do
+      else
+         allocate (intersections(1, 0))
+         allocate (intersection_sets(1, 0))
+         allocate (intersection_levels(0))
+         call logger%info("No intersections found")
+      end if
+
+      deallocate (temp_intersections, temp_sets, temp_levels)
+   end subroutine generate_intersections_from_atom_lists
+
+   subroutine generate_k_way_intersections_from_lists(atom_lists, n_atoms_list, n_sets, k, combination, max_atoms, &
+                                                      temp_intersections, temp_sets, temp_levels, intersection_count)
+      !! Generate all k-way intersections from atom lists
+      integer, intent(in) :: atom_lists(:, :), n_atoms_list(:), n_sets, k, max_atoms
+      integer, intent(inout) :: combination(:)
+      integer, intent(inout) :: temp_intersections(:, :), temp_sets(:, :), temp_levels(:)
+      integer, intent(inout) :: intersection_count
+
+      integer, allocatable :: current_intersection(:), temp_intersection(:)
+      integer :: current_n_intersect, temp_n_intersect
+      integer :: i, j, set_idx
+      logical :: has_intersection
+
+      call next_combination_init(combination, k)
+
+      do
+         ! Compute intersection of all sets in this combination
+         has_intersection = .false.
+
+         ! Start with the first set in the combination
+         set_idx = combination(1)
+         allocate (current_intersection(n_atoms_list(set_idx)))
+         current_intersection = atom_lists(1:n_atoms_list(set_idx), set_idx)
+         current_n_intersect = n_atoms_list(set_idx)
+
+         ! Intersect with each subsequent set
+         do i = 2, k
+            set_idx = combination(i)
+            allocate (temp_intersection(current_n_intersect))
+
+            ! Find intersection
+            temp_n_intersect = 0
+            do j = 1, current_n_intersect
+               if (any(atom_lists(1:n_atoms_list(set_idx), set_idx) == current_intersection(j))) then
+                  temp_n_intersect = temp_n_intersect + 1
+                  temp_intersection(temp_n_intersect) = current_intersection(j)
+               end if
+            end do
+
+            ! Update current intersection
+            deallocate (current_intersection)
+            if (temp_n_intersect > 0) then
+               allocate (current_intersection(temp_n_intersect))
+               current_intersection = temp_intersection(1:temp_n_intersect)
+               current_n_intersect = temp_n_intersect
+               has_intersection = .true.
+            else
+               has_intersection = .false.
+            end if
+            deallocate (temp_intersection)
+
+            if (.not. has_intersection) exit
+         end do
+
+         ! Store if we found an intersection
+         if (has_intersection .and. current_n_intersect > 0) then
+            intersection_count = intersection_count + 1
+            temp_intersections(1:current_n_intersect, intersection_count) = current_intersection(1:current_n_intersect)
+            temp_sets(1:k, intersection_count) = combination(1:k)
+            temp_levels(intersection_count) = k
+         end if
+
+         if (allocated(current_intersection)) deallocate (current_intersection)
+
+         ! Get next combination
+         if (.not. next_combination(combination, k, n_sets)) exit
+      end do
+   end subroutine generate_k_way_intersections_from_lists
 
 end module mqc_frag_utils
