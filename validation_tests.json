@@ -7,6 +7,11 @@
       "expected_energy": -47.0192718920,
       "type" : "fragmented"
       },
+    { "name": "GMBE(3) test decane",
+      "input": "validation/inputs/nlevel_3_ov_decane.mqc",
+      "expected_energy": -33.0506139740,
+      "type" : "fragmented"
+      },
     {
       "name": "Unfragmented glycine tripeptide",
       "input": "validation/inputs/no_frag.mqc",
