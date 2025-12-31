@@ -74,7 +74,27 @@ contains
          end if
       end if
 
-      ! GMBE (overlapping fragments) is now supported at all levels
+      ! Validate GMBE (overlapping fragments) settings
+      if (config%allow_overlapping_fragments .and. max_level > 1) then
+         if (world_comm%rank() == 0) then
+            call logger%error(" ")
+            call logger%error("ERROR: Overlapping fragments (GMBE) only supported with nlevel=1")
+            call logger%error(" ")
+            call logger%error("Current settings:")
+            call logger%error("  nlevel = "//to_char(max_level))
+            call logger%error("  allow_overlapping_fragments = true")
+            call logger%error(" ")
+            call logger%error("GMBE (Generalized Many-Body Expansion) is designed for overlapping")
+            call logger%error("base fragments. The 'level' parameter controls intersection order")
+            call logger%error("(2-way, 3-way, etc.), which is computed automatically.")
+            call logger%error(" ")
+            call logger%error("For non-overlapping fragments with dimers/trimers, use:")
+            call logger%error("  allow_overlapping_fragments = false  (standard MBE)")
+            call logger%error("  nlevel = 2 or higher")
+            call logger%error(" ")
+         end if
+         call abort_comm(world_comm, 1)
+      end if
 
       ! Validate gradient calculations with overlapping fragments
       if (config%allow_overlapping_fragments .and. max_level > 0 .and. config%calc_type == CALC_TYPE_GRADIENT) then
@@ -202,43 +222,31 @@ contains
       ! Generate fragments
       if (world_comm%rank() == 0) then
          if (allow_overlapping_fragments) then
-            ! GMBE mode: generate polymers at requested level + intersections
-            ! Calculate expected number of polymers
-            n_expected_frags = get_nfrags(sys_geom%n_monomers, max_level)
-            n_rows = n_expected_frags
-
-            ! Allocate monomer list and polymers array
-            allocate (monomers(sys_geom%n_monomers))
-            allocate (polymers(n_rows, max_level))
+            ! GMBE mode: generate base monomers + all k-way intersections
+            n_monomers = sys_geom%n_monomers
+            allocate (monomers(n_monomers))
+            allocate (polymers(n_monomers, 1))  ! Only base monomers
             polymers = 0
 
-            ! Create monomer list [1, 2, 3, ..., n_monomers]
+            ! Create monomer list
             call create_monomer_list(monomers)
 
-            ! Generate all polymers (includes monomers in polymers array)
-            total_fragments = 0_int64
-
-            ! First add monomers
-            do i = 1, sys_geom%n_monomers
-               total_fragments = total_fragments + 1_int64
-               polymers(total_fragments, 1) = i
+            ! Add monomers to polymers array
+            do i = 1, n_monomers
+               polymers(i, 1) = i
             end do
 
-            ! Then add n-mers for n >= 2 up to max_level
-            if (max_level >= 2) then
-               call generate_fragment_list(monomers, max_level, polymers, total_fragments)
-            end if
-
-            n_monomers = int(total_fragments)
-
-            ! Generate intersections between all generated polymers
-            call generate_intersections(sys_geom, monomers, polymers(1:total_fragments, :), n_monomers, &
+            ! Generate all k-way intersections (k=2 to n_monomers)
+            call generate_intersections(sys_geom, monomers, polymers, n_monomers, &
                                         intersections, intersection_sets, intersection_levels, n_intersections)
 
+            ! Total fragments = base monomers + intersections
+            total_fragments = int(n_monomers, int64) + int(n_intersections, int64)
+
             call logger%info("Generated GMBE fragments:")
-            call logger%info("  Polymers (level "//to_char(max_level)//"): "//to_char(total_fragments))
+            call logger%info("  Base monomers: "//to_char(n_monomers))
             call logger%info("  Intersections: "//to_char(n_intersections))
-            call logger%info("  Total fragments: "//to_char(total_fragments + int(n_intersections, int64)))
+            call logger%info("  Total fragments: "//to_char(total_fragments))
 
             deallocate (monomers)
          else
