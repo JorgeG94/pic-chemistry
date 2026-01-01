@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 3.2% of total for procedures.">178 statements</a>
+                 title=" 3.1% of total for procedures.">178 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -145,14 +145,14 @@
             <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-local_dummy~3">local_dummy</a>
             <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-local_finished_workers~2">local_finished_workers</a>
             <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-local_status~2">local_status</a>
-            <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-req~6">req</a>
+            <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-req~8">req</a>
             <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-request_source~2">request_source</a>
             <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-results~7">results</a>
             <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-results_received~2">results_received</a>
-            <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-status~4">status</a>
-            <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-term_idx~2">term_idx</a>
-            <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-total_energy~6">total_energy</a>
-            <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-total_gradient~4">total_gradient</a>
+            <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-status~6">status</a>
+            <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-term_idx">term_idx</a>
+            <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-total_energy~9">total_energy</a>
+            <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-total_gradient~5">total_gradient</a>
             <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-worker_source~3">worker_source</a>
             <a class="list-group-item" href="../proc/gmbe_pie_coordinator.html#variable-worker_term_map">worker_term_map</a>
         </div>
@@ -198,9 +198,9 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item">pic_logger</li>
                   <li class="list-inline-item"><a href='../module/mqc_physical_fragment.html'>mqc_physical_fragment</a></li>
                   <li class="list-inline-item"><a href='../module/mqc_calc_types.html'>mqc_calc_types</a></li>
-                  <li class="list-inline-item">pic_logger</li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -565,7 +565,7 @@ Distributes PIE terms across MPI ranks and accumulates results</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-world_comm~6"></span>
+              <span class="anchor" id="variable-world_comm~10"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -580,7 +580,7 @@ Distributes PIE terms across MPI ranks and accumulates results</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_comm~6"></span>
+              <span class="anchor" id="variable-node_comm~9"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -595,7 +595,7 @@ Distributes PIE terms across MPI ranks and accumulates results</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pie_atom_sets~3"></span>
+              <span class="anchor" id="variable-pie_atom_sets~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -610,7 +610,7 @@ Distributes PIE terms across MPI ranks and accumulates results</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pie_coefficients~3"></span>
+              <span class="anchor" id="variable-pie_coefficients~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -625,7 +625,7 @@ Distributes PIE terms across MPI ranks and accumulates results</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_pie_terms~3"></span>
+              <span class="anchor" id="variable-n_pie_terms~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -640,7 +640,7 @@ Distributes PIE terms across MPI ranks and accumulates results</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_leader_ranks~2"></span>
+              <span class="anchor" id="variable-node_leader_ranks~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -655,7 +655,7 @@ Distributes PIE terms across MPI ranks and accumulates results</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-num_nodes~2"></span>
+              <span class="anchor" id="variable-num_nodes~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -670,7 +670,7 @@ Distributes PIE terms across MPI ranks and accumulates results</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~25"></span>
+              <span class="anchor" id="variable-sys_geom~24"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -685,7 +685,7 @@ Distributes PIE terms across MPI ranks and accumulates results</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~8"></span>
+              <span class="anchor" id="variable-method~9"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -700,7 +700,7 @@ Distributes PIE terms across MPI ranks and accumulates results</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-calc_type~12"></span>
+              <span class="anchor" id="variable-calc_type~13"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -1645,7 +1645,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-req~6"></span>
+              <span class="anchor" id="variable-req~8"></span>
               type(request_t),
             </td>
               <td>private</td>
@@ -1713,7 +1713,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-status~4"></span>
+              <span class="anchor" id="variable-status~6"></span>
               type(MPI_Status),
             </td>
               <td>private</td>
@@ -1730,7 +1730,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-term_idx~2"></span>
+              <span class="anchor" id="variable-term_idx"></span>
               integer,
             </td>
               <td>private</td>
@@ -1747,7 +1747,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_energy~6"></span>
+              <span class="anchor" id="variable-total_energy~9"></span>
               real(kind=dp),
             </td>
               <td>private</td>
@@ -1764,7 +1764,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_gradient~4"></span>
+              <span class="anchor" id="variable-total_gradient~5"></span>
               real(kind=dp),
             </td>
               <td>private,</td>
@@ -2093,7 +2093,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-01 13:19 +0000             </p>
+ on 2026-01-01 13:57 +0000             </p>
           </div>
         </div>
         <br>

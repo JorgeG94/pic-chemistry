@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 6.7% of total for modules and submodules.">422 statements</a>
+                 title=" 7.5% of total for modules and submodules.">476 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -191,6 +191,7 @@
             <a class="list-group-item" href="../module/mqc_physical_fragment.html#proc-check_duplicate_atoms">check_duplicate_atoms</a>
             <a class="list-group-item" href="../module/mqc_physical_fragment.html#proc-initialize_system_geometry">initialize_system_geometry</a>
             <a class="list-group-item" href="../module/mqc_physical_fragment.html#proc-redistribute_cap_gradients">redistribute_cap_gradients</a>
+            <a class="list-group-item" href="../module/mqc_physical_fragment.html#proc-redistribute_cap_hessian">redistribute_cap_hessian</a>
             <a class="list-group-item" href="../module/mqc_physical_fragment.html#proc-add_hydrogen_caps">add_hydrogen_caps</a>
             <a class="list-group-item" href="../module/mqc_physical_fragment.html#proc-count_hydrogen_caps">count_hydrogen_caps</a>
             <a class="list-group-item" href="../module/mqc_physical_fragment.html#proc-fragment_compute_nelec">fragment_compute_nelec</a>
@@ -223,8 +224,9 @@ Complete system geometry type
 System geometry initialization
 Extract fragment from system
 Build fragment from explicit atom indices (for intersections)
-Validate fragment has no overlapping atoms
-Redistribute hydrogen cap gradients to original atoms
+Validate fragment has no overlapping atoms</p>
+<p>Redistribute hydrogen cap gradients to original atoms
+Redistribute hydrogen cap Hessian to original atoms
 Unit conversion utilities
 Geometric centroid calculation
 Mass-weighted center calculation
@@ -237,12 +239,12 @@ Closest approach distance</p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='mqc_config_parser.html'>mqc_config_parser</a></li>
-                  <li class="list-inline-item"><a href='mqc_error.html'>mqc_error</a></li>
-                  <li class="list-inline-item"><a href='mqc_elements.html'>mqc_elements</a></li>
                   <li class="list-inline-item"><a href='mqc_geometry.html'>mqc_geometry</a></li>
-                  <li class="list-inline-item"><a href='mqc_xyz_reader.html'>mqc_xyz_reader</a></li>
+                  <li class="list-inline-item"><a href='mqc_error.html'>mqc_error</a></li>
+                  <li class="list-inline-item"><a href='mqc_config_parser.html'>mqc_config_parser</a></li>
                   <li class="list-inline-item"><a href='mqc_cgto.html'>mqc_cgto</a></li>
+                  <li class="list-inline-item"><a href='mqc_xyz_reader.html'>mqc_xyz_reader</a></li>
+                  <li class="list-inline-item"><a href='mqc_elements.html'>mqc_elements</a></li>
                   <li class="list-inline-item">pic_types</li>
               </ul>
             </li>
@@ -1703,7 +1705,7 @@ Returns coordinates in the same units as the fragment (typically Bohr)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment~7"></span>
+              <span class="anchor" id="variable-fragment~8"></span>
               type(<a href='../type/physical_fragment_t.html'>physical_fragment_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1750,7 +1752,7 @@ Returns coordinates in the same units as the fragment (typically Bohr)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment~6"></span>
+              <span class="anchor" id="variable-fragment~7"></span>
               type(<a href='../type/physical_fragment_t.html'>physical_fragment_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1952,7 +1954,7 @@ Distance is in the same units as the fragment coordinates (typically Bohr)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~5"></span>
+              <span class="anchor" id="variable-sys_geom~4"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -2052,7 +2054,7 @@ Distance is in the same units as the fragment coordinates (typically Bohr)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~4"></span>
+              <span class="anchor" id="variable-sys_geom~3"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -2139,7 +2141,7 @@ This catches bugs in geometry construction or fragment building</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment~5"></span>
+              <span class="anchor" id="variable-fragment~6"></span>
               type(<a href='../type/physical_fragment_t.html'>physical_fragment_t</a>),
             </td>
 <td>intent(in)</td>
@@ -2209,7 +2211,7 @@ This catches bugs in geometry construction or fragment building</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~2"></span>
+              <span class="anchor" id="variable-sys_geom"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(out)</td>
@@ -2224,7 +2226,7 @@ This catches bugs in geometry construction or fragment building</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-error~5"></span>
+              <span class="anchor" id="variable-error"></span>
               type(<a href='../type/error_t.html'>error_t</a>),
             </td>
 <td>intent(out)</td>
@@ -2315,6 +2317,76 @@ This catches bugs in geometry construction or fragment building</p>
   </div>
 
               <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-redistribute_cap_hessian"></span> <h3>public  subroutine <a href='../proc/redistribute_cap_hessian.html'>redistribute_cap_hessian</a>(fragment, fragment_hessian, system_hessian)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Redistribute hydrogen cap Hessian to original atoms</p><a href="../proc/redistribute_cap_hessian.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment~5"></span>
+              type(<a href='../type/physical_fragment_t.html'>physical_fragment_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment_hessian"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment_hessian</strong>(:,:)</td>
+            <td>
+<p>(3<em>n_atoms_fragment, 3</em>n_atoms_fragment)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-system_hessian"></span>
+              real(kind=dp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>system_hessian</strong>(:,:)</td>
+            <td>
+<p>(3<em>n_atoms_system, 3</em>n_atoms_system)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-add_hydrogen_caps"></span> <h3>private  subroutine <a href='../proc/add_hydrogen_caps.html'>add_hydrogen_caps</a>(atoms_in_fragment, bonds, sys_geom, fragment, base_atom_count)  
 </h3></div>
     <div class="card-body">
@@ -2365,7 +2437,7 @@ Caps are placed at the position of the atom outside the fragment</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~3"></span>
+              <span class="anchor" id="variable-sys_geom~2"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -2684,7 +2756,7 @@ A cap is needed when exactly one atom of a broken bond is in the fragment</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-01 13:19 +0000             </p>
+ on 2026-01-01 13:57 +0000             </p>
           </div>
         </div>
         <br>
