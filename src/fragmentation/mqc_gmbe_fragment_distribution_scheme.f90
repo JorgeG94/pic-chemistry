@@ -427,6 +427,10 @@ contains
    subroutine serial_gmbe_pie_processor(pie_atom_sets, pie_coefficients, n_pie_terms, sys_geom, method, calc_type, bonds)
       !! Serial GMBE processor using PIE coefficients
       !! Evaluates each unique atom set once and sums with PIE coefficients
+      !! Supports both energy-only and energy+gradient calculations
+      use mqc_calc_types, only: CALC_TYPE_GRADIENT, calc_type_to_string
+      use mqc_physical_fragment, only: redistribute_cap_gradients
+      use pic_logger, only: info_level
       integer, intent(in) :: pie_atom_sets(:, :)  !! Unique atom sets (max_atoms, n_pie_terms)
       integer, intent(in) :: pie_coefficients(:)  !! PIE coefficient for each term
       integer, intent(in) :: n_pie_terms
@@ -435,18 +439,29 @@ contains
       type(bond_t), intent(in), optional :: bonds(:)
 
       type(physical_fragment_t) :: phys_frag
-      type(calculation_result_t) :: result
-      integer :: i, n_atoms, max_atoms
+      type(calculation_result_t), allocatable :: results(:)
+      integer :: i, n_atoms, max_atoms, iatom, current_log_level
       integer, allocatable :: atom_list(:)
       real(dp) :: total_energy, term_energy
       real(dp), allocatable :: pie_energies(:)  !! Store individual energies for JSON output
+      real(dp), allocatable :: total_gradient(:, :)  !! Total gradient (3, total_atoms)
+      real(dp), allocatable :: term_gradient(:, :)  !! Temporary gradient for each term
       integer :: coeff
 
       call logger%info("Processing "//to_char(n_pie_terms)//" unique PIE terms...")
+      call logger%info("  Calculation type: "//calc_type_to_string(calc_type))
 
       total_energy = 0.0_dp
       max_atoms = size(pie_atom_sets, 1)
       allocate (pie_energies(n_pie_terms))
+      allocate (results(n_pie_terms))
+
+      ! Allocate gradient arrays if needed
+      if (calc_type == CALC_TYPE_GRADIENT) then
+         allocate (total_gradient(3, sys_geom%total_atoms))
+         allocate (term_gradient(3, sys_geom%total_atoms))
+         total_gradient = 0.0_dp
+      end if
 
       do i = 1, n_pie_terms
          coeff = pie_coefficients(i)
@@ -474,15 +489,25 @@ contains
          ! Build fragment from atom list
          call build_fragment_from_atom_list(sys_geom, atom_list, n_atoms, phys_frag, bonds)
 
-         ! Compute energy
-         call do_fragment_work(i, result, method, phys_frag, calc_type)
-         term_energy = result%energy%total()
+         ! Compute energy (and gradient if requested)
+         call do_fragment_work(i, results(i), method, phys_frag, calc_type)
+         term_energy = results(i)%energy%total()
 
          ! Store energy for JSON output
          pie_energies(i) = term_energy
 
          ! Accumulate with PIE coefficient
          total_energy = total_energy + real(coeff, dp)*term_energy
+
+         ! Accumulate gradient if present
+         if (calc_type == CALC_TYPE_GRADIENT .and. results(i)%has_gradient) then
+            ! Map fragment gradient to system coordinates with proper cap handling
+            term_gradient = 0.0_dp
+            call redistribute_cap_gradients(phys_frag, results(i)%gradient, term_gradient)
+
+            ! Accumulate with PIE coefficient
+            total_gradient = total_gradient + real(coeff, dp)*term_gradient
+         end if
 
          call logger%verbose("PIE term "//to_char(i)//"/"//to_char(n_pie_terms)// &
                              ": "//to_char(n_atoms)//" atoms, coeff="//to_char(coeff)// &
@@ -495,12 +520,37 @@ contains
       call logger%info(" ")
       call logger%info("GMBE PIE calculation completed successfully")
       call logger%info("Final GMBE energy: "//to_char(total_energy)//" Hartree")
+
+      ! Print gradient info if computed
+      if (calc_type == CALC_TYPE_GRADIENT) then
+         call logger%info("GMBE PIE gradient computation completed")
+         call logger%info("  Total gradient norm: "//to_char(sqrt(sum(total_gradient**2))))
+
+         ! Print detailed gradient if info level and small system
+         call logger%configuration(level=current_log_level)
+         if (current_log_level >= info_level .and. sys_geom%total_atoms < 100) then
+            call logger%info(" ")
+            call logger%info("Total GMBE PIE Gradient (Hartree/Bohr):")
+            do iatom = 1, sys_geom%total_atoms
+               block
+                  character(len=256) :: grad_line
+                  write (grad_line, '(a,i5,a,3f20.12)') "  Atom ", iatom, ": ", &
+                     total_gradient(1, iatom), total_gradient(2, iatom), total_gradient(3, iatom)
+                  call logger%info(trim(grad_line))
+               end block
+            end do
+            call logger%info(" ")
+         end if
+      end if
+
       call logger%info(" ")
 
       ! Write JSON output
       call print_gmbe_pie_json(pie_atom_sets, pie_coefficients, pie_energies, n_pie_terms, total_energy)
 
-      deallocate (pie_energies)
+      deallocate (pie_energies, results)
+      if (allocated(total_gradient)) deallocate (total_gradient)
+      if (allocated(term_gradient)) deallocate (term_gradient)
 
    end subroutine serial_gmbe_pie_processor
 
