@@ -452,7 +452,10 @@ contains
          coeff = pie_coefficients(i)
 
          ! Skip terms with zero coefficient (shouldn't happen, but safety check)
-         if (coeff == 0) cycle
+         if (coeff == 0) then
+            pie_energies(i) = 0.0_dp  ! Mark as skipped
+            cycle
+         end if
 
          ! Extract atom list for this term
          n_atoms = 0
@@ -460,7 +463,10 @@ contains
             n_atoms = n_atoms + 1
          end do
 
-         if (n_atoms == 0) cycle
+         if (n_atoms == 0) then
+            pie_energies(i) = 0.0_dp  ! Mark as skipped
+            cycle
+         end if
 
          allocate (atom_list(n_atoms))
          atom_list = pie_atom_sets(1:n_atoms, i)
