@@ -9,8 +9,7 @@ module mqc_driver
    use omp_lib, only: omp_get_max_threads, omp_set_num_threads
    use mqc_mbe_fragment_distribution_scheme, only: global_coordinator, node_coordinator, node_worker, unfragmented_calculation, &
                                                    serial_fragment_processor, do_fragment_work
-   use mqc_gmbe_fragment_distribution_scheme, only: serial_gmbe_processor, gmbe_coordinator, &
-                                                    serial_gmbe_pie_processor, gmbe_pie_coordinator
+   use mqc_gmbe_fragment_distribution_scheme, only: serial_gmbe_pie_processor, gmbe_pie_coordinator
    use mqc_frag_utils, only: get_nfrags, create_monomer_list, generate_fragment_list, generate_intersections, &
                              gmbe_enumerate_pie_terms, binomial, combine
    use mqc_physical_fragment, only: system_geometry_t, physical_fragment_t, &
