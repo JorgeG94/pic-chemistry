@@ -461,9 +461,9 @@ contains
       integer, intent(in) :: n_monomers               !! Number of monomers
       type(calculation_result_t), intent(in) :: monomer_results(:)     !! Monomer energies
       integer, intent(in) :: n_intersections          !! Number of intersection fragments
-      type(calculation_result_t), intent(in) :: intersection_results(:)  !! Intersection energies
-      integer, intent(in) :: intersection_sets(:, :)  !! k-tuples that created each intersection (n_monomers, n_intersections)
-      integer, intent(in) :: intersection_levels(:)   !! Level k of each intersection
+      type(calculation_result_t), intent(in), optional :: intersection_results(:)  !! Intersection energies
+      integer, intent(in), optional :: intersection_sets(:, :)  !! k-tuples that created each intersection (n_monomers, n_intersections)
+      integer, intent(in), optional :: intersection_levels(:)   !! Level k of each intersection
       real(dp), intent(out) :: total_energy           !! Total GMBE energy
 
       integer :: i, k, max_level
@@ -481,7 +481,8 @@ contains
       ! Start with monomer contribution
       total_energy = monomer_energy
 
-      if (n_intersections > 0) then
+      if (n_intersections > 0 .and. present(intersection_results) .and. &
+          present(intersection_sets) .and. present(intersection_levels)) then
          ! Find maximum intersection level
          max_level = maxval(intersection_levels)
 

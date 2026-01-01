@@ -379,13 +379,14 @@ contains
                               intersection_sets, intersection_levels, total_energy)
       !! Write GMBE calculation results to output JSON file
       !! Outputs structured JSON with monomers, intersections, and total energy
+      !! Intersection parameters are optional and should be omitted when n_intersections=0
       integer, intent(in) :: n_monomers
       integer, intent(in) :: monomer_indices(:)
       type(calculation_result_t), intent(in) :: monomer_results(:)
       integer, intent(in) :: n_intersections
-      type(calculation_result_t), intent(in) :: intersection_results(:)
-      integer, intent(in) :: intersection_sets(:, :)  !! (n_monomers, n_intersections)
-      integer, intent(in) :: intersection_levels(:)
+      type(calculation_result_t), intent(in), optional :: intersection_results(:)
+      integer, intent(in), optional :: intersection_sets(:, :)  !! (n_monomers, n_intersections)
+      integer, intent(in), optional :: intersection_levels(:)
       real(dp), intent(in) :: total_energy
 
       integer :: i, j, k, max_level, unit, io_stat
@@ -433,14 +434,17 @@ contains
 
       write (unit, '(a)') '      ]'
 
-      if (n_intersections > 0) then
+      ! Add comma after monomers if we have intersections
+      if (n_intersections > 0 .and. present(intersection_results) .and. &
+          present(intersection_sets) .and. present(intersection_levels)) then
          write (unit, '(a)') '    },'
       else
          write (unit, '(a)') '    }'
       end if
 
       ! Intersections section
-      if (n_intersections > 0) then
+      if (n_intersections > 0 .and. present(intersection_results) .and. &
+          present(intersection_sets) .and. present(intersection_levels)) then
          max_level = maxval(intersection_levels)
 
          write (unit, '(a)') '    "intersections": {'
