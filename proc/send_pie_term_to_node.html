@@ -10,7 +10,7 @@
     <meta name="author" content="Jorge Luis Galvez Vallejo" >
     <link rel="icon" href="../favicon.png">
 
-    <title>send_gmbe_fragment_to_worker &ndash; metalquicha</title>
+    <title>send_pie_term_to_node &ndash; metalquicha</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -83,7 +83,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>send_gmbe_fragment_to_worker
+    <h1>send_pie_term_to_node
       <small>Subroutine</small>
       
     </h1>
@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.6% of total for procedures.">33 statements</a>
+                 title=" 0.5% of total for procedures.">27 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -108,7 +108,7 @@
           <ol class="breadcrumb justify-content-end mb-0">
                 <li class="breadcrumb-item"><a href='../sourcefile/mqc_gmbe_fragment_distribution_scheme.f90.html'>mqc_gmbe_fragment_distribution_scheme.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mqc_gmbe_fragment_distribution_scheme.html'>mqc_gmbe_fragment_distribution_scheme</a></li>
-            <li class="breadcrumb-item active" aria-current="page">send_gmbe_fragment_to_worker</li>
+            <li class="breadcrumb-item active" aria-current="page">send_pie_term_to_node</li>
           </ol>
         </nav>
       </div>
@@ -136,11 +136,11 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/send_gmbe_fragment_to_worker.html#variable-fragment_indices~2">fragment_indices</a>
-            <a class="list-group-item" href="../proc/send_gmbe_fragment_to_worker.html#variable-fragment_size~2">fragment_size</a>
-            <a class="list-group-item" href="../proc/send_gmbe_fragment_to_worker.html#variable-intersection_size~4">intersection_size</a>
-            <a class="list-group-item" href="../proc/send_gmbe_fragment_to_worker.html#variable-is_monomer~3">is_monomer</a>
-            <a class="list-group-item" href="../proc/send_gmbe_fragment_to_worker.html#variable-req~5">req</a>
+            <a class="list-group-item" href="../proc/send_pie_term_to_node.html#variable-atom_list~3">atom_list</a>
+            <a class="list-group-item" href="../proc/send_pie_term_to_node.html#variable-fragment_type~5">fragment_type</a>
+            <a class="list-group-item" href="../proc/send_pie_term_to_node.html#variable-max_atoms~8">max_atoms</a>
+            <a class="list-group-item" href="../proc/send_pie_term_to_node.html#variable-n_atoms~7">n_atoms</a>
+            <a class="list-group-item" href="../proc/send_pie_term_to_node.html#variable-req~7">req</a>
         </div>
       </div>
     </div>
@@ -166,7 +166,7 @@
     <div class="card card-primary">
       <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../proc/send_gmbe_fragment_to_worker.html#src">send_gmbe_fragment_to_worker</a>
+        <a class="list-group-item" href="../proc/send_pie_term_to_node.html#src">send_pie_term_to_node</a>
       </div>
     </div>
 
@@ -176,11 +176,11 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private  subroutine send_gmbe_fragment_to_worker(node_comm, fragment_idx, n_monomers, polymers, intersections, dest_rank)  
+    <h2>private  subroutine send_pie_term_to_node(world_comm, term_idx, pie_atom_sets, dest_rank)  
 </h2>
     
 
-    <p>Send GMBE fragment (monomer or intersection) to local worker</p>
+    <p>Send PIE term (atom list) to remote node coordinator</p>
 
 
     <h3>Arguments</h3>
@@ -196,7 +196,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_comm~5"></span>
+              <span class="anchor" id="variable-world_comm~7"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -204,14 +204,14 @@
               
             </td>
             <td>::</td>
-            <td><strong>node_comm</strong></td>
+            <td><strong>world_comm</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_idx~3"></span>
+              <span class="anchor" id="variable-term_idx~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -219,14 +219,14 @@
               
             </td>
             <td>::</td>
-            <td><strong>fragment_idx</strong></td>
+            <td><strong>term_idx</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_monomers~6"></span>
+              <span class="anchor" id="variable-pie_atom_sets~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -234,44 +234,14 @@
               
             </td>
             <td>::</td>
-            <td><strong>n_monomers</strong></td>
+            <td><strong>pie_atom_sets</strong>(:,:)</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-polymers~6"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>polymers</strong>(:,:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-intersections~5"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>intersections</strong>(:,:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dest_rank~2"></span>
+              <span class="anchor" id="variable-dest_rank~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -298,29 +268,29 @@
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~send_gmbe_fragment_to_worker~~CallsGraph Pages: 1 -->
-<svg id="procsend_gmbe_fragment_to_workerCallsGraph" width="285pt" height="32pt"
- viewBox="0.00 0.00 285.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~send_gmbe_fragment_to_worker~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
-<title>proc~~send_gmbe_fragment_to_worker~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 281,-28 281,4 -4,4"/>
-<!-- proc~send_gmbe_fragment_to_worker -->
-<g id="proc~~send_gmbe_fragment_to_worker~~CallsGraph_node1" class="node">
-<title>proc~send_gmbe_fragment_to_worker</title>
-<polygon fill="none" stroke="black" points="187,-24 0,-24 0,0 187,0 187,-24"/>
-<text text-anchor="middle" x="93.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">send_gmbe_fragment_to_worker</text>
+<!-- Title: proc~~send_pie_term_to_node~~CallsGraph Pages: 1 -->
+<svg id="procsend_pie_term_to_nodeCallsGraph" width="237pt" height="32pt"
+ viewBox="0.00 0.00 237.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~send_pie_term_to_node~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~send_pie_term_to_node~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 233,-28 233,4 -4,4"/>
+<!-- proc~send_pie_term_to_node -->
+<g id="proc~~send_pie_term_to_node~~CallsGraph_node1" class="node">
+<title>proc~send_pie_term_to_node</title>
+<polygon fill="none" stroke="black" points="139,-24 0,-24 0,0 139,0 139,-24"/>
+<text text-anchor="middle" x="69.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">send_pie_term_to_node</text>
 </g>
 <!-- isend -->
-<g id="proc~~send_gmbe_fragment_to_worker~~CallsGraph_node2" class="node">
+<g id="proc~~send_pie_term_to_node~~CallsGraph_node2" class="node">
 <title>isend</title>
-<polygon fill="#777777" stroke="#777777" points="277,-24 223,-24 223,0 277,0 277,-24"/>
-<text text-anchor="middle" x="250" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">isend</text>
+<polygon fill="#777777" stroke="#777777" points="229,-24 175,-24 175,0 229,0 229,-24"/>
+<text text-anchor="middle" x="202" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">isend</text>
 </g>
-<!-- proc~send_gmbe_fragment_to_worker&#45;&gt;isend -->
-<g id="proc~~send_gmbe_fragment_to_worker~~CallsGraph_edge1" class="edge">
-<title>proc~send_gmbe_fragment_to_worker&#45;&gt;isend</title>
-<path fill="none" stroke="#ff0000" d="M187.05,-12C196.06,-12 204.79,-12 212.7,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="212.95,-15.5 222.95,-12 212.95,-8.5 212.95,-15.5"/>
+<!-- proc~send_pie_term_to_node&#45;&gt;isend -->
+<g id="proc~~send_pie_term_to_node~~CallsGraph_edge1" class="edge">
+<title>proc~send_pie_term_to_node&#45;&gt;isend</title>
+<path fill="none" stroke="#ff0000" d="M139.19,-12C147.98,-12 156.7,-12 164.68,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="164.71,-15.5 174.71,-12 164.71,-8.5 164.71,-15.5"/>
 </g>
 </g>
 </svg>
@@ -415,95 +385,95 @@ large graphs.</div>
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~send_gmbe_fragment_to_worker~~CalledByGraph Pages: 1 -->
-<svg id="procsend_gmbe_fragment_to_workerCalledByGraph" width="641pt" height="34pt"
- viewBox="0.00 0.00 641.00 33.87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~send_gmbe_fragment_to_worker~~CalledByGraph" class="graph" transform="scale(0.65 0.65) rotate(0) translate(4 48)">
-<title>proc~~send_gmbe_fragment_to_worker~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-48 980,-48 980,4 -4,4"/>
-<!-- proc~send_gmbe_fragment_to_worker -->
-<g id="proc~~send_gmbe_fragment_to_worker~~CalledByGraph_node1" class="node">
-<title>proc~send_gmbe_fragment_to_worker</title>
-<polygon fill="none" stroke="black" points="976,-44 789,-44 789,-20 976,-20 976,-44"/>
-<text text-anchor="middle" x="882.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50">send_gmbe_fragment_to_worker</text>
+<!-- Title: proc~~send_pie_term_to_node~~CalledByGraph Pages: 1 -->
+<svg id="procsend_pie_term_to_nodeCalledByGraph" width="641pt" height="35pt"
+ viewBox="0.00 0.00 641.00 34.79" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~send_pie_term_to_node~~CalledByGraph" class="graph" transform="scale(0.67 0.67) rotate(0) translate(4 48)">
+<title>proc~~send_pie_term_to_node~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-48 954,-48 954,4 -4,4"/>
+<!-- proc~send_pie_term_to_node -->
+<g id="proc~~send_pie_term_to_node~~CalledByGraph_node1" class="node">
+<title>proc~send_pie_term_to_node</title>
+<polygon fill="none" stroke="black" points="950,-44 811,-44 811,-20 950,-20 950,-44"/>
+<text text-anchor="middle" x="880.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50">send_pie_term_to_node</text>
 </g>
-<!-- proc~gmbe_coordinator -->
-<g id="proc~~send_gmbe_fragment_to_worker~~CalledByGraph_node2" class="node">
-<title>proc~gmbe_coordinator</title>
-<g id="a_proc~~send_gmbe_fragment_to_worker~~CalledByGraph_node2"><a xlink:href="../proc/gmbe_coordinator.html" xlink:title="gmbe_coordinator">
-<polygon fill="#d9534f" stroke="#d9534f" points="753,-44 642,-44 642,-20 753,-20 753,-44"/>
-<text text-anchor="middle" x="697.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">gmbe_coordinator</text>
+<!-- proc~gmbe_pie_coordinator -->
+<g id="proc~~send_pie_term_to_node~~CalledByGraph_node2" class="node">
+<title>proc~gmbe_pie_coordinator</title>
+<g id="a_proc~~send_pie_term_to_node~~CalledByGraph_node2"><a xlink:href="../proc/gmbe_pie_coordinator.html" xlink:title="gmbe_pie_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="775,-44 642,-44 642,-20 775,-20 775,-44"/>
+<text text-anchor="middle" x="708.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">gmbe_pie_coordinator</text>
 </a>
 </g>
 </g>
-<!-- proc~gmbe_coordinator&#45;&gt;proc~send_gmbe_fragment_to_worker -->
-<g id="proc~~send_gmbe_fragment_to_worker~~CalledByGraph_edge1" class="edge">
-<title>proc~gmbe_coordinator&#45;&gt;proc~send_gmbe_fragment_to_worker</title>
-<path fill="none" stroke="#ff0000" d="M753.41,-32C761.5,-32 770.06,-32 778.75,-32"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="779,-35.5 789,-32 779,-28.5 779,-35.5"/>
+<!-- proc~gmbe_pie_coordinator&#45;&gt;proc~send_pie_term_to_node -->
+<g id="proc~~send_pie_term_to_node~~CalledByGraph_edge1" class="edge">
+<title>proc~gmbe_pie_coordinator&#45;&gt;proc~send_pie_term_to_node</title>
+<path fill="none" stroke="#ff0000" d="M775.23,-32C783.62,-32 792.28,-32 800.85,-32"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="800.86,-35.5 810.86,-32 800.85,-28.5 800.86,-35.5"/>
 </g>
 <!-- proc~run_fragmented_calculation -->
-<g id="proc~~send_gmbe_fragment_to_worker~~CalledByGraph_node3" class="node">
+<g id="proc~~send_pie_term_to_node~~CalledByGraph_node3" class="node">
 <title>proc~run_fragmented_calculation</title>
-<g id="a_proc~~send_gmbe_fragment_to_worker~~CalledByGraph_node3"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
+<g id="a_proc~~send_pie_term_to_node~~CalledByGraph_node3"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
 <polygon fill="#d9534f" stroke="#d9534f" points="606,-44 443,-44 443,-20 606,-20 606,-44"/>
 <text text-anchor="middle" x="524.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
 </a>
 </g>
 </g>
-<!-- proc~run_fragmented_calculation&#45;&gt;proc~gmbe_coordinator -->
-<g id="proc~~send_gmbe_fragment_to_worker~~CalledByGraph_edge2" class="edge">
-<title>proc~run_fragmented_calculation&#45;&gt;proc~gmbe_coordinator</title>
-<path fill="none" stroke="#ff0000" d="M606.24,-32C614.85,-32 623.52,-32 631.91,-32"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="631.97,-35.5 641.97,-32 631.97,-28.5 631.97,-35.5"/>
+<!-- proc~run_fragmented_calculation&#45;&gt;proc~gmbe_pie_coordinator -->
+<g id="proc~~send_pie_term_to_node~~CalledByGraph_edge2" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;proc~gmbe_pie_coordinator</title>
+<path fill="none" stroke="#ff0000" d="M606.12,-32C614.64,-32 623.28,-32 631.74,-32"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="631.95,-35.5 641.95,-32 631.95,-28.5 631.95,-35.5"/>
 </g>
 <!-- proc~run_calculation -->
-<g id="proc~~send_gmbe_fragment_to_worker~~CalledByGraph_node4" class="node">
+<g id="proc~~send_pie_term_to_node~~CalledByGraph_node4" class="node">
 <title>proc~run_calculation</title>
-<g id="a_proc~~send_gmbe_fragment_to_worker~~CalledByGraph_node4"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
+<g id="a_proc~~send_pie_term_to_node~~CalledByGraph_node4"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
 <polygon fill="#d9534f" stroke="#d9534f" points="407,-44 313,-44 313,-20 407,-20 407,-44"/>
 <text text-anchor="middle" x="360" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
 </a>
 </g>
 </g>
 <!-- proc~run_calculation&#45;&gt;proc~run_fragmented_calculation -->
-<g id="proc~~send_gmbe_fragment_to_worker~~CalledByGraph_edge3" class="edge">
+<g id="proc~~send_pie_term_to_node~~CalledByGraph_edge3" class="edge">
 <title>proc~run_calculation&#45;&gt;proc~run_fragmented_calculation</title>
 <path fill="none" stroke="#ff0000" d="M407.13,-32C415.24,-32 423.94,-32 432.78,-32"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="432.8,-35.5 442.8,-32 432.8,-28.5 432.8,-35.5"/>
 </g>
 <!-- proc~run_multi_molecule_calculations -->
-<g id="proc~~send_gmbe_fragment_to_worker~~CalledByGraph_node5" class="node">
+<g id="proc~~send_pie_term_to_node~~CalledByGraph_node5" class="node">
 <title>proc~run_multi_molecule_calculations</title>
-<g id="a_proc~~send_gmbe_fragment_to_worker~~CalledByGraph_node5"><a xlink:href="../proc/run_multi_molecule_calculations.html" xlink:title="run_multi_molecule_calculations">
+<g id="a_proc~~send_pie_term_to_node~~CalledByGraph_node5"><a xlink:href="../proc/run_multi_molecule_calculations.html" xlink:title="run_multi_molecule_calculations">
 <polygon fill="#d9534f" stroke="#d9534f" points="277,-24 90,-24 90,0 277,0 277,-24"/>
 <text text-anchor="middle" x="183.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_multi_molecule_calculations</text>
 </a>
 </g>
 </g>
 <!-- proc~run_multi_molecule_calculations&#45;&gt;proc~run_calculation -->
-<g id="proc~~send_gmbe_fragment_to_worker~~CalledByGraph_edge4" class="edge">
+<g id="proc~~send_pie_term_to_node~~CalledByGraph_edge4" class="edge">
 <title>proc~run_multi_molecule_calculations&#45;&gt;proc~run_calculation</title>
 <path fill="none" stroke="#ff0000" d="M277.11,-22.61C285.83,-23.61 294.48,-24.61 302.7,-25.55"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="302.54,-29.05 312.87,-26.71 303.33,-22.1 302.54,-29.05"/>
 </g>
 <!-- program~main -->
-<g id="proc~~send_gmbe_fragment_to_worker~~CalledByGraph_node6" class="node">
+<g id="proc~~send_pie_term_to_node~~CalledByGraph_node6" class="node">
 <title>program~main</title>
-<g id="a_proc~~send_gmbe_fragment_to_worker~~CalledByGraph_node6"><a xlink:href="../program/main.html" xlink:title="main">
+<g id="a_proc~~send_pie_term_to_node~~CalledByGraph_node6"><a xlink:href="../program/main.html" xlink:title="main">
 <polygon fill="#f0ad4e" stroke="#f0ad4e" points="54,-44 0,-44 0,-20 54,-20 54,-44"/>
 <text text-anchor="middle" x="27" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
 </a>
 </g>
 </g>
 <!-- program~main&#45;&gt;proc~run_calculation -->
-<g id="proc~~send_gmbe_fragment_to_worker~~CalledByGraph_edge5" class="edge">
+<g id="proc~~send_pie_term_to_node~~CalledByGraph_edge5" class="edge">
 <title>program~main&#45;&gt;proc~run_calculation</title>
 <path fill="none" stroke="#ff0000" d="M54.24,-32.52C65.28,-32.71 78.27,-32.91 90,-33 173.11,-33.67 193.89,-33.51 277,-33 285.2,-32.95 293.86,-32.87 302.36,-32.78"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="302.64,-36.28 312.6,-32.66 302.56,-29.28 302.64,-36.28"/>
 </g>
 <!-- program~main&#45;&gt;proc~run_multi_molecule_calculations -->
-<g id="proc~~send_gmbe_fragment_to_worker~~CalledByGraph_edge6" class="edge">
+<g id="proc~~send_pie_term_to_node~~CalledByGraph_edge6" class="edge">
 <title>program~main&#45;&gt;proc~run_multi_molecule_calculations</title>
 <path fill="none" stroke="#ff0000" d="M54.21,-28.61C61.81,-27.62 70.61,-26.48 79.96,-25.27"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="80.42,-28.74 89.89,-23.99 79.52,-21.8 80.42,-28.74"/>
@@ -511,7 +481,7 @@ large graphs.</div>
 </g>
 </svg>
 </div>                <script>
-                  var panprocsend_gmbe_fragment_to_workerCalledByGraph = svgPanZoom('#procsend_gmbe_fragment_to_workerCalledByGraph',
+                  var panprocsend_pie_term_to_nodeCalledByGraph = svgPanZoom('#procsend_pie_term_to_nodeCalledByGraph',
                     {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
                   );
                 </script>          <div>
@@ -612,7 +582,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_indices~2"></span>
+              <span class="anchor" id="variable-atom_list~3"></span>
               integer,
             </td>
               <td>private,</td>
@@ -620,7 +590,7 @@ large graphs.</div>
               allocatable
             </td>
             <td>::</td>
-            <td><strong>fragment_indices</strong>(:)</td>
+            <td><strong>atom_list</strong>(:)</td>
                 <td></td>
                 <td></td>
             <td>
@@ -629,7 +599,24 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_size~2"></span>
+              <span class="anchor" id="variable-fragment_type~5"></span>
+              integer(kind=int32),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment_type</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_atoms~8"></span>
               integer,
             </td>
               <td>private</td>
@@ -637,7 +624,7 @@ large graphs.</div>
               
             </td>
             <td>::</td>
-            <td><strong>fragment_size</strong></td>
+            <td><strong>max_atoms</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -646,7 +633,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-intersection_size~4"></span>
+              <span class="anchor" id="variable-n_atoms~7"></span>
               integer,
             </td>
               <td>private</td>
@@ -654,7 +641,7 @@ large graphs.</div>
               
             </td>
             <td>::</td>
-            <td><strong>intersection_size</strong></td>
+            <td><strong>n_atoms</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -663,24 +650,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-is_monomer~3"></span>
-              logical,
-            </td>
-              <td>private</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>is_monomer</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-req~5"></span>
+              <span class="anchor" id="variable-req~7"></span>
               type(request_t),
             </td>
               <td>private</td>
@@ -688,7 +658,7 @@ large graphs.</div>
               
             </td>
             <td>::</td>
-            <td><strong>req</strong>(3)</td>
+            <td><strong>req</strong>(4)</td>
                 <td></td>
                 <td></td>
             <td>
@@ -711,48 +681,43 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">send_gmbe_fragment_to_worker</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="n">n_monomers</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="n">intersections</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">)</span>
-<span class="w">      </span><span class="c">!! Send GMBE fragment (monomer or intersection) to local worker</span>
-<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">comm_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">node_comm</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="n">n_monomers</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">polymers</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">intersections</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">send_pie_term_to_node</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">term_idx</span><span class="p">,</span><span class="w"> </span><span class="n">pie_atom_sets</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!! Send PIE term (atom list) to remote node coordinator</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">comm_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">world_comm</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">term_idx</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pie_atom_sets</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dest_rank</span>
 
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="n">intersection_size</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_indices</span><span class="p">(:)</span>
-<span class="w">      </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">is_monomer</span>
-<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">request_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">req</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n_atoms</span><span class="p">,</span><span class="w"> </span><span class="n">max_atoms</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">atom_list</span><span class="p">(:)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_type</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">request_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">req</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 
-<span class="w">      </span><span class="n">is_monomer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_idx</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n_monomers</span><span class="p">)</span>
+<span class="w">      </span><span class="c">! PIE terms always use atom lists (type 1)</span>
+<span class="w">      </span><span class="n">fragment_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
 
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_monomer</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="w">         </span><span class="c">! Monomer fragment</span>
-<span class="w">         </span><span class="n">fragment_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">         </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_indices</span><span class="p">(</span><span class="n">fragment_size</span><span class="p">))</span>
-<span class="w">         </span><span class="n">fragment_indices</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
-<span class="w">      </span><span class="k">else</span>
-<span class="w">         </span><span class="c">! Intersection fragment</span>
-<span class="w">         </span><span class="n">intersection_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">         </span><span class="k">do while</span><span class="w"> </span><span class="p">(</span><span class="n">intersection_size</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">intersections</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">intersections</span><span class="p">(</span><span class="n">intersection_size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_idx</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">n_monomers</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">exit</span>
-<span class="k">            </span><span class="n">intersection_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">intersection_size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">         </span><span class="k">end do</span>
-<span class="k">         </span><span class="n">fragment_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">intersection_size</span>
-<span class="w">         </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_indices</span><span class="p">(</span><span class="n">fragment_size</span><span class="p">))</span>
-<span class="w">         </span><span class="n">fragment_indices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">intersections</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">intersection_size</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_idx</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">n_monomers</span><span class="p">)</span>
-<span class="w">      </span><span class="k">end if</span>
+<span class="w">      </span><span class="c">! Extract atom list for this term</span>
+<span class="w">      </span><span class="n">max_atoms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">pie_atom_sets</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">      </span><span class="n">n_atoms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="k">do while</span><span class="w"> </span><span class="p">(</span><span class="n">n_atoms</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">max_atoms</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">pie_atom_sets</span><span class="p">(</span><span class="n">n_atoms</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">term_idx</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">         </span><span class="n">n_atoms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n_atoms</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="k">end do</span>
 
-<span class="k">      call </span><span class="n">isend</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-<span class="w">      </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-<span class="w">      </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_indices</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="k">      allocate</span><span class="w"> </span><span class="p">(</span><span class="n">atom_list</span><span class="p">(</span><span class="n">n_atoms</span><span class="p">))</span>
+<span class="w">      </span><span class="n">atom_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pie_atom_sets</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n_atoms</span><span class="p">,</span><span class="w"> </span><span class="n">term_idx</span><span class="p">)</span>
+
+<span class="w">      </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">term_idx</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_NODE_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="w">      </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_type</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_NODE_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="w">      </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">n_atoms</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_NODE_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="w">      </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">atom_list</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_NODE_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
 
 <span class="w">      </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 <span class="w">      </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <span class="w">      </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="w">      </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
 
-<span class="w">      </span><span class="k">deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_indices</span><span class="p">)</span>
-<span class="w">   </span><span class="k">end subroutine </span><span class="n">send_gmbe_fragment_to_worker</span>
+<span class="w">      </span><span class="k">deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">atom_list</span><span class="p">)</span>
+<span class="w">   </span><span class="k">end subroutine </span><span class="n">send_pie_term_to_node</span>
 </pre></div>
 
     </section>
@@ -776,7 +741,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-01 11:48 +0000             </p>
+ on 2026-01-01 13:19 +0000             </p>
           </div>
         </div>
         <br>

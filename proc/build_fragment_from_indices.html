@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.7% of total for procedures.">92 statements</a>
+                 title=" 1.7% of total for procedures.">97 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -143,11 +143,11 @@
             <a class="list-group-item" href="../proc/build_fragment_from_indices.html#variable-atom_start">atom_start</a>
             <a class="list-group-item" href="../proc/build_fragment_from_indices.html#variable-atoms_in_fragment~3">atoms_in_fragment</a>
             <a class="list-group-item" href="../proc/build_fragment_from_indices.html#variable-atoms_per_monomer~2">atoms_per_monomer</a>
-            <a class="list-group-item" href="../proc/build_fragment_from_indices.html#variable-frag_atom_idx~2">frag_atom_idx</a>
-            <a class="list-group-item" href="../proc/build_fragment_from_indices.html#variable-i~47">i</a>
-            <a class="list-group-item" href="../proc/build_fragment_from_indices.html#variable-iatom~6">iatom</a>
-            <a class="list-group-item" href="../proc/build_fragment_from_indices.html#variable-j~14">j</a>
-            <a class="list-group-item" href="../proc/build_fragment_from_indices.html#variable-mono_idx~2">mono_idx</a>
+            <a class="list-group-item" href="../proc/build_fragment_from_indices.html#variable-frag_atom_idx">frag_atom_idx</a>
+            <a class="list-group-item" href="../proc/build_fragment_from_indices.html#variable-i~6">i</a>
+            <a class="list-group-item" href="../proc/build_fragment_from_indices.html#variable-iatom~2">iatom</a>
+            <a class="list-group-item" href="../proc/build_fragment_from_indices.html#variable-j">j</a>
+            <a class="list-group-item" href="../proc/build_fragment_from_indices.html#variable-mono_idx">mono_idx</a>
             <a class="list-group-item" href="../proc/build_fragment_from_indices.html#variable-n_atoms_no_caps">n_atoms_no_caps</a>
             <a class="list-group-item" href="../proc/build_fragment_from_indices.html#variable-n_caps~3">n_caps</a>
             <a class="list-group-item" href="../proc/build_fragment_from_indices.html#variable-n_monomers_in_frag">n_monomers_in_frag</a>
@@ -212,7 +212,7 @@ Supports both fixed-size (identical monomers) and variable-sized fragments.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~22"></span>
+              <span class="anchor" id="variable-sys_geom~4"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -227,7 +227,7 @@ Supports both fixed-size (identical monomers) and variable-sized fragments.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-monomer_indices~4"></span>
+              <span class="anchor" id="variable-monomer_indices"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -242,7 +242,7 @@ Supports both fixed-size (identical monomers) and variable-sized fragments.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment~8"></span>
+              <span class="anchor" id="variable-fragment~2"></span>
               type(<a href='../type/physical_fragment_t.html'>physical_fragment_t</a>),
             </td>
 <td>intent(out)</td>
@@ -257,7 +257,7 @@ Supports both fixed-size (identical monomers) and variable-sized fragments.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~12"></span>
+              <span class="anchor" id="variable-bonds~3"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -494,132 +494,210 @@ large graphs.</div>
  -->
 <!-- Title: proc~~build_fragment_from_indices~~CalledByGraph Pages: 1 -->
 <svg id="procbuild_fragment_from_indicesCalledByGraph" width="641pt" height="74pt"
- viewBox="0.00 0.00 641.00 73.91" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~build_fragment_from_indices~~CalledByGraph" class="graph" transform="scale(0.64 0.64) rotate(0) translate(4 112)">
+ viewBox="0.00 0.00 641.00 74.10" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~build_fragment_from_indices~~CalledByGraph" class="graph" transform="scale(0.39 0.39) rotate(0) translate(4 185)">
 <title>proc~~build_fragment_from_indices~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 1002,-112 1002,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-185 1631,-185 1631,4 -4,4"/>
 <!-- proc~build_fragment_from_indices -->
 <g id="proc~~build_fragment_from_indices~~CalledByGraph_node1" class="node">
 <title>proc~build_fragment_from_indices</title>
-<polygon fill="none" stroke="black" points="998,-66 832,-66 832,-42 998,-42 998,-66"/>
-<text text-anchor="middle" x="915" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">build_fragment_from_indices</text>
+<polygon fill="none" stroke="black" points="1627,-122 1461,-122 1461,-98 1627,-98 1627,-122"/>
+<text text-anchor="middle" x="1544" y="-107.6" font-family="Helvetica,sans-Serif" font-size="10.50">build_fragment_from_indices</text>
+</g>
+<!-- proc~compute_gmbe_energy_gradient -->
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_node2" class="node">
+<title>proc~compute_gmbe_energy_gradient</title>
+<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node2"><a xlink:href="../proc/compute_gmbe_energy_gradient.html" xlink:title="compute_gmbe_energy_gradient">
+<polygon fill="#d9534f" stroke="#d9534f" points="1419.5,-181 1230.5,-181 1230.5,-157 1419.5,-157 1419.5,-181"/>
+<text text-anchor="middle" x="1325" y="-166.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_gmbe_energy_gradient</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_gmbe_energy_gradient&#45;&gt;proc~build_fragment_from_indices -->
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge1" class="edge">
+<title>proc~compute_gmbe_energy_gradient&#45;&gt;proc~build_fragment_from_indices</title>
+<path fill="none" stroke="#ff0000" d="M1372.38,-156.98C1388.99,-152.63 1407.85,-147.65 1425,-143 1446.53,-137.16 1470.21,-130.57 1490.68,-124.82"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1491.76,-128.15 1500.44,-122.08 1489.87,-121.42 1491.76,-128.15"/>
+</g>
+<!-- proc~map_fragment_to_system_gradient -->
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_node3" class="node">
+<title>proc~map_fragment_to_system_gradient</title>
+<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node3"><a xlink:href="../proc/map_fragment_to_system_gradient.html" xlink:title="map_fragment_to_system_gradient">
+<polygon fill="#d9534f" stroke="#d9534f" points="1425,-63 1225,-63 1225,-39 1425,-39 1425,-63"/>
+<text text-anchor="middle" x="1325" y="-48.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">map_fragment_to_system_gradient</text>
+</a>
+</g>
+</g>
+<!-- proc~map_fragment_to_system_gradient&#45;&gt;proc~build_fragment_from_indices -->
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge2" class="edge">
+<title>proc~map_fragment_to_system_gradient&#45;&gt;proc~build_fragment_from_indices</title>
+<path fill="none" stroke="#ff0000" d="M1372.38,-63.02C1388.99,-67.37 1407.85,-72.35 1425,-77 1446.53,-82.84 1470.21,-89.43 1490.68,-95.18"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1489.87,-98.58 1500.44,-97.92 1491.76,-91.85 1489.87,-98.58"/>
 </g>
 <!-- proc~node_worker -->
-<g id="proc~~build_fragment_from_indices~~CalledByGraph_node2" class="node">
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_node4" class="node">
 <title>proc~node_worker</title>
-<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node2"><a xlink:href="../proc/node_worker.html" xlink:title="node_worker">
-<polygon fill="#d9534f" stroke="#d9534f" points="760,-108 678,-108 678,-84 760,-84 760,-108"/>
-<text text-anchor="middle" x="719" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">node_worker</text>
+<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node4"><a xlink:href="../proc/node_worker.html" xlink:title="node_worker">
+<polygon fill="#d9534f" stroke="#d9534f" points="964,-143 882,-143 882,-119 964,-119 964,-143"/>
+<text text-anchor="middle" x="923" y="-128.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">node_worker</text>
 </a>
 </g>
 </g>
 <!-- proc~node_worker&#45;&gt;proc~build_fragment_from_indices -->
-<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge1" class="edge">
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge3" class="edge">
 <title>proc~node_worker&#45;&gt;proc~build_fragment_from_indices</title>
-<path fill="none" stroke="#ff0000" d="M760.2,-87.3C785.61,-81.8 819.06,-74.55 848.27,-68.23"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="849.37,-71.57 858.41,-66.04 847.89,-64.73 849.37,-71.57"/>
+<path fill="none" stroke="#ff0000" d="M964.14,-129.64C1061.76,-126.33 1313.62,-117.78 1450.73,-113.13"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1450.93,-116.63 1460.81,-112.79 1450.7,-109.63 1450.93,-116.63"/>
 </g>
 <!-- proc~serial_fragment_processor -->
-<g id="proc~~build_fragment_from_indices~~CalledByGraph_node3" class="node">
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_node5" class="node">
 <title>proc~serial_fragment_processor</title>
-<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node3"><a xlink:href="../proc/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
-<polygon fill="#d9534f" stroke="#d9534f" points="796,-66 642,-66 642,-42 796,-42 796,-66"/>
-<text text-anchor="middle" x="719" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
+<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node5"><a xlink:href="../proc/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
+<polygon fill="#d9534f" stroke="#d9534f" points="796,-103 642,-103 642,-79 796,-79 796,-103"/>
+<text text-anchor="middle" x="719" y="-88.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
 </a>
 </g>
 </g>
 <!-- proc~serial_fragment_processor&#45;&gt;proc~build_fragment_from_indices -->
-<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge2" class="edge">
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge4" class="edge">
 <title>proc~serial_fragment_processor&#45;&gt;proc~build_fragment_from_indices</title>
-<path fill="none" stroke="#ff0000" d="M796.12,-54C804.51,-54 813.12,-54 821.68,-54"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="821.7,-57.5 831.7,-54 821.7,-50.5 821.7,-57.5"/>
+<path fill="none" stroke="#ff0000" d="M796.32,-92.76C948.05,-96.26 1287.08,-104.09 1450.9,-107.87"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1450.88,-111.37 1460.96,-108.11 1451.04,-104.38 1450.88,-111.37"/>
 </g>
-<!-- proc~serial_gmbe_processor -->
-<g id="proc~~build_fragment_from_indices~~CalledByGraph_node4" class="node">
-<title>proc~serial_gmbe_processor</title>
-<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node4"><a xlink:href="../proc/serial_gmbe_processor.html" xlink:title="serial_gmbe_processor">
-<polygon fill="#d9534f" stroke="#d9534f" points="786.5,-24 651.5,-24 651.5,0 786.5,0 786.5,-24"/>
-<text text-anchor="middle" x="719" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_gmbe_processor</text>
+<!-- proc~compute_mbe_energy_gradient -->
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_node6" class="node">
+<title>proc~compute_mbe_energy_gradient</title>
+<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node6"><a xlink:href="../proc/compute_mbe_energy_gradient.html" xlink:title="compute_mbe_energy_gradient">
+<polygon fill="#d9534f" stroke="#d9534f" points="1014,-62 832,-62 832,-38 1014,-38 1014,-62"/>
+<text text-anchor="middle" x="923" y="-47.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe_energy_gradient</text>
 </a>
 </g>
 </g>
-<!-- proc~serial_gmbe_processor&#45;&gt;proc~build_fragment_from_indices -->
-<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge3" class="edge">
-<title>proc~serial_gmbe_processor&#45;&gt;proc~build_fragment_from_indices</title>
-<path fill="none" stroke="#ff0000" d="M775.59,-24.04C798.32,-28.96 824.78,-34.69 848.45,-39.81"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="847.89,-43.27 858.4,-41.96 849.37,-36.43 847.89,-43.27"/>
+<!-- proc~serial_fragment_processor&#45;&gt;proc~compute_mbe_energy_gradient -->
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge10" class="edge">
+<title>proc~serial_fragment_processor&#45;&gt;proc~compute_mbe_energy_gradient</title>
+<path fill="none" stroke="#ff0000" d="M779.24,-78.98C802.26,-74.3 828.8,-68.92 852.7,-64.07"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="853.66,-67.44 862.76,-62.02 852.26,-60.58 853.66,-67.44"/>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;proc~map_fragment_to_system_gradient -->
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge5" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;proc~map_fragment_to_system_gradient</title>
+<path fill="none" stroke="#7fff00" d="M1014.27,-50.23C1073.64,-50.37 1151.69,-50.57 1214.59,-50.73"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="1214.94,-54.23 1224.95,-50.75 1214.96,-47.23 1214.94,-54.23"/>
+</g>
+<!-- proc~compute_mbe_gradient -->
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_node7" class="node">
+<title>proc~compute_mbe_gradient</title>
+<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node7"><a xlink:href="../proc/compute_mbe_gradient.html" xlink:title="compute_mbe_gradient">
+<polygon fill="#d9534f" stroke="#d9534f" points="1189,-24 1050,-24 1050,0 1189,0 1189,-24"/>
+<text text-anchor="middle" x="1119.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe_gradient</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe_energy_gradient&#45;&gt;proc~compute_mbe_gradient -->
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge11" class="edge">
+<title>proc~compute_mbe_energy_gradient&#45;&gt;proc~compute_mbe_gradient</title>
+<path fill="none" stroke="#00ff00" d="M985.54,-37.98C1005.06,-34.16 1026.8,-29.91 1046.96,-25.98"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="1047.88,-29.36 1057.03,-24.01 1046.54,-22.49 1047.88,-29.36"/>
+</g>
+<!-- proc~compute_mbe_gradient&#45;&gt;proc~map_fragment_to_system_gradient -->
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge6" class="edge">
+<title>proc~compute_mbe_gradient&#45;&gt;proc~map_fragment_to_system_gradient</title>
+<path fill="none" stroke="#7fff00" d="M1183.22,-24.02C1204.69,-28.13 1228.89,-32.77 1251.09,-37.03"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="1250.66,-40.51 1261.14,-38.95 1251.98,-33.63 1250.66,-40.51"/>
 </g>
 <!-- proc~run_fragmented_calculation -->
-<g id="proc~~build_fragment_from_indices~~CalledByGraph_node5" class="node">
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_node8" class="node">
 <title>proc~run_fragmented_calculation</title>
-<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node5"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
-<polygon fill="#d9534f" stroke="#d9534f" points="606,-87 443,-87 443,-63 606,-63 606,-87"/>
-<text text-anchor="middle" x="524.5" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
+<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node8"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="606,-103 443,-103 443,-79 606,-79 606,-103"/>
+<text text-anchor="middle" x="524.5" y="-88.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
 </a>
 </g>
 </g>
 <!-- proc~run_fragmented_calculation&#45;&gt;proc~node_worker -->
-<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge4" class="edge">
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge7" class="edge">
 <title>proc~run_fragmented_calculation&#45;&gt;proc~node_worker</title>
-<path fill="none" stroke="#ff0000" d="M606.02,-83.78C626.97,-86.07 648.94,-88.47 667.82,-90.53"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="667.64,-94.03 677.96,-91.63 668.4,-87.07 667.64,-94.03"/>
+<path fill="none" stroke="#00ffff" d="M584.87,-103.01C603.13,-106.35 623.34,-109.69 642,-112 722.12,-121.91 815.82,-126.95 871.96,-129.27"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="871.86,-132.77 881.99,-129.68 872.14,-125.78 871.86,-132.77"/>
 </g>
 <!-- proc~run_fragmented_calculation&#45;&gt;proc~serial_fragment_processor -->
-<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge5" class="edge">
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge8" class="edge">
 <title>proc~run_fragmented_calculation&#45;&gt;proc~serial_fragment_processor</title>
-<path fill="none" stroke="#00ff00" d="M606.02,-66.22C614.54,-65.29 623.22,-64.34 631.8,-63.4"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="632.24,-66.88 641.8,-62.31 631.48,-59.92 632.24,-66.88"/>
+<path fill="none" stroke="#7f00ff" d="M606.02,-91C614.54,-91 623.22,-91 631.8,-91"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="631.8,-94.5 641.8,-91 631.8,-87.5 631.8,-94.5"/>
+</g>
+<!-- proc~global_coordinator -->
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_node9" class="node">
+<title>proc~global_coordinator</title>
+<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node9"><a xlink:href="../proc/global_coordinator.html" xlink:title="global_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="775.5,-61 662.5,-61 662.5,-37 775.5,-37 775.5,-61"/>
+<text text-anchor="middle" x="719" y="-46.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">global_coordinator</text>
+</a>
+</g>
+</g>
+<!-- proc~run_fragmented_calculation&#45;&gt;proc~global_coordinator -->
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge13" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;proc~global_coordinator</title>
+<path fill="none" stroke="#ff0000" d="M580.66,-78.96C603.22,-74.04 629.47,-68.31 652.96,-63.19"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="653.81,-66.59 662.83,-61.04 652.31,-59.75 653.81,-66.59"/>
+</g>
+<!-- proc~global_coordinator&#45;&gt;proc~compute_mbe_energy_gradient -->
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge9" class="edge">
+<title>proc~global_coordinator&#45;&gt;proc~compute_mbe_energy_gradient</title>
+<path fill="none" stroke="#ff0000" d="M775.73,-49.28C790.01,-49.35 805.8,-49.42 821.58,-49.5"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="821.91,-53 831.92,-49.55 821.94,-46 821.91,-53"/>
 </g>
 <!-- proc~run_calculation -->
-<g id="proc~~build_fragment_from_indices~~CalledByGraph_node6" class="node">
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_node10" class="node">
 <title>proc~run_calculation</title>
-<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node6"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
-<polygon fill="#d9534f" stroke="#d9534f" points="407,-87 313,-87 313,-63 407,-63 407,-87"/>
-<text text-anchor="middle" x="360" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
+<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node10"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="407,-103 313,-103 313,-79 407,-79 407,-103"/>
+<text text-anchor="middle" x="360" y="-88.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
 </a>
 </g>
 </g>
 <!-- proc~run_calculation&#45;&gt;proc~run_fragmented_calculation -->
-<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge6" class="edge">
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge12" class="edge">
 <title>proc~run_calculation&#45;&gt;proc~run_fragmented_calculation</title>
-<path fill="none" stroke="#ff0000" d="M407.13,-75C415.24,-75 423.94,-75 432.78,-75"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="432.8,-78.5 442.8,-75 432.8,-71.5 432.8,-78.5"/>
+<path fill="none" stroke="#0000ff" d="M407.13,-91C415.24,-91 423.94,-91 432.78,-91"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="432.8,-94.5 442.8,-91 432.8,-87.5 432.8,-94.5"/>
 </g>
 <!-- proc~run_multi_molecule_calculations -->
-<g id="proc~~build_fragment_from_indices~~CalledByGraph_node7" class="node">
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_node11" class="node">
 <title>proc~run_multi_molecule_calculations</title>
-<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node7"><a xlink:href="../proc/run_multi_molecule_calculations.html" xlink:title="run_multi_molecule_calculations">
-<polygon fill="#d9534f" stroke="#d9534f" points="277,-67 90,-67 90,-43 277,-43 277,-67"/>
-<text text-anchor="middle" x="183.5" y="-52.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_multi_molecule_calculations</text>
+<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node11"><a xlink:href="../proc/run_multi_molecule_calculations.html" xlink:title="run_multi_molecule_calculations">
+<polygon fill="#d9534f" stroke="#d9534f" points="277,-83 90,-83 90,-59 277,-59 277,-83"/>
+<text text-anchor="middle" x="183.5" y="-68.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_multi_molecule_calculations</text>
 </a>
 </g>
 </g>
 <!-- proc~run_multi_molecule_calculations&#45;&gt;proc~run_calculation -->
-<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge7" class="edge">
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge14" class="edge">
 <title>proc~run_multi_molecule_calculations&#45;&gt;proc~run_calculation</title>
-<path fill="none" stroke="#ff0000" d="M277.11,-65.61C285.83,-66.61 294.48,-67.61 302.7,-68.55"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="302.54,-72.05 312.87,-69.71 303.33,-65.1 302.54,-72.05"/>
+<path fill="none" stroke="#00ffff" d="M277.11,-81.61C285.83,-82.61 294.48,-83.61 302.7,-84.55"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="302.54,-88.05 312.87,-85.71 303.33,-81.1 302.54,-88.05"/>
 </g>
 <!-- program~main -->
-<g id="proc~~build_fragment_from_indices~~CalledByGraph_node8" class="node">
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_node12" class="node">
 <title>program~main</title>
-<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node8"><a xlink:href="../program/main.html" xlink:title="main">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="54,-87 0,-87 0,-63 54,-63 54,-87"/>
-<text text-anchor="middle" x="27" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
+<g id="a_proc~~build_fragment_from_indices~~CalledByGraph_node12"><a xlink:href="../program/main.html" xlink:title="main">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="54,-103 0,-103 0,-79 54,-79 54,-103"/>
+<text text-anchor="middle" x="27" y="-88.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
 </a>
 </g>
 </g>
 <!-- program~main&#45;&gt;proc~run_calculation -->
-<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge8" class="edge">
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge15" class="edge">
 <title>program~main&#45;&gt;proc~run_calculation</title>
-<path fill="none" stroke="#ff0000" d="M54.24,-75.52C65.28,-75.71 78.27,-75.91 90,-76 173.11,-76.67 193.89,-76.51 277,-76 285.2,-75.95 293.86,-75.87 302.36,-75.78"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="302.64,-79.28 312.6,-75.66 302.56,-72.28 302.64,-79.28"/>
+<path fill="none" stroke="#00ffff" d="M54.24,-91.52C65.28,-91.71 78.27,-91.91 90,-92 173.11,-92.67 193.89,-92.51 277,-92 285.2,-91.95 293.86,-91.87 302.36,-91.78"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="302.64,-95.28 312.6,-91.66 302.56,-88.28 302.64,-95.28"/>
 </g>
 <!-- program~main&#45;&gt;proc~run_multi_molecule_calculations -->
-<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge9" class="edge">
+<g id="proc~~build_fragment_from_indices~~CalledByGraph_edge16" class="edge">
 <title>program~main&#45;&gt;proc~run_multi_molecule_calculations</title>
-<path fill="none" stroke="#ff0000" d="M54.21,-71.61C61.81,-70.62 70.61,-69.48 79.96,-68.27"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="80.42,-71.74 89.89,-66.99 79.52,-64.8 80.42,-71.74"/>
+<path fill="none" stroke="#ff0000" d="M54.21,-87.61C61.81,-86.62 70.61,-85.48 79.96,-84.27"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="80.42,-87.74 89.89,-82.99 79.52,-80.8 80.42,-87.74"/>
 </g>
 </g>
 </svg>
@@ -844,7 +922,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-frag_atom_idx~2"></span>
+              <span class="anchor" id="variable-frag_atom_idx"></span>
               integer,
             </td>
               <td>private</td>
@@ -861,7 +939,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~47"></span>
+              <span class="anchor" id="variable-i~6"></span>
               integer,
             </td>
               <td>private</td>
@@ -878,7 +956,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iatom~6"></span>
+              <span class="anchor" id="variable-iatom~2"></span>
               integer,
             </td>
               <td>private</td>
@@ -895,7 +973,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-j~14"></span>
+              <span class="anchor" id="variable-j"></span>
               integer,
             </td>
               <td>private</td>
@@ -912,7 +990,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mono_idx~2"></span>
+              <span class="anchor" id="variable-mono_idx"></span>
               integer,
             </td>
               <td>private</td>
@@ -1082,8 +1160,9 @@ large graphs.</div>
 <span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">fragment</span><span class="p">%</span><span class="n">element_numbers</span><span class="p">(</span><span class="n">fragment</span><span class="p">%</span><span class="n">n_atoms</span><span class="p">))</span>
 <span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">fragment</span><span class="p">%</span><span class="n">coordinates</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">fragment</span><span class="p">%</span><span class="n">n_atoms</span><span class="p">))</span>
 <span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n_caps</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">fragment</span><span class="p">%</span><span class="n">cap_replaces_atom</span><span class="p">(</span><span class="n">n_caps</span><span class="p">))</span>
+<span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">fragment</span><span class="p">%</span><span class="n">local_to_global</span><span class="p">(</span><span class="n">n_atoms_no_caps</span><span class="p">))</span><span class="w">  </span><span class="c">! Only non-cap atoms</span>
 
-<span class="w">      </span><span class="c">! Copy original atoms</span>
+<span class="w">      </span><span class="c">! Copy original atoms and build local→global mapping</span>
 <span class="w">      </span><span class="n">frag_atom_idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 <span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">use_explicit_fragments</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">         </span><span class="c">! Variable-sized: copy atoms based on explicit fragment definitions</span>
@@ -1095,6 +1174,7 @@ large graphs.</div>
 <span class="w">               </span><span class="n">atom_global_idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">%</span><span class="n">fragment_atoms</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">mono_idx</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">               </span><span class="n">fragment</span><span class="p">%</span><span class="n">element_numbers</span><span class="p">(</span><span class="n">frag_atom_idx</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">%</span><span class="n">element_numbers</span><span class="p">(</span><span class="n">atom_global_idx</span><span class="p">)</span>
 <span class="w">               </span><span class="n">fragment</span><span class="p">%</span><span class="n">coordinates</span><span class="p">(:,</span><span class="w"> </span><span class="n">frag_atom_idx</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">%</span><span class="n">coordinates</span><span class="p">(:,</span><span class="w"> </span><span class="n">atom_global_idx</span><span class="p">)</span>
+<span class="w">               </span><span class="n">fragment</span><span class="p">%</span><span class="n">local_to_global</span><span class="p">(</span><span class="n">frag_atom_idx</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atom_global_idx</span><span class="w">  </span><span class="c">! Store 1-indexed global position</span>
 <span class="w">            </span><span class="k">end do</span>
 <span class="k">         end do</span>
 <span class="k">      else</span>
@@ -1104,14 +1184,14 @@ large graphs.</div>
 <span class="w">            </span><span class="n">atom_start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">mono_idx</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">atoms_per_monomer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">            </span><span class="n">atom_end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mono_idx</span><span class="o">*</span><span class="n">atoms_per_monomer</span>
 
-<span class="w">            </span><span class="n">fragment</span><span class="p">%</span><span class="n">element_numbers</span><span class="p">(</span><span class="n">frag_atom_idx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">frag_atom_idx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">atoms_per_monomer</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">               </span><span class="n">sys_geom</span><span class="p">%</span><span class="n">element_numbers</span><span class="p">(</span><span class="n">atom_start</span><span class="p">:</span><span class="n">atom_end</span><span class="p">)</span>
-
-<span class="w">            </span><span class="n">fragment</span><span class="p">%</span><span class="n">coordinates</span><span class="p">(:,</span><span class="w"> </span><span class="n">frag_atom_idx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">frag_atom_idx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">atoms_per_monomer</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">               </span><span class="n">sys_geom</span><span class="p">%</span><span class="n">coordinates</span><span class="p">(:,</span><span class="w"> </span><span class="n">atom_start</span><span class="p">:</span><span class="n">atom_end</span><span class="p">)</span>
-
-<span class="w">            </span><span class="n">frag_atom_idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">frag_atom_idx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">atoms_per_monomer</span>
-<span class="w">         </span><span class="k">end do</span>
+<span class="w">            </span><span class="c">! Copy coordinates and elements</span>
+<span class="w">            </span><span class="k">do </span><span class="n">atom_i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atom_start</span><span class="p">,</span><span class="w"> </span><span class="n">atom_end</span>
+<span class="w">               </span><span class="n">frag_atom_idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">frag_atom_idx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">               </span><span class="n">fragment</span><span class="p">%</span><span class="n">element_numbers</span><span class="p">(</span><span class="n">frag_atom_idx</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">%</span><span class="n">element_numbers</span><span class="p">(</span><span class="n">atom_i</span><span class="p">)</span>
+<span class="w">               </span><span class="n">fragment</span><span class="p">%</span><span class="n">coordinates</span><span class="p">(:,</span><span class="w"> </span><span class="n">frag_atom_idx</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">%</span><span class="n">coordinates</span><span class="p">(:,</span><span class="w"> </span><span class="n">atom_i</span><span class="p">)</span>
+<span class="w">               </span><span class="n">fragment</span><span class="p">%</span><span class="n">local_to_global</span><span class="p">(</span><span class="n">frag_atom_idx</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atom_i</span><span class="w">  </span><span class="c">! Store 1-indexed global position</span>
+<span class="w">            </span><span class="k">end do</span>
+<span class="k">         end do</span>
 <span class="k">      end if</span>
 
 <span class="w">      </span><span class="c">! Add hydrogen caps at end (if any)</span>
@@ -1175,7 +1255,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-01 11:48 +0000             </p>
+ on 2026-01-01 13:19 +0000             </p>
           </div>
         </div>
         <br>
