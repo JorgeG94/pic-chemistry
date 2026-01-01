@@ -103,7 +103,7 @@ contains
    end subroutine do_fragment_work
 
    subroutine global_coordinator(world_comm, node_comm, total_fragments, polymers, max_level, &
-                                 node_leader_ranks, num_nodes, sys_geom, calc_type)
+                                 node_leader_ranks, num_nodes, sys_geom, calc_type, bonds)
       !! Global coordinator for distributing fragments to node coordinators
       !! will act as a node coordinator for a single node calculation
       !! Uses int64 for total_fragments to handle large fragment counts that overflow int32.
@@ -113,6 +113,7 @@ contains
       integer, intent(in) :: polymers(:, :), node_leader_ranks(:)
       type(system_geometry_t), intent(in), optional :: sys_geom
       integer(int32), intent(in), optional :: calc_type
+      type(bond_t), intent(in), optional :: bonds(:)
 
       type(timer_type) :: coord_timer
       integer(int64) :: current_fragment, results_received
@@ -287,7 +288,7 @@ contains
             end if
             allocate (mbe_total_gradient(3, sys_geom%total_atoms))
             call compute_mbe_energy_gradient(polymers, total_fragments, max_level, results, sys_geom, &
-                                             mbe_total_energy, mbe_total_gradient)
+                                             mbe_total_energy, mbe_total_gradient, bonds)
             deallocate (mbe_total_gradient)
          else
             call compute_mbe_energy(polymers, total_fragments, max_level, results, mbe_total_energy)

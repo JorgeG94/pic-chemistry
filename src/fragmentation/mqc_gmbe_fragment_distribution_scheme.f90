@@ -4,6 +4,7 @@ module mqc_gmbe_fragment_distribution_scheme
    !! Handles both serial and MPI-parallelized distribution of monomers and intersection fragments
    use pic_types, only: int32, int64, dp
    use pic_timer, only: timer_type
+   use mqc_calc_types, only: CALC_TYPE_GRADIENT
  use pic_mpi_lib, only: comm_t, send, recv, isend, irecv, wait, iprobe, MPI_Status, request_t, MPI_ANY_SOURCE, MPI_ANY_TAG
    use pic_logger, only: logger => global_logger
    use pic_io, only: to_char
@@ -115,7 +116,7 @@ contains
                    intersection_levels, n_intersections, node_leader_ranks, num_nodes, sys_geom, method, calc_type, bonds)
       !! MPI-enabled GMBE coordinator: distributes monomers and intersections across ranks
       !! Similar to global_coordinator but handles GMBE-specific fragment types
-      use mqc_mbe, only: compute_gmbe_energy
+      use mqc_mbe, only: compute_gmbe_energy, compute_gmbe_energy_gradient
 
       type(comm_t), intent(in) :: world_comm, node_comm
       integer, intent(in) :: n_monomers  !! Number of monomers
@@ -148,6 +149,7 @@ contains
       integer :: worker_source
       integer, allocatable :: monomer_indices(:)
       real(dp) :: total_energy
+      real(dp), allocatable :: total_gradient(:, :)
 
       ! MPI request handles for non-blocking operations
       type(request_t) :: req
@@ -294,7 +296,7 @@ contains
       call coord_timer%stop()
       call logger%info("Time to evaluate all fragments "//to_char(coord_timer%get_elapsed_time())//" s")
 
-      ! Compute GMBE energy
+      ! Compute GMBE energy (and gradient if requested)
       call logger%info(" ")
       call logger%info("Computing Generalized Many-Body Expansion (GMBE)...")
       call coord_timer%start()
@@ -304,14 +306,30 @@ contains
          monomer_indices(fragment_idx) = polymers(fragment_idx, 1)
       end do
 
-      if (n_intersections > 0) then
-         call compute_gmbe_energy(monomer_indices, n_monomers, monomer_results, &
-                                  n_intersections, intersection_results, &
-                                  intersection_sets, intersection_levels, total_energy)
+      ! Use combined function if computing gradients (more efficient)
+      if (calc_type == CALC_TYPE_GRADIENT) then
+         allocate (total_gradient(3, sys_geom%total_atoms))
+         if (n_intersections > 0) then
+            call compute_gmbe_energy_gradient(monomer_indices, n_monomers, monomer_results, &
+                                              n_intersections, intersection_results, &
+                                              intersection_sets, intersection_levels, &
+                                              sys_geom, total_energy, total_gradient, bonds)
+         else
+            call compute_gmbe_energy_gradient(monomer_indices, n_monomers, monomer_results, &
+                                              0, sys_geom=sys_geom, &
+                                              total_energy=total_energy, total_gradient=total_gradient, bonds=bonds)
+         end if
+         deallocate (total_gradient)
       else
-         ! No intersections - omit optional parameters
-         call compute_gmbe_energy(monomer_indices, n_monomers, monomer_results, &
-                                  0, total_energy=total_energy)
+         if (n_intersections > 0) then
+            call compute_gmbe_energy(monomer_indices, n_monomers, monomer_results, &
+                                     n_intersections, intersection_results, &
+                                     intersection_sets, intersection_levels, total_energy)
+         else
+            ! No intersections - omit optional parameters
+            call compute_gmbe_energy(monomer_indices, n_monomers, monomer_results, &
+                                     0, total_energy=total_energy)
+         end if
       end if
 
       call coord_timer%stop()
@@ -428,7 +446,7 @@ contains
       !! Serial GMBE processor using PIE coefficients
       !! Evaluates each unique atom set once and sums with PIE coefficients
       !! Supports both energy-only and energy+gradient calculations
-      use mqc_calc_types, only: CALC_TYPE_GRADIENT, calc_type_to_string
+      use mqc_calc_types, only: CALC_TYPE_GRADIENT, CALC_TYPE_ENERGY, calc_type_to_string
       use mqc_physical_fragment, only: redistribute_cap_gradients
       use pic_logger, only: info_level
       integer, intent(in) :: pie_atom_sets(:, :)  !! Unique atom sets (max_atoms, n_pie_terms)
