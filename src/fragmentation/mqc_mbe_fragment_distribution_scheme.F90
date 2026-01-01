@@ -702,7 +702,7 @@ contains
       if (calc_type_local == CALC_TYPE_GRADIENT) then
          allocate (mbe_total_gradient(3, sys_geom%total_atoms))
          call compute_mbe_energy_gradient(polymers, total_fragments, max_level, results, sys_geom, &
-                                          mbe_total_energy, mbe_total_gradient)
+                                          mbe_total_energy, mbe_total_gradient, bonds)
          deallocate (mbe_total_gradient)
       else
          call compute_mbe_energy(polymers, total_fragments, max_level, results, mbe_total_energy)
