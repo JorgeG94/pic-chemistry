@@ -739,8 +739,11 @@ contains
          allocate (total_gradient(3, sys_geom%total_atoms))
          total_gradient = 0.0_dp
 
+         call logger%verbose("Processing gradients for "//to_char(n_pie_terms)//" PIE terms")
+
          do term_idx = 1, n_pie_terms
             if (results(term_idx)%has_gradient) then
+               call logger%verbose("  PIE term "//to_char(term_idx)//" has gradient")
                ! Map fragment gradient to system coordinates
                block
                   real(dp), allocatable :: term_gradient(:, :)
@@ -773,8 +776,34 @@ contains
                   total_gradient = total_gradient + real(pie_coefficients(term_idx), dp)*term_gradient
                   deallocate (term_gradient)
                end block
+            else
+               call logger%verbose("  PIE term "//to_char(term_idx)//" does NOT have gradient")
             end if
          end do
+
+         ! Print gradient information
+         call logger%info("GMBE PIE gradient computation completed")
+         call logger%info("  Total gradient norm: "//to_char(sqrt(sum(total_gradient**2))))
+
+         ! Print detailed gradient if info level and small system
+         block
+            use pic_logger, only: info_level
+            integer :: iatom, current_log_level
+            call logger%configuration(level=current_log_level)
+            if (current_log_level >= info_level .and. sys_geom%total_atoms < 100) then
+               call logger%info(" ")
+               call logger%info("Total GMBE PIE Gradient (Hartree/Bohr):")
+               do iatom = 1, sys_geom%total_atoms
+                  block
+                     character(len=256) :: grad_line
+                     write (grad_line, '(a,i5,a,3f20.12)') "  Atom ", iatom, ": ", &
+                        total_gradient(1, iatom), total_gradient(2, iatom), total_gradient(3, iatom)
+                     call logger%info(trim(grad_line))
+                  end block
+               end do
+               call logger%info(" ")
+            end if
+         end block
 
          deallocate (total_gradient)
       end if
