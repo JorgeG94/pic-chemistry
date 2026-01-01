@@ -326,19 +326,6 @@ contains
 
    end subroutine molecule_to_system_geometry
 
-   subroutine geometry_to_system(geom, sys_geom, use_angstrom)
-      !! Simple conversion for backward compatibility
-      !! Deprecated: use config_to_system_geometry instead
-      use mqc_geometry, only: geometry_type
-
-      type(geometry_type), intent(in) :: geom
-      type(system_geometry_t), intent(out) :: sys_geom
-      logical, intent(in) :: use_angstrom
-
-      call geometry_to_system_unfragmented(geom, sys_geom, use_angstrom)
-
-   end subroutine geometry_to_system
-
    function get_logger_level(level_string) result(level_int)
       !! Convert string log level to integer value
       !! This function uses the pic_logger constants

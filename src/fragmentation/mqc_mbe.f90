@@ -4,7 +4,6 @@ module mqc_mbe
    !! calculations with MPI parallelization and energy/gradient computation.
    use pic_types, only: int32, int64, dp
    use pic_timer, only: timer_type
-   use pic_blas_interfaces, only: pic_gemm, pic_dot
    use pic_mpi_lib, only: comm_t, send, recv, iprobe, MPI_Status, MPI_ANY_SOURCE, MPI_ANY_TAG
    use pic_logger, only: logger => global_logger, verbose_level, debug_level, info_level
    use pic_io, only: to_char
