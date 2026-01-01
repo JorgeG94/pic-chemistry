@@ -38,7 +38,7 @@ Build the Code
 .. code-block:: bash
 
    # Clone and build
-   git clone <repository-url>
+   git clone git@github.com:JorgeG94/metalquicha.git
    cd metalquicha
    mkdir build && cd build
    cmake ..
