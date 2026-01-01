@@ -12,7 +12,7 @@ module mqc_finite_differences
    public :: finite_diff_hessian_from_gradients  !! Compute Hessian from gradient differences
 
    ! Default displacement step size (Bohr)
-   real(dp), parameter, public :: DEFAULT_DISPLACEMENT = 0.001_dp  !! ~0.0005 Angstrom
+   real(dp), parameter, public :: DEFAULT_DISPLACEMENT = 0.01_dp  !! ~0.05 Angstrom
 
    type :: displaced_geometry_t
       !! Container for a single displaced geometry
