@@ -58,4 +58,5 @@ addtest(mqc_finite_differences)
 
 if(MQC_ENABLE_TBLITE)
   addtest(mqc_method_api)
+  addtest(mqc_hessian_finite_diff)
 endif()
