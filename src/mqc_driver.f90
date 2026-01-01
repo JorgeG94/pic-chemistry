@@ -45,7 +45,6 @@ contains
       ! Local variables
       integer :: max_level   !! Maximum fragment level (nlevel from config)
       integer :: i  !! Loop counter
-      logical :: has_broken_bonds  !! Flag for broken bonds (H-capping will occur)
 
       ! Set max_level from config
       max_level = config%nlevel
@@ -95,33 +94,6 @@ contains
             call logger%error(" ")
          end if
          call abort_comm(world_comm, 1)
-      end if
-
-      ! Validate gradient calculations with H-capping
-      if (max_level > 0 .and. config%calc_type == CALC_TYPE_GRADIENT) then
-         if (present(bonds)) then
-            has_broken_bonds = .false.
-            do i = 1, size(bonds)
-               if (bonds(i)%is_broken) then
-                  has_broken_bonds = .true.
-                  exit
-               end if
-            end do
-
-            if (has_broken_bonds) then
-               if (world_comm%rank() == 0) then
-                  call logger%error(" ")
-                  call logger%error("ERROR: Gradient calculations with hydrogen capping are not supported yet")
-                  call logger%error(" ")
-                  call logger%error("Solutions:")
-                  call logger%error("  1. Use calc_type = Energy instead of Gradient")
-                  call logger%error("  2. Remove broken bonds from connectivity (no H-capping)")
-                  call logger%error("  3. Use unfragmented calculation (nlevel = 0)")
-                  call logger%error(" ")
-               end if
-               call abort_comm(world_comm, 1)
-            end if
-         end if
       end if
 
       if (max_level == 0) then
