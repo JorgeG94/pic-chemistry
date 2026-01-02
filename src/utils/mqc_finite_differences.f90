@@ -10,6 +10,7 @@ module mqc_finite_differences
    public :: generate_perturbed_geometries  !! Generate forward/backward displacements
    public :: displaced_geometry_t           !! Container for displaced geometry
    public :: finite_diff_hessian_from_gradients  !! Compute Hessian from gradient differences
+   public :: copy_and_displace_geometry   !! Copy and displace geometry
 
    ! Default displacement step size (Bohr)
    real(dp), parameter, public :: DEFAULT_DISPLACEMENT = 0.01_dp  !! ~0.05 Angstrom
