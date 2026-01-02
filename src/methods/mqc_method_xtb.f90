@@ -214,7 +214,6 @@ contains
       type(calculation_result_t), intent(out) :: result
 
       type(displaced_geometry_t), allocatable :: forward_geoms(:), backward_geoms(:)
-      type(timer_type) :: vib_timer
       real(dp), allocatable :: forward_gradients(:, :, :)  ! (n_displacements, 3, n_atoms)
       real(dp), allocatable :: backward_gradients(:, :, :)  ! (n_displacements, 3, n_atoms)
       type(calculation_result_t) :: disp_result
@@ -245,13 +244,7 @@ contains
       if (this%verbose) then
          call logger%info("  Computing forward-displaced gradients...")
       end if
-      call vib_timer%start()
       do i = 1, n_displacements
-
-         if (mod(i, max(1, n_displacements/10)) == 0 .or. i == n_displacements) then
-            call logger%info("  Completed "//to_char(i)//"/"//to_char(n_displacements)// &
-                             " displacement pairs in "//to_char(vib_timer%get_elapsed_time())//" s")
-         end if
 
          ! Forward
          call this%calc_gradient(forward_geoms(i)%geometry, disp_result)
@@ -272,9 +265,8 @@ contains
          call disp_result%destroy()
 
       end do
-      call vib_timer%stop()
       if (this%verbose) then
-call logger%info("  Forward and backward gradient calculations complete in "//to_char(vib_timer%get_elapsed_time())//" s")
+         call logger%info("  Forward and backward gradient calculations complete ")
       end if
       ! Compute Hessian from finite differences
       if (this%verbose) then
