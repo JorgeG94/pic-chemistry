@@ -638,10 +638,41 @@ contains
          call fragment%destroy()
       else
          ! Old code path for fragments without hydrogen caps
-         ! Simple direct mapping (fixed-size monomers only)
-         ! This would need to be implemented similarly to gradients if needed
-         call logger%error("Hessian mapping without bonds not yet implemented")
-         error stop "Hessian mapping requires bonds parameter"
+         ! Map fragment Hessian to system positions (fixed-size monomers only)
+         block
+            integer :: i_mon, j_mon, i_atom, j_atom
+            integer :: frag_atom_i, frag_atom_j, sys_atom_i, sys_atom_j
+            integer :: frag_row_start, frag_col_start, sys_row_start, sys_col_start
+            integer :: n_monomers
+
+            n_monomers = size(monomers)
+            frag_atom_i = 0
+
+            ! Map each monomer's atoms
+            do i_mon = 1, n_monomers
+               do i_atom = 1, sys_geom%atoms_per_monomer
+                  frag_atom_i = frag_atom_i + 1
+                  sys_atom_i = (monomers(i_mon) - 1)*sys_geom%atoms_per_monomer + i_atom
+                  frag_row_start = (frag_atom_i - 1)*3 + 1
+                  sys_row_start = (sys_atom_i - 1)*3 + 1
+
+                  ! Map this atom's Hessian blocks with all other atoms in fragment
+                  frag_atom_j = 0
+                  do j_mon = 1, n_monomers
+                     do j_atom = 1, sys_geom%atoms_per_monomer
+                        frag_atom_j = frag_atom_j + 1
+                        sys_atom_j = (monomers(j_mon) - 1)*sys_geom%atoms_per_monomer + j_atom
+                        frag_col_start = (frag_atom_j - 1)*3 + 1
+                        sys_col_start = (sys_atom_j - 1)*3 + 1
+
+                        ! Copy the 3×3 block for this atom pair
+                        sys_hess(sys_row_start:sys_row_start + 2, sys_col_start:sys_col_start + 2) = &
+                           frag_hess(frag_row_start:frag_row_start + 2, frag_col_start:frag_col_start + 2)
+                     end do
+                  end do
+               end do
+            end do
+         end block
       end if
 
    end subroutine map_fragment_to_system_hessian
