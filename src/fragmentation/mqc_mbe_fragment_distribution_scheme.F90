@@ -849,7 +849,7 @@ contains
       logical :: is_verbose
       character(len=256) :: result_line
       real(dp) :: hess_norm
-      integer :: i,j
+      integer :: i, j
 #ifndef MQC_WITHOUT_TBLITE
       type(xtb_method_t) :: xtb_calc
 #endif
