@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="10.2% of total for modules and submodules.">731 statements</a>
+                 title="10.1% of total for modules and submodules.">731 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -196,15 +196,15 @@ GMBE energy, gradient, and Hessian with intersection correction</p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='mqc_mbe_io.html'>mqc_mbe_io</a></li>
                   <li class="list-inline-item">pic_logger</li>
-                  <li class="list-inline-item"><a href='mqc_mpi_tags.html'>mqc_mpi_tags</a></li>
-                  <li class="list-inline-item"><a href='mqc_physical_fragment.html'>mqc_physical_fragment</a></li>
-                  <li class="list-inline-item">pic_timer</li>
+                  <li class="list-inline-item"><a href='mqc_mbe_io.html'>mqc_mbe_io</a></li>
                   <li class="list-inline-item">pic_mpi_lib</li>
                   <li class="list-inline-item"><a href='mqc_frag_utils.html'>mqc_frag_utils</a></li>
-                  <li class="list-inline-item">pic_io</li>
+                  <li class="list-inline-item">pic_timer</li>
+                  <li class="list-inline-item"><a href='mqc_mpi_tags.html'>mqc_mpi_tags</a></li>
+                  <li class="list-inline-item"><a href='mqc_physical_fragment.html'>mqc_physical_fragment</a></li>
                   <li class="list-inline-item">pic_types</li>
+                  <li class="list-inline-item">pic_io</li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -1036,7 +1036,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment~17"></span>
+              <span class="anchor" id="variable-fragment"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1066,7 +1066,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-energies~4"></span>
+              <span class="anchor" id="variable-energies~2"></span>
               real(kind=dp),
             </td>
 <td>intent(in)</td>
@@ -1081,7 +1081,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-delta_energies~4"></span>
+              <span class="anchor" id="variable-delta_energies~2"></span>
               real(kind=dp),
             </td>
 <td>intent(in)</td>
@@ -1096,7 +1096,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~7"></span>
+              <span class="anchor" id="variable-n~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1161,7 +1161,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_monomers~4"></span>
+              <span class="anchor" id="variable-n_monomers"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1176,7 +1176,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-monomer_results~2"></span>
+              <span class="anchor" id="variable-monomer_results"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1191,7 +1191,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_intersections~2"></span>
+              <span class="anchor" id="variable-n_intersections"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1206,7 +1206,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-intersection_results~2"></span>
+              <span class="anchor" id="variable-intersection_results"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(in),</td>
@@ -1221,7 +1221,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-intersection_sets~2"></span>
+              <span class="anchor" id="variable-intersection_sets"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1236,7 +1236,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-intersection_levels~2"></span>
+              <span class="anchor" id="variable-intersection_levels"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1251,7 +1251,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_energy~7"></span>
+              <span class="anchor" id="variable-total_energy~4"></span>
               real(kind=dp),
             </td>
 <td>intent(out)</td>
@@ -1306,7 +1306,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_monomers~5"></span>
+              <span class="anchor" id="variable-n_monomers~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1321,7 +1321,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-monomer_results~3"></span>
+              <span class="anchor" id="variable-monomer_results~2"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1336,7 +1336,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_intersections~3"></span>
+              <span class="anchor" id="variable-n_intersections~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1351,7 +1351,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-intersection_results~3"></span>
+              <span class="anchor" id="variable-intersection_results~2"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(in),</td>
@@ -1366,7 +1366,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-intersection_sets~3"></span>
+              <span class="anchor" id="variable-intersection_sets~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1381,7 +1381,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-intersection_levels~3"></span>
+              <span class="anchor" id="variable-intersection_levels~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1396,7 +1396,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~11"></span>
+              <span class="anchor" id="variable-sys_geom~7"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1411,7 +1411,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_energy~8"></span>
+              <span class="anchor" id="variable-total_energy~5"></span>
               real(kind=dp),
             </td>
 <td>intent(out)</td>
@@ -1426,7 +1426,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_gradient~5"></span>
+              <span class="anchor" id="variable-total_gradient~3"></span>
               real(kind=dp),
             </td>
 <td>intent(out)</td>
@@ -1441,7 +1441,7 @@ All subsets must have been computed already (guaranteed by processing fragments 
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~14"></span>
+              <span class="anchor" id="variable-bonds~7"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -1497,7 +1497,7 @@ TODO: Full implementation with intersection Hessians pending</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_monomers~6"></span>
+              <span class="anchor" id="variable-n_monomers~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1512,7 +1512,7 @@ TODO: Full implementation with intersection Hessians pending</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-monomer_results~4"></span>
+              <span class="anchor" id="variable-monomer_results~3"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1527,7 +1527,7 @@ TODO: Full implementation with intersection Hessians pending</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_intersections~4"></span>
+              <span class="anchor" id="variable-n_intersections~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1542,7 +1542,7 @@ TODO: Full implementation with intersection Hessians pending</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-intersection_results~4"></span>
+              <span class="anchor" id="variable-intersection_results~3"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(in),</td>
@@ -1557,7 +1557,7 @@ TODO: Full implementation with intersection Hessians pending</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-intersection_sets~4"></span>
+              <span class="anchor" id="variable-intersection_sets~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1572,7 +1572,7 @@ TODO: Full implementation with intersection Hessians pending</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-intersection_levels~4"></span>
+              <span class="anchor" id="variable-intersection_levels~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1581,419 +1581,6 @@ TODO: Full implementation with intersection Hessians pending</p>
             </td>
             <td>::</td>
             <td><strong>intersection_levels</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sys_geom~12"></span>
-              type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>sys_geom</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-total_energy~9"></span>
-              real(kind=dp),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>total_energy</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-total_gradient~6"></span>
-              real(kind=dp),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>total_gradient</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-total_hessian~4"></span>
-              real(kind=dp),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>total_hessian</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-bonds~15"></span>
-              type(<a href='../type/bond_t.html'>bond_t</a>),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>bonds</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-compute_mbe_energy"></span> <h3>public  subroutine <a href='../proc/compute_mbe_energy.html'>compute_mbe_energy</a>(polymers, fragment_count, max_level, results, total_energy)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Compute the many-body expansion (MBE) energy
-Total = sum(E(i)) + sum(deltaE(ij)) + sum(deltaE(ijk)) + &hellip;
-General n-body correction:
-deltaE(i1,i2,&hellip;,in) = E(i1,i2,&hellip;,in) - sum of all lower-order terms
-Uses int64 for fragment_count to handle large fragment counts that overflow int32.
-Detailed breakdown is printed only if logger level is verbose or higher.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-polymers~4"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>polymers</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-fragment_count~3"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>fragment_count</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-max_level~6"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>max_level</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-results"></span>
-              type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>results</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-total_energy~4"></span>
-              real(kind=dp),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>total_energy</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-compute_mbe_energy_gradient"></span> <h3>public  subroutine <a href='../proc/compute_mbe_energy_gradient.html'>compute_mbe_energy_gradient</a>(polymers, fragment_count, max_level, results, sys_geom, total_energy, total_gradient, bonds)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Compute both MBE energy and gradient in a single pass
-This is more efficient than calling compute_mbe_energy and compute_mbe_gradient separately
-as it only builds the lookup table once and processes all fragments in one loop</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-polymers~5"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>polymers</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-fragment_count~4"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>fragment_count</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-max_level~7"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>max_level</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-results~3"></span>
-              type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>results</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sys_geom~7"></span>
-              type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>sys_geom</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-total_energy~5"></span>
-              real(kind=dp),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>total_energy</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-total_gradient~3"></span>
-              real(kind=dp),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>total_gradient</strong>(:,:)</td>
-            <td>
-<p>(3, total_atoms)</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-bonds~10"></span>
-              type(<a href='../type/bond_t.html'>bond_t</a>),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>bonds</strong>(:)</td>
-            <td>
-<p>Bond information for caps</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-compute_mbe_energy_gradient_hessian"></span> <h3>public  subroutine <a href='../proc/compute_mbe_energy_gradient_hessian.html'>compute_mbe_energy_gradient_hessian</a>(polymers, fragment_count, max_level, results, sys_geom, total_energy, total_gradient, total_hessian, bonds)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Compute MBE energy, gradient, and Hessian in a single pass
-Most efficient for simultaneous energy+gradient+Hessian calculations</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-polymers~6"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>polymers</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-fragment_count~5"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>fragment_count</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-max_level~8"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>max_level</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-results~4"></span>
-              type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>results</strong>(:)</td>
             <td>
 
             </td>
@@ -2040,12 +1627,425 @@ Most efficient for simultaneous energy+gradient+Hessian calculations</p>
             <td>::</td>
             <td><strong>total_gradient</strong>(:,:)</td>
             <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-total_hessian~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>total_hessian</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bonds~8"></span>
+              type(<a href='../type/bond_t.html'>bond_t</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>bonds</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-compute_mbe_energy"></span> <h3>public  subroutine <a href='../proc/compute_mbe_energy.html'>compute_mbe_energy</a>(polymers, fragment_count, max_level, results, total_energy)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute the many-body expansion (MBE) energy
+Total = sum(E(i)) + sum(deltaE(ij)) + sum(deltaE(ijk)) + &hellip;
+General n-body correction:
+deltaE(i1,i2,&hellip;,in) = E(i1,i2,&hellip;,in) - sum of all lower-order terms
+Uses int64 for fragment_count to handle large fragment counts that overflow int32.
+Detailed breakdown is printed only if logger level is verbose or higher.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-polymers"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>polymers</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment_count"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment_count</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_level"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_level</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-results"></span>
+              type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>results</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-total_energy"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>total_energy</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-compute_mbe_energy_gradient"></span> <h3>public  subroutine <a href='../proc/compute_mbe_energy_gradient.html'>compute_mbe_energy_gradient</a>(polymers, fragment_count, max_level, results, sys_geom, total_energy, total_gradient, bonds)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute both MBE energy and gradient in a single pass
+This is more efficient than calling compute_mbe_energy and compute_mbe_gradient separately
+as it only builds the lookup table once and processes all fragments in one loop</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-polymers~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>polymers</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment_count~2"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment_count</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_level~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_level</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-results~3"></span>
+              type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>results</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sys_geom~3"></span>
+              type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sys_geom</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-total_energy~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>total_energy</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-total_gradient"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>total_gradient</strong>(:,:)</td>
+            <td>
 <p>(3, total_atoms)</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_hessian~3"></span>
+              <span class="anchor" id="variable-bonds~3"></span>
+              type(<a href='../type/bond_t.html'>bond_t</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>bonds</strong>(:)</td>
+            <td>
+<p>Bond information for caps</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-compute_mbe_energy_gradient_hessian"></span> <h3>public  subroutine <a href='../proc/compute_mbe_energy_gradient_hessian.html'>compute_mbe_energy_gradient_hessian</a>(polymers, fragment_count, max_level, results, sys_geom, total_energy, total_gradient, total_hessian, bonds)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute MBE energy, gradient, and Hessian in a single pass
+Most efficient for simultaneous energy+gradient+Hessian calculations</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-polymers~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>polymers</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment_count~3"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment_count</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_level~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_level</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-results~4"></span>
+              type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>results</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sys_geom~4"></span>
+              type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sys_geom</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-total_energy~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>total_energy</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-total_gradient~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>total_gradient</strong>(:,:)</td>
+            <td>
+<p>(3, total_atoms)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-total_hessian"></span>
               real(kind=dp),
             </td>
 <td>intent(out)</td>
@@ -2060,7 +2060,7 @@ Most efficient for simultaneous energy+gradient+Hessian calculations</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~11"></span>
+              <span class="anchor" id="variable-bonds~4"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -2117,7 +2117,7 @@ All gradients are in system coordinates, so subtraction is simple</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment~19"></span>
+              <span class="anchor" id="variable-fragment~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2177,7 +2177,7 @@ All gradients are in system coordinates, so subtraction is simple</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~8"></span>
+              <span class="anchor" id="variable-n~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2192,7 +2192,7 @@ All gradients are in system coordinates, so subtraction is simple</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~6"></span>
+              <span class="anchor" id="variable-sys_geom~2"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -2207,7 +2207,7 @@ All gradients are in system coordinates, so subtraction is simple</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~9"></span>
+              <span class="anchor" id="variable-bonds~2"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -2263,7 +2263,7 @@ Mirrors MBE gradient logic but for second derivatives</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment~22"></span>
+              <span class="anchor" id="variable-fragment~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2323,7 +2323,7 @@ Mirrors MBE gradient logic but for second derivatives</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~9"></span>
+              <span class="anchor" id="variable-n~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2338,7 +2338,7 @@ Mirrors MBE gradient logic but for second derivatives</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~10"></span>
+              <span class="anchor" id="variable-sys_geom~6"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -2353,7 +2353,7 @@ Mirrors MBE gradient logic but for second derivatives</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~13"></span>
+              <span class="anchor" id="variable-bonds~6"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -2423,7 +2423,7 @@ Mirrors MBE gradient logic but for second derivatives</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~5"></span>
+              <span class="anchor" id="variable-sys_geom"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -2453,7 +2453,7 @@ Mirrors MBE gradient logic but for second derivatives</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~8"></span>
+              <span class="anchor" id="variable-bonds"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -2523,7 +2523,7 @@ Mirrors MBE gradient logic but for second derivatives</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~9"></span>
+              <span class="anchor" id="variable-sys_geom~5"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -2553,7 +2553,7 @@ Mirrors MBE gradient logic but for second derivatives</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~12"></span>
+              <span class="anchor" id="variable-bonds~5"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -2596,7 +2596,7 @@ Mirrors MBE gradient logic but for second derivatives</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-02 10:51 +0000             </p>
+ on 2026-01-02 13:49 +0000             </p>
           </div>
         </div>
         <br>

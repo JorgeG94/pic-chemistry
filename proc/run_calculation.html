@@ -136,8 +136,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/run_calculation.html#variable-i~50">i</a>
-            <a class="list-group-item" href="../proc/run_calculation.html#variable-max_level~12">max_level</a>
+            <a class="list-group-item" href="../proc/run_calculation.html#variable-i~57">i</a>
+            <a class="list-group-item" href="../proc/run_calculation.html#variable-max_level~14">max_level</a>
         </div>
       </div>
     </div>
@@ -195,7 +195,7 @@ calculation routine with proper MPI setup and validation.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-world_comm"></span>
+              <span class="anchor" id="variable-world_comm~9"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -210,7 +210,7 @@ calculation routine with proper MPI setup and validation.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_comm"></span>
+              <span class="anchor" id="variable-node_comm~6"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -225,7 +225,7 @@ calculation routine with proper MPI setup and validation.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-config~13"></span>
+              <span class="anchor" id="variable-config~16"></span>
               type(<a href='../type/driver_config_t.html'>driver_config_t</a>),
             </td>
 <td>intent(in)</td>
@@ -240,7 +240,7 @@ calculation routine with proper MPI setup and validation.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~13"></span>
+              <span class="anchor" id="variable-sys_geom~26"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -255,7 +255,7 @@ calculation routine with proper MPI setup and validation.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~16"></span>
+              <span class="anchor" id="variable-bonds~20"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -3320,7 +3320,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~50"></span>
+              <span class="anchor" id="variable-i~57"></span>
               integer,
             </td>
               <td>private</td>
@@ -3337,7 +3337,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_level~12"></span>
+              <span class="anchor" id="variable-max_level~14"></span>
               integer,
             </td>
               <td>private</td>
@@ -3412,7 +3412,7 @@ large graphs.</div>
 
 <span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">max_level</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="k">         call </span><span class="n">omp_set_num_threads</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="w">         </span><span class="k">call </span><span class="n">run_unfragmented_calculation</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">bonds</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">run_unfragmented_calculation</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">bonds</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">)</span>
 <span class="w">      </span><span class="k">else</span>
 <span class="k">         call </span><span class="n">run_fragmented_calculation</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                         </span><span class="n">config</span><span class="p">%</span><span class="n">allow_overlapping_fragments</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
@@ -3443,7 +3443,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-02 10:51 +0000             </p>
+ on 2026-01-02 13:49 +0000             </p>
           </div>
         </div>
         <br>

@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.0% of total for procedures.">65 statements</a>
+                 title=" 1.0% of total for procedures.">64 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -136,18 +136,17 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/hessian_worker.html#variable-atom_idx~2">atom_idx</a>
+            <a class="list-group-item" href="../proc/hessian_worker.html#variable-atom_idx">atom_idx</a>
             <a class="list-group-item" href="../proc/hessian_worker.html#variable-coord">coord</a>
-            <a class="list-group-item" href="../proc/hessian_worker.html#variable-disp_idx~3">disp_idx</a>
-            <a class="list-group-item" href="../proc/hessian_worker.html#variable-displaced_geom~2">displaced_geom</a>
-            <a class="list-group-item" href="../proc/hessian_worker.html#variable-displacement~7">displacement</a>
-            <a class="list-group-item" href="../proc/hessian_worker.html#variable-dummy_msg~6">dummy_msg</a>
+            <a class="list-group-item" href="../proc/hessian_worker.html#variable-disp_idx~2">disp_idx</a>
+            <a class="list-group-item" href="../proc/hessian_worker.html#variable-displaced_geom">displaced_geom</a>
+            <a class="list-group-item" href="../proc/hessian_worker.html#variable-dummy_msg~5">dummy_msg</a>
             <a class="list-group-item" href="../proc/hessian_worker.html#variable-full_system~3">full_system</a>
             <a class="list-group-item" href="../proc/hessian_worker.html#variable-grad_result">grad_result</a>
             <a class="list-group-item" href="../proc/hessian_worker.html#variable-gradient_type~2">gradient_type</a>
-            <a class="list-group-item" href="../proc/hessian_worker.html#variable-n_atoms~12">n_atoms</a>
-            <a class="list-group-item" href="../proc/hessian_worker.html#variable-req~12">req</a>
-            <a class="list-group-item" href="../proc/hessian_worker.html#variable-status~8">status</a>
+            <a class="list-group-item" href="../proc/hessian_worker.html#variable-n_atoms~2">n_atoms</a>
+            <a class="list-group-item" href="../proc/hessian_worker.html#variable-req~7">req</a>
+            <a class="list-group-item" href="../proc/hessian_worker.html#variable-status~5">status</a>
             <a class="list-group-item" href="../proc/hessian_worker.html#variable-xtb_calc~3">xtb_calc</a>
         </div>
       </div>
@@ -184,7 +183,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private  subroutine hessian_worker(world_comm, sys_geom, method)  
+    <h2>private  subroutine hessian_worker(world_comm, sys_geom, method, displacement)  
 </h2>
         <div class="card mb-4">
       <h3 class="card-header card-title bg-light">Uses</h3>
@@ -192,8 +191,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/mqc_finite_differences.html'>mqc_finite_differences</a></li>
                   <li class="list-inline-item"><a href='../module/mqc_method_xtb.html'>mqc_method_xtb</a></li>
+                  <li class="list-inline-item"><a href='../module/mqc_finite_differences.html'>mqc_finite_differences</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -759,7 +758,7 @@ Requests displacement indices, computes gradients, and sends results back</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-world_comm~14"></span>
+              <span class="anchor" id="variable-world_comm~7"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -774,7 +773,7 @@ Requests displacement indices, computes gradients, and sends results back</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~31"></span>
+              <span class="anchor" id="variable-sys_geom~15"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -789,7 +788,7 @@ Requests displacement indices, computes gradients, and sends results back</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~13"></span>
+              <span class="anchor" id="variable-method~7"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -800,6 +799,21 @@ Requests displacement indices, computes gradients, and sends results back</p>
             <td><strong>method</strong></td>
             <td>
                 
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-displacement~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>displacement</strong></td>
+            <td>
+                <p>Finite difference displacement (Bohr)</p>
             </td>
         </tr>
     </tbody>
@@ -1404,7 +1418,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-atom_idx~2"></span>
+              <span class="anchor" id="variable-atom_idx"></span>
               integer,
             </td>
               <td>private</td>
@@ -1438,7 +1452,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-disp_idx~3"></span>
+              <span class="anchor" id="variable-disp_idx~2"></span>
               integer,
             </td>
               <td>private</td>
@@ -1455,7 +1469,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-displaced_geom~2"></span>
+              <span class="anchor" id="variable-displaced_geom"></span>
               type(<a href='../type/physical_fragment_t.html'>physical_fragment_t</a>),
             </td>
               <td>private</td>
@@ -1472,24 +1486,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-displacement~7"></span>
-              real(kind=dp),
-            </td>
-              <td>private</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>displacement</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dummy_msg~6"></span>
+              <span class="anchor" id="variable-dummy_msg~5"></span>
               integer,
             </td>
               <td>private</td>
@@ -1557,7 +1554,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_atoms~12"></span>
+              <span class="anchor" id="variable-n_atoms~2"></span>
               integer,
             </td>
               <td>private</td>
@@ -1574,7 +1571,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-req~12"></span>
+              <span class="anchor" id="variable-req~7"></span>
               type(request_t),
             </td>
               <td>private</td>
@@ -1591,7 +1588,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-status~8"></span>
+              <span class="anchor" id="variable-status~5"></span>
               type(MPI_Status),
             </td>
               <td>private</td>
@@ -1639,10 +1636,10 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">hessian_worker</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">hessian_worker</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">displacement</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Worker for distributed Hessian calculation</span>
 <span class="w">      </span><span class="c">!! Requests displacement indices, computes gradients, and sends results back</span>
-<span class="w">      </span><span class="k">use </span><span class="n">mqc_finite_differences</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">DEFAULT_DISPLACEMENT</span><span class="p">,</span><span class="w"> </span><span class="n">copy_and_displace_geometry</span>
+<span class="w">      </span><span class="k">use </span><span class="n">mqc_finite_differences</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">copy_and_displace_geometry</span>
 <span class="cp">#ifndef MQC_WITHOUT_TBLITE</span>
 <span class="w">      </span><span class="k">use </span><span class="n">mqc_method_xtb</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">xtb_method_t</span>
 <span class="cp">#endif</span>
@@ -1650,10 +1647,10 @@ large graphs.</div>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">comm_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">world_comm</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">system_geometry_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sys_geom</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">method</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">displacement</span><span class="w">  </span><span class="c">!! Finite difference displacement (Bohr)</span>
 
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">physical_fragment_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">full_system</span><span class="p">,</span><span class="w"> </span><span class="n">displaced_geom</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">calculation_result_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">grad_result</span>
-<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">displacement</span>
 <span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n_atoms</span><span class="p">,</span><span class="w"> </span><span class="n">disp_idx</span><span class="p">,</span><span class="w"> </span><span class="n">atom_idx</span><span class="p">,</span><span class="w"> </span><span class="n">coord</span><span class="p">,</span><span class="w"> </span><span class="n">gradient_type</span><span class="p">,</span><span class="w"> </span><span class="n">dummy_msg</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">MPI_Status</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">status</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">request_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">req</span>
@@ -1662,7 +1659,6 @@ large graphs.</div>
 <span class="cp">#endif</span>
 
 <span class="w">      </span><span class="n">n_atoms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">%</span><span class="n">total_atoms</span>
-<span class="w">      </span><span class="n">displacement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_DISPLACEMENT</span>
 
 <span class="w">      </span><span class="c">! Build full system geometry</span>
 <span class="w">      </span><span class="n">full_system</span><span class="p">%</span><span class="n">n_atoms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n_atoms</span>
@@ -1763,7 +1759,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-02 10:51 +0000             </p>
+ on 2026-01-02 13:49 +0000             </p>
           </div>
         </div>
         <br>
