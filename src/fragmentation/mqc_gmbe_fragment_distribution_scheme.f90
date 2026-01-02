@@ -174,7 +174,8 @@ contains
       call logger%info(" ")
 
       ! Write JSON output
-      call print_gmbe_pie_json(pie_atom_sets, pie_coefficients, pie_energies, n_pie_terms, total_energy)
+      call print_gmbe_pie_json(pie_atom_sets, pie_coefficients, pie_energies, n_pie_terms, total_energy, &
+                               total_gradient, total_hessian)
 
       deallocate (pie_energies, results)
       if (allocated(total_gradient)) deallocate (total_gradient)
@@ -472,8 +473,6 @@ contains
          ! Print Hessian information
          call logger%info("GMBE PIE Hessian computation completed")
          call logger%info("  Total Hessian Frobenius norm: "//to_char(sqrt(sum(total_hessian**2))))
-
-         deallocate (total_gradient, total_hessian)
       end if
 
       call coord_timer%stop()
@@ -490,11 +489,14 @@ contains
          do term_idx = 1, n_pie_terms
             pie_energies(term_idx) = results(term_idx)%energy%total()
          end do
-         call print_gmbe_pie_json(pie_atom_sets, pie_coefficients, pie_energies, n_pie_terms, total_energy)
+         call print_gmbe_pie_json(pie_atom_sets, pie_coefficients, pie_energies, n_pie_terms, total_energy, &
+                                  total_gradient, total_hessian)
          deallocate (pie_energies)
       end block
 
       deallocate (results)
+      if (allocated(total_gradient)) deallocate (total_gradient)
+      if (allocated(total_hessian)) deallocate (total_hessian)
 
    end subroutine gmbe_pie_coordinator
 

@@ -612,6 +612,10 @@ contains
          call logger%info(" ")
       end if
 
+      ! Always write JSON file for machine-readable output (include gradient and Hessian)
+      call print_detailed_breakdown_json(polymers, fragment_count, max_level, energies, delta_energies, &
+                                         sum_by_level, total_energy, total_gradient, total_hessian)
+
       deallocate (sum_by_level, delta_energies, energies, delta_gradients, delta_hessians, temp_hess)
 
    end subroutine compute_mbe_energy_gradient_hessian
