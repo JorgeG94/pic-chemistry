@@ -8,7 +8,7 @@ module mqc_driver
    use pic_io, only: to_char
    use omp_lib, only: omp_get_max_threads, omp_set_num_threads
    use mqc_mbe_fragment_distribution_scheme, only: global_coordinator, node_coordinator, node_worker, unfragmented_calculation, &
-                                                   serial_fragment_processor, do_fragment_work
+                                             serial_fragment_processor, do_fragment_work, distributed_unfragmented_hessian
    use mqc_gmbe_fragment_distribution_scheme, only: serial_gmbe_pie_processor, gmbe_pie_coordinator
    use mqc_frag_utils, only: get_nfrags, create_monomer_list, generate_fragment_list, generate_intersections, &
                              gmbe_enumerate_pie_terms, binomial, combine
@@ -89,11 +89,24 @@ contains
       !!
       !! For single-molecule mode: Only rank 0 runs (validates single rank)
       !! For multi-molecule mode: ALL ranks can run (each with their own molecule)
+      !! For Hessian calculations with multiple ranks: Uses distributed parallelization
       type(comm_t), intent(in) :: world_comm  !! Global MPI communicator
       type(system_geometry_t), intent(in) :: sys_geom  !! Complete system geometry
       integer(int32), intent(in) :: method  !! Quantum chemistry method
       integer(int32), intent(in) :: calc_type  !! Calculation type
       type(bond_t), intent(in), optional :: bonds(:)  !! Bond connectivity information
+
+      ! For Hessian calculations with multiple ranks, use distributed approach
+      if (calc_type == CALC_TYPE_HESSIAN .and. world_comm%size() > 1) then
+         if (world_comm%rank() == 0) then
+            call logger%info(" ")
+            call logger%info("Running distributed unfragmented Hessian calculation")
+            call logger%info("  MPI ranks: "//to_char(world_comm%size()))
+            call logger%info(" ")
+         end if
+         call distributed_unfragmented_hessian(world_comm, sys_geom, method)
+         return
+      end if
 
       ! Check if this is multi-molecule mode or single-molecule mode
       ! In multi-molecule mode, each rank processes its own molecule
