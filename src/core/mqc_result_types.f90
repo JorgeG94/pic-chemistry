@@ -65,6 +65,9 @@ module mqc_result_types
       real(dp), allocatable :: hessian(:, :)    !! Energy hessian (future implementation)
       real(dp), allocatable :: dipole(:)        !! Dipole moment vector (3) (Debye)
 
+      ! Fragment metadata
+      real(dp) :: distance = 0.0_dp      !! Minimal atomic distance between monomers (Angstrom, 0 for monomers)
+
       ! Computation status flags
       logical :: has_energy = .false.    !! Energy has been computed
       logical :: has_gradient = .false.  !! Gradient has been computed
