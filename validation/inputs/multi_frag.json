@@ -62,11 +62,7 @@
         "level": 2,
         "embedding": "none",
         "cutoff_method": "distance",
-        "distance_metric": "min",
-        "cutoffs":{
-            "dimer": 10.0,
-            "trimer": 8.0
-        }
+        "distance_metric": "min"
     }
   },
   "system": {
