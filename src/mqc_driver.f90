@@ -211,8 +211,9 @@ contains
                end if
 
                ! Sort primaries by size (largest first)
-               total_fragments = int(n_primaries, int64)
-               call sort_fragments_by_size(polymers, total_fragments, max_level)
+               ! TODO: Re-enable after fixing MBE assembly to handle arbitrary fragment order
+               ! total_fragments = int(n_primaries, int64)
+               ! call sort_fragments_by_size(polymers, total_fragments, max_level)
             end if
 
             call logger%info("Generated "//to_char(n_primaries)//" primary "//to_char(max_level)//"-mers for GMBE("// &
@@ -258,7 +259,8 @@ contains
             call apply_distance_screening(polymers, total_fragments, sys_geom, driver_config, max_level)
 
             ! Sort fragments by size (largest first) for better load balancing
-            call sort_fragments_by_size(polymers, total_fragments, max_level)
+            ! TODO: Re-enable after fixing MBE assembly to handle arbitrary fragment order
+            ! call sort_fragments_by_size(polymers, total_fragments, max_level)
 
             call logger%info("Generated fragments:")
             call logger%info("  Total fragments: "//to_char(total_fragments))

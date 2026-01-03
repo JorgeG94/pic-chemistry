@@ -75,27 +75,22 @@ contains
 
       ! Bottom-up computation: process fragments by size (1-body, then 2-body, then 3-body, etc.)
       ! This eliminates recursion and redundant subset computations
-      ! Process by n-mer level to ensure all subsets are computed before they're needed
-      do body_level = 1, max_level
-         do i = 1_int64, fragment_count
-            fragment_size = count(polymers(i, :) > 0)
+      ! Assumes fragments are already in size order (monomers first)
+      do i = 1_int64, fragment_count
+         fragment_size = count(polymers(i, :) > 0)
 
-            ! Only process fragments of the current body_level
-            if (fragment_size /= body_level) cycle
-
-            if (fragment_size == 1) then
-               ! 1-body: deltaE = E (no subsets to subtract)
-               delta_energies(i) = energies(i)
-               sum_by_level(1) = sum_by_level(1) + delta_energies(i)
-            else if (fragment_size >= 2 .and. fragment_size <= max_level) then
-               ! n-body: deltaE = E - sum(all subset deltaEs)
-               ! All subsets have already been computed in previous body_level iterations
-               delta_E = compute_mbe(i, polymers(i, 1:fragment_size), lookup, &
-                                     energies, delta_energies, fragment_size)
-               delta_energies(i) = delta_E
-               sum_by_level(fragment_size) = sum_by_level(fragment_size) + delta_E
-            end if
-         end do
+         if (fragment_size == 1) then
+            ! 1-body: deltaE = E (no subsets to subtract)
+            delta_energies(i) = energies(i)
+            sum_by_level(1) = sum_by_level(1) + delta_energies(i)
+         else if (fragment_size >= 2 .and. fragment_size <= max_level) then
+            ! n-body: deltaE = E - sum(all subset deltaEs)
+            ! All subsets have already been computed in previous iterations
+            delta_E = compute_mbe(i, polymers(i, 1:fragment_size), lookup, &
+                                  energies, delta_energies, fragment_size)
+            delta_energies(i) = delta_E
+            sum_by_level(fragment_size) = sum_by_level(fragment_size) + delta_E
+         end if
       end do
 
       ! Clean up lookup table
@@ -380,36 +375,31 @@ contains
 
       ! Bottom-up computation: process fragments by size (1-body, 2-body, 3-body, etc.)
       ! Compute both energy and gradient deltas in the same loop
-      ! Process by n-mer level to ensure all subsets are computed before they're needed
-      do body_level = 1, max_level
-         do i = 1_int64, fragment_count
-            fragment_size = count(polymers(i, :) > 0)
+      ! Assumes fragments are already in size order (monomers first)
+      do i = 1_int64, fragment_count
+         fragment_size = count(polymers(i, :) > 0)
 
-            ! Only process fragments of the current body_level
-            if (fragment_size /= body_level) cycle
+         if (fragment_size == 1) then
+            ! 1-body: deltaE = E, deltaG = G (no subsets to subtract)
+            delta_energies(i) = energies(i)
+            sum_by_level(1) = sum_by_level(1) + delta_energies(i)
 
-            if (fragment_size == 1) then
-               ! 1-body: deltaE = E, deltaG = G (no subsets to subtract)
-               delta_energies(i) = energies(i)
-               sum_by_level(1) = sum_by_level(1) + delta_energies(i)
+            ! Map fragment gradient to system coordinates
+            call map_fragment_to_system_gradient(results(i)%gradient, polymers(i, 1:fragment_size), &
+                                                 sys_geom, delta_gradients(:, :, i), bonds)
 
-               ! Map fragment gradient to system coordinates
-               call map_fragment_to_system_gradient(results(i)%gradient, polymers(i, 1:fragment_size), &
-                                                    sys_geom, delta_gradients(:, :, i), bonds)
+         else if (fragment_size >= 2 .and. fragment_size <= max_level) then
+            ! n-body: deltaE = E - sum(all subset deltaEs), deltaG = G - sum(all subset deltaGs)
+            ! Energy delta
+            delta_E = compute_mbe(i, polymers(i, 1:fragment_size), lookup, &
+                                  energies, delta_energies, fragment_size)
+            delta_energies(i) = delta_E
+            sum_by_level(fragment_size) = sum_by_level(fragment_size) + delta_E
 
-            else if (fragment_size >= 2 .and. fragment_size <= max_level) then
-               ! n-body: deltaE = E - sum(all subset deltaEs), deltaG = G - sum(all subset deltaGs)
-               ! Energy delta
-               delta_E = compute_mbe(i, polymers(i, 1:fragment_size), lookup, &
-                                     energies, delta_energies, fragment_size)
-               delta_energies(i) = delta_E
-               sum_by_level(fragment_size) = sum_by_level(fragment_size) + delta_E
-
-               ! Gradient delta
-               call compute_mbe_gradient(i, polymers(i, 1:fragment_size), lookup, &
-                                         results, delta_gradients, fragment_size, sys_geom, bonds)
-            end if
-         end do
+            ! Gradient delta
+            call compute_mbe_gradient(i, polymers(i, 1:fragment_size), lookup, &
+                                      results, delta_gradients, fragment_size, sys_geom, bonds)
+         end if
       end do
 
       ! Clean up lookup table
@@ -540,47 +530,38 @@ contains
          end if
       end do
 
-      ! Extract energies first
-      do i = 1_int64, fragment_count
-         energies(i) = results(i)%energy%total()
-      end do
-
       ! Compute delta energies, gradients, and Hessians for each fragment
-      ! Process by n-mer level to ensure all subsets are computed before they're needed
-      do body_level = 1, max_level
-         do i = 1_int64, fragment_count
-            fragment_size = count(polymers(i, :) > 0)
+      ! Assumes fragments are already in size order (monomers first)
+      do i = 1_int64, fragment_count
+         fragment_size = count(polymers(i, :) > 0)
+         energies(i) = results(i)%energy%total()
 
-            ! Only process fragments of the current body_level
-            if (fragment_size /= body_level) cycle
+         if (fragment_size == 1) then
+            ! 1-body: delta = value (no subsets)
+            delta_energies(i) = energies(i)
+            sum_by_level(1) = sum_by_level(1) + delta_energies(i)
 
-            if (fragment_size == 1) then
-               ! 1-body: delta = value (no subsets)
-               delta_energies(i) = energies(i)
-               sum_by_level(1) = sum_by_level(1) + delta_energies(i)
+            ! Map fragment gradient and Hessian to system coordinates
+            call map_fragment_to_system_gradient(results(i)%gradient, polymers(i, 1:fragment_size), &
+                                                 sys_geom, delta_gradients(:, :, i), bonds)
+            call map_fragment_to_system_hessian(results(i)%hessian, polymers(i, 1:fragment_size), &
+                                                sys_geom, delta_hessians(:, :, i), bonds)
 
-               ! Map fragment gradient and Hessian to system coordinates
-               call map_fragment_to_system_gradient(results(i)%gradient, polymers(i, 1:fragment_size), &
-                                                    sys_geom, delta_gradients(:, :, i), bonds)
-               call map_fragment_to_system_hessian(results(i)%hessian, polymers(i, 1:fragment_size), &
-                                                   sys_geom, delta_hessians(:, :, i), bonds)
+         else if (fragment_size >= 2 .and. fragment_size <= max_level) then
+            ! n-body: delta = value - sum(all subset deltas)
+            delta_E = compute_mbe(i, polymers(i, 1:fragment_size), lookup, &
+                                  energies, delta_energies, fragment_size)
+            delta_energies(i) = delta_E
+            sum_by_level(fragment_size) = sum_by_level(fragment_size) + delta_E
 
-            else if (fragment_size >= 2 .and. fragment_size <= max_level) then
-               ! n-body: delta = value - sum(all subset deltas)
-               delta_E = compute_mbe(i, polymers(i, 1:fragment_size), lookup, &
-                                     energies, delta_energies, fragment_size)
-               delta_energies(i) = delta_E
-               sum_by_level(fragment_size) = sum_by_level(fragment_size) + delta_E
+            ! Gradient delta
+            call compute_mbe_gradient(i, polymers(i, 1:fragment_size), lookup, &
+                                      results, delta_gradients, fragment_size, sys_geom, bonds)
 
-               ! Gradient delta
-               call compute_mbe_gradient(i, polymers(i, 1:fragment_size), lookup, &
-                                         results, delta_gradients, fragment_size, sys_geom, bonds)
-
-               ! Hessian delta
-               call compute_mbe_hessian(i, polymers(i, 1:fragment_size), lookup, &
-                                        results, delta_hessians, fragment_size, sys_geom, bonds)
-            end if
-         end do
+            ! Hessian delta
+            call compute_mbe_hessian(i, polymers(i, 1:fragment_size), lookup, &
+                                     results, delta_hessians, fragment_size, sys_geom, bonds)
+         end if
       end do
 
       ! Clean up lookup table
