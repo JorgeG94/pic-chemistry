@@ -10,7 +10,7 @@
     <meta name="author" content="Jorge Luis Galvez Vallejo" >
     <link rel="icon" href="../favicon.png">
 
-    <title>generate_k_way_intersections_for_level &ndash; metalquicha</title>
+    <title>apply_distance_screening &ndash; metalquicha</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -83,7 +83,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>generate_k_way_intersections_for_level
+    <h1>apply_distance_screening
       <small>Subroutine</small>
       
     </h1>
@@ -94,21 +94,21 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.7% of total for procedures.">44 statements</a>
+                 title=" 0.9% of total for procedures.">60 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/mqc_gmbe_utils.f90"> Source File</a>
+              <a href="../src/mqc_driver.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/mqc_gmbe_utils.f90.html'>mqc_gmbe_utils.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/mqc_gmbe_utils.html'>mqc_gmbe_utils</a></li>
-            <li class="breadcrumb-item active" aria-current="page">generate_k_way_intersections_for_level</li>
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_driver.f90.html'>mqc_driver.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/mqc_driver.html'>mqc_driver</a></li>
+            <li class="breadcrumb-item active" aria-current="page">apply_distance_screening</li>
           </ol>
         </nav>
       </div>
@@ -136,15 +136,14 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/generate_k_way_intersections_for_level.html#variable-current_intersection~2">current_intersection</a>
-            <a class="list-group-item" href="../proc/generate_k_way_intersections_for_level.html#variable-current_n_intersect~2">current_n_intersect</a>
-            <a class="list-group-item" href="../proc/generate_k_way_intersections_for_level.html#variable-frag_size">frag_size</a>
-            <a class="list-group-item" href="../proc/generate_k_way_intersections_for_level.html#variable-has_intersection~3">has_intersection</a>
-            <a class="list-group-item" href="../proc/generate_k_way_intersections_for_level.html#variable-i~28">i</a>
-            <a class="list-group-item" href="../proc/generate_k_way_intersections_for_level.html#variable-j~10">j</a>
-            <a class="list-group-item" href="../proc/generate_k_way_intersections_for_level.html#variable-mono_idx">mono_idx</a>
-            <a class="list-group-item" href="../proc/generate_k_way_intersections_for_level.html#variable-temp_intersection~3">temp_intersection</a>
-            <a class="list-group-item" href="../proc/generate_k_way_intersections_for_level.html#variable-temp_n_intersect~2">temp_n_intersect</a>
+            <a class="list-group-item" href="../proc/apply_distance_screening.html#variable-cutoff">cutoff</a>
+            <a class="list-group-item" href="../proc/apply_distance_screening.html#variable-fragment_distance">fragment_distance</a>
+            <a class="list-group-item" href="../proc/apply_distance_screening.html#variable-fragment_size~8">fragment_size</a>
+            <a class="list-group-item" href="../proc/apply_distance_screening.html#variable-fragments_kept">fragments_kept</a>
+            <a class="list-group-item" href="../proc/apply_distance_screening.html#variable-fragments_screened">fragments_screened</a>
+            <a class="list-group-item" href="../proc/apply_distance_screening.html#variable-i~16">i</a>
+            <a class="list-group-item" href="../proc/apply_distance_screening.html#variable-j~8">j</a>
+            <a class="list-group-item" href="../proc/apply_distance_screening.html#variable-nmer_level">nmer_level</a>
         </div>
       </div>
     </div>
@@ -170,7 +169,7 @@
     <div class="card card-primary">
       <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../proc/generate_k_way_intersections_for_level.html#src">generate_k_way_intersections_for_level</a>
+        <a class="list-group-item" href="../proc/apply_distance_screening.html#src">apply_distance_screening</a>
       </div>
     </div>
 
@@ -180,7 +179,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private recursive subroutine generate_k_way_intersections_for_level(sys_geom, monomers, n_monomers, k, combination, max_atoms, temp_intersections, temp_sets, temp_levels, intersection_count)  
+    <h2>private  subroutine apply_distance_screening(polymers, total_fragments, sys_geom, driver_config, max_level)  
 </h2>
         <div class="card mb-4">
       <h3 class="card-header card-title bg-light">Uses</h3>
@@ -197,239 +196,239 @@
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~generate_k_way_intersections_for_level~~UsesGraph Pages: 1 -->
-<svg id="procgenerate_k_way_intersections_for_levelUsesGraph" width="641pt" height="274pt"
- viewBox="0.00 0.00 641.00 274.22" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph" class="graph" transform="scale(0.8 0.8) rotate(0) translate(4 340.8)">
-<title>proc~~generate_k_way_intersections_for_level~~UsesGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-340.8 802,-340.8 802,4 -4,4"/>
-<!-- proc~generate_k_way_intersections_for_level -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_node1" class="node">
-<title>proc~generate_k_way_intersections_for_level</title>
-<polygon fill="none" stroke="black" points="798,-174.41 575,-174.41 575,-150.41 798,-150.41 798,-174.41"/>
-<text text-anchor="middle" x="686.5" y="-160.01" font-family="Helvetica,sans-Serif" font-size="10.50">generate_k_way_intersections_for_level</text>
+<!-- Title: proc~~apply_distance_screening~~UsesGraph Pages: 1 -->
+<svg id="procapply_distance_screeningUsesGraph" width="641pt" height="302pt"
+ viewBox="0.00 0.00 641.00 301.94" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~apply_distance_screening~~UsesGraph" class="graph" transform="scale(0.88 0.88) rotate(0) translate(4 340.8)">
+<title>proc~~apply_distance_screening~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-340.8 728,-340.8 728,4 -4,4"/>
+<!-- proc~apply_distance_screening -->
+<g id="proc~~apply_distance_screening~~UsesGraph_node1" class="node">
+<title>proc~apply_distance_screening</title>
+<polygon fill="none" stroke="black" points="724,-174.41 575,-174.41 575,-150.41 724,-150.41 724,-174.41"/>
+<text text-anchor="middle" x="649.5" y="-160.01" font-family="Helvetica,sans-Serif" font-size="10.50">apply_distance_screening</text>
 </g>
 <!-- module~mqc_physical_fragment -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_node2" class="node">
+<g id="proc~~apply_distance_screening~~UsesGraph_node2" class="node">
 <title>module~mqc_physical_fragment</title>
-<g id="a_proc~~generate_k_way_intersections_for_level~~UsesGraph_node2"><a xlink:href="../module/mqc_physical_fragment.html" xlink:title="mqc_physical_fragment">
+<g id="a_proc~~apply_distance_screening~~UsesGraph_node2"><a xlink:href="../module/mqc_physical_fragment.html" xlink:title="mqc_physical_fragment">
 <polygon fill="#337ab7" stroke="#337ab7" points="539,-174.41 400,-174.41 400,-150.41 539,-150.41 539,-174.41"/>
 <text text-anchor="middle" x="469.5" y="-160.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_physical_fragment</text>
 </a>
 </g>
 </g>
-<!-- proc~generate_k_way_intersections_for_level&#45;&gt;module~mqc_physical_fragment -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge1" class="edge">
-<title>proc~generate_k_way_intersections_for_level&#45;&gt;module~mqc_physical_fragment</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M574.85,-162.41C566.22,-162.41 557.61,-162.41 549.26,-162.41"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="549.21,-158.91 539.21,-162.41 549.21,-165.91 549.21,-158.91"/>
+<!-- proc~apply_distance_screening&#45;&gt;module~mqc_physical_fragment -->
+<g id="proc~~apply_distance_screening~~UsesGraph_edge1" class="edge">
+<title>proc~apply_distance_screening&#45;&gt;module~mqc_physical_fragment</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M574.82,-162.41C566.45,-162.41 557.9,-162.41 549.47,-162.41"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="549.28,-158.91 539.28,-162.41 549.28,-165.91 549.28,-158.91"/>
 </g>
 <!-- module~mqc_cgto -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_node3" class="node">
+<g id="proc~~apply_distance_screening~~UsesGraph_node3" class="node">
 <title>module~mqc_cgto</title>
-<g id="a_proc~~generate_k_way_intersections_for_level~~UsesGraph_node3"><a xlink:href="../module/mqc_cgto.html" xlink:title="mqc_cgto">
+<g id="a_proc~~apply_distance_screening~~UsesGraph_node3"><a xlink:href="../module/mqc_cgto.html" xlink:title="mqc_cgto">
 <polygon fill="#337ab7" stroke="#337ab7" points="339,-276.41 275,-276.41 275,-252.41 339,-252.41 339,-276.41"/>
 <text text-anchor="middle" x="307" y="-262.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_cgto</text>
 </a>
 </g>
 </g>
 <!-- module~mqc_physical_fragment&#45;&gt;module~mqc_cgto -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge2" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge2" class="edge">
 <title>module~mqc_physical_fragment&#45;&gt;module~mqc_cgto</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M449.46,-174.51C421.22,-192.46 368.1,-226.22 335.6,-246.87"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="333.58,-244.01 327.02,-252.33 337.33,-249.92 333.58,-244.01"/>
 </g>
 <!-- module~mqc_config_parser -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_node4" class="node">
+<g id="proc~~apply_distance_screening~~UsesGraph_node4" class="node">
 <title>module~mqc_config_parser</title>
-<g id="a_proc~~generate_k_way_intersections_for_level~~UsesGraph_node4"><a xlink:href="../module/mqc_config_parser.html" xlink:title="mqc_config_parser">
+<g id="a_proc~~apply_distance_screening~~UsesGraph_node4"><a xlink:href="../module/mqc_config_parser.html" xlink:title="mqc_config_parser">
 <polygon fill="#337ab7" stroke="#337ab7" points="364,-214.41 250,-214.41 250,-190.41 364,-190.41 364,-214.41"/>
 <text text-anchor="middle" x="307" y="-200.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_config_parser</text>
 </a>
 </g>
 </g>
 <!-- module~mqc_physical_fragment&#45;&gt;module~mqc_config_parser -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge3" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge3" class="edge">
 <title>module~mqc_physical_fragment&#45;&gt;module~mqc_config_parser</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M420.34,-174.41C403.44,-178.63 384.26,-183.4 366.6,-187.81"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="365.26,-184.53 356.4,-190.35 366.95,-191.33 365.26,-184.53"/>
 </g>
 <!-- module~mqc_elements -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_node5" class="node">
+<g id="proc~~apply_distance_screening~~UsesGraph_node5" class="node">
 <title>module~mqc_elements</title>
-<g id="a_proc~~generate_k_way_intersections_for_level~~UsesGraph_node5"><a xlink:href="../module/mqc_elements.html" xlink:title="mqc_elements">
+<g id="a_proc~~apply_distance_screening~~UsesGraph_node5"><a xlink:href="../module/mqc_elements.html" xlink:title="mqc_elements">
 <polygon fill="#337ab7" stroke="#337ab7" points="352.5,-52.41 261.5,-52.41 261.5,-28.41 352.5,-28.41 352.5,-52.41"/>
 <text text-anchor="middle" x="307" y="-38.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_elements</text>
 </a>
 </g>
 </g>
 <!-- module~mqc_physical_fragment&#45;&gt;module~mqc_elements -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge4" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge4" class="edge">
 <title>module~mqc_physical_fragment&#45;&gt;module~mqc_elements</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M457.16,-150.29C438.86,-131.19 401.11,-93.69 364,-68.41 358.15,-64.42 351.64,-60.65 345.2,-57.24"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="346.39,-53.92 335.89,-52.53 343.23,-60.17 346.39,-53.92"/>
 </g>
 <!-- module~mqc_error -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_node6" class="node">
+<g id="proc~~apply_distance_screening~~UsesGraph_node6" class="node">
 <title>module~mqc_error</title>
-<g id="a_proc~~generate_k_way_intersections_for_level~~UsesGraph_node6"><a xlink:href="../module/mqc_error.html" xlink:title="mqc_error">
+<g id="a_proc~~apply_distance_screening~~UsesGraph_node6"><a xlink:href="../module/mqc_error.html" xlink:title="mqc_error">
 <polygon fill="#337ab7" stroke="#337ab7" points="189.5,-174.41 122.5,-174.41 122.5,-150.41 189.5,-150.41 189.5,-174.41"/>
 <text text-anchor="middle" x="156" y="-160.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_error</text>
 </a>
 </g>
 </g>
 <!-- module~mqc_physical_fragment&#45;&gt;module~mqc_error -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge5" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge5" class="edge">
 <title>module~mqc_physical_fragment&#45;&gt;module~mqc_error</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M399.75,-162.41C338.74,-162.41 251.5,-162.41 199.91,-162.41"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="199.78,-158.91 189.78,-162.41 199.78,-165.91 199.78,-158.91"/>
 </g>
 <!-- module~mqc_geometry -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_node7" class="node">
+<g id="proc~~apply_distance_screening~~UsesGraph_node7" class="node">
 <title>module~mqc_geometry</title>
-<g id="a_proc~~generate_k_way_intersections_for_level~~UsesGraph_node7"><a xlink:href="../module/mqc_geometry.html" xlink:title="mqc_geometry">
+<g id="a_proc~~apply_distance_screening~~UsesGraph_node7"><a xlink:href="../module/mqc_geometry.html" xlink:title="mqc_geometry">
 <polygon fill="#337ab7" stroke="#337ab7" points="202.5,-132.41 109.5,-132.41 109.5,-108.41 202.5,-108.41 202.5,-132.41"/>
 <text text-anchor="middle" x="156" y="-118.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_geometry</text>
 </a>
 </g>
 </g>
 <!-- module~mqc_physical_fragment&#45;&gt;module~mqc_geometry -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge6" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge6" class="edge">
 <title>module~mqc_physical_fragment&#45;&gt;module~mqc_geometry</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M453.73,-150.33C434.47,-135.42 399.08,-110.9 364,-101.41 311.91,-87.32 250.06,-96.17 207.62,-105.97"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="206.7,-102.59 197.8,-108.33 208.34,-109.4 206.7,-102.59"/>
 </g>
 <!-- module~mqc_xyz_reader -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_node8" class="node">
+<g id="proc~~apply_distance_screening~~UsesGraph_node8" class="node">
 <title>module~mqc_xyz_reader</title>
-<g id="a_proc~~generate_k_way_intersections_for_level~~UsesGraph_node8"><a xlink:href="../module/mqc_xyz_reader.html" xlink:title="mqc_xyz_reader">
+<g id="a_proc~~apply_distance_screening~~UsesGraph_node8"><a xlink:href="../module/mqc_xyz_reader.html" xlink:title="mqc_xyz_reader">
 <polygon fill="#337ab7" stroke="#337ab7" points="356.5,-134.41 257.5,-134.41 257.5,-110.41 356.5,-110.41 356.5,-134.41"/>
 <text text-anchor="middle" x="307" y="-120.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_xyz_reader</text>
 </a>
 </g>
 </g>
 <!-- module~mqc_physical_fragment&#45;&gt;module~mqc_xyz_reader -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge7" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge7" class="edge">
 <title>module~mqc_physical_fragment&#45;&gt;module~mqc_xyz_reader</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M420.34,-150.41C403.44,-146.2 384.26,-141.42 366.6,-137.01"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="366.95,-133.5 356.4,-134.47 365.26,-140.29 366.95,-133.5"/>
 </g>
 <!-- pic_types -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_node9" class="node">
+<g id="proc~~apply_distance_screening~~UsesGraph_node9" class="node">
 <title>pic_types</title>
 <polygon fill="#337ab7" stroke="#337ab7" points="62,-214.41 0,-214.41 0,-190.41 62,-190.41 62,-214.41"/>
 <text text-anchor="middle" x="31" y="-200.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_types</text>
 </g>
 <!-- module~mqc_physical_fragment&#45;&gt;pic_types -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge8" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge8" class="edge">
 <title>module~mqc_physical_fragment&#45;&gt;pic_types</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M462.01,-174.58C447.88,-199.79 411.73,-257.68 364,-285.41 283.05,-332.45 246.75,-351.05 157,-324.41"/>
 </g>
 <!-- module~mqc_cgto&#45;&gt;pic_types -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge9" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge9" class="edge">
 <title>module~mqc_cgto&#45;&gt;pic_types</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M292.34,-276.64C266.48,-298.28 208.33,-339.65 157,-324.41"/>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M155,-324.41C129.4,-316.81 119.07,-321.81 98,-305.41 70.26,-283.82 50.8,-247.1 40.51,-223.83"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="43.67,-222.32 36.55,-214.48 37.23,-225.05 43.67,-222.32"/>
 </g>
 <!-- module~mqc_config_parser&#45;&gt;module~mqc_error -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge11" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge11" class="edge">
 <title>module~mqc_config_parser&#45;&gt;module~mqc_error</title>
 <path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M261.3,-190.41C241.73,-185.16 218.89,-179.03 199.57,-173.84"/>
 <polygon fill="#ffda00" stroke="#ffda00" points="200.4,-170.44 189.83,-171.22 198.58,-177.2 200.4,-170.44"/>
 </g>
 <!-- module~mqc_config_parser&#45;&gt;module~mqc_geometry -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge12" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge12" class="edge">
 <title>module~mqc_config_parser&#45;&gt;module~mqc_geometry</title>
 <path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M290.08,-190.19C272.27,-176.92 242.2,-155.71 214,-141.41 210.5,-139.64 206.82,-137.94 203.07,-136.32"/>
 <polygon fill="#ffda00" stroke="#ffda00" points="204.3,-133.04 193.72,-132.51 201.66,-139.53 204.3,-133.04"/>
 </g>
 <!-- module~mqc_config_parser&#45;&gt;pic_types -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge14" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge14" class="edge">
 <title>module~mqc_config_parser&#45;&gt;pic_types</title>
 <path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M249.89,-202.41C197.05,-202.41 119.21,-202.41 72.27,-202.41"/>
 <polygon fill="#ffda00" stroke="#ffda00" points="72.18,-198.91 62.18,-202.41 72.18,-205.91 72.18,-198.91"/>
 </g>
 <!-- module~mqc_calc_types -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_node10" class="node">
+<g id="proc~~apply_distance_screening~~UsesGraph_node10" class="node">
 <title>module~mqc_calc_types</title>
-<g id="a_proc~~generate_k_way_intersections_for_level~~UsesGraph_node10"><a xlink:href="../module/mqc_calc_types.html" xlink:title="mqc_calc_types">
+<g id="a_proc~~apply_distance_screening~~UsesGraph_node10"><a xlink:href="../module/mqc_calc_types.html" xlink:title="mqc_calc_types">
 <polygon fill="#337ab7" stroke="#337ab7" points="204.5,-296.41 107.5,-296.41 107.5,-272.41 204.5,-272.41 204.5,-296.41"/>
 <text text-anchor="middle" x="156" y="-282.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_calc_types</text>
 </a>
 </g>
 </g>
 <!-- module~mqc_config_parser&#45;&gt;module~mqc_calc_types -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge10" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge10" class="edge">
 <title>module~mqc_config_parser&#45;&gt;module~mqc_calc_types</title>
 <path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M290.08,-214.63C272.27,-227.9 242.2,-249.11 214,-263.41 210.5,-265.18 206.82,-266.89 203.07,-268.5"/>
 <polygon fill="#ffda00" stroke="#ffda00" points="201.66,-265.3 193.72,-272.32 204.3,-271.78 201.66,-265.3"/>
 </g>
 <!-- module~mqc_method_types -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_node11" class="node">
+<g id="proc~~apply_distance_screening~~UsesGraph_node11" class="node">
 <title>module~mqc_method_types</title>
-<g id="a_proc~~generate_k_way_intersections_for_level~~UsesGraph_node11"><a xlink:href="../module/mqc_method_types.html" xlink:title="mqc_method_types">
+<g id="a_proc~~apply_distance_screening~~UsesGraph_node11"><a xlink:href="../module/mqc_method_types.html" xlink:title="mqc_method_types">
 <polygon fill="#337ab7" stroke="#337ab7" points="214,-254.41 98,-254.41 98,-230.41 214,-230.41 214,-254.41"/>
 <text text-anchor="middle" x="156" y="-240.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_method_types</text>
 </a>
 </g>
 </g>
 <!-- module~mqc_config_parser&#45;&gt;module~mqc_method_types -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge13" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge13" class="edge">
 <title>module~mqc_config_parser&#45;&gt;module~mqc_method_types</title>
 <path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M261.3,-214.41C245.75,-218.59 228.13,-223.32 211.86,-227.68"/>
 <polygon fill="#ffda00" stroke="#ffda00" points="210.68,-224.38 201.93,-230.35 212.5,-231.14 210.68,-224.38"/>
 </g>
 <!-- module~mqc_elements&#45;&gt;pic_types -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge16" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge16" class="edge">
 <title>module~mqc_elements&#45;&gt;pic_types</title>
 <path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M281.25,-28.3C239.38,-9.74 153.69,19.7 98,-19.41 45.2,-56.5 34.45,-140.14 32.39,-180.2"/>
 <polygon fill="#48ff00" stroke="#48ff00" points="28.89,-180.15 32.02,-190.27 35.89,-180.41 28.89,-180.15"/>
 </g>
 <!-- pic_ascii -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_node12" class="node">
+<g id="proc~~apply_distance_screening~~UsesGraph_node12" class="node">
 <title>pic_ascii</title>
 <polygon fill="#337ab7" stroke="#337ab7" points="185,-52.41 127,-52.41 127,-28.41 185,-28.41 185,-52.41"/>
 <text text-anchor="middle" x="156" y="-38.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_ascii</text>
 </g>
 <!-- module~mqc_elements&#45;&gt;pic_ascii -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge15" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge15" class="edge">
 <title>module~mqc_elements&#45;&gt;pic_ascii</title>
 <path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M261.3,-40.41C240.27,-40.41 215.46,-40.41 195.31,-40.41"/>
 <polygon fill="#48ff00" stroke="#48ff00" points="195.24,-36.91 185.24,-40.41 195.24,-43.91 195.24,-36.91"/>
 </g>
 <!-- module~mqc_geometry&#45;&gt;pic_types -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge17" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge17" class="edge">
 <title>module~mqc_geometry&#45;&gt;pic_types</title>
 <path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M116.02,-132.43C109.79,-135 103.58,-138 98,-141.41 79.71,-152.61 62.03,-169.37 49.58,-182.49"/>
 <polygon fill="#0091ff" stroke="#0091ff" points="46.76,-180.39 42.55,-190.11 51.9,-185.14 46.76,-180.39"/>
 </g>
 <!-- module~mqc_xyz_reader&#45;&gt;module~mqc_error -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge18" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge18" class="edge">
 <title>module~mqc_xyz_reader&#45;&gt;module~mqc_error</title>
 <path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M261.3,-134.41C241.73,-139.66 218.89,-145.8 199.57,-150.98"/>
 <polygon fill="#4800ff" stroke="#4800ff" points="198.58,-147.62 189.83,-153.6 200.4,-154.38 198.58,-147.62"/>
 </g>
 <!-- module~mqc_xyz_reader&#45;&gt;module~mqc_geometry -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge19" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge19" class="edge">
 <title>module~mqc_xyz_reader&#45;&gt;module~mqc_geometry</title>
 <path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M257.21,-121.76C243.07,-121.57 227.53,-121.36 212.99,-121.16"/>
 <polygon fill="#4800ff" stroke="#4800ff" points="212.66,-117.66 202.61,-121.02 212.56,-124.66 212.66,-117.66"/>
 </g>
 <!-- module~mqc_xyz_reader&#45;&gt;pic_types -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge20" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge20" class="edge">
 <title>module~mqc_xyz_reader&#45;&gt;pic_types</title>
 <path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M279.81,-110.36C238.44,-93.25 156.65,-67.33 98,-99.41 66.53,-116.62 47.86,-155.95 38.8,-180.72"/>
 <polygon fill="#4800ff" stroke="#4800ff" points="35.43,-179.75 35.49,-190.34 42.05,-182.02 35.43,-179.75"/>
 </g>
 <!-- module~mqc_calc_types&#45;&gt;pic_types -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge21" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge21" class="edge">
 <title>module~mqc_calc_types&#45;&gt;pic_types</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M116.02,-272.39C109.79,-269.82 103.58,-266.83 98,-263.41 79.71,-252.21 62.03,-235.45 49.58,-222.33"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="51.9,-219.68 42.55,-214.71 46.76,-224.43 51.9,-219.68"/>
 </g>
 <!-- module~mqc_method_types&#45;&gt;pic_types -->
-<g id="proc~~generate_k_way_intersections_for_level~~UsesGraph_edge22" class="edge">
+<g id="proc~~apply_distance_screening~~UsesGraph_edge22" class="edge">
 <title>module~mqc_method_types&#45;&gt;pic_types</title>
 <path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M118.1,-230.41C103.61,-225.7 86.94,-220.28 72.15,-215.47"/>
 <polygon fill="#00ff00" stroke="#00ff00" points="72.85,-212.02 62.26,-212.25 70.69,-218.67 72.85,-212.02"/>
@@ -437,7 +436,7 @@
 </g>
 </svg>
 </div>                <script>
-                  var panprocgenerate_k_way_intersections_for_levelUsesGraph = svgPanZoom('#procgenerate_k_way_intersections_for_levelUsesGraph',
+                  var panprocapply_distance_screeningUsesGraph = svgPanZoom('#procapply_distance_screeningUsesGraph',
                     {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
                   );
                 </script>          <div>
@@ -518,7 +517,8 @@ large graphs.</div>
     </div>
 
 
-    <p>Helper to generate all k-way intersections at a specific level k</p>
+    <p>Apply distance-based screening to filter out fragments that exceed cutoff distances
+Modifies polymers array in-place and updates total_fragments count</p>
 
 
     <h3>Arguments</h3>
@@ -534,7 +534,37 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~22"></span>
+              <span class="anchor" id="variable-polymers~8"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>polymers</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-total_fragments~4"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>total_fragments</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sys_geom~11"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -549,7 +579,22 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-monomers~8"></span>
+              <span class="anchor" id="variable-driver_config~4"></span>
+              type(<a href='../type/driver_config_t.html'>driver_config_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>driver_config</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_level~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -557,127 +602,7 @@ large graphs.</div>
               
             </td>
             <td>::</td>
-            <td><strong>monomers</strong>(:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-n_monomers~7"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>n_monomers</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-k~6"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>k</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-combination~2"></span>
-              integer,
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>combination</strong>(:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-max_atoms~3"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>max_atoms</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-temp_intersections~2"></span>
-              integer,
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>temp_intersections</strong>(:,:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-temp_sets~2"></span>
-              integer,
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>temp_sets</strong>(:,:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-temp_levels~2"></span>
-              integer,
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>temp_levels</strong>(:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-intersection_count~2"></span>
-              integer,
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>intersection_count</strong></td>
+            <td><strong>max_level</strong></td>
             <td>
                 
             </td>
@@ -696,62 +621,71 @@ large graphs.</div>
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~generate_k_way_intersections_for_level~~CallsGraph Pages: 1 -->
-<svg id="procgenerate_k_way_intersections_for_levelCallsGraph" width="423pt" height="116pt"
- viewBox="0.00 0.00 423.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~generate_k_way_intersections_for_level~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
-<title>proc~~generate_k_way_intersections_for_level~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 419,-112 419,4 -4,4"/>
-<!-- proc~generate_k_way_intersections_for_level -->
-<g id="proc~~generate_k_way_intersections_for_level~~CallsGraph_node1" class="node">
-<title>proc~generate_k_way_intersections_for_level</title>
-<polygon fill="none" stroke="black" points="223,-66 0,-66 0,-42 223,-42 223,-66"/>
-<text text-anchor="middle" x="111.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">generate_k_way_intersections_for_level</text>
+<!-- Title: proc~~apply_distance_screening~~CallsGraph Pages: 1 -->
+<svg id="procapply_distance_screeningCallsGraph" width="477pt" height="116pt"
+ viewBox="0.00 0.00 477.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~apply_distance_screening~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>proc~~apply_distance_screening~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 473,-112 473,4 -4,4"/>
+<!-- proc~apply_distance_screening -->
+<g id="proc~~apply_distance_screening~~CallsGraph_node1" class="node">
+<title>proc~apply_distance_screening</title>
+<polygon fill="none" stroke="black" points="149,-66 0,-66 0,-42 149,-42 149,-66"/>
+<text text-anchor="middle" x="74.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">apply_distance_screening</text>
 </g>
-<!-- proc~find_fragment_intersection -->
-<g id="proc~~generate_k_way_intersections_for_level~~CallsGraph_node2" class="node">
-<title>proc~find_fragment_intersection</title>
-<g id="a_proc~~generate_k_way_intersections_for_level~~CallsGraph_node2"><a xlink:href="../proc/find_fragment_intersection.html" xlink:title="find_fragment_intersection">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="415,-108 259,-108 259,-84 415,-84 415,-108"/>
-<text text-anchor="middle" x="337" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">find_fragment_intersection</text>
+<!-- info -->
+<g id="proc~~apply_distance_screening~~CallsGraph_node2" class="node">
+<title>info</title>
+<polygon fill="#777777" stroke="#777777" points="296.5,-108 242.5,-108 242.5,-84 296.5,-84 296.5,-108"/>
+<text text-anchor="middle" x="269.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">info</text>
+</g>
+<!-- proc~apply_distance_screening&#45;&gt;info -->
+<g id="proc~~apply_distance_screening~~CallsGraph_edge1" class="edge">
+<title>proc~apply_distance_screening&#45;&gt;info</title>
+<path fill="none" stroke="#ff0000" d="M130.81,-66.04C163.44,-73.14 203.82,-81.93 232.39,-88.14"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="231.83,-91.6 242.35,-90.31 233.32,-84.76 231.83,-91.6"/>
+</g>
+<!-- proc~calculate_monomer_distance -->
+<g id="proc~~apply_distance_screening~~CallsGraph_node3" class="node">
+<title>proc~calculate_monomer_distance</title>
+<g id="a_proc~~apply_distance_screening~~CallsGraph_node3"><a xlink:href="../proc/calculate_monomer_distance.html" xlink:title="calculate_monomer_distance">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="354,-66 185,-66 185,-42 354,-42 354,-66"/>
+<text text-anchor="middle" x="269.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calculate_monomer_distance</text>
 </a>
 </g>
 </g>
-<!-- proc~generate_k_way_intersections_for_level&#45;&gt;proc~find_fragment_intersection -->
-<g id="proc~~generate_k_way_intersections_for_level~~CallsGraph_edge1" class="edge">
-<title>proc~generate_k_way_intersections_for_level&#45;&gt;proc~find_fragment_intersection</title>
-<path fill="none" stroke="#ff0000" d="M176.55,-66.04C203.2,-71.04 234.31,-76.89 261.94,-82.08"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="261.47,-85.56 271.94,-83.96 262.76,-78.68 261.47,-85.56"/>
+<!-- proc~apply_distance_screening&#45;&gt;proc~calculate_monomer_distance -->
+<g id="proc~~apply_distance_screening~~CallsGraph_edge2" class="edge">
+<title>proc~apply_distance_screening&#45;&gt;proc~calculate_monomer_distance</title>
+<path fill="none" stroke="#ff0000" d="M149.02,-54C157.44,-54 166.11,-54 174.75,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="174.86,-57.5 184.86,-54 174.86,-50.5 174.86,-57.5"/>
 </g>
-<!-- proc~next_combination -->
-<g id="proc~~generate_k_way_intersections_for_level~~CallsGraph_node3" class="node">
-<title>proc~next_combination</title>
-<g id="a_proc~~generate_k_way_intersections_for_level~~CallsGraph_node3"><a xlink:href="../proc/next_combination.html" xlink:title="next_combination">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="390.5,-66 283.5,-66 283.5,-42 390.5,-42 390.5,-66"/>
-<text text-anchor="middle" x="337" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">next_combination</text>
+<!-- to_char -->
+<g id="proc~~apply_distance_screening~~CallsGraph_node4" class="node">
+<title>to_char</title>
+<polygon fill="#777777" stroke="#777777" points="296.5,-24 242.5,-24 242.5,0 296.5,0 296.5,-24"/>
+<text text-anchor="middle" x="269.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">to_char</text>
+</g>
+<!-- proc~apply_distance_screening&#45;&gt;to_char -->
+<g id="proc~~apply_distance_screening~~CallsGraph_edge3" class="edge">
+<title>proc~apply_distance_screening&#45;&gt;to_char</title>
+<path fill="none" stroke="#ff0000" d="M130.81,-41.96C163.44,-34.86 203.82,-26.07 232.39,-19.86"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="233.32,-23.24 242.35,-17.69 231.83,-16.4 233.32,-23.24"/>
+</g>
+<!-- proc~to_angstrom -->
+<g id="proc~~apply_distance_screening~~CallsGraph_node5" class="node">
+<title>proc~to_angstrom</title>
+<g id="a_proc~~apply_distance_screening~~CallsGraph_node5"><a xlink:href="../proc/to_angstrom.html" xlink:title="to_angstrom">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="469,-66 390,-66 390,-42 469,-42 469,-66"/>
+<text text-anchor="middle" x="429.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">to_angstrom</text>
 </a>
 </g>
 </g>
-<!-- proc~generate_k_way_intersections_for_level&#45;&gt;proc~next_combination -->
-<g id="proc~~generate_k_way_intersections_for_level~~CallsGraph_edge2" class="edge">
-<title>proc~generate_k_way_intersections_for_level&#45;&gt;proc~next_combination</title>
-<path fill="none" stroke="#ff0000" d="M223.27,-54C240.47,-54 257.7,-54 273.33,-54"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="273.35,-57.5 283.35,-54 273.35,-50.5 273.35,-57.5"/>
-</g>
-<!-- proc~next_combination_init -->
-<g id="proc~~generate_k_way_intersections_for_level~~CallsGraph_node4" class="node">
-<title>proc~next_combination_init</title>
-<g id="a_proc~~generate_k_way_intersections_for_level~~CallsGraph_node4"><a xlink:href="../proc/next_combination_init.html" xlink:title="next_combination_init">
-<polygon fill="#d9534f" stroke="#d9534f" points="401.5,-24 272.5,-24 272.5,0 401.5,0 401.5,-24"/>
-<text text-anchor="middle" x="337" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">next_combination_init</text>
-</a>
-</g>
-</g>
-<!-- proc~generate_k_way_intersections_for_level&#45;&gt;proc~next_combination_init -->
-<g id="proc~~generate_k_way_intersections_for_level~~CallsGraph_edge3" class="edge">
-<title>proc~generate_k_way_intersections_for_level&#45;&gt;proc~next_combination_init</title>
-<path fill="none" stroke="#ff0000" d="M176.55,-41.96C203.31,-36.93 234.58,-31.06 262.29,-25.85"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="263.15,-29.25 272.33,-23.96 261.86,-22.37 263.15,-29.25"/>
+<!-- proc~calculate_monomer_distance&#45;&gt;proc~to_angstrom -->
+<g id="proc~~apply_distance_screening~~CallsGraph_edge4" class="edge">
+<title>proc~calculate_monomer_distance&#45;&gt;proc~to_angstrom</title>
+<path fill="none" stroke="#00ff00" d="M354.13,-54C362.87,-54 371.54,-54 379.7,-54"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="379.74,-57.5 389.74,-54 379.74,-50.5 379.74,-57.5"/>
 </g>
 </g>
 </svg>
@@ -846,36 +780,106 @@ large graphs.</div>
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~generate_k_way_intersections_for_level~~CalledByGraph Pages: 1 -->
-<svg id="procgenerate_k_way_intersections_for_levelCalledByGraph" width="402pt" height="32pt"
- viewBox="0.00 0.00 402.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~generate_k_way_intersections_for_level~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
-<title>proc~~generate_k_way_intersections_for_level~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 398,-28 398,4 -4,4"/>
-<!-- proc~generate_k_way_intersections_for_level -->
-<g id="proc~~generate_k_way_intersections_for_level~~CalledByGraph_node1" class="node">
-<title>proc~generate_k_way_intersections_for_level</title>
-<polygon fill="none" stroke="black" points="394,-24 171,-24 171,0 394,0 394,-24"/>
-<text text-anchor="middle" x="282.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">generate_k_way_intersections_for_level</text>
+<!-- Title: proc~~apply_distance_screening~~CalledByGraph Pages: 1 -->
+<svg id="procapply_distance_screeningCalledByGraph" width="641pt" height="90pt"
+ viewBox="0.00 0.00 641.00 89.85" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~apply_distance_screening~~CalledByGraph" class="graph" transform="scale(0.8 0.8) rotate(0) translate(4 108)">
+<title>proc~~apply_distance_screening~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-108 795,-108 795,4 -4,4"/>
+<!-- proc~apply_distance_screening -->
+<g id="proc~~apply_distance_screening~~CalledByGraph_node1" class="node">
+<title>proc~apply_distance_screening</title>
+<polygon fill="none" stroke="black" points="791,-64 642,-64 642,-40 791,-40 791,-64"/>
+<text text-anchor="middle" x="716.5" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50">apply_distance_screening</text>
 </g>
-<!-- proc~generate_intersections -->
-<g id="proc~~generate_k_way_intersections_for_level~~CalledByGraph_node2" class="node">
-<title>proc~generate_intersections</title>
-<g id="a_proc~~generate_k_way_intersections_for_level~~CalledByGraph_node2"><a xlink:href="../proc/generate_intersections.html" xlink:title="generate_intersections">
-<polygon fill="#d9534f" stroke="#d9534f" points="135,-24 0,-24 0,0 135,0 135,-24"/>
-<text text-anchor="middle" x="67.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">generate_intersections</text>
+<!-- proc~run_fragmented_calculation -->
+<g id="proc~~apply_distance_screening~~CalledByGraph_node2" class="node">
+<title>proc~run_fragmented_calculation</title>
+<g id="a_proc~~apply_distance_screening~~CalledByGraph_node2"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="606,-64 443,-64 443,-40 606,-40 606,-64"/>
+<text text-anchor="middle" x="524.5" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
 </a>
 </g>
 </g>
-<!-- proc~generate_intersections&#45;&gt;proc~generate_k_way_intersections_for_level -->
-<g id="proc~~generate_k_way_intersections_for_level~~CalledByGraph_edge1" class="edge">
-<title>proc~generate_intersections&#45;&gt;proc~generate_k_way_intersections_for_level</title>
-<path fill="none" stroke="#ff0000" d="M135.02,-12C143.35,-12 152.07,-12 160.92,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="160.96,-15.5 170.96,-12 160.96,-8.5 160.96,-15.5"/>
+<!-- proc~run_fragmented_calculation&#45;&gt;proc~apply_distance_screening -->
+<g id="proc~~apply_distance_screening~~CalledByGraph_edge1" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;proc~apply_distance_screening</title>
+<path fill="none" stroke="#ff0000" d="M606.08,-52C614.49,-52 623.06,-52 631.51,-52"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="631.74,-55.5 641.74,-52 631.74,-48.5 631.74,-55.5"/>
+</g>
+<!-- proc~run_calculation -->
+<g id="proc~~apply_distance_screening~~CalledByGraph_node3" class="node">
+<title>proc~run_calculation</title>
+<g id="a_proc~~apply_distance_screening~~CalledByGraph_node3"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="407,-64 313,-64 313,-40 407,-40 407,-64"/>
+<text text-anchor="middle" x="360" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_calculation&#45;&gt;proc~run_fragmented_calculation -->
+<g id="proc~~apply_distance_screening~~CalledByGraph_edge2" class="edge">
+<title>proc~run_calculation&#45;&gt;proc~run_fragmented_calculation</title>
+<path fill="none" stroke="#ff0000" d="M407.13,-52C415.24,-52 423.94,-52 432.78,-52"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="432.8,-55.5 442.8,-52 432.8,-48.5 432.8,-55.5"/>
+</g>
+<!-- proc~compute_energy_and_forces -->
+<g id="proc~~apply_distance_screening~~CalledByGraph_node4" class="node">
+<title>proc~compute_energy_and_forces</title>
+<g id="a_proc~~apply_distance_screening~~CalledByGraph_node4"><a xlink:href="../proc/compute_energy_and_forces.html" xlink:title="compute_energy_and_forces">
+<polygon fill="#d9534f" stroke="#d9534f" points="266.5,-104 100.5,-104 100.5,-80 266.5,-80 266.5,-104"/>
+<text text-anchor="middle" x="183.5" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_energy_and_forces</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_energy_and_forces&#45;&gt;proc~run_calculation -->
+<g id="proc~~apply_distance_screening~~CalledByGraph_edge3" class="edge">
+<title>proc~compute_energy_and_forces&#45;&gt;proc~run_calculation</title>
+<path fill="none" stroke="#ff0000" d="M236.86,-80C257.74,-75.21 281.82,-69.69 303.05,-64.82"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="303.94,-68.21 312.9,-62.57 302.37,-61.39 303.94,-68.21"/>
+</g>
+<!-- proc~run_multi_molecule_calculations -->
+<g id="proc~~apply_distance_screening~~CalledByGraph_node5" class="node">
+<title>proc~run_multi_molecule_calculations</title>
+<g id="a_proc~~apply_distance_screening~~CalledByGraph_node5"><a xlink:href="../proc/run_multi_molecule_calculations.html" xlink:title="run_multi_molecule_calculations">
+<polygon fill="#d9534f" stroke="#d9534f" points="277,-24 90,-24 90,0 277,0 277,-24"/>
+<text text-anchor="middle" x="183.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_multi_molecule_calculations</text>
+</a>
+</g>
+</g>
+<!-- proc~run_multi_molecule_calculations&#45;&gt;proc~run_calculation -->
+<g id="proc~~apply_distance_screening~~CalledByGraph_edge4" class="edge">
+<title>proc~run_multi_molecule_calculations&#45;&gt;proc~run_calculation</title>
+<path fill="none" stroke="#ff0000" d="M236.86,-24C257.74,-28.79 281.82,-34.31 303.05,-39.18"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="302.37,-42.61 312.9,-41.43 303.94,-35.79 302.37,-42.61"/>
+</g>
+<!-- program~main -->
+<g id="proc~~apply_distance_screening~~CalledByGraph_node6" class="node">
+<title>program~main</title>
+<g id="a_proc~~apply_distance_screening~~CalledByGraph_node6"><a xlink:href="../program/main.html" xlink:title="main">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="54,-44 0,-44 0,-20 54,-20 54,-44"/>
+<text text-anchor="middle" x="27" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
+</a>
+</g>
+</g>
+<!-- program~main&#45;&gt;proc~run_calculation -->
+<g id="proc~~apply_distance_screening~~CalledByGraph_edge5" class="edge">
+<title>program~main&#45;&gt;proc~run_calculation</title>
+<path fill="none" stroke="#ff0000" d="M54.25,-33.59C107.66,-36.81 230.05,-44.21 302.43,-48.58"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="302.54,-52.09 312.73,-49.2 302.96,-45.11 302.54,-52.09"/>
+</g>
+<!-- program~main&#45;&gt;proc~run_multi_molecule_calculations -->
+<g id="proc~~apply_distance_screening~~CalledByGraph_edge6" class="edge">
+<title>program~main&#45;&gt;proc~run_multi_molecule_calculations</title>
+<path fill="none" stroke="#00ff00" d="M54.21,-28.61C61.81,-27.62 70.61,-26.48 79.96,-25.27"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="80.42,-28.74 89.89,-23.99 79.52,-21.8 80.42,-28.74"/>
 </g>
 </g>
 </svg>
-</div>          <div>
+</div>                <script>
+                  var panprocapply_distance_screeningCalledByGraph = svgPanZoom('#procapply_distance_screeningCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
             <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
           </div>
           <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
@@ -973,15 +977,15 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-current_intersection~2"></span>
-              integer,
+              <span class="anchor" id="variable-cutoff"></span>
+              real(kind=dp),
             </td>
-              <td>private,</td>
+              <td>private</td>
             <td>
-              allocatable
+              
             </td>
             <td>::</td>
-            <td><strong>current_intersection</strong>(:)</td>
+            <td><strong>cutoff</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -990,7 +994,24 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-current_n_intersect~2"></span>
+              <span class="anchor" id="variable-fragment_distance"></span>
+              real(kind=dp),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment_distance</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment_size~8"></span>
               integer,
             </td>
               <td>private</td>
@@ -998,7 +1019,7 @@ large graphs.</div>
               
             </td>
             <td>::</td>
-            <td><strong>current_n_intersect</strong></td>
+            <td><strong>fragment_size</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -1007,15 +1028,15 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-frag_size"></span>
-              integer,
+              <span class="anchor" id="variable-fragments_kept"></span>
+              integer(kind=int64),
             </td>
               <td>private</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>frag_size</strong></td>
+            <td><strong>fragments_kept</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -1024,15 +1045,15 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-has_intersection~3"></span>
-              logical,
+              <span class="anchor" id="variable-fragments_screened"></span>
+              integer(kind=int64),
             </td>
               <td>private</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>has_intersection</strong></td>
+            <td><strong>fragments_screened</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -1041,8 +1062,8 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~28"></span>
-              integer,
+              <span class="anchor" id="variable-i~16"></span>
+              integer(kind=int64),
             </td>
               <td>private</td>
             <td>
@@ -1058,8 +1079,8 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-j~10"></span>
-              integer,
+              <span class="anchor" id="variable-j~8"></span>
+              integer(kind=int64),
             </td>
               <td>private</td>
             <td>
@@ -1075,7 +1096,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mono_idx"></span>
+              <span class="anchor" id="variable-nmer_level"></span>
               integer,
             </td>
               <td>private</td>
@@ -1083,41 +1104,7 @@ large graphs.</div>
               
             </td>
             <td>::</td>
-            <td><strong>mono_idx</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-temp_intersection~3"></span>
-              integer,
-            </td>
-              <td>private,</td>
-            <td>
-              allocatable
-            </td>
-            <td>::</td>
-            <td><strong>temp_intersection</strong>(:)</td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-temp_n_intersect~2"></span>
-              integer,
-            </td>
-              <td>private</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>temp_n_intersect</strong></td>
+            <td><strong>nmer_level</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -1140,75 +1127,91 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">recursive subroutine </span><span class="n">generate_k_way_intersections_for_level</span><span class="p">(</span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">monomers</span><span class="p">,</span><span class="w"> </span><span class="n">n_monomers</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                                               </span><span class="n">combination</span><span class="p">,</span><span class="w"> </span><span class="n">max_atoms</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                                           </span><span class="n">temp_intersections</span><span class="p">,</span><span class="w"> </span><span class="n">temp_sets</span><span class="p">,</span><span class="w"> </span><span class="n">temp_levels</span><span class="p">,</span><span class="w"> </span><span class="n">intersection_count</span><span class="p">)</span>
-<span class="w">      </span><span class="c">!! Helper to generate all k-way intersections at a specific level k</span>
-<span class="w">      </span><span class="k">use </span><span class="n">mqc_physical_fragment</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">system_geometry_t</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">apply_distance_screening</span><span class="p">(</span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="n">total_fragments</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">driver_config</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!! Apply distance-based screening to filter out fragments that exceed cutoff distances</span>
+<span class="w">      </span><span class="c">!! Modifies polymers array in-place and updates total_fragments count</span>
+<span class="w">      </span><span class="k">use </span><span class="n">mqc_physical_fragment</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">calculate_monomer_distance</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">polymers</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">total_fragments</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">system_geometry_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sys_geom</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">monomers</span><span class="p">(:),</span><span class="w"> </span><span class="n">n_monomers</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">max_atoms</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">combination</span><span class="p">(:)</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">temp_intersections</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="n">temp_sets</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="n">temp_levels</span><span class="p">(:)</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">intersection_count</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">driver_config_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">driver_config</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">max_level</span>
 
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">current_intersection</span><span class="p">(:),</span><span class="w"> </span><span class="n">temp_intersection</span><span class="p">(:)</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">current_n_intersect</span><span class="p">,</span><span class="w"> </span><span class="n">temp_n_intersect</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">mono_idx</span><span class="p">,</span><span class="w"> </span><span class="n">frag_size</span>
-<span class="w">      </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">has_intersection</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">fragments_kept</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_size</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_distance</span><span class="p">,</span><span class="w"> </span><span class="n">cutoff</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragments_screened</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nmer_level</span>
 
-<span class="w">      </span><span class="c">! Generate combinations using an iterative approach</span>
-<span class="w">      </span><span class="k">call </span><span class="n">next_combination_init</span><span class="p">(</span><span class="n">combination</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="w">      </span><span class="c">! Check if we have cutoffs to apply</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="nb">allocated</span><span class="p">(</span><span class="n">driver_config</span><span class="p">%</span><span class="n">fragment_cutoffs</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         return</span><span class="w">  </span><span class="c">! No screening needed</span>
+<span class="w">      </span><span class="k">end if</span>
 
-<span class="w">      </span><span class="k">do</span>
-<span class="w">         </span><span class="c">! Compute intersection of all fragments in this combination</span>
-<span class="w">         </span><span class="n">has_intersection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<span class="k">      </span><span class="n">fragments_kept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0_int64</span>
+<span class="w">      </span><span class="n">fragments_screened</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0_int64</span>
 
-<span class="w">         </span><span class="c">! Start with the first fragment in the combination</span>
-<span class="w">         </span><span class="n">mono_idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">monomers</span><span class="p">(</span><span class="n">combination</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-<span class="w">         </span><span class="n">frag_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">%</span><span class="n">fragment_sizes</span><span class="p">(</span><span class="n">mono_idx</span><span class="p">)</span>
-<span class="w">         </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">current_intersection</span><span class="p">(</span><span class="n">frag_size</span><span class="p">))</span>
-<span class="w">         </span><span class="n">current_intersection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">%</span><span class="n">fragment_atoms</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">frag_size</span><span class="p">,</span><span class="w"> </span><span class="n">mono_idx</span><span class="p">)</span>
-<span class="w">         </span><span class="n">current_n_intersect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">frag_size</span>
+<span class="w">      </span><span class="c">! Loop through all fragments and filter based on distance</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1_int64</span><span class="p">,</span><span class="w"> </span><span class="n">total_fragments</span>
+<span class="w">         </span><span class="n">fragment_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="p">(</span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
 
-<span class="w">         </span><span class="c">! Intersect with each subsequent fragment</span>
-<span class="w">         </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">k</span>
-<span class="w">            </span><span class="n">mono_idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">monomers</span><span class="p">(</span><span class="n">combination</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<span class="w">            </span><span class="n">frag_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">%</span><span class="n">fragment_sizes</span><span class="p">(</span><span class="n">mono_idx</span><span class="p">)</span>
+<span class="w">         </span><span class="c">! Monomers are always kept (distance = 0)</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_size</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">fragments_kept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fragments_kept</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1_int64</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fragments_kept</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">               </span><span class="c">! Compact array - move this fragment to the kept position</span>
+<span class="w">               </span><span class="n">polymers</span><span class="p">(</span><span class="n">fragments_kept</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">            cycle</span>
+<span class="k">         end if</span>
 
-<span class="w">            </span><span class="n">has_intersection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_fragment_intersection</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                               </span><span class="n">current_intersection</span><span class="p">,</span><span class="w"> </span><span class="n">current_n_intersect</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                               </span><span class="n">sys_geom</span><span class="p">%</span><span class="n">fragment_atoms</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">frag_size</span><span class="p">,</span><span class="w"> </span><span class="n">mono_idx</span><span class="p">),</span><span class="w"> </span><span class="n">frag_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                               </span><span class="n">temp_intersection</span><span class="p">,</span><span class="w"> </span><span class="n">temp_n_intersect</span><span class="p">)</span>
+<span class="w">         </span><span class="c">! For n-mers (n &gt;= 2), check if we have a cutoff and apply screening</span>
+<span class="w">         </span><span class="n">nmer_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fragment_size</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nmer_level</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">driver_config</span><span class="p">%</span><span class="n">fragment_cutoffs</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c">! No cutoff defined for this level - keep the fragment</span>
+<span class="w">            </span><span class="n">fragments_kept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fragments_kept</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1_int64</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fragments_kept</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">               </span><span class="n">polymers</span><span class="p">(</span><span class="n">fragments_kept</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">            cycle</span>
+<span class="k">         end if</span>
 
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">has_intersection</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="w">               </span><span class="c">! Intersection is empty, break early</span>
-<span class="w">               </span><span class="k">deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">current_intersection</span><span class="p">)</span>
-<span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">temp_intersection</span><span class="p">))</span><span class="w"> </span><span class="k">deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">temp_intersection</span><span class="p">)</span>
-<span class="w">               </span><span class="k">exit</span>
-<span class="k">            end if</span>
+<span class="k">         </span><span class="n">cutoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">driver_config</span><span class="p">%</span><span class="n">fragment_cutoffs</span><span class="p">(</span><span class="n">nmer_level</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cutoff</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c">! Negative or zero cutoff means no screening for this level</span>
+<span class="w">            </span><span class="n">fragments_kept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fragments_kept</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1_int64</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fragments_kept</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">               </span><span class="n">polymers</span><span class="p">(</span><span class="n">fragments_kept</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">            cycle</span>
+<span class="k">         end if</span>
 
-<span class="w">            </span><span class="c">! Replace current_intersection with the new intersection</span>
-<span class="w">            </span><span class="k">deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">current_intersection</span><span class="p">)</span>
-<span class="w">            </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">current_intersection</span><span class="p">(</span><span class="n">temp_n_intersect</span><span class="p">))</span>
-<span class="w">            </span><span class="n">current_intersection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp_intersection</span>
-<span class="w">            </span><span class="n">current_n_intersect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp_n_intersect</span>
-<span class="w">            </span><span class="k">deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">temp_intersection</span><span class="p">)</span>
-<span class="w">         </span><span class="k">end do</span>
+<span class="w">         </span><span class="c">! Calculate distance for this fragment</span>
+<span class="w">         </span><span class="n">fragment_distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calculate_monomer_distance</span><span class="p">(</span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">fragment_size</span><span class="p">))</span>
 
-<span class="w">         </span><span class="c">! If we have a non-empty intersection, store it</span>
-<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">has_intersection</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="nb">allocated</span><span class="p">(</span><span class="n">current_intersection</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">intersection_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">intersection_count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">            </span><span class="n">temp_intersections</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">current_n_intersect</span><span class="p">,</span><span class="w"> </span><span class="n">intersection_count</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_intersection</span>
-<span class="w">            </span><span class="n">temp_sets</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">intersection_count</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">monomers</span><span class="p">(</span><span class="n">combination</span><span class="p">)</span>
-<span class="w">            </span><span class="n">temp_levels</span><span class="p">(</span><span class="n">intersection_count</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span>
-<span class="w">            </span><span class="k">deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">current_intersection</span><span class="p">)</span>
+<span class="w">         </span><span class="c">! Apply cutoff filter</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_distance</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">cutoff</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c">! Keep this fragment</span>
+<span class="w">            </span><span class="n">fragments_kept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fragments_kept</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1_int64</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fragments_kept</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">               </span><span class="n">polymers</span><span class="p">(</span><span class="n">fragments_kept</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">         else</span>
+<span class="w">            </span><span class="c">! Screen out this fragment</span>
+<span class="w">            </span><span class="n">fragments_screened</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fragments_screened</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1_int64</span>
 <span class="w">         </span><span class="k">end if</span>
-
-<span class="w">         </span><span class="c">! Get next combination</span>
-<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">next_combination</span><span class="p">(</span><span class="n">combination</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">n_monomers</span><span class="p">))</span><span class="w"> </span><span class="k">exit</span>
 <span class="k">      end do</span>
 
-<span class="k">   end subroutine </span><span class="n">generate_k_way_intersections_for_level</span>
+<span class="w">      </span><span class="c">! Update total fragment count</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fragments_screened</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Distance-based screening applied:&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Fragments before screening: &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">total_fragments</span><span class="p">))</span>
+<span class="w">         </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Fragments screened out: &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">fragments_screened</span><span class="p">))</span>
+<span class="w">         </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Fragments kept: &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">fragments_kept</span><span class="p">))</span>
+<span class="w">         </span><span class="n">total_fragments</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fragments_kept</span>
+<span class="w">      </span><span class="k">end if</span>
+
+<span class="k">   end subroutine </span><span class="n">apply_distance_screening</span>
 </pre></div>
 
     </section>

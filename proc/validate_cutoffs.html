@@ -10,7 +10,7 @@
     <meta name="author" content="Jorge Luis Galvez Vallejo" >
     <link rel="icon" href="../favicon.png">
 
-    <title>classify_line &ndash; metalquicha</title>
+    <title>validate_cutoffs &ndash; metalquicha</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -83,8 +83,8 @@
 
     <div class="container">
   <div class="row">
-    <h1>classify_line
-      <small>Function</small>
+    <h1>validate_cutoffs
+      <small>Subroutine</small>
       
     </h1>
       <div class="container p-2 mb-4 bg-light border rounded-3">
@@ -94,21 +94,21 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.2% of total for procedures.">15 statements</a>
+                 title=" 0.3% of total for procedures.">20 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/mqc_basis_reader.f90"> Source File</a>
+              <a href="../src/mqc_config_parser.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/mqc_basis_reader.f90.html'>mqc_basis_reader.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/mqc_basis_reader.html'>mqc_basis_reader</a></li>
-            <li class="breadcrumb-item active" aria-current="page">classify_line</li>
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_config_parser.f90.html'>mqc_config_parser.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/mqc_config_parser.html'>mqc_config_parser</a></li>
+            <li class="breadcrumb-item active" aria-current="page">validate_cutoffs</li>
           </ol>
         </nav>
       </div>
@@ -136,7 +136,12 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/classify_line.html#variable-line_trim">line_trim</a>
+            <a class="list-group-item" href="../proc/validate_cutoffs.html#variable-cutoff_high">cutoff_high</a>
+            <a class="list-group-item" href="../proc/validate_cutoffs.html#variable-cutoff_low">cutoff_low</a>
+            <a class="list-group-item" href="../proc/validate_cutoffs.html#variable-i~64">i</a>
+            <a class="list-group-item" href="../proc/validate_cutoffs.html#variable-level_high">level_high</a>
+            <a class="list-group-item" href="../proc/validate_cutoffs.html#variable-level_low">level_low</a>
+            <a class="list-group-item" href="../proc/validate_cutoffs.html#variable-msg~3">msg</a>
         </div>
       </div>
     </div>
@@ -162,7 +167,7 @@
     <div class="card card-primary">
       <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../proc/classify_line.html#src">classify_line</a>
+        <a class="list-group-item" href="../proc/validate_cutoffs.html#src">validate_cutoffs</a>
       </div>
     </div>
 
@@ -172,11 +177,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public pure function classify_line(line) result(line_type)  
+    <h2>private  subroutine validate_cutoffs(config, error)  
 </h2>
     
 
-    <p>Classify a line from a gamess formatted basis set file</p>
+    <p>Validate that fragment cutoffs are monotonically decreasing
+For n-mer level N, cutoff(N) must be &lt;= cutoff(N-1)</p>
 
 
     <h3>Arguments</h3>
@@ -192,15 +198,30 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line"></span>
-              character(len=*),
+              <span class="anchor" id="variable-config~18"></span>
+              type(<a href='../type/mqc_config_t.html'>mqc_config_t</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>line</strong></td>
+            <td><strong>config</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-error~43"></span>
+              type(<a href='../type/error_t.html'>error_t</a>),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>error</strong></td>
             <td>
                 
             </td>
@@ -208,13 +229,6 @@
     </tbody>
   </table>
 
-      <h3>Return Value
-        <small>
-          <span class="anchor" id="variable-line_type"></span>
-          integer
-        </small>
-      </h3>
-      
     <br>
     <div class="card">
       <div class="card-header">
@@ -226,62 +240,32 @@
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~classify_line~~CallsGraph Pages: 1 -->
-<svg id="procclassify_lineCallsGraph" width="234pt" height="116pt"
- viewBox="0.00 0.00 234.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~classify_line~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
-<title>proc~~classify_line~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 230,-112 230,4 -4,4"/>
-<!-- proc~classify_line -->
-<g id="proc~~classify_line~~CallsGraph_node1" class="node">
-<title>proc~classify_line</title>
-<polygon fill="none" stroke="black" points="76,-66 0,-66 0,-42 76,-42 76,-66"/>
-<text text-anchor="middle" x="38" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">classify_line</text>
+<!-- Title: proc~~validate_cutoffs~~CallsGraph Pages: 1 -->
+<svg id="procvalidate_cutoffsCallsGraph" width="246pt" height="32pt"
+ viewBox="0.00 0.00 246.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~validate_cutoffs~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~validate_cutoffs~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 242,-28 242,4 -4,4"/>
+<!-- proc~validate_cutoffs -->
+<g id="proc~~validate_cutoffs~~CallsGraph_node1" class="node">
+<title>proc~validate_cutoffs</title>
+<polygon fill="none" stroke="black" points="97,-24 0,-24 0,0 97,0 97,-24"/>
+<text text-anchor="middle" x="48.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">validate_cutoffs</text>
 </g>
-<!-- proc~is_blank_or_control -->
-<g id="proc~~classify_line~~CallsGraph_node2" class="node">
-<title>proc~is_blank_or_control</title>
-<g id="a_proc~~classify_line~~CallsGraph_node2"><a xlink:href="../proc/is_blank_or_control.html" xlink:title="is_blank_or_control">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="226,-108 112,-108 112,-84 226,-84 226,-108"/>
-<text text-anchor="middle" x="169" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">is_blank_or_control</text>
+<!-- proc~error_set -->
+<g id="proc~~validate_cutoffs~~CallsGraph_node2" class="node">
+<title>proc~error_set</title>
+<g id="a_proc~~validate_cutoffs~~CallsGraph_node2"><a xlink:href="../proc/error_set.html" xlink:title="error_t%error_set">
+<polygon fill="#d9534f" stroke="#d9534f" points="238,-24 133,-24 133,0 238,0 238,-24"/>
+<text text-anchor="middle" x="185.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">error_t%error_set</text>
 </a>
 </g>
 </g>
-<!-- proc~classify_line&#45;&gt;proc~is_blank_or_control -->
-<g id="proc~~classify_line~~CallsGraph_edge1" class="edge">
-<title>proc~classify_line&#45;&gt;proc~is_blank_or_control</title>
-<path fill="none" stroke="#ff0000" d="M75.97,-66.04C90.14,-70.65 106.49,-75.97 121.44,-80.84"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="120.44,-84.19 131.03,-83.96 122.6,-77.54 120.44,-84.19"/>
-</g>
-<!-- proc~is_function_line -->
-<g id="proc~~classify_line~~CallsGraph_node3" class="node">
-<title>proc~is_function_line</title>
-<g id="a_proc~~classify_line~~CallsGraph_node3"><a xlink:href="../proc/is_function_line.html" xlink:title="is_function_line">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="216,-66 122,-66 122,-42 216,-42 216,-66"/>
-<text text-anchor="middle" x="169" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">is_function_line</text>
-</a>
-</g>
-</g>
-<!-- proc~classify_line&#45;&gt;proc~is_function_line -->
-<g id="proc~~classify_line~~CallsGraph_edge2" class="edge">
-<title>proc~classify_line&#45;&gt;proc~is_function_line</title>
-<path fill="none" stroke="#ff0000" d="M76.31,-54C87.25,-54 99.46,-54 111.31,-54"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="111.6,-57.5 121.6,-54 111.6,-50.5 111.6,-57.5"/>
-</g>
-<!-- proc~is_shell_header -->
-<g id="proc~~classify_line~~CallsGraph_node4" class="node">
-<title>proc~is_shell_header</title>
-<g id="a_proc~~classify_line~~CallsGraph_node4"><a xlink:href="../proc/is_shell_header.html" xlink:title="is_shell_header">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="216,-24 122,-24 122,0 216,0 216,-24"/>
-<text text-anchor="middle" x="169" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">is_shell_header</text>
-</a>
-</g>
-</g>
-<!-- proc~classify_line&#45;&gt;proc~is_shell_header -->
-<g id="proc~~classify_line~~CallsGraph_edge3" class="edge">
-<title>proc~classify_line&#45;&gt;proc~is_shell_header</title>
-<path fill="none" stroke="#ff0000" d="M75.97,-41.96C90.14,-37.35 106.49,-32.03 121.44,-27.16"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="122.6,-30.46 131.03,-24.04 120.44,-23.81 122.6,-30.46"/>
+<!-- proc~validate_cutoffs&#45;&gt;proc~error_set -->
+<g id="proc~~validate_cutoffs~~CallsGraph_edge1" class="edge">
+<title>proc~validate_cutoffs&#45;&gt;proc~error_set</title>
+<path fill="none" stroke="#ff0000" d="M97.1,-12C105.39,-12 114.12,-12 122.73,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="122.75,-15.5 132.75,-12 122.75,-8.5 122.75,-15.5"/>
 </g>
 </g>
 </svg>
@@ -376,83 +360,62 @@ large graphs.</div>
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
-<!-- Title: proc~~classify_line~~CalledByGraph Pages: 1 -->
-<svg id="procclassify_lineCalledByGraph" width="594pt" height="74pt"
- viewBox="0.00 0.00 594.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~classify_line~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
-<title>proc~~classify_line~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 590,-70 590,4 -4,4"/>
-<!-- proc~classify_line -->
-<g id="proc~~classify_line~~CalledByGraph_node1" class="node">
-<title>proc~classify_line</title>
-<polygon fill="none" stroke="black" points="586,-45 510,-45 510,-21 586,-21 586,-45"/>
-<text text-anchor="middle" x="548" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">classify_line</text>
+<!-- Title: proc~~validate_cutoffs~~CalledByGraph Pages: 1 -->
+<svg id="procvalidate_cutoffsCalledByGraph" width="522pt" height="32pt"
+ viewBox="0.00 0.00 522.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~validate_cutoffs~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~validate_cutoffs~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 518,-28 518,4 -4,4"/>
+<!-- proc~validate_cutoffs -->
+<g id="proc~~validate_cutoffs~~CalledByGraph_node1" class="node">
+<title>proc~validate_cutoffs</title>
+<polygon fill="none" stroke="black" points="514,-24 417,-24 417,0 514,0 514,-24"/>
+<text text-anchor="middle" x="465.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">validate_cutoffs</text>
 </g>
-<!-- proc~count_shells_for_element -->
-<g id="proc~~classify_line~~CalledByGraph_node2" class="node">
-<title>proc~count_shells_for_element</title>
-<g id="a_proc~~classify_line~~CalledByGraph_node2"><a xlink:href="../proc/count_shells_for_element.html" xlink:title="count_shells_for_element">
-<polygon fill="#d9534f" stroke="#d9534f" points="474,-66 326,-66 326,-42 474,-42 474,-66"/>
-<text text-anchor="middle" x="400" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">count_shells_for_element</text>
+<!-- proc~parse_fragmentation_section -->
+<g id="proc~~validate_cutoffs~~CalledByGraph_node2" class="node">
+<title>proc~parse_fragmentation_section</title>
+<g id="a_proc~~validate_cutoffs~~CalledByGraph_node2"><a xlink:href="../proc/parse_fragmentation_section.html" xlink:title="parse_fragmentation_section">
+<polygon fill="#d9534f" stroke="#d9534f" points="381,-24 213,-24 213,0 381,0 381,-24"/>
+<text text-anchor="middle" x="297" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragmentation_section</text>
 </a>
 </g>
 </g>
-<!-- proc~count_shells_for_element&#45;&gt;proc~classify_line -->
-<g id="proc~~classify_line~~CalledByGraph_edge1" class="edge">
-<title>proc~count_shells_for_element&#45;&gt;proc~classify_line</title>
-<path fill="none" stroke="#ff0000" d="M474.43,-43.44C483.02,-42.2 491.6,-40.97 499.69,-39.8"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="500.25,-43.26 509.65,-38.37 499.26,-36.33 500.25,-43.26"/>
+<!-- proc~parse_fragmentation_section&#45;&gt;proc~validate_cutoffs -->
+<g id="proc~~validate_cutoffs~~CalledByGraph_edge1" class="edge">
+<title>proc~parse_fragmentation_section&#45;&gt;proc~validate_cutoffs</title>
+<path fill="none" stroke="#ff0000" d="M381.25,-12C389.82,-12 398.4,-12 406.61,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="406.79,-15.5 416.79,-12 406.79,-8.5 406.79,-15.5"/>
 </g>
-<!-- proc~fill_element_basis -->
-<g id="proc~~classify_line~~CalledByGraph_node3" class="node">
-<title>proc~fill_element_basis</title>
-<g id="a_proc~~classify_line~~CalledByGraph_node3"><a xlink:href="../proc/fill_element_basis.html" xlink:title="fill_element_basis">
-<polygon fill="#d9534f" stroke="#d9534f" points="453.5,-24 346.5,-24 346.5,0 453.5,0 453.5,-24"/>
-<text text-anchor="middle" x="400" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fill_element_basis</text>
+<!-- proc~read_mqc_file -->
+<g id="proc~~validate_cutoffs~~CalledByGraph_node3" class="node">
+<title>proc~read_mqc_file</title>
+<g id="a_proc~~validate_cutoffs~~CalledByGraph_node3"><a xlink:href="../proc/read_mqc_file.html" xlink:title="read_mqc_file">
+<polygon fill="#d9534f" stroke="#d9534f" points="177,-24 90,-24 90,0 177,0 177,-24"/>
+<text text-anchor="middle" x="133.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_mqc_file</text>
 </a>
 </g>
 </g>
-<!-- proc~fill_element_basis&#45;&gt;proc~classify_line -->
-<g id="proc~~classify_line~~CalledByGraph_edge2" class="edge">
-<title>proc~fill_element_basis&#45;&gt;proc~classify_line</title>
-<path fill="none" stroke="#ff0000" d="M453.71,-19.58C468.84,-21.76 485.24,-24.12 500,-26.24"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="499.53,-29.71 509.92,-27.67 500.52,-22.78 499.53,-29.71"/>
+<!-- proc~read_mqc_file&#45;&gt;proc~parse_fragmentation_section -->
+<g id="proc~~validate_cutoffs~~CalledByGraph_edge2" class="edge">
+<title>proc~read_mqc_file&#45;&gt;proc~parse_fragmentation_section</title>
+<path fill="none" stroke="#ff0000" d="M177.36,-12C185.37,-12 194.02,-12 202.88,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="202.95,-15.5 212.95,-12 202.95,-8.5 202.95,-15.5"/>
 </g>
-<!-- proc~parse_element_basis -->
-<g id="proc~~classify_line~~CalledByGraph_node4" class="node">
-<title>proc~parse_element_basis</title>
-<g id="a_proc~~classify_line~~CalledByGraph_node4"><a xlink:href="../proc/parse_element_basis.html" xlink:title="parse_element_basis">
-<polygon fill="#d9534f" stroke="#d9534f" points="290,-45 166,-45 166,-21 290,-21 290,-45"/>
-<text text-anchor="middle" x="228" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_element_basis</text>
+<!-- program~main -->
+<g id="proc~~validate_cutoffs~~CalledByGraph_node4" class="node">
+<title>program~main</title>
+<g id="a_proc~~validate_cutoffs~~CalledByGraph_node4"><a xlink:href="../program/main.html" xlink:title="main">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
 </a>
 </g>
 </g>
-<!-- proc~parse_element_basis&#45;&gt;proc~count_shells_for_element -->
-<g id="proc~~classify_line~~CalledByGraph_edge3" class="edge">
-<title>proc~parse_element_basis&#45;&gt;proc~count_shells_for_element</title>
-<path fill="none" stroke="#ff0000" d="M290.37,-40.58C298.65,-41.6 307.24,-42.67 315.81,-43.72"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="315.49,-47.21 325.84,-44.96 316.35,-40.26 315.49,-47.21"/>
-</g>
-<!-- proc~parse_element_basis&#45;&gt;proc~fill_element_basis -->
-<g id="proc~~classify_line~~CalledByGraph_edge4" class="edge">
-<title>proc~parse_element_basis&#45;&gt;proc~fill_element_basis</title>
-<path fill="none" stroke="#00ffff" d="M290.37,-25.42C305.29,-23.58 321.26,-21.6 336.23,-19.75"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="336.92,-23.19 346.42,-18.5 336.07,-16.25 336.92,-23.19"/>
-</g>
-<!-- proc~build_molecular_basis -->
-<g id="proc~~classify_line~~CalledByGraph_node5" class="node">
-<title>proc~build_molecular_basis</title>
-<g id="a_proc~~classify_line~~CalledByGraph_node5"><a xlink:href="../proc/build_molecular_basis.html" xlink:title="build_molecular_basis">
-<polygon fill="#d9534f" stroke="#d9534f" points="130,-45 0,-45 0,-21 130,-21 130,-45"/>
-<text text-anchor="middle" x="65" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">build_molecular_basis</text>
-</a>
-</g>
-</g>
-<!-- proc~build_molecular_basis&#45;&gt;proc~parse_element_basis -->
-<g id="proc~~classify_line~~CalledByGraph_edge5" class="edge">
-<title>proc~build_molecular_basis&#45;&gt;proc~parse_element_basis</title>
-<path fill="none" stroke="#ff0000" d="M130.09,-33C138.45,-33 147.05,-33 155.51,-33"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="155.75,-36.5 165.75,-33 155.75,-29.5 155.75,-36.5"/>
+<!-- program~main&#45;&gt;proc~read_mqc_file -->
+<g id="proc~~validate_cutoffs~~CalledByGraph_edge3" class="edge">
+<title>program~main&#45;&gt;proc~read_mqc_file</title>
+<path fill="none" stroke="#ff0000" d="M54.1,-12C61.83,-12 70.6,-12 79.4,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="79.68,-15.5 89.68,-12 79.68,-8.5 79.68,-15.5"/>
 </g>
 </g>
 </svg>
@@ -554,15 +517,100 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line_trim"></span>
-              character(len=:),
+              <span class="anchor" id="variable-cutoff_high"></span>
+              real(kind=dp),
             </td>
-              <td>private,</td>
+              <td>private</td>
             <td>
-              allocatable
+              
             </td>
             <td>::</td>
-            <td><strong>line_trim</strong></td>
+            <td><strong>cutoff_high</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cutoff_low"></span>
+              real(kind=dp),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>cutoff_low</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~64"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-level_high"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>level_high</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-level_low"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>level_low</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~3"></span>
+              character(len=256),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -585,26 +633,41 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">pure function </span><span class="n">classify_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">line_type</span><span class="p">)</span>
-<span class="w">      </span><span class="c">!! Classify a line from a gamess formatted basis set file</span>
-<span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">line_type</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">validate_cutoffs</span><span class="p">(</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!! Validate that fragment cutoffs are monotonically decreasing</span>
+<span class="w">      </span><span class="c">!! For n-mer level N, cutoff(N) must be &lt;= cutoff(N-1)</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">mqc_config_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">config</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">error_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">error</span>
 
-<span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">line_trim</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">level_low</span><span class="p">,</span><span class="w"> </span><span class="n">level_high</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cutoff_low</span><span class="p">,</span><span class="w"> </span><span class="n">cutoff_high</span>
+<span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">msg</span>
 
-<span class="w">      </span><span class="n">line_trim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="nb">allocated</span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">fragment_cutoffs</span><span class="p">))</span><span class="w"> </span><span class="k">return</span>
 
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_blank_or_control</span><span class="p">(</span><span class="n">line_trim</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">         </span><span class="n">line_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LINE_UNKNOWN</span>
-<span class="w">      </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">is_function_line</span><span class="p">(</span><span class="n">line_trim</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">         </span><span class="n">line_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LINE_FUNCTION</span>
-<span class="w">      </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">is_shell_header</span><span class="p">(</span><span class="n">line_trim</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">         </span><span class="n">line_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LINE_SHELL</span>
-<span class="w">      </span><span class="k">else</span>
-<span class="k">         </span><span class="n">line_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LINE_ATOM</span>
-<span class="w">      </span><span class="k">end if</span>
+<span class="w">      </span><span class="c">! Check monotonicity for consecutive levels with defined cutoffs</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">fragment_cutoffs</span><span class="p">)</span>
+<span class="w">         </span><span class="n">level_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">         </span><span class="n">level_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span>
 
-<span class="k">   end function </span><span class="n">classify_line</span>
+<span class="w">         </span><span class="n">cutoff_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">fragment_cutoffs</span><span class="p">(</span><span class="n">level_low</span><span class="p">)</span>
+<span class="w">         </span><span class="n">cutoff_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">fragment_cutoffs</span><span class="p">(</span><span class="n">level_high</span><span class="p">)</span>
+
+<span class="w">         </span><span class="c">! Skip if either cutoff is not defined (negative or zero sentinel value)</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cutoff_low</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">cutoff_high</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="p">)</span><span class="w"> </span><span class="k">cycle</span>
+
+<span class="w">         </span><span class="c">! Validate monotonic decreasing</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cutoff_high</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">cutoff_low</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="w"> </span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a,i0,a,f0.2,a,i0,a,f0.2,a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">               </span><span class="s2">&quot;Fragment cutoffs must be monotonically decreasing: &quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">               </span><span class="n">level_high</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;-mer cutoff (&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">cutoff_high</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;) cannot be larger than &quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">               </span><span class="n">level_low</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;-mer cutoff (&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">cutoff_low</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;). Check %cutoffs section.&quot;</span>
+<span class="w">            </span><span class="k">call </span><span class="n">error</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">ERROR_PARSE</span><span class="p">,</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="k">         end if</span>
+<span class="k">      end do</span>
+
+<span class="k">   end subroutine </span><span class="n">validate_cutoffs</span>
 </pre></div>
 
     </section>
