@@ -201,6 +201,14 @@ contains
                call combine(monomers, sys_geom%n_monomers, max_level, polymers, total_fragments)
                n_primaries = int(total_fragments)
                deallocate (monomers)
+
+               ! Apply distance-based screening to primaries if cutoffs are provided
+               if (max_level > 1) then
+                  ! Only screen if primaries are n-mers (not for GMBE(1) where primaries are monomers)
+                  total_fragments = int(n_primaries, int64)
+                  call apply_distance_screening(polymers, total_fragments, sys_geom, driver_config, max_level)
+                  n_primaries = int(total_fragments)
+               end if
             end if
 
             call logger%info("Generated "//to_char(n_primaries)//" primary "//to_char(max_level)//"-mers for GMBE("// &
