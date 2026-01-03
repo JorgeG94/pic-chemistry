@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.0% of total for procedures.">66 statements</a>
+                 title=" 1.3% of total for procedures.">84 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -196,7 +196,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit~19"></span>
+              <span class="anchor" id="variable-unit~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -211,7 +211,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-config~15"></span>
+              <span class="anchor" id="variable-config~14"></span>
               type(<a href='../type/mqc_config_t.html'>mqc_config_t</a>),
             </td>
 <td>intent(inout)</td>
@@ -688,15 +688,46 @@ large graphs.</div>
 <span class="w">         </span><span class="k">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">adjustl</span><span class="p">(</span><span class="n">line</span><span class="p">(</span><span class="n">eq_pos</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">:))</span>
 
 <span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">in_cutoffs</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            select case</span><span class="w"> </span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
-<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;dimer&#39;</span><span class="p">)</span>
-<span class="w">               </span><span class="k">read</span><span class="w"> </span><span class="p">(</span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">io_stat</span><span class="p">)</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">dimer_cutoff</span>
-<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;trimer&#39;</span><span class="p">)</span>
-<span class="w">               </span><span class="k">read</span><span class="w"> </span><span class="p">(</span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">io_stat</span><span class="p">)</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">trimer_cutoff</span>
-<span class="w">            </span><span class="k">case </span><span class="n">default</span>
-<span class="w">               </span><span class="k">call </span><span class="n">error</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">ERROR_PARSE</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Unknown key in %fragmentation cutoffs subsection: &quot;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
-<span class="w">               </span><span class="k">return</span>
-<span class="k">            end select</span>
+<span class="w">            </span><span class="c">! Parse cutoffs: numeric keys like &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, etc.</span>
+<span class="w">            </span><span class="c">! representing n-mer level (2=dimer, 3=trimer, etc.)</span>
+<span class="w">            </span><span class="k">block</span>
+<span class="k">               </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nmer_level</span>
+<span class="w">               </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cutoff_value</span>
+
+<span class="w">               </span><span class="c">! Try to read the key as an integer (n-mer level)</span>
+<span class="w">               </span><span class="k">read</span><span class="w"> </span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">io_stat</span><span class="p">)</span><span class="w"> </span><span class="n">nmer_level</span>
+<span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">io_stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                  call </span><span class="n">error</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">ERROR_PARSE</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Invalid n-mer level in cutoffs (expected integer): &quot;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+<span class="w">                  </span><span class="k">return</span>
+<span class="k">               end if</span>
+
+<span class="w">               </span><span class="c">! Validate n-mer level</span>
+<span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nmer_level</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                  call </span><span class="n">error</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">ERROR_PARSE</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;N-mer level must be &gt;= 2 in cutoffs&quot;</span><span class="p">)</span>
+<span class="w">                  </span><span class="k">return</span>
+<span class="k">               end if</span>
+
+<span class="k">               if</span><span class="w"> </span><span class="p">(</span><span class="n">nmer_level</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                  call </span><span class="n">error</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">ERROR_PARSE</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;N-mer level too large in cutoffs (max 8 for octamer)&quot;</span><span class="p">)</span>
+<span class="w">                  </span><span class="k">return</span>
+<span class="k">               end if</span>
+
+<span class="w">               </span><span class="c">! Read the cutoff value</span>
+<span class="w">               </span><span class="k">read</span><span class="w"> </span><span class="p">(</span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">io_stat</span><span class="p">)</span><span class="w"> </span><span class="n">cutoff_value</span>
+<span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">io_stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                  call </span><span class="n">error</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">ERROR_PARSE</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Invalid cutoff value: &quot;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="k">value</span><span class="p">))</span>
+<span class="w">                  </span><span class="k">return</span>
+<span class="k">               end if</span>
+
+<span class="w">               </span><span class="c">! Allocate array if not yet allocated (up to octamer = 8)</span>
+<span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="nb">allocated</span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">fragment_cutoffs</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                  allocate</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">fragment_cutoffs</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
+<span class="w">                  </span><span class="n">config</span><span class="p">%</span><span class="n">fragment_cutoffs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span><span class="w">  </span><span class="c">! Initialize with sentinel value</span>
+<span class="w">               </span><span class="k">end if</span>
+
+<span class="w">               </span><span class="c">! Store the cutoff value at the appropriate index</span>
+<span class="w">               </span><span class="n">config</span><span class="p">%</span><span class="n">fragment_cutoffs</span><span class="p">(</span><span class="n">nmer_level</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cutoff_value</span>
+<span class="w">            </span><span class="k">end block</span>
 <span class="k">         else</span>
 <span class="k">            select case</span><span class="w"> </span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
 <span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;method&#39;</span><span class="p">)</span>
@@ -744,7 +775,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-02 13:59 +0000             </p>
+ on 2026-01-03 10:17 +0000             </p>
           </div>
         </div>
         <br>

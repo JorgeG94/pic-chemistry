@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.0% of total for modules and submodules.">146 statements</a>
+                 title=" 2.8% of total for modules and submodules.">206 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -147,7 +147,7 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/mqc_combinatorics.html#proc-binomial">binomial</a>
             <a class="list-group-item" href="../module/mqc_combinatorics.html#proc-get_nfrags">get_nfrags</a>
-            <a class="list-group-item" href="../module/mqc_combinatorics.html#proc-next_combination">next_combination</a>
+            <a class="list-group-item" href="../module/mqc_combinatorics.html#proc-next_combination~2">next_combination</a>
         </div>
       </div>
     </div>
@@ -159,11 +159,12 @@
       </a>
       <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mqc_combinatorics.html#proc-calculate_fragment_distances">calculate_fragment_distances</a>
             <a class="list-group-item" href="../module/mqc_combinatorics.html#proc-combine">combine</a>
             <a class="list-group-item" href="../module/mqc_combinatorics.html#proc-create_monomer_list">create_monomer_list</a>
             <a class="list-group-item" href="../module/mqc_combinatorics.html#proc-generate_fragment_list">generate_fragment_list</a>
             <a class="list-group-item" href="../module/mqc_combinatorics.html#proc-get_next_combination">get_next_combination</a>
-            <a class="list-group-item" href="../module/mqc_combinatorics.html#proc-next_combination_init">next_combination_init</a>
+            <a class="list-group-item" href="../module/mqc_combinatorics.html#proc-next_combination_init~2">next_combination_init</a>
             <a class="list-group-item" href="../module/mqc_combinatorics.html#proc-print_combos">print_combos</a>
             <a class="list-group-item" href="../module/mqc_combinatorics.html#proc-combine_util">combine_util</a>
         </div>
@@ -194,7 +195,8 @@ Generate all combinations of size r
 Generate next combination in sequence
 Initialize combination to [1,2,&hellip;,k]
 Generate next combination (alternate interface)
-Debug utility to print combinations</p>
+Debug utility to print combinations
+Calculate minimal distances for all fragments</p>
 <br>          <div class="card mb-4">
       <h3 class="card-header card-title bg-light">Uses</h3>
       <div class="card-body">
@@ -573,7 +575,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n"></span>
+              <span class="anchor" id="variable-n~10"></span>
               integer(kind=default_int),
             </td>
 <td>intent(in)</td>
@@ -633,7 +635,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_monomers~3"></span>
+              <span class="anchor" id="variable-n_monomers~10"></span>
               integer(kind=default_int),
             </td>
 <td>intent(in)</td>
@@ -648,7 +650,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_level~8"></span>
+              <span class="anchor" id="variable-max_level~15"></span>
               integer(kind=default_int),
             </td>
 <td>intent(in)</td>
@@ -674,7 +676,7 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-next_combination"></span> <h3>public  function <a href='../proc/next_combination.html'>next_combination</a>(combination, k, n) result(has_next)  
+    <div class="card-header codesum"><span class="anchor" id="proc-next_combination~2"></span> <h3>public  function <a href='../proc/next_combination~2.html'>next_combination</a>(combination, k, n) result(has_next)  
 </h3></div>
     <div class="card-body">
           
@@ -694,7 +696,7 @@ Returns .true. if there&rsquo;s a next combination, .false. if we&rsquo;ve exhau
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-combination~2"></span>
+              <span class="anchor" id="variable-combination~8"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -709,7 +711,7 @@ Returns .true. if there&rsquo;s a next combination, .false. if we&rsquo;ve exhau
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~5"></span>
+              <span class="anchor" id="variable-k~14"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -724,7 +726,7 @@ Returns .true. if there&rsquo;s a next combination, .false. if we&rsquo;ve exhau
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~6"></span>
+              <span class="anchor" id="variable-n~15"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -754,6 +756,94 @@ Returns .true. if there&rsquo;s a next combination, .false. if we&rsquo;ve exhau
 
         <section>
           <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-calculate_fragment_distances"></span> <h3>public  subroutine <a href='../proc/calculate_fragment_distances.html'>calculate_fragment_distances</a>(polymers, fragment_count, sys_geom, distances)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Calculate minimal atomic distance for each fragment
+For monomers (1-body), distance is 0.0
+For n-mers (n &gt;= 2), distance is the minimum distance between atoms
+in different constituent monomers</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-polymers~14"></span>
+              integer(kind=default_int),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>polymers</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment_count~6"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment_count</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sys_geom~40"></span>
+              type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sys_geom</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-distances"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>distances</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
               <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-combine"></span> <h3>public recursive subroutine <a href='../proc/combine.html'>combine</a>(arr, n, r, out_array, count)  
 </h3></div>
@@ -790,7 +880,7 @@ Uses int64 for count to handle large numbers of combinations that overflow int32
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~3"></span>
+              <span class="anchor" id="variable-n~12"></span>
               integer(kind=default_int),
             </td>
 <td>intent(in)</td>
@@ -835,7 +925,7 @@ Uses int64 for count to handle large numbers of combinations that overflow int32
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-count~2"></span>
+              <span class="anchor" id="variable-count~3"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout)</td>
@@ -875,7 +965,7 @@ Uses int64 for count to handle large numbers of combinations that overflow int32
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-monomers~2"></span>
+              <span class="anchor" id="variable-monomers~11"></span>
               integer(kind=default_int),
             </td>
 <td>intent(inout),</td>
@@ -916,7 +1006,7 @@ Uses int64 for count to handle large numbers of fragments that overflow int32.</
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-monomers~3"></span>
+              <span class="anchor" id="variable-monomers~12"></span>
               integer(kind=default_int),
             </td>
 <td>intent(in)</td>
@@ -931,7 +1021,7 @@ Uses int64 for count to handle large numbers of fragments that overflow int32.</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_level~9"></span>
+              <span class="anchor" id="variable-max_level~16"></span>
               integer(kind=default_int),
             </td>
 <td>intent(in)</td>
@@ -946,7 +1036,7 @@ Uses int64 for count to handle large numbers of fragments that overflow int32.</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-polymers~8"></span>
+              <span class="anchor" id="variable-polymers~13"></span>
               integer(kind=default_int),
             </td>
 <td>intent(inout)</td>
@@ -961,7 +1051,7 @@ Uses int64 for count to handle large numbers of fragments that overflow int32.</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-count"></span>
+              <span class="anchor" id="variable-count~2"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout)</td>
@@ -1002,7 +1092,7 @@ has_next = .true. if there&rsquo;s a next combination</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-indices"></span>
+              <span class="anchor" id="variable-indices~5"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -1017,7 +1107,7 @@ has_next = .true. if there&rsquo;s a next combination</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~3"></span>
+              <span class="anchor" id="variable-k~12"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1032,7 +1122,7 @@ has_next = .true. if there&rsquo;s a next combination</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~5"></span>
+              <span class="anchor" id="variable-n~14"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1047,7 +1137,7 @@ has_next = .true. if there&rsquo;s a next combination</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-has_next"></span>
+              <span class="anchor" id="variable-has_next~5"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1068,7 +1158,7 @@ has_next = .true. if there&rsquo;s a next combination</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-next_combination_init"></span> <h3>public  subroutine <a href='../proc/next_combination_init.html'>next_combination_init</a>(combination, k)  
+    <div class="card-header codesum"><span class="anchor" id="proc-next_combination_init~2"></span> <h3>public  subroutine <a href='../proc/next_combination_init~2.html'>next_combination_init</a>(combination, k)  
 </h3></div>
     <div class="card-body">
           
@@ -1087,7 +1177,7 @@ has_next = .true. if there&rsquo;s a next combination</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-combination"></span>
+              <span class="anchor" id="variable-combination~7"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -1102,7 +1192,7 @@ has_next = .true. if there&rsquo;s a next combination</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~4"></span>
+              <span class="anchor" id="variable-k~13"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1158,7 +1248,7 @@ Uses int64 for count to handle large numbers of combinations that overflow int32
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-count~4"></span>
+              <span class="anchor" id="variable-count~5"></span>
               integer(kind=int64),
             </td>
 <td>intent(in)</td>
@@ -1229,7 +1319,7 @@ Uses int64 for count to handle large numbers of combinations that overflow int32
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~4"></span>
+              <span class="anchor" id="variable-n~13"></span>
               integer(kind=default_int),
             </td>
 <td>intent(in)</td>
@@ -1289,7 +1379,7 @@ Uses int64 for count to handle large numbers of combinations that overflow int32
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~18"></span>
+              <span class="anchor" id="variable-i~68"></span>
               integer(kind=default_int),
             </td>
 <td>intent(in)</td>
@@ -1319,7 +1409,7 @@ Uses int64 for count to handle large numbers of combinations that overflow int32
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-count~3"></span>
+              <span class="anchor" id="variable-count~4"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout)</td>
@@ -1362,7 +1452,7 @@ Uses int64 for count to handle large numbers of combinations that overflow int32
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-02 13:59 +0000             </p>
+ on 2026-01-03 10:17 +0000             </p>
           </div>
         </div>
         <br>
