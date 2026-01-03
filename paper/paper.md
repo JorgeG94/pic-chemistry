@@ -1,5 +1,5 @@
 ---
-title: 'Metalquicha: A Fortran program for fragmented quanutm chemistry calculations'
+title: 'Metalquicha: A Fortran program for fragmented quantum chemistry calculations'
 tags:
   - Fortran
   - Electronic structure theory
