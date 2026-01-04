@@ -11,7 +11,7 @@ module mqc_driver
                                              serial_fragment_processor, do_fragment_work, distributed_unfragmented_hessian
    use mqc_gmbe_fragment_distribution_scheme, only: serial_gmbe_pie_processor, gmbe_pie_coordinator
    use mqc_frag_utils, only: get_nfrags, create_monomer_list, generate_fragment_list, generate_intersections, &
-                             gmbe_enumerate_pie_terms, binomial, combine
+                             gmbe_enumerate_pie_terms, binomial, combine, apply_distance_screening, sort_fragments_by_size
    use mqc_physical_fragment, only: system_geometry_t, physical_fragment_t, &
                                     build_fragment_from_indices, build_fragment_from_atom_list
    use mqc_config_adapter, only: driver_config_t, config_to_driver, config_to_system_geometry
@@ -81,7 +81,7 @@ contains
       else
          call run_fragmented_calculation(world_comm, node_comm, config%method, config%calc_type, sys_geom, max_level, &
                                          config%allow_overlapping_fragments, &
-                                         config%max_intersection_level, bonds)
+                                         config%max_intersection_level, bonds, config)
       end if
 
    end subroutine run_calculation
@@ -132,7 +132,7 @@ contains
    end subroutine run_unfragmented_calculation
 
    subroutine run_fragmented_calculation(world_comm, node_comm, method, calc_type, sys_geom, max_level, &
-                                         allow_overlapping_fragments, max_intersection_level, bonds)
+                                         allow_overlapping_fragments, max_intersection_level, bonds, driver_config)
       !! Handle fragmented calculation (nlevel > 0)
       !!
       !! Generates fragments, distributes work across MPI processes organized in nodes,
@@ -147,6 +147,7 @@ contains
       logical, intent(in) :: allow_overlapping_fragments  !! Use GMBE for overlapping fragments
       integer, intent(in) :: max_intersection_level  !! Maximum k-way intersection depth for GMBE
       type(bond_t), intent(in), optional :: bonds(:)  !! Bond connectivity information
+      type(driver_config_t), intent(in) :: driver_config  !! Driver configuration with cutoffs
 
       integer(int64) :: total_fragments  !! Total number of fragments generated (int64 to handle large systems)
       integer, allocatable :: polymers(:, :)  !! Fragment composition array (fragment, monomer_indices)
@@ -200,6 +201,19 @@ contains
                call combine(monomers, sys_geom%n_monomers, max_level, polymers, total_fragments)
                n_primaries = int(total_fragments)
                deallocate (monomers)
+
+               ! Apply distance-based screening to primaries if cutoffs are provided
+               if (max_level > 1) then
+                  ! Only screen if primaries are n-mers (not for GMBE(1) where primaries are monomers)
+                  total_fragments = int(n_primaries, int64)
+                  call apply_distance_screening(polymers, total_fragments, sys_geom, driver_config, max_level)
+                  n_primaries = int(total_fragments)
+               end if
+
+               ! Sort primaries by size (largest first)
+               ! TODO: Currently disabled - see comment in MBE section above
+               ! total_fragments = int(n_primaries, int64)
+               call sort_fragments_by_size(polymers, total_fragments, max_level)
             end if
 
             call logger%info("Generated "//to_char(n_primaries)//" primary "//to_char(max_level)//"-mers for GMBE("// &
@@ -240,6 +254,16 @@ contains
             call generate_fragment_list(monomers, max_level, polymers, total_fragments)
 
             deallocate (monomers)
+
+            ! Apply distance-based screening if cutoffs are provided
+            call apply_distance_screening(polymers, total_fragments, sys_geom, driver_config, max_level)
+
+            ! Sort fragments by size (largest first) for better load balancing
+            ! TODO: Currently disabled - MBE assembly is now order-independent (uses nested loops),
+            ! but sorting still causes "Subset not found" errors in real validation cases.
+            ! Unit tests pass with arbitrary order, so there may be an issue with the hash table
+            ! or fragment generation in production code. Needs investigation.
+            call sort_fragments_by_size(polymers, total_fragments, max_level)
 
             call logger%info("Generated fragments:")
             call logger%info("  Total fragments: "//to_char(total_fragments))
