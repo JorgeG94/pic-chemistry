@@ -91,6 +91,32 @@ that can be extended to support multiple types of methodologies. This allows
 Metalquicha to be easily extended to replace `xtb` with a Restricted Hartree-Fock
 (RHF) method, Density Functional Theory (DFT), among others.
 
+The aim of Metalquicha is to incentivize development of quanutm chemistry methods
+as a library-first API type design, providing high level interfaces to complex
+methodologies. This will have two main effects: reusability of complex algorithms
+and adaptability into frameworks, such as Metalquicha. A new calculator simply
+needs to extend the `qc_method_t`:
+
+```fortran
+   type, abstract :: qc_method_t
+      !! Abstract base type for all quantum chemistry methods
+      !!
+      !! Defines the required interface for energy and gradient calculations
+      !! that must be implemented by all concrete method types (XTB, HF, etc.).
+   contains
+      procedure(calc_energy_interface), deferred :: calc_energy    !! Energy calculation interface
+      procedure(calc_gradient_interface), deferred :: calc_gradient  !! Gradient calculation interface
+      procedure(calc_hessian_interface), deferred :: calc_hessian  !! Hessian calculation interface
+   end type qc_method_t
+```
+
+Metalquicha will support MPI or OpenMP driven methods, with the caveat as of the
+current version of no multi node support per fragment evaluated, i.e. a single
+fragment can at most use a single node for computation. Given that fragmentation
+already partitions the system into feasible subsystems, I do not see this being
+an impediment. However, capability for multi node fragments is planned as an
+addition for the `1.0.0` release.
+
 ## Current capabilities
 
 Provided enough work, Metalquicha will scale up to an arbitrary number of processors, since the (G)MBE is naively parallel.
@@ -115,6 +141,43 @@ ensuring the code is correct at every code modification.
 In order to ensure portability, Metalquicha reads simple text files to process the chemical
 input for a calculation. However, the front end uses a json format based on the QCSchema
 and a python program to translate the json to the `mqc` format for Fortran consumption.
+
+## Build system
+
+As mentioned ealier, Metalquicha uses CMake and the FPM as coexisting build systems. The FPM
+provides a powerful framework for including external dependencies, simply by ensuring they
+have an `fpm.toml` file and them being included as:
+
+```
+[dependencies]
+pic = { git = "https://github.com/JorgeG94/pic.git", branch = "main"}
+pic-mpi = { git = "https://github.com/JorgeG94/pic-mpi.git", branch = "main"}
+pic-blas = { git = "https://github.com/JorgeG94/pic-blas.git", branch = "main"}
+tblite = { git = "https://github.com/JorgeG94/tblite", branch = "main"}
+test-drive.git = "https://github.com/JorgeG94/test-drive"
+openmp = "*"
+```
+
+In CMake this is achieved via `FetchContent_Declare` and `MakeAvailable`, allowing
+for seamless access to other CMake projects. This allows Metalquicha to be easily extendable
+and add external packages as dependencies.
+
+## The PIC ecosystem
+
+Metalquicha is driven by the `pic` ecosystem, which is a collection of three libraries
+providing standard library like functions, BLAS/LAPACK, and MPI interfaces. [pic](https://github.com/JorgeG94/pic)
+provides functionality such as `sort`, `logger`, `types`, I/O helpers, and timer functionality.
+
+The [pic-blas](https://github.com/JorgeG94/pic-blas) library provides explicit interfaces to BLAS/LAPACK
+functionality for portability and type safety, plus additional "helpers" which simplify the
+calling of BLAS/LAPACK functions.
+
+The [pic-mpi](https://github.com/JorgeG94/pic-mpi) library provides an abstraction layer to
+the MPI implementation, either through the `mpi` or the `mpi_f08` modules with the exact
+same API. This provides Metalquicha access to both mpi backends. The reason behind this
+is that the `mpi_f08` module is not always instrumented for profilers and debuggers, leading
+to "empty" MPI profiles. The default is the `mpi_f08` module.
+
 
 # Acknowledgements
 
