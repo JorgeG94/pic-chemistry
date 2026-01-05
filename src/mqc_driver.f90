@@ -435,8 +435,9 @@ contains
             ! Convert geometry for this molecule
             call config_to_system_geometry(mqc_config, sys_geom, error, molecule_index=imol)
             if (error%has_error()) then
+               call error%add_context("mqc_driver:run_multi_molecule_calculation")
                if (my_rank == 0) then
-                  call logger%error("Error converting geometry for "//mol_name//": "//error%get_message())
+                  call logger%error("Error converting geometry for "//mol_name//": "//error%get_full_trace())
                end if
                call abort_comm(world_comm, 1)
             end if
@@ -482,7 +483,8 @@ contains
             ! Convert geometry for this molecule
             call config_to_system_geometry(mqc_config, sys_geom, error, molecule_index=imol)
             if (error%has_error()) then
-     call logger%error("Rank "//to_char(my_rank)//": Error converting geometry for "//mol_name//": "//error%get_message())
+               call error%add_context("mqc_driver:run_multi_molecule_calculation")
+  call logger%error("Rank "//to_char(my_rank)//": Error converting geometry for "//mol_name//": "//error%get_full_trace())
                call abort_comm(world_comm, 1)
             end if
 
