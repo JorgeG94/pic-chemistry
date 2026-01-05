@@ -513,6 +513,24 @@ contains
       ! Synchronize all ranks
       call world_comm%barrier()
 
+      ! In parallel execution, rank 0 needs to reconstruct all JSON filenames for merging
+      ! since each rank only populated its own entry
+      if (my_rank == 0 .and. num_ranks > 1 .and. .not. has_fragmented_molecules) then
+         ! Rank 0 constructs filenames for all molecules
+         do imol = 1, mqc_config%nmol
+            ! Get molecule name
+            if (allocated(mqc_config%molecules(imol)%name)) then
+               mol_name = mqc_config%molecules(imol)%name
+            else
+               mol_name = "molecule_"//to_char(imol)
+            end if
+            ! Construct JSON filename pattern: output_<basename>_<molname>.json
+            ! This mirrors what get_output_json_filename() returns after set_molecule_suffix()
+            call set_molecule_suffix("_"//trim(mol_name))
+            individual_json_files(imol) = get_output_json_filename()
+         end do
+      end if
+
       ! Merge individual JSON files into one combined file (rank 0 only)
       if (my_rank == 0) then
          call merge_multi_molecule_json(individual_json_files, mqc_config%nmol)
