@@ -148,6 +148,7 @@ contains
 
    end subroutine apply_distance_screening
 
+   ! cannot make this pure because sort is not pure
    subroutine sort_fragments_by_size(polymers, total_fragments, max_level)
       !! Sort fragments by size (largest first) for better load balancing
       !! Uses in-place sorting to reorder the polymers array
@@ -195,7 +196,7 @@ contains
       deallocate (fragment_sizes)
       deallocate (sort_indices)
 
-      call logger%info("Fragments sorted by size (largest first) for load balancing")
+      call logger%info("Fragments queue sorted!")
 
    end subroutine sort_fragments_by_size
 

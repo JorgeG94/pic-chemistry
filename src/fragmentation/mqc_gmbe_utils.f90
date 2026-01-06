@@ -6,6 +6,7 @@ module mqc_gmbe_utils
    use pic_types, only: default_int, int32, int64, dp
    use pic_logger, only: logger => global_logger
    use pic_io, only: to_char
+   use mqc_combinatorics, only: next_combination, next_combination_init
    implicit none
    private
 
@@ -252,47 +253,7 @@ contains
 
    end subroutine generate_k_way_intersections_for_level
 
-   subroutine next_combination_init(combination, k)
-      !! Initialize combination to [1, 2, ..., k]
-      integer, intent(inout) :: combination(:)
-      integer, intent(in) :: k
-      integer :: i
-      do i = 1, k
-         combination(i) = i
-      end do
-   end subroutine next_combination_init
-
-   function next_combination(combination, k, n) result(has_next)
-      !! Generate next combination in lexicographic order
-      !! Returns .true. if there's a next combination, .false. if we've exhausted all
-      integer, intent(inout) :: combination(:)
-      integer, intent(in) :: k, n
-      logical :: has_next
-      integer :: i
-
-      has_next = .true.
-
-      ! Find the rightmost element that can be incremented
-      i = k
-      do while (i >= 1)
-         if (combination(i) < n - k + i) then
-            combination(i) = combination(i) + 1
-            ! Reset all elements to the right
-            do while (i < k)
-               i = i + 1
-               combination(i) = combination(i - 1) + 1
-            end do
-            return
-         end if
-         i = i - 1
-      end do
-
-      ! No more combinations
-      has_next = .false.
-
-   end function next_combination
-
-   subroutine compute_polymer_atoms(sys_geom, polymer, polymer_size, atom_list, n_atoms)
+   pure subroutine compute_polymer_atoms(sys_geom, polymer, polymer_size, atom_list, n_atoms)
       !! Compute the atom list for a polymer (union of atoms from base fragments)
       !! polymer(:) contains base fragment indices (1-based)
       use mqc_physical_fragment, only: system_geometry_t
@@ -561,7 +522,7 @@ contains
    end subroutine generate_k_way_intersections_from_lists
 
    subroutine gmbe_enumerate_pie_terms(sys_geom, primaries, n_primaries, polymer_level, max_k_level, &
-                                       pie_atom_sets, pie_coefficients, n_pie_terms)
+                                       pie_atom_sets, pie_coefficients, n_pie_terms, initial_max_terms)
       !! Enumerate all unique intersections via DFS and accumulate PIE coefficients
       !! This implements the GMBE(N) algorithm with inclusion-exclusion principle
       !!
@@ -580,10 +541,13 @@ contains
       integer, intent(in) :: max_k_level       !! Maximum clique size (intersection depth limit)
       integer, allocatable, intent(out) :: pie_atom_sets(:, :)  !! Unique atom sets (max_atoms, n_terms)
       integer, allocatable, intent(out) :: pie_coefficients(:)  !! PIE coefficient for each term
-      integer, intent(out) :: n_pie_terms      !! Number of unique PIE terms
+      integer(int64), intent(out) :: n_pie_terms      !! Number of unique PIE terms
+      integer(int64), intent(in), optional :: initial_max_terms  !! Initial PIE storage capacity
 
       ! Temporary storage for PIE terms (allocate generously)
-      integer, parameter :: MAX_PIE_TERMS = 100000  ! Adjust if needed
+      integer(int64), parameter :: INITIAL_MAX_PIE_TERMS = 100000_int64  ! Adjust if needed
+      integer(int64) :: max_terms
+      integer(default_int) :: max_terms_i
       integer, allocatable :: temp_atom_sets(:, :)
       integer, allocatable :: temp_coefficients(:)
       integer, allocatable :: primary_atoms(:, :)    !! Precomputed atom lists for each primary
@@ -599,11 +563,26 @@ contains
       max_atoms = sys_geom%total_atoms
 
       ! Allocate temporary storage
-      allocate (temp_atom_sets(max_atoms, MAX_PIE_TERMS))
-      allocate (temp_coefficients(MAX_PIE_TERMS))
+      if (present(initial_max_terms)) then
+         max_terms = initial_max_terms
+      else
+         max_terms = INITIAL_MAX_PIE_TERMS
+      end if
+      if (max_terms < 1_int64) then
+         call logger%error("Initial PIE term capacity must be positive")
+         error stop "Invalid initial PIE term capacity"
+      end if
+      if (max_terms > int(huge(0_default_int), int64)) then
+         call logger%error("Initial PIE term capacity exceeds default integer limit")
+         error stop "Invalid initial PIE term capacity"
+      end if
+      max_terms_i = int(max_terms, default_int)
+
+      allocate (temp_atom_sets(max_atoms, max_terms_i))
+      allocate (temp_coefficients(max_terms_i))
       temp_atom_sets = -1
       temp_coefficients = 0
-      n_pie_terms = 0
+      n_pie_terms = 0_int64
 
       ! Precompute atom lists for all primaries
       allocate (primary_atoms(max_atoms, n_primaries))
@@ -642,13 +621,17 @@ contains
          call dfs_pie_accumulate(primary_atoms, primary_n_atoms, n_primaries, max_atoms, &
                                  clique, 1, current_atoms(1:primary_n_atoms(i)), primary_n_atoms(i), &
                                  candidates, n_candidates, max_k_level, &
-                                 temp_atom_sets, temp_coefficients, n_pie_terms, MAX_PIE_TERMS)
+                                 temp_atom_sets, temp_coefficients, n_pie_terms, max_terms)
       end do
 
       ! Copy to output arrays
-      if (n_pie_terms > 0) then
-         allocate (pie_atom_sets(max_atoms, n_pie_terms))
-         allocate (pie_coefficients(n_pie_terms))
+      if (n_pie_terms > 0_int64) then
+         if (n_pie_terms > int(huge(0_default_int), int64)) then
+            call logger%error("n_pie_terms exceeds default integer limit")
+            error stop "PIE term count too large for allocation"
+         end if
+         allocate (pie_atom_sets(max_atoms, int(n_pie_terms, default_int)))
+         allocate (pie_coefficients(int(n_pie_terms, default_int)))
          pie_atom_sets = temp_atom_sets(:, 1:n_pie_terms)
          pie_coefficients = temp_coefficients(1:n_pie_terms)
       end if
@@ -676,12 +659,13 @@ contains
       integer, intent(in) :: candidates(:)          !! Candidate primaries
       integer, intent(in) :: n_candidates
       integer, intent(in) :: max_k_level
-      integer, intent(inout) :: atom_sets(:, :)
-      integer, intent(inout) :: coefficients(:)
-      integer, intent(inout) :: n_terms
-      integer, intent(in) :: max_terms
+      integer, allocatable, intent(inout) :: atom_sets(:, :)
+      integer, allocatable, intent(inout) :: coefficients(:)
+      integer(int64), intent(inout) :: n_terms
+      integer(int64), intent(inout) :: max_terms
 
-      integer :: sign, term_idx, i, candidate_idx
+      integer :: sign, i, candidate_idx, candidate_pos
+      integer(int64) :: term_idx
       integer, allocatable :: new_atoms(:), new_candidates(:)
       integer :: n_new_atoms, n_new_candidates
       logical :: found
@@ -694,9 +678,9 @@ contains
 
       ! Find or create entry for this atom set
       found = .false.
-      do i = 1, n_terms
-         if (atom_sets_equal(atom_sets(:, i), current_atoms, n_current_atoms)) then
-            coefficients(i) = coefficients(i) + sign
+      do term_idx = 1_int64, n_terms
+         if (atom_sets_equal(atom_sets(:, term_idx), current_atoms, n_current_atoms)) then
+            coefficients(term_idx) = coefficients(term_idx) + sign
             found = .true.
             exit
          end if
@@ -705,10 +689,9 @@ contains
       if (.not. found) then
          ! New atom set
          if (n_terms >= max_terms) then
-            call logger%error("Exceeded maximum PIE terms ("//to_char(max_terms)//")")
-            return
+            call grow_pie_storage(atom_sets, coefficients, max_terms, max_atoms)
          end if
-         n_terms = n_terms + 1
+         n_terms = n_terms + 1_int64
          atom_sets(1:n_current_atoms, n_terms) = current_atoms(1:n_current_atoms)
          atom_sets(n_current_atoms + 1:, n_terms) = -1
          coefficients(n_terms) = sign
@@ -735,11 +718,11 @@ contains
 
          ! New candidates: must come after this one and overlap with new_atoms
          n_new_candidates = 0
-         do term_idx = i + 1, n_candidates
+         do candidate_pos = i + 1, n_candidates
             block
                integer :: test_candidate, test_n_intersect
                integer, allocatable :: test_intersect(:)
-               test_candidate = candidates(term_idx)
+               test_candidate = candidates(candidate_pos)
 
                allocate (test_intersect(max_atoms))
                call intersect_atom_lists(new_atoms, n_new_atoms, &
@@ -771,7 +754,52 @@ contains
 
    end subroutine dfs_pie_accumulate
 
-   function atom_sets_equal(set1, set2, n_atoms) result(equal)
+   subroutine grow_pie_storage(atom_sets, coefficients, max_terms, max_atoms)
+      !! Grow PIE term storage arrays when capacity is exceeded.
+      integer, allocatable, intent(inout) :: atom_sets(:, :)
+      integer, allocatable, intent(inout) :: coefficients(:)
+      integer(int64), intent(inout) :: max_terms
+      integer, intent(in) :: max_atoms
+
+      integer(int64) :: new_max_terms
+      integer(default_int) :: old_terms_i, new_terms_i
+      integer, allocatable :: new_atom_sets(:, :)
+      integer, allocatable :: new_coefficients(:)
+      integer(int64) :: max_default_int
+
+      max_default_int = int(huge(0_default_int), int64)
+      new_max_terms = max_terms*2_int64
+      if (new_max_terms <= max_terms) then
+         call logger%error("PIE term capacity overflow")
+         error stop "PIE term capacity overflow"
+      end if
+
+      if (new_max_terms > max_default_int) then
+         new_max_terms = max_default_int
+      end if
+
+      if (new_max_terms == max_terms) then
+         call logger%error("Exceeded maximum PIE terms ("//to_char(max_terms)//")")
+         error stop "Exceeded maximum PIE terms"
+      end if
+
+      old_terms_i = int(max_terms, default_int)
+      new_terms_i = int(new_max_terms, default_int)
+
+      allocate (new_atom_sets(max_atoms, new_terms_i))
+      new_atom_sets = -1
+      new_atom_sets(:, 1:old_terms_i) = atom_sets(:, 1:old_terms_i)
+
+      allocate (new_coefficients(new_terms_i))
+      new_coefficients = 0
+      new_coefficients(1:old_terms_i) = coefficients(1:old_terms_i)
+
+      call move_alloc(new_atom_sets, atom_sets)
+      call move_alloc(new_coefficients, coefficients)
+      max_terms = new_max_terms
+   end subroutine grow_pie_storage
+
+   pure function atom_sets_equal(set1, set2, n_atoms) result(equal)
       !! Check if two atom sets are equal (assuming sorted)
       integer, intent(in) :: set1(:), set2(:)
       integer, intent(in) :: n_atoms
@@ -787,7 +815,7 @@ contains
       end do
    end function atom_sets_equal
 
-   subroutine intersect_atom_lists(atoms1, n1, atoms2, n2, intersection, n_intersect)
+   pure subroutine intersect_atom_lists(atoms1, n1, atoms2, n2, intersection, n_intersect)
       !! Compute intersection of two atom lists
       integer, intent(in) :: atoms1(:), n1, atoms2(:), n2
       integer, intent(out) :: intersection(:)
