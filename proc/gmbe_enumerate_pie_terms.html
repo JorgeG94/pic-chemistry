@@ -140,9 +140,9 @@
             <a class="list-group-item" href="../proc/gmbe_enumerate_pie_terms.html#variable-candidates">candidates</a>
             <a class="list-group-item" href="../proc/gmbe_enumerate_pie_terms.html#variable-clique">clique</a>
             <a class="list-group-item" href="../proc/gmbe_enumerate_pie_terms.html#variable-current_atoms">current_atoms</a>
-            <a class="list-group-item" href="../proc/gmbe_enumerate_pie_terms.html#variable-i~49">i</a>
-            <a class="list-group-item" href="../proc/gmbe_enumerate_pie_terms.html#variable-j~10">j</a>
-            <a class="list-group-item" href="../proc/gmbe_enumerate_pie_terms.html#variable-max_atoms~5">max_atoms</a>
+            <a class="list-group-item" href="../proc/gmbe_enumerate_pie_terms.html#variable-i~45">i</a>
+            <a class="list-group-item" href="../proc/gmbe_enumerate_pie_terms.html#variable-j~17">j</a>
+            <a class="list-group-item" href="../proc/gmbe_enumerate_pie_terms.html#variable-max_atoms~9">max_atoms</a>
             <a class="list-group-item" href="../proc/gmbe_enumerate_pie_terms.html#variable-n_candidates">n_candidates</a>
             <a class="list-group-item" href="../proc/gmbe_enumerate_pie_terms.html#variable-primary_atoms">primary_atoms</a>
             <a class="list-group-item" href="../proc/gmbe_enumerate_pie_terms.html#variable-primary_n_atoms">primary_n_atoms</a>
@@ -544,7 +544,7 @@ This implements the GMBE(N) algorithm with inclusion-exclusion principle</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~24"></span>
+              <span class="anchor" id="variable-sys_geom~27"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -574,7 +574,7 @@ This implements the GMBE(N) algorithm with inclusion-exclusion principle</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_primaries~2"></span>
+              <span class="anchor" id="variable-n_primaries"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -619,7 +619,7 @@ This implements the GMBE(N) algorithm with inclusion-exclusion principle</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pie_atom_sets~2"></span>
+              <span class="anchor" id="variable-pie_atom_sets~6"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -634,7 +634,7 @@ This implements the GMBE(N) algorithm with inclusion-exclusion principle</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pie_coefficients~2"></span>
+              <span class="anchor" id="variable-pie_coefficients~4"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -649,8 +649,8 @@ This implements the GMBE(N) algorithm with inclusion-exclusion principle</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_pie_terms~2"></span>
-              integer,
+              <span class="anchor" id="variable-n_pie_terms~4"></span>
+              integer(kind=int64),
             </td>
 <td>intent(out)</td>
               <td></td>            <td>
@@ -1123,7 +1123,7 @@ large graphs.</div>
         <tr>
             <td>
               <span class="anchor" id="variable-max_pie_terms"></span>
-              integer,
+              integer(kind=int64),
             </td>
               <td>private,</td>
             <td>
@@ -1132,7 +1132,7 @@ parameter
             <td>::</td>
             <td><strong>MAX_PIE_TERMS</strong></td>
 <td> =</td>
-                <td>100000</td>
+                <td>100000_int64</td>
             <td>
                 
             </td>
@@ -1190,7 +1190,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~49"></span>
+              <span class="anchor" id="variable-i~45"></span>
               integer,
             </td>
               <td>private</td>
@@ -1207,7 +1207,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-j~10"></span>
+              <span class="anchor" id="variable-j~17"></span>
               integer,
             </td>
               <td>private</td>
@@ -1224,7 +1224,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_atoms~5"></span>
+              <span class="anchor" id="variable-max_atoms~9"></span>
               integer,
             </td>
               <td>private</td>
@@ -1360,10 +1360,10 @@ parameter
 <span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">max_k_level</span><span class="w">       </span><span class="c">!! Maximum clique size (intersection depth limit)</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pie_atom_sets</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w">  </span><span class="c">!! Unique atom sets (max_atoms, n_terms)</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pie_coefficients</span><span class="p">(:)</span><span class="w">  </span><span class="c">!! PIE coefficient for each term</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n_pie_terms</span><span class="w">      </span><span class="c">!! Number of unique PIE terms</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n_pie_terms</span><span class="w">      </span><span class="c">!! Number of unique PIE terms</span>
 
 <span class="w">      </span><span class="c">! Temporary storage for PIE terms (allocate generously)</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">MAX_PIE_TERMS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100000</span><span class="w">  </span><span class="c">! Adjust if needed</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">MAX_PIE_TERMS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100000_int64</span><span class="w">  </span><span class="c">! Adjust if needed</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">temp_atom_sets</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">temp_coefficients</span><span class="p">(:)</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">primary_atoms</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w">    </span><span class="c">!! Precomputed atom lists for each primary</span>
@@ -1383,7 +1383,7 @@ parameter
 <span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">temp_coefficients</span><span class="p">(</span><span class="n">MAX_PIE_TERMS</span><span class="p">))</span>
 <span class="w">      </span><span class="n">temp_atom_sets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
 <span class="w">      </span><span class="n">temp_coefficients</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">      </span><span class="n">n_pie_terms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="n">n_pie_terms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0_int64</span>
 
 <span class="w">      </span><span class="c">! Precompute atom lists for all primaries</span>
 <span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">primary_atoms</span><span class="p">(</span><span class="n">max_atoms</span><span class="p">,</span><span class="w"> </span><span class="n">n_primaries</span><span class="p">))</span>
@@ -1426,7 +1426,7 @@ parameter
 <span class="w">      </span><span class="k">end do</span>
 
 <span class="w">      </span><span class="c">! Copy to output arrays</span>
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n_pie_terms</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n_pie_terms</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0_int64</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="k">         allocate</span><span class="w"> </span><span class="p">(</span><span class="n">pie_atom_sets</span><span class="p">(</span><span class="n">max_atoms</span><span class="p">,</span><span class="w"> </span><span class="n">n_pie_terms</span><span class="p">))</span>
 <span class="w">         </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">pie_coefficients</span><span class="p">(</span><span class="n">n_pie_terms</span><span class="p">))</span>
 <span class="w">         </span><span class="n">pie_atom_sets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp_atom_sets</span><span class="p">(:,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n_pie_terms</span><span class="p">)</span>
@@ -1463,7 +1463,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-06 10:20 +0000             </p>
+ on 2026-01-06 10:34 +0000             </p>
           </div>
         </div>
         <br>

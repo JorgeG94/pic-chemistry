@@ -136,11 +136,11 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/send_pie_term_to_node.html#variable-atom_list~3">atom_list</a>
+            <a class="list-group-item" href="../proc/send_pie_term_to_node.html#variable-atom_list~2">atom_list</a>
             <a class="list-group-item" href="../proc/send_pie_term_to_node.html#variable-fragment_type~5">fragment_type</a>
-            <a class="list-group-item" href="../proc/send_pie_term_to_node.html#variable-max_atoms~8">max_atoms</a>
-            <a class="list-group-item" href="../proc/send_pie_term_to_node.html#variable-n_atoms~12">n_atoms</a>
-            <a class="list-group-item" href="../proc/send_pie_term_to_node.html#variable-req~11">req</a>
+            <a class="list-group-item" href="../proc/send_pie_term_to_node.html#variable-max_atoms~3">max_atoms</a>
+            <a class="list-group-item" href="../proc/send_pie_term_to_node.html#variable-n_atoms~8">n_atoms</a>
+            <a class="list-group-item" href="../proc/send_pie_term_to_node.html#variable-req~9">req</a>
         </div>
       </div>
     </div>
@@ -196,7 +196,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-world_comm~21"></span>
+              <span class="anchor" id="variable-world_comm~8"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -212,7 +212,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-term_idx~3"></span>
-              integer,
+              integer(kind=int64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -226,7 +226,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pie_atom_sets~5"></span>
+              <span class="anchor" id="variable-pie_atom_sets~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -597,7 +597,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-atom_list~3"></span>
+              <span class="anchor" id="variable-atom_list~2"></span>
               integer,
             </td>
               <td>private,</td>
@@ -631,7 +631,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_atoms~8"></span>
+              <span class="anchor" id="variable-max_atoms~3"></span>
               integer,
             </td>
               <td>private</td>
@@ -648,7 +648,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_atoms~12"></span>
+              <span class="anchor" id="variable-n_atoms~8"></span>
               integer,
             </td>
               <td>private</td>
@@ -665,7 +665,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-req~11"></span>
+              <span class="anchor" id="variable-req~9"></span>
               type(request_t),
             </td>
               <td>private</td>
@@ -699,7 +699,7 @@ large graphs.</div>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">send_pie_term_to_node</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">term_idx</span><span class="p">,</span><span class="w"> </span><span class="n">pie_atom_sets</span><span class="p">,</span><span class="w"> </span><span class="n">dest_rank</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Send PIE term (atom list) to remote node coordinator</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">comm_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">world_comm</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">term_idx</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">term_idx</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pie_atom_sets</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dest_rank</span>
 
@@ -756,7 +756,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-06 10:20 +0000             </p>
+ on 2026-01-06 10:34 +0000             </p>
           </div>
         </div>
         <br>
