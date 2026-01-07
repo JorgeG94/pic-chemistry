@@ -445,16 +445,16 @@ A cap is needed when exactly one atom of a broken bond is in the fragment</p></t
                  <td></td>
                </tr>
 			   <tr>
-                 <td><a href='../interface/do_fragment_work.html'>do_fragment_work</a></td>
-                 <td><a href='../module/mqc_mbe_fragment_distribution_scheme~2.html'>mqc_mbe_fragment_distribution_scheme</a></td>
-                 <td>Interface</td>
-                 <td></td>
-               </tr>
-			   <tr>
                  <td><a href='../proc/do_fragment_work.html'>do_fragment_work</a></td>
                  <td><a href='../module/mqc_mbe_fragment_distribution_scheme.html'>mqc_mbe_fragment_distribution_scheme</a></td>
                  <td>Subroutine</td>
                  <td><p>Process a single fragment for quantum chemistry calculation</p><a href="../proc/do_fragment_work.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../interface/do_fragment_work.html'>do_fragment_work</a></td>
+                 <td><a href='../module/mqc_mbe_fragment_distribution_scheme~2.html'>mqc_mbe_fragment_distribution_scheme</a></td>
+                 <td>Interface</td>
+                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/element_mass.html'>element_mass</a></td>
@@ -751,18 +751,18 @@ has_next = .true. if there&rsquo;s a next combination</p></td>
                  <td><p>Get the current JSON output filename</p></td>
                </tr>
 			   <tr>
-                 <td><a href='../interface/global_coordinator.html'>global_coordinator</a></td>
-                 <td><a href='../module/mqc_mbe_fragment_distribution_scheme~2.html'>mqc_mbe_fragment_distribution_scheme</a></td>
-                 <td>Interface</td>
-                 <td></td>
-               </tr>
-			   <tr>
                  <td><a href='../proc/global_coordinator.html'>global_coordinator</a></td>
                  <td><a href='../module/mqc_mbe_fragment_distribution_scheme.html'>mqc_mbe_fragment_distribution_scheme</a></td>
                  <td>Subroutine</td>
                  <td><p>Global coordinator for distributing fragments to node coordinators
 will act as a node coordinator for a single node calculation
 Uses int64 for total_fragments to handle large fragment counts that overflow int32.</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../interface/global_coordinator.html'>global_coordinator</a></td>
+                 <td><a href='../module/mqc_mbe_fragment_distribution_scheme~2.html'>mqc_mbe_fragment_distribution_scheme</a></td>
+                 <td>Interface</td>
+                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/gmbe_enumerate_pie_terms.html'>gmbe_enumerate_pie_terms</a></td>
@@ -964,12 +964,6 @@ Returns .true. if there&rsquo;s a next combination, .false. if we&rsquo;ve exhau
                  <td><p>Find next prime number &gt;= n (simple implementation)</p></td>
                </tr>
 			   <tr>
-                 <td><a href='../interface/node_coordinator.html'>node_coordinator</a></td>
-                 <td><a href='../module/mqc_mbe_fragment_distribution_scheme~2.html'>mqc_mbe_fragment_distribution_scheme</a></td>
-                 <td>Interface</td>
-                 <td></td>
-               </tr>
-			   <tr>
                  <td><a href='../proc/node_coordinator.html'>node_coordinator</a></td>
                  <td><a href='../module/mqc_mbe_fragment_distribution_scheme.html'>mqc_mbe_fragment_distribution_scheme</a></td>
                  <td>Subroutine</td>
@@ -977,7 +971,7 @@ Returns .true. if there&rsquo;s a next combination, .false. if we&rsquo;ve exhau
 Handles work requests and result collection from local workers</p></td>
                </tr>
 			   <tr>
-                 <td><a href='../interface/node_worker.html'>node_worker</a></td>
+                 <td><a href='../interface/node_coordinator.html'>node_coordinator</a></td>
                  <td><a href='../module/mqc_mbe_fragment_distribution_scheme~2.html'>mqc_mbe_fragment_distribution_scheme</a></td>
                  <td>Interface</td>
                  <td></td>
@@ -987,6 +981,12 @@ Handles work requests and result collection from local workers</p></td>
                  <td><a href='../module/mqc_mbe_fragment_distribution_scheme.html'>mqc_mbe_fragment_distribution_scheme</a></td>
                  <td>Subroutine</td>
                  <td><p>Node worker for processing fragments assigned by node coordinator</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../interface/node_worker.html'>node_worker</a></td>
+                 <td><a href='../module/mqc_mbe_fragment_distribution_scheme~2.html'>mqc_mbe_fragment_distribution_scheme</a></td>
+                 <td>Interface</td>
+                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/normalize_basis_name.html'>normalize_basis_name</a></td>
@@ -1461,18 +1461,18 @@ This is needed when master rank updates coordinates for optimization/dynamics</p
                  <td><p>Convert coordinate from Angstrom to Bohr</p></td>
                </tr>
 			   <tr>
-                 <td><a href='../interface/unfragmented_calculation.html'>unfragmented_calculation</a></td>
-                 <td><a href='../module/mqc_mbe_fragment_distribution_scheme~2.html'>mqc_mbe_fragment_distribution_scheme</a></td>
-                 <td>Interface</td>
-                 <td></td>
-               </tr>
-			   <tr>
                  <td><a href='../proc/unfragmented_calculation.html'>unfragmented_calculation</a></td>
                  <td><a href='../module/mqc_unfragmented_workflow.html'>mqc_unfragmented_workflow</a></td>
                  <td>Subroutine</td>
                  <td><p>Run unfragmented calculation on the entire system (nlevel=0)
 This is a simple single-process calculation without MPI distribution
 If result_out is present, returns result instead of writing JSON and destroying it</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../interface/unfragmented_calculation.html'>unfragmented_calculation</a></td>
+                 <td><a href='../module/mqc_mbe_fragment_distribution_scheme~2.html'>mqc_mbe_fragment_distribution_scheme</a></td>
+                 <td>Interface</td>
+                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/uppercase.html'>uppercase</a></td>
@@ -3640,7 +3640,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-06 22:18 +0000             </p>
+ on 2026-01-07 01:28 +0000             </p>
           </div>
         </div>
         <br>

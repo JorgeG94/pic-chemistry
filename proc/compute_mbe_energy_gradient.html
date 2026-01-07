@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.4% of total for procedures.">105 statements</a>
+                 title=" 1.7% of total for procedures.">130 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -136,19 +136,25 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-current_log_level~4">current_log_level</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-current_log_level~3">current_log_level</a>
             <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-delta_e~3">delta_E</a>
-            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-delta_energies~5">delta_energies</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-delta_energies~3">delta_energies</a>
             <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-delta_gradients~2">delta_gradients</a>
             <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-do_detailed_print~2">do_detailed_print</a>
-            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-energies~5">energies</a>
-            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-fragment_size~7">fragment_size</a>
-            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-i~58">i</a>
-            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-iatom~10">iatom</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-energies~3">energies</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-fragment_sizes~2">fragment_sizes</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-i~11">i</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-iatom~2">iatom</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-idx~2">idx</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-j~5">j</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-level_counts~2">level_counts</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-level_indices~2">level_indices</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-level_offsets~2">level_offsets</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-level_sum~2">level_sum</a>
             <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-lookup~4">lookup</a>
             <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-lookup_timer~2">lookup_timer</a>
-            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-nlevel~2">nlevel</a>
-            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-sum_by_level~3">sum_by_level</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-nlevel~3">nlevel</a>
+            <a class="list-group-item" href="../proc/compute_mbe_energy_gradient.html#variable-sum_by_level~2">sum_by_level</a>
         </div>
       </div>
     </div>
@@ -192,8 +198,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/mqc_result_types.html'>mqc_result_types</a></li>
                   <li class="list-inline-item"><a href='../module/mqc_config_parser.html'>mqc_config_parser</a></li>
+                  <li class="list-inline-item"><a href='../module/mqc_result_types.html'>mqc_result_types</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -450,7 +456,7 @@ as it only builds the lookup table once and processes all fragments in one loop<
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-polymers~12"></span>
+              <span class="anchor" id="variable-polymers~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -465,7 +471,7 @@ as it only builds the lookup table once and processes all fragments in one loop<
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_count~5"></span>
+              <span class="anchor" id="variable-fragment_count~2"></span>
               integer(kind=int64),
             </td>
 <td>intent(in)</td>
@@ -480,7 +486,7 @@ as it only builds the lookup table once and processes all fragments in one loop<
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_level~12"></span>
+              <span class="anchor" id="variable-max_level~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -495,7 +501,7 @@ as it only builds the lookup table once and processes all fragments in one loop<
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-results~4"></span>
+              <span class="anchor" id="variable-results~3"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(in)</td>
@@ -510,7 +516,7 @@ as it only builds the lookup table once and processes all fragments in one loop<
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~28"></span>
+              <span class="anchor" id="variable-sys_geom~8"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -525,7 +531,7 @@ as it only builds the lookup table once and processes all fragments in one loop<
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_energy~5"></span>
+              <span class="anchor" id="variable-total_energy~2"></span>
               real(kind=dp),
             </td>
 <td>intent(out)</td>
@@ -540,7 +546,7 @@ as it only builds the lookup table once and processes all fragments in one loop<
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_gradient~3"></span>
+              <span class="anchor" id="variable-total_gradient"></span>
               real(kind=dp),
             </td>
 <td>intent(out)</td>
@@ -555,7 +561,7 @@ as it only builds the lookup table once and processes all fragments in one loop<
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~15"></span>
+              <span class="anchor" id="variable-bonds~3"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -1695,7 +1701,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-current_log_level~4"></span>
+              <span class="anchor" id="variable-current_log_level~3"></span>
               integer,
             </td>
               <td>private</td>
@@ -1729,7 +1735,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-delta_energies~5"></span>
+              <span class="anchor" id="variable-delta_energies~3"></span>
               real(kind=dp),
             </td>
               <td>private,</td>
@@ -1780,7 +1786,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-energies~5"></span>
+              <span class="anchor" id="variable-energies~3"></span>
               real(kind=dp),
             </td>
               <td>private,</td>
@@ -1797,15 +1803,15 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_size~7"></span>
+              <span class="anchor" id="variable-fragment_sizes~2"></span>
               integer,
             </td>
-              <td>private</td>
+              <td>private,</td>
             <td>
-              
+              allocatable
             </td>
             <td>::</td>
-            <td><strong>fragment_size</strong></td>
+            <td><strong>fragment_sizes</strong>(:)</td>
                 <td></td>
                 <td></td>
             <td>
@@ -1814,7 +1820,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~58"></span>
+              <span class="anchor" id="variable-i~11"></span>
               integer(kind=int64),
             </td>
               <td>private</td>
@@ -1831,7 +1837,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iatom~10"></span>
+              <span class="anchor" id="variable-iatom~2"></span>
               integer,
             </td>
               <td>private</td>
@@ -1840,6 +1846,108 @@ large graphs.</div>
             </td>
             <td>::</td>
             <td><strong>iatom</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-idx~2"></span>
+              integer(kind=int64),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>idx</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-j~5"></span>
+              integer(kind=int64),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>j</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-level_counts~2"></span>
+              integer(kind=int64),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>level_counts</strong>(max_level)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-level_indices~2"></span>
+              integer(kind=int64),
+            </td>
+              <td>private,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>level_indices</strong>(:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-level_offsets~2"></span>
+              integer(kind=int64),
+            </td>
+              <td>private,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>level_offsets</strong>(:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-level_sum~2"></span>
+              real(kind=dp),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>level_sum</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -1882,7 +1990,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nlevel~2"></span>
+              <span class="anchor" id="variable-nlevel~3"></span>
               integer,
             </td>
               <td>private</td>
@@ -1899,7 +2007,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sum_by_level~3"></span>
+              <span class="anchor" id="variable-sum_by_level~2"></span>
               real(kind=dp),
             </td>
               <td>private,</td>
@@ -1945,14 +2053,18 @@ large graphs.</div>
 <span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">total_gradient</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w">  </span><span class="c">!! (3, total_atoms)</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">bond_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bonds</span><span class="p">(:)</span><span class="w">  </span><span class="c">!! Bond information for caps</span>
 
-<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="n">nlevel</span><span class="p">,</span><span class="w"> </span><span class="n">current_log_level</span><span class="p">,</span><span class="w"> </span><span class="n">iatom</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nlevel</span><span class="p">,</span><span class="w"> </span><span class="n">current_log_level</span><span class="p">,</span><span class="w"> </span><span class="n">iatom</span>
 <span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sum_by_level</span><span class="p">(:),</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">(:),</span><span class="w"> </span><span class="n">energies</span><span class="p">(:)</span>
 <span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">delta_gradients</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="p">:)</span><span class="w">  </span><span class="c">!! (3, total_atoms, fragment_count)</span>
-<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">delta_E</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">delta_E</span><span class="p">,</span><span class="w"> </span><span class="n">level_sum</span>
 <span class="w">      </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">do_detailed_print</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">fragment_lookup_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lookup</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">timer_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lookup_timer</span>
+<span class="w">      </span><span class="c">! OpenMP parallelization support</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_sizes</span><span class="p">(:)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">level_indices</span><span class="p">(:),</span><span class="w"> </span><span class="n">level_offsets</span><span class="p">(:)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">level_counts</span><span class="p">(</span><span class="n">max_level</span><span class="p">)</span>
 
 <span class="w">      </span><span class="c">! Validate that all fragments have gradients</span>
 <span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1_int64</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span>
@@ -1972,9 +2084,11 @@ large graphs.</div>
 <span class="w">      </span><span class="n">sum_by_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span>
 <span class="w">      </span><span class="n">delta_energies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span>
 
-<span class="w">      </span><span class="c">! Extract total energies from results</span>
+<span class="w">      </span><span class="c">! Extract total energies from results and pre-compute fragment sizes</span>
+<span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_sizes</span><span class="p">(</span><span class="n">fragment_count</span><span class="p">))</span>
 <span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1_int64</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span>
 <span class="w">         </span><span class="n">energies</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">results</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">energy</span><span class="p">%</span><span class="n">total</span><span class="p">()</span>
+<span class="w">         </span><span class="n">fragment_sizes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="p">(</span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
 <span class="w">      </span><span class="k">end do</span>
 
 <span class="w">      </span><span class="c">! Allocate arrays for gradient</span>
@@ -1986,46 +2100,78 @@ large graphs.</div>
 <span class="w">      </span><span class="k">call </span><span class="n">lookup_timer</span><span class="p">%</span><span class="n">start</span><span class="p">()</span>
 <span class="w">      </span><span class="k">call </span><span class="n">lookup</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fragment_count</span><span class="p">)</span>
 <span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1_int64</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span>
-<span class="w">         </span><span class="n">fragment_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="p">(</span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-<span class="w">         </span><span class="k">call </span><span class="n">lookup</span><span class="p">%</span><span class="n">insert</span><span class="p">(</span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">lookup</span><span class="p">%</span><span class="n">insert</span><span class="p">(</span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="n">fragment_sizes</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">i</span><span class="p">)</span>
 <span class="w">      </span><span class="k">end do</span>
 <span class="k">      call </span><span class="n">lookup_timer</span><span class="p">%</span><span class="k">stop</span><span class="p">()</span>
 <span class="w">      </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Time to build lookup table: &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">lookup_timer</span><span class="p">%</span><span class="n">get_elapsed_time</span><span class="p">())</span><span class="o">//</span><span class="s2">&quot; s&quot;</span><span class="p">)</span>
 <span class="w">      </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Hash table size: &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">lookup</span><span class="p">%</span><span class="n">table_size</span><span class="p">)</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="s2">&quot;, entries: &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">lookup</span><span class="p">%</span><span class="n">n_entries</span><span class="p">))</span>
 
+<span class="w">      </span><span class="c">! Build level-indexed arrays for efficient parallel iteration</span>
+<span class="w">      </span><span class="n">level_counts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0_int64</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1_int64</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_sizes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">fragment_sizes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">max_level</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">level_counts</span><span class="p">(</span><span class="n">fragment_sizes</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">level_counts</span><span class="p">(</span><span class="n">fragment_sizes</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1_int64</span>
+<span class="w">         </span><span class="k">end if</span>
+<span class="k">      end do</span>
+
+<span class="w">      </span><span class="c">! Compute level offsets (prefix sum)</span>
+<span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">level_offsets</span><span class="p">(</span><span class="n">max_level</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
+<span class="w">      </span><span class="n">level_offsets</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1_int64</span>
+<span class="w">      </span><span class="k">do </span><span class="n">nlevel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span>
+<span class="w">         </span><span class="n">level_offsets</span><span class="p">(</span><span class="n">nlevel</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">level_offsets</span><span class="p">(</span><span class="n">nlevel</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">level_counts</span><span class="p">(</span><span class="n">nlevel</span><span class="p">)</span>
+<span class="w">      </span><span class="k">end do</span>
+
+<span class="w">      </span><span class="c">! Build index array grouping fragments by level</span>
+<span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">level_indices</span><span class="p">(</span><span class="n">fragment_count</span><span class="p">))</span>
+<span class="w">      </span><span class="n">level_counts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0_int64</span><span class="w">  </span><span class="c">! Reuse as insertion counters</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1_int64</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span>
+<span class="w">         </span><span class="n">nlevel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fragment_sizes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nlevel</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">nlevel</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">max_level</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">level_offsets</span><span class="p">(</span><span class="n">nlevel</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">level_counts</span><span class="p">(</span><span class="n">nlevel</span><span class="p">)</span>
+<span class="w">            </span><span class="n">level_indices</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span>
+<span class="w">            </span><span class="n">level_counts</span><span class="p">(</span><span class="n">nlevel</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">level_counts</span><span class="p">(</span><span class="n">nlevel</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1_int64</span>
+<span class="w">         </span><span class="k">end if</span>
+<span class="k">      end do</span>
+
 <span class="w">      </span><span class="c">! Bottom-up computation: process fragments by size (1-body, 2-body, 3-body, etc.)</span>
 <span class="w">      </span><span class="c">! Process by n-mer level to ensure all subsets are computed before they&#39;re needed</span>
+<span class="w">      </span><span class="c">! OpenMP parallelization: within each level, all computations are independent</span>
 <span class="w">      </span><span class="k">do </span><span class="n">nlevel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span>
-<span class="w">         </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1_int64</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span>
-<span class="w">            </span><span class="n">fragment_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="p">(</span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">         </span><span class="n">level_sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span>
 
-<span class="w">            </span><span class="c">! Only process fragments of the current nlevel</span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_size</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">nlevel</span><span class="p">)</span><span class="w"> </span><span class="k">cycle</span>
+<span class="w">         </span><span class="c">!$omp parallel do default(shared) &amp;</span>
+<span class="w">         </span><span class="c">!$omp&amp; private(j, i, delta_E) &amp;</span>
+<span class="w">         </span><span class="c">!$omp&amp; reduction(+:level_sum) &amp;</span>
+<span class="w">         </span><span class="c">!$omp&amp; schedule(dynamic, 1000)</span>
+<span class="w">         </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">level_offsets</span><span class="p">(</span><span class="n">nlevel</span><span class="p">),</span><span class="w"> </span><span class="n">level_offsets</span><span class="p">(</span><span class="n">nlevel</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1_int64</span>
+<span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">level_indices</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
 
-<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_size</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nlevel</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">               </span><span class="c">! 1-body: deltaE = E, deltaG = G (no subsets to subtract)</span>
 <span class="w">               </span><span class="n">delta_energies</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">energies</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<span class="w">               </span><span class="n">sum_by_level</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sum_by_level</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">               </span><span class="n">level_sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">level_sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 
 <span class="w">               </span><span class="c">! Map fragment gradient to system coordinates</span>
-<span class="w">               </span><span class="k">call </span><span class="n">map_fragment_to_system_gradient</span><span class="p">(</span><span class="n">results</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">gradient</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">fragment_size</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">               </span><span class="k">call </span><span class="n">map_fragment_to_system_gradient</span><span class="p">(</span><span class="n">results</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">gradient</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nlevel</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                    </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">delta_gradients</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">bonds</span><span class="p">)</span>
-
-<span class="w">            </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_size</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">fragment_size</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">max_level</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="k">else</span>
 <span class="w">               </span><span class="c">! n-body: deltaE = E - sum(all subset deltaEs), deltaG = G - sum(all subset deltaGs)</span>
 <span class="w">               </span><span class="c">! Energy delta</span>
-<span class="w">               </span><span class="n">delta_E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_mbe</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">fragment_size</span><span class="p">),</span><span class="w"> </span><span class="n">lookup</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                     </span><span class="n">energies</span><span class="p">,</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">)</span>
+<span class="w">               </span><span class="n">delta_E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_mbe</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nlevel</span><span class="p">),</span><span class="w"> </span><span class="n">lookup</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                     </span><span class="n">energies</span><span class="p">,</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">,</span><span class="w"> </span><span class="n">nlevel</span><span class="p">)</span>
 <span class="w">               </span><span class="n">delta_energies</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delta_E</span>
-<span class="w">               </span><span class="n">sum_by_level</span><span class="p">(</span><span class="n">fragment_size</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sum_by_level</span><span class="p">(</span><span class="n">fragment_size</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">delta_E</span>
+<span class="w">               </span><span class="n">level_sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">level_sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">delta_E</span>
 
 <span class="w">               </span><span class="c">! Gradient delta</span>
-<span class="w">               </span><span class="k">call </span><span class="n">compute_mbe_gradient</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">fragment_size</span><span class="p">),</span><span class="w"> </span><span class="n">lookup</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                         </span><span class="n">results</span><span class="p">,</span><span class="w"> </span><span class="n">delta_gradients</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">bonds</span><span class="p">)</span>
+<span class="w">               </span><span class="k">call </span><span class="n">compute_mbe_gradient</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nlevel</span><span class="p">),</span><span class="w"> </span><span class="n">lookup</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                         </span><span class="n">results</span><span class="p">,</span><span class="w"> </span><span class="n">delta_gradients</span><span class="p">,</span><span class="w"> </span><span class="n">nlevel</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">bonds</span><span class="p">)</span>
 <span class="w">            </span><span class="k">end if</span>
 <span class="k">         end do</span>
-<span class="k">      end do</span>
+<span class="w">         </span><span class="c">!$omp end parallel do</span>
+
+<span class="w">         </span><span class="n">sum_by_level</span><span class="p">(</span><span class="n">nlevel</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">level_sum</span>
+<span class="w">      </span><span class="k">end do</span>
 
 <span class="w">      </span><span class="c">! Clean up lookup table</span>
 <span class="w">      </span><span class="k">call </span><span class="n">lookup</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
@@ -2033,10 +2179,9 @@ large graphs.</div>
 <span class="w">      </span><span class="c">! Compute total energy</span>
 <span class="w">      </span><span class="n">total_energy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">sum_by_level</span><span class="p">)</span>
 
-<span class="w">      </span><span class="c">! Compute total gradient</span>
+<span class="w">      </span><span class="c">! Compute total gradient (using pre-computed sizes)</span>
 <span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1_int64</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span>
-<span class="w">         </span><span class="n">fragment_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="p">(</span><span class="n">polymers</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_size</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">max_level</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_sizes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">max_level</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="k">            </span><span class="n">total_gradient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">total_gradient</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">delta_gradients</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span>
 <span class="w">         </span><span class="k">end if</span>
 <span class="k">      end do</span>
@@ -2086,7 +2231,8 @@ large graphs.</div>
 <span class="w">      </span><span class="k">call </span><span class="n">print_detailed_breakdown_json</span><span class="p">(</span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_count</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span><span class="p">,</span><span class="w"> </span><span class="n">energies</span><span class="p">,</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                         </span><span class="n">sum_by_level</span><span class="p">,</span><span class="w"> </span><span class="n">total_energy</span><span class="p">,</span><span class="w"> </span><span class="n">total_gradient</span><span class="p">,</span><span class="w"> </span><span class="n">results</span><span class="o">=</span><span class="n">results</span><span class="p">)</span>
 
-<span class="w">      </span><span class="k">deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">sum_by_level</span><span class="p">,</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">,</span><span class="w"> </span><span class="n">energies</span><span class="p">,</span><span class="w"> </span><span class="n">delta_gradients</span><span class="p">)</span>
+<span class="w">      </span><span class="k">deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">sum_by_level</span><span class="p">,</span><span class="w"> </span><span class="n">delta_energies</span><span class="p">,</span><span class="w"> </span><span class="n">energies</span><span class="p">,</span><span class="w"> </span><span class="n">delta_gradients</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                  </span><span class="n">fragment_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">level_indices</span><span class="p">,</span><span class="w"> </span><span class="n">level_offsets</span><span class="p">)</span>
 
 <span class="w">   </span><span class="k">end subroutine </span><span class="n">compute_mbe_energy_gradient</span>
 </pre></div>
@@ -2112,7 +2258,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-06 22:18 +0000             </p>
+ on 2026-01-07 01:28 +0000             </p>
           </div>
         </div>
         <br>
