@@ -46,7 +46,7 @@ contains
       real(dp) :: delta_E, level_sum
       logical :: do_detailed_print
       type(fragment_lookup_t) :: lookup
-      type(timer_type) :: lookup_timer
+      type(timer_type) :: lookup_timer, phase_timer
       ! OpenMP parallelization support
       integer, allocatable :: fragment_sizes(:)
       integer(int64), allocatable :: level_indices(:), level_offsets(:)
@@ -62,11 +62,14 @@ contains
       delta_energies = 0.0_dp
 
       ! Extract total energies from results and pre-compute fragment sizes
+      call phase_timer%start()
       allocate (fragment_sizes(fragment_count))
       do i = 1_int64, fragment_count
          energies(i) = results(i)%energy%total()
          fragment_sizes(i) = count(polymers(i, :) > 0)
       end do
+      call phase_timer%stop()
+      call logger%info("  Phase 1 (extract energies+sizes): "//to_char(phase_timer%get_elapsed_time())//" s")
 
       ! Build hash table for fast fragment lookups
       call lookup_timer%start()
@@ -75,11 +78,12 @@ contains
          call lookup%insert(polymers(i, :), fragment_sizes(i), i)
       end do
       call lookup_timer%stop()
-      call logger%debug("Time to build lookup table: "//to_char(lookup_timer%get_elapsed_time())//" s")
+      call logger%info("  Phase 2 (build hash table): "//to_char(lookup_timer%get_elapsed_time())//" s")
       call logger%debug("Hash table size: "//to_char(lookup%table_size)// &
                         ", entries: "//to_char(lookup%n_entries))
 
       ! Build level-indexed arrays for efficient parallel iteration
+      call phase_timer%start()
       level_counts = 0_int64
       do i = 1_int64, fragment_count
          if (fragment_sizes(i) >= 1 .and. fragment_sizes(i) <= max_level) then
@@ -105,6 +109,8 @@ contains
             level_counts(nlevel) = level_counts(nlevel) + 1_int64
          end if
       end do
+      call phase_timer%stop()
+      call logger%info("  Phase 3 (build level indices): "//to_char(phase_timer%get_elapsed_time())//" s")
 
       ! Bottom-up computation: process fragments by size (1-body, then 2-body, then 3-body, etc.)
       ! This makes the algorithm independent of input fragment order
@@ -112,7 +118,9 @@ contains
       ! OpenMP parallelization: within each level, all computations are independent
       call logger%info("MBE energy: using "//to_char(omp_get_max_threads())//" OpenMP threads")
 
+      call phase_timer%start()
       do nlevel = 1, max_level
+         call lookup_timer%start()
          level_sum = 0.0_dp
 
          !$omp parallel do default(shared) &
@@ -139,7 +147,11 @@ contains
          !$omp end parallel do
 
          sum_by_level(nlevel) = level_sum
+         call lookup_timer%stop()
+         call logger%info("    Level "//to_char(nlevel)//": "//to_char(lookup_timer%get_elapsed_time())//" s")
       end do
+      call phase_timer%stop()
+      call logger%info("  Phase 4 (MBE computation): "//to_char(phase_timer%get_elapsed_time())//" s")
 
       ! Clean up lookup table
       call lookup%destroy()
@@ -165,12 +177,18 @@ contains
 
       ! Print detailed breakdown if requested
       if (do_detailed_print) then
+         call phase_timer%start()
          call print_detailed_breakdown(polymers, fragment_count, max_level, energies, delta_energies)
+         call phase_timer%stop()
+         call logger%info("  Phase 5a (text breakdown): "//to_char(phase_timer%get_elapsed_time())//" s")
       end if
 
       ! Always write JSON file for machine-readable output
+      call phase_timer%start()
       call print_detailed_breakdown_json(polymers, fragment_count, max_level, energies, delta_energies, &
                                          sum_by_level, total_energy, results=results)
+      call phase_timer%stop()
+      call logger%info("  Phase 5b (JSON output): "//to_char(phase_timer%get_elapsed_time())//" s")
 
       deallocate (sum_by_level, delta_energies, energies, fragment_sizes, level_indices, level_offsets)
 
