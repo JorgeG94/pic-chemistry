@@ -19,26 +19,12 @@ module mqc_mbe
    private
 
    ! Public interface
-   public :: compute_mbe_energy, compute_mbe_energy_gradient, compute_mbe_energy_gradient_hessian
-   public :: compute_gmbe_energy  !! GMBE energy with intersection correction
-   public :: compute_gmbe_energy_gradient  !! GMBE energy and gradient with intersection correction
-   public :: compute_gmbe_energy_gradient_hessian  !! GMBE energy, gradient, and Hessian with intersection correction
+   public :: compute_mbe   !! MBE energy with optional gradient and hessian
+   public :: compute_gmbe  !! GMBE energy with optional gradient and hessian
 
 contains
 
-   subroutine compute_mbe_energy(polymers, fragment_count, max_level, results, total_energy)
-      !! Compute the many-body expansion (MBE) energy
-      !! Public API wrapper - maintains backward compatibility
-      use mqc_result_types, only: calculation_result_t
-      integer(int64), intent(in) :: fragment_count
-      integer, intent(in) :: polymers(:, :), max_level
-      type(calculation_result_t), intent(in) :: results(:)
-      real(dp), intent(out) :: total_energy
-
-      call compute_mbe_internal(polymers, fragment_count, max_level, results, total_energy)
-   end subroutine compute_mbe_energy
-
-   function compute_mbe(fragment_idx, fragment, lookup, energies, delta_energies, n) result(delta_E)
+   function compute_mbe_delta(fragment_idx, fragment, lookup, energies, delta_energies, n) result(delta_E)
       !! Bottom-up computation of n-body correction (non-recursive, uses pre-computed subset deltas)
       !! deltaE(i1,i2,...,in) = E(i1,i2,...,in) - sum of all subset deltaE values
       !! All subsets must have been computed already (guaranteed by processing fragments in order)
@@ -97,7 +83,7 @@ contains
          end do
       end do
 
-   end function compute_mbe
+   end function compute_mbe_delta
 
    subroutine map_fragment_to_system_gradient(frag_grad, monomers, sys_geom, sys_grad, bonds)
       !! Map fragment gradient to system gradient coordinates with hydrogen cap redistribution
@@ -230,43 +216,6 @@ contains
       end do
 
    end subroutine compute_mbe_gradient
-
-   subroutine compute_mbe_energy_gradient(polymers, fragment_count, max_level, results, sys_geom, &
-                                          total_energy, total_gradient, bonds)
-      !! Compute both MBE energy and gradient in a single pass
-      !! Public API wrapper - maintains backward compatibility
-      use mqc_result_types, only: calculation_result_t
-      use mqc_config_parser, only: bond_t
-      integer(int64), intent(in) :: fragment_count
-      integer, intent(in) :: polymers(:, :), max_level
-      type(calculation_result_t), intent(in) :: results(:)
-      type(system_geometry_t), intent(in) :: sys_geom
-      real(dp), intent(out) :: total_energy
-      real(dp), intent(out) :: total_gradient(:, :)  !! (3, total_atoms)
-      type(bond_t), intent(in), optional :: bonds(:)  !! Bond information for caps
-
-      call compute_mbe_internal(polymers, fragment_count, max_level, results, total_energy, &
-                                sys_geom, total_gradient, bonds=bonds)
-   end subroutine compute_mbe_energy_gradient
-
-   subroutine compute_mbe_energy_gradient_hessian(polymers, fragment_count, max_level, results, sys_geom, &
-                                                  total_energy, total_gradient, total_hessian, bonds)
-      !! Compute MBE energy, gradient, and Hessian in a single pass
-      !! Public API wrapper - maintains backward compatibility
-      use mqc_result_types, only: calculation_result_t
-      use mqc_config_parser, only: bond_t
-      integer(int64), intent(in) :: fragment_count
-      integer, intent(in) :: polymers(:, :), max_level
-      type(calculation_result_t), intent(in) :: results(:)
-      type(system_geometry_t), intent(in) :: sys_geom
-      real(dp), intent(out) :: total_energy
-      real(dp), intent(out) :: total_gradient(:, :)  !! (3, total_atoms)
-      real(dp), intent(out) :: total_hessian(:, :)   !! (3*total_atoms, 3*total_atoms)
-      type(bond_t), intent(in), optional :: bonds(:)
-
-      call compute_mbe_internal(polymers, fragment_count, max_level, results, total_energy, &
-                                sys_geom, total_gradient, total_hessian, bonds)
-   end subroutine compute_mbe_energy_gradient_hessian
 
    subroutine map_fragment_to_system_hessian(frag_hess, monomers, sys_geom, sys_hess, bonds)
       !! Map fragment Hessian to system Hessian coordinates with hydrogen cap redistribution
@@ -455,10 +404,10 @@ contains
       end if
    end subroutine print_mbe_gradient_info
 
-   subroutine compute_mbe_internal(polymers, fragment_count, max_level, results, &
-                                   total_energy, &
-                                   sys_geom, total_gradient, total_hessian, bonds)
-      !! Internal unified MBE computation for energy, gradient, and/or hessian
+   subroutine compute_mbe(polymers, fragment_count, max_level, results, &
+                          total_energy, &
+                          sys_geom, total_gradient, total_hessian, bonds)
+      !! Compute many-body expansion (MBE) energy with optional gradient and/or hessian
       !!
       !! This is the core routine that handles all MBE computations.
       !! Optional arguments control what derivatives are computed:
@@ -577,8 +526,8 @@ contains
 
             else if (fragment_size >= 2 .and. fragment_size <= max_level) then
                ! n-body: delta = value - sum(all subset deltas)
-               delta_E = compute_mbe(i, polymers(i, 1:fragment_size), lookup, &
-                                     energies, delta_energies, fragment_size)
+               delta_E = compute_mbe_delta(i, polymers(i, 1:fragment_size), lookup, &
+                                           energies, delta_energies, fragment_size)
                delta_energies(i) = delta_E
                sum_by_level(fragment_size) = sum_by_level(fragment_size) + delta_E
 
@@ -655,7 +604,7 @@ contains
       if (allocated(delta_gradients)) deallocate (delta_gradients)
       if (allocated(delta_hessians)) deallocate (delta_hessians)
 
-   end subroutine compute_mbe_internal
+   end subroutine compute_mbe
 
    !---------------------------------------------------------------------------
    ! GMBE Helper subroutines for reducing code duplication
@@ -728,12 +677,12 @@ contains
       end if
    end subroutine print_gmbe_gradient_info
 
-   subroutine compute_gmbe_internal(monomers, n_monomers, monomer_results, &
-                                    n_intersections, intersection_results, &
-                                    intersection_sets, intersection_levels, &
-                                    total_energy, &
-                                    sys_geom, total_gradient, total_hessian, bonds)
-      !! Internal unified GMBE computation for energy, gradient, and/or hessian
+   subroutine compute_gmbe(monomers, n_monomers, monomer_results, &
+                           n_intersections, intersection_results, &
+                           intersection_sets, intersection_levels, &
+                           total_energy, &
+                           sys_geom, total_gradient, total_hessian, bonds)
+      !! Compute generalized many-body expansion (GMBE) energy with optional gradient and/or hessian
       !!
       !! This is the core routine that handles all GMBE computations using
       !! the inclusion-exclusion principle for overlapping fragments.
@@ -877,7 +826,7 @@ contains
          call logger%info("  Total Hessian Frobenius norm: "//to_char(sqrt(sum(total_hessian**2))))
       end if
 
-   end subroutine compute_gmbe_internal
+   end subroutine compute_gmbe
 
    subroutine process_intersection_derivatives(inter_idx, k, sign_factor, intersection_results, &
                                                intersection_sets, sys_geom, total_gradient, &
@@ -1002,82 +951,6 @@ contains
          end do
       end if
    end subroutine print_gmbe_intersection_debug
-
-   subroutine compute_gmbe_energy(monomers, n_monomers, monomer_results, &
-                                  n_intersections, intersection_results, &
-                                  intersection_sets, intersection_levels, total_energy)
-      !! Compute GMBE (Generalized Many-Body Expansion) energy with full inclusion-exclusion
-      !! Public API wrapper - maintains backward compatibility
-      use mqc_result_types, only: calculation_result_t
-
-      integer, intent(in) :: monomers(:)
-      integer, intent(in) :: n_monomers
-      type(calculation_result_t), intent(in) :: monomer_results(:)
-      integer, intent(in) :: n_intersections
-      type(calculation_result_t), intent(in), optional :: intersection_results(:)
-      integer, intent(in), optional :: intersection_sets(:, :)
-      integer, intent(in), optional :: intersection_levels(:)
-      real(dp), intent(out) :: total_energy
-
-      call compute_gmbe_internal(monomers, n_monomers, monomer_results, &
-                                 n_intersections, intersection_results, &
-                                 intersection_sets, intersection_levels, total_energy)
-   end subroutine compute_gmbe_energy
-
-   subroutine compute_gmbe_energy_gradient(monomers, n_monomers, monomer_results, &
-                                           n_intersections, intersection_results, &
-                                           intersection_sets, intersection_levels, &
-                                           sys_geom, total_energy, total_gradient, bonds)
-      !! Compute GMBE energy and gradient with full inclusion-exclusion
-      !! Public API wrapper - maintains backward compatibility
-      use mqc_result_types, only: calculation_result_t
-      use mqc_config_parser, only: bond_t
-
-      integer, intent(in) :: monomers(:)
-      integer, intent(in) :: n_monomers
-      type(calculation_result_t), intent(in) :: monomer_results(:)
-      integer, intent(in) :: n_intersections
-      type(calculation_result_t), intent(in), optional :: intersection_results(:)
-      integer, intent(in), optional :: intersection_sets(:, :)
-      integer, intent(in), optional :: intersection_levels(:)
-      type(system_geometry_t), intent(in) :: sys_geom
-      real(dp), intent(out) :: total_energy
-      real(dp), intent(out) :: total_gradient(:, :)
-      type(bond_t), intent(in), optional :: bonds(:)
-
-      call compute_gmbe_internal(monomers, n_monomers, monomer_results, &
-                                 n_intersections, intersection_results, &
-                                 intersection_sets, intersection_levels, total_energy, &
-                                 sys_geom, total_gradient, bonds=bonds)
-   end subroutine compute_gmbe_energy_gradient
-
-   subroutine compute_gmbe_energy_gradient_hessian(monomers, n_monomers, monomer_results, &
-                                                   n_intersections, intersection_results, &
-                                                   intersection_sets, intersection_levels, &
-                                                   sys_geom, total_energy, total_gradient, total_hessian, bonds)
-      !! Compute GMBE energy, gradient, and Hessian with full inclusion-exclusion
-      !! Public API wrapper - maintains backward compatibility
-      use mqc_result_types, only: calculation_result_t
-      use mqc_config_parser, only: bond_t
-
-      integer, intent(in) :: monomers(:)
-      integer, intent(in) :: n_monomers
-      type(calculation_result_t), intent(in) :: monomer_results(:)
-      integer, intent(in) :: n_intersections
-      type(calculation_result_t), intent(in), optional :: intersection_results(:)
-      integer, intent(in), optional :: intersection_sets(:, :)
-      integer, intent(in), optional :: intersection_levels(:)
-      type(system_geometry_t), intent(in) :: sys_geom
-      real(dp), intent(out) :: total_energy
-      real(dp), intent(out) :: total_gradient(:, :)
-      real(dp), intent(out) :: total_hessian(:, :)
-      type(bond_t), intent(in), optional :: bonds(:)
-
-      call compute_gmbe_internal(monomers, n_monomers, monomer_results, &
-                                 n_intersections, intersection_results, &
-                                 intersection_sets, intersection_levels, total_energy, &
-                                 sys_geom, total_gradient, total_hessian, bonds)
-   end subroutine compute_gmbe_energy_gradient_hessian
 
    subroutine get_monomer_atom_list(sys_geom, monomer_idx, atom_list, n_atoms)
       !! Build 0-indexed atom list for a monomer, handling fixed or variable-sized fragments.

@@ -252,8 +252,8 @@ contains
             end if
             allocate (mbe_total_gradient(3, sys_geom%total_atoms))
             allocate (mbe_total_hessian(3*sys_geom%total_atoms, 3*sys_geom%total_atoms))
-            call compute_mbe_energy_gradient_hessian(polymers, total_fragments, max_level, results, sys_geom, &
-                                                     mbe_total_energy, mbe_total_gradient, mbe_total_hessian, bonds)
+            call compute_mbe(polymers, total_fragments, max_level, results, mbe_total_energy, &
+                             sys_geom, mbe_total_gradient, mbe_total_hessian, bonds)
             deallocate (mbe_total_gradient, mbe_total_hessian)
          else if (calc_type_local == CALC_TYPE_GRADIENT) then
             if (.not. present(sys_geom)) then
@@ -261,11 +261,11 @@ contains
                error stop "Missing sys_geom for gradient calculation"
             end if
             allocate (mbe_total_gradient(3, sys_geom%total_atoms))
-            call compute_mbe_energy_gradient(polymers, total_fragments, max_level, results, sys_geom, &
-                                             mbe_total_energy, mbe_total_gradient, bonds)
+            call compute_mbe(polymers, total_fragments, max_level, results, mbe_total_energy, &
+                             sys_geom, mbe_total_gradient, bonds=bonds)
             deallocate (mbe_total_gradient)
          else
-            call compute_mbe_energy(polymers, total_fragments, max_level, results, mbe_total_energy)
+            call compute_mbe(polymers, total_fragments, max_level, results, mbe_total_energy)
          end if
 
          call coord_timer%stop()
