@@ -126,7 +126,6 @@ contains
          !$omp parallel do default(shared) &
          !$omp& private(j, i, delta_E) &
          !$omp& reduction(+:level_sum) &
-         !$omp& schedule(dynamic, 1000) &
          !$omp& num_threads(omp_get_max_threads())
          do j = level_offsets(nlevel), level_offsets(nlevel + 1) - 1_int64
             i = level_indices(j)
@@ -157,6 +156,7 @@ contains
       call lookup%destroy()
 
       total_energy = sum(sum_by_level)
+      call phase_timer%start()
 
       ! Print text summary to console
       call logger%info("MBE Energy breakdown:")
@@ -174,6 +174,8 @@ contains
          write (total_line, '(a,f20.10)') "  Total:   ", total_energy
          call logger%info(trim(total_line))
       end block
+      call phase_timer%stop()
+      call logger%info("  Phase 5aa (JSON output): "//to_char(phase_timer%get_elapsed_time())//" s")
 
       ! Print detailed breakdown if requested
       if (do_detailed_print) then
@@ -185,8 +187,8 @@ contains
 
       ! Always write JSON file for machine-readable output
       call phase_timer%start()
-      call print_detailed_breakdown_json(polymers, fragment_count, max_level, energies, delta_energies, &
-                                         sum_by_level, total_energy, results=results)
+      !call print_detailed_breakdown_json(polymers, fragment_count, max_level, energies, delta_energies, &
+      !                                   sum_by_level, total_energy, results=results)
       call phase_timer%stop()
       call logger%info("  Phase 5b (JSON output): "//to_char(phase_timer%get_elapsed_time())//" s")
 
@@ -204,8 +206,10 @@ contains
       real(dp), intent(in) :: energies(:), delta_energies(:)  !! Pre-computed delta values
       real(dp) :: delta_E
 
+      ! Maximum MBE level supported (decamers)
+      integer, parameter :: MAX_MBE_LEVEL = 10
       integer :: subset_size, i
-      integer, allocatable :: indices(:), subset(:)
+      integer :: indices(MAX_MBE_LEVEL), subset(MAX_MBE_LEVEL)  ! Stack arrays to avoid heap contention
       integer(int64) :: subset_idx
       logical :: has_next
 
@@ -214,9 +218,6 @@ contains
 
       ! Subtract all proper subsets (size 1 to n-1)
       do subset_size = 1, n - 1
-         allocate (indices(subset_size))
-         allocate (subset(subset_size))
-
          ! Initialize first combination
          do i = 1, subset_size
             indices(i) = i
@@ -230,7 +231,7 @@ contains
             end do
 
             ! Look up subset index
-            subset_idx = lookup%find(subset, subset_size)
+            subset_idx = lookup%find(subset(1:subset_size), subset_size)
             if (subset_idx < 0) then
                block
                   use pic_io, only: to_char
@@ -252,8 +253,6 @@ contains
             call get_next_combination(indices, subset_size, n, has_next)
             if (.not. has_next) exit
          end do
-
-         deallocate (indices, subset)
       end do
 
    end function compute_mbe
@@ -348,8 +347,10 @@ contains
       type(system_geometry_t), intent(in) :: sys_geom
       type(bond_t), intent(in), optional :: bonds(:)  !! Bond information for caps
 
+      ! Maximum MBE level supported (decamers)
+      integer, parameter :: MAX_MBE_LEVEL = 10
       integer :: subset_size, i
-      integer, allocatable :: indices(:), subset(:)
+      integer :: indices(MAX_MBE_LEVEL), subset(MAX_MBE_LEVEL)  ! Stack arrays to avoid heap contention
       integer(int64) :: subset_idx
       logical :: has_next
 
@@ -360,9 +361,6 @@ contains
       ! Subtract all proper subsets (size 1 to n-1)
       ! This is EXACTLY like the energy calculation, but for each gradient component
       do subset_size = 1, n - 1
-         allocate (indices(subset_size))
-         allocate (subset(subset_size))
-
          ! Initialize first combination
          do i = 1, subset_size
             indices(i) = i
@@ -376,7 +374,7 @@ contains
             end do
 
             ! Look up subset index
-            subset_idx = lookup%find(subset, subset_size)
+            subset_idx = lookup%find(subset(1:subset_size), subset_size)
             if (subset_idx < 0) error stop "Subset not found in MBE gradient!"
 
             ! Subtract pre-computed delta gradient (simple array subtraction in system coords)
@@ -387,8 +385,6 @@ contains
             call get_next_combination(indices, subset_size, n, has_next)
             if (.not. has_next) exit
          end do
-
-         deallocate (indices, subset)
       end do
 
    end subroutine compute_mbe_gradient
@@ -840,6 +836,7 @@ contains
                   frag_row_start = (frag_atom_i - 1)*3 + 1
                   sys_row_start = (sys_atom_i - 1)*3 + 1
 
+
                   ! Map this atom's Hessian blocks with all other atoms in fragment
                   frag_atom_j = 0
                   do j_mon = 1, n_monomers
@@ -875,8 +872,10 @@ contains
       type(system_geometry_t), intent(in) :: sys_geom
       type(bond_t), intent(in), optional :: bonds(:)
 
+      ! Maximum MBE level supported (decamers)
+      integer, parameter :: MAX_MBE_LEVEL = 10
       integer :: subset_size, i, hess_dim
-      integer, allocatable :: indices(:), subset(:)
+      integer :: indices(MAX_MBE_LEVEL), subset(MAX_MBE_LEVEL)  ! Stack arrays to avoid heap contention
       integer(int64) :: subset_idx
       logical :: has_next
 
@@ -888,14 +887,17 @@ contains
 
       ! Subtract all proper subsets (size 1 to n-1)
       do subset_size = 1, n - 1
-         allocate (indices(subset_size))
-         indices = [(i, i=1, subset_size)]
-         allocate (subset(subset_size))
+         ! Initialize first combination
+         do i = 1, subset_size
+            indices(i) = i
+         end do
 
          has_next = .true.
          do while (has_next)
-            subset = fragment(indices)
-            subset_idx = lookup%find(subset, subset_size)
+            do i = 1, subset_size
+               subset(i) = fragment(indices(i))
+            end do
+            subset_idx = lookup%find(subset(1:subset_size), subset_size)
 
             if (subset_idx > 0) then
                ! Subtract this subset's delta Hessian
@@ -905,8 +907,6 @@ contains
 
             call get_next_combination(indices, subset_size, n, has_next)
          end do
-
-         deallocate (indices, subset)
       end do
 
    end subroutine compute_mbe_hessian
