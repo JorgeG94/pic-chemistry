@@ -1,6 +1,6 @@
 module test_mqc_mbe
    use testdrive, only: new_unittest, unittest_type, error_type, check
-   use mqc_mbe, only: compute_mbe_energy
+   use mqc_mbe, only: compute_mbe
    use mqc_result_types, only: calculation_result_t
    use pic_types, only: dp, int64
    implicit none
@@ -52,7 +52,7 @@ contains
       results(3)%has_energy = .true.
 
       ! Compute MBE energy
-      call compute_mbe_energy(polymers, fragment_count, max_level, results, total_energy)
+      call compute_mbe(polymers, fragment_count, max_level, results, total_energy)
 
       ! Total should be -10 + (-15) + (-20) = -45
       call check(error, total_energy, -45.0_dp, thr=1.0e-10_dp, &
@@ -99,7 +99,7 @@ contains
       results(3)%has_energy = .true.
 
       ! Compute MBE energy
-      call compute_mbe_energy(polymers, fragment_count, max_level, results, total_energy)
+      call compute_mbe(polymers, fragment_count, max_level, results, total_energy)
 
       ! deltaE(1,2) = E(1,2) - E(1) - E(2) = -26 - (-10) - (-15) = -26 + 10 + 15 = -1
       ! Total = E(1) + E(2) + deltaE(1,2) = -10 + (-15) + (-1) = -26
@@ -151,7 +151,7 @@ contains
       results(7)%energy%scf = -33.5_dp
       results(7)%has_energy = .true.
 
-      call compute_mbe_energy(polymers, fragment_count, max_level, results, total_energy)
+      call compute_mbe(polymers, fragment_count, max_level, results, total_energy)
 
       ! 1-body: -10 + -12 + -11 = -33
       ! 2-body deltas: -0.5 + -0.3 + -0.4 = -1.2
@@ -207,7 +207,7 @@ contains
       results(7)%energy%scf = -11.0_dp
       results(5:7)%has_energy = .true.
 
-      call compute_mbe_energy(polymers, fragment_count, max_level, results, total_energy)
+      call compute_mbe(polymers, fragment_count, max_level, results, total_energy)
 
       ! Should get same answer as sorted order test
       call check(error, total_energy, -33.5_dp, thr=1.0e-10_dp, &
@@ -271,7 +271,7 @@ contains
       results(7)%energy%scf = -11.0_dp
       results(7)%has_energy = .true.
 
-      call compute_mbe_energy(polymers, fragment_count, max_level, results, total_energy)
+      call compute_mbe(polymers, fragment_count, max_level, results, total_energy)
 
       ! Should get same answer regardless of input order
       call check(error, total_energy, -33.5_dp, thr=1.0e-10_dp, &

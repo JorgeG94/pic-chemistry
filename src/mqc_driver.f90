@@ -18,7 +18,7 @@ module mqc_driver
    use mqc_method_types, only: method_type_to_string
    use mqc_calc_types, only: calc_type_to_string, CALC_TYPE_GRADIENT, CALC_TYPE_HESSIAN
    use mqc_config_parser, only: bond_t, mqc_config_t
-   use mqc_mbe, only: compute_gmbe_energy
+   use mqc_mbe, only: compute_gmbe
    use mqc_result_types, only: calculation_result_t
    use mqc_error, only: error_t
    use mqc_io_helpers, only: set_molecule_suffix, get_output_json_filename
