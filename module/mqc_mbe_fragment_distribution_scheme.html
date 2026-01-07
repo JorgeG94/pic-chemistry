@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 4.5% of total for modules and submodules.">366 statements</a>
+                 title=" 4.6% of total for modules and submodules.">366 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -146,10 +146,6 @@
       </a>
       <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/mqc_mbe_fragment_distribution_scheme.html#proc-do_fragment_work">do_fragment_work</a>
-            <a class="list-group-item" href="../module/mqc_mbe_fragment_distribution_scheme.html#proc-global_coordinator">global_coordinator</a>
-            <a class="list-group-item" href="../module/mqc_mbe_fragment_distribution_scheme.html#proc-node_coordinator">node_coordinator</a>
-            <a class="list-group-item" href="../module/mqc_mbe_fragment_distribution_scheme.html#proc-node_worker">node_worker</a>
             <a class="list-group-item" href="../module/mqc_mbe_fragment_distribution_scheme.html#proc-send_fragment_to_node">send_fragment_to_node</a>
             <a class="list-group-item" href="../module/mqc_mbe_fragment_distribution_scheme.html#proc-send_fragment_to_worker">send_fragment_to_worker</a>
         </div>
@@ -157,7 +153,21 @@
     </div>
 
   
-  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modsubs-0"
+         aria-expanded="false" aria-controls="modsubs-0">
+         <h4 class="card-header bg-primary text-white">Module Subroutines</h4>
+      </a>
+      <div id="modsubs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mqc_mbe_fragment_distribution_scheme.html#proc-do_fragment_work">do_fragment_work</a>
+            <a class="list-group-item" href="../module/mqc_mbe_fragment_distribution_scheme.html#proc-global_coordinator">global_coordinator</a>
+            <a class="list-group-item" href="../module/mqc_mbe_fragment_distribution_scheme.html#proc-node_coordinator">node_coordinator</a>
+            <a class="list-group-item" href="../module/mqc_mbe_fragment_distribution_scheme.html#proc-node_worker">node_worker</a>
+        </div>
+      </div>
+    </div>
+
   
   
   
@@ -1201,7 +1211,186 @@ large graphs.</div>
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-do_fragment_work"></span> <h3> subroutine <a href='../proc/do_fragment_work.html'>do_fragment_work</a>(fragment_idx, result, method, phys_frag, calc_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-send_fragment_to_node"></span> <h3> subroutine <a href='../proc/send_fragment_to_node.html'>send_fragment_to_node</a>(world_comm, fragment_idx, polymers, dest_rank)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Send fragment data to remote node coordinator
+Uses int64 for fragment_idx to handle large fragment indices that overflow int32.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-world_comm~4"></span>
+              type(comm_t),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>world_comm</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment_idx~3"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment_idx</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-polymers~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>polymers</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dest_rank~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dest_rank</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-send_fragment_to_worker"></span> <h3> subroutine <a href='../proc/send_fragment_to_worker.html'>send_fragment_to_worker</a>(node_comm, fragment_idx, polymers, dest_rank)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Send fragment data to local worker
+Uses int64 for fragment_idx to handle large fragment indices that overflow int32.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-node_comm~4"></span>
+              type(comm_t),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>node_comm</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fragment_idx~4"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fragment_idx</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-polymers~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>polymers</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dest_rank~4"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dest_rank</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+        <section>
+          <h2>Module Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-do_fragment_work"></span> <h3>module subroutine <a href='../proc/do_fragment_work.html'>do_fragment_work</a>(fragment_idx, result, method, phys_frag, calc_type)  
+    <a href="../interface/do_fragment_work.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -1220,7 +1409,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_idx~4"></span>
+              <span class="anchor" id="variable-fragment_idx"></span>
               integer(kind=int64),
             </td>
 <td>intent(in)</td>
@@ -1235,7 +1424,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~10"></span>
+              <span class="anchor" id="variable-result~6"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
 <td>intent(out)</td>
@@ -1250,7 +1439,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~8"></span>
+              <span class="anchor" id="variable-method~5"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -1265,7 +1454,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-phys_frag"></span>
+              <span class="anchor" id="variable-phys_frag~2"></span>
               type(<a href='../type/physical_fragment_t.html'>physical_fragment_t</a>),
             </td>
 <td>intent(in),</td>
@@ -1301,7 +1490,8 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-global_coordinator"></span> <h3> subroutine <a href='../proc/global_coordinator.html'>global_coordinator</a>(world_comm, node_comm, total_fragments, polymers, max_level, node_leader_ranks, num_nodes, sys_geom, calc_type, bonds)  
+    <div class="card-header codesum"><span class="anchor" id="proc-global_coordinator"></span> <h3>module subroutine <a href='../proc/global_coordinator.html'>global_coordinator</a>(world_comm, node_comm, total_fragments, polymers, max_level, node_leader_ranks, num_nodes, sys_geom, calc_type, bonds)  
+    <a href="../interface/global_coordinator.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -1322,7 +1512,7 @@ Uses int64 for total_fragments to handle large fragment counts that overflow int
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-world_comm~9"></span>
+              <span class="anchor" id="variable-world_comm~3"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -1337,7 +1527,7 @@ Uses int64 for total_fragments to handle large fragment counts that overflow int
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_comm~5"></span>
+              <span class="anchor" id="variable-node_comm~3"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -1352,7 +1542,7 @@ Uses int64 for total_fragments to handle large fragment counts that overflow int
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_fragments~2"></span>
+              <span class="anchor" id="variable-total_fragments"></span>
               integer(kind=int64),
             </td>
 <td>intent(in)</td>
@@ -1367,7 +1557,7 @@ Uses int64 for total_fragments to handle large fragment counts that overflow int
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-polymers~5"></span>
+              <span class="anchor" id="variable-polymers"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1382,7 +1572,7 @@ Uses int64 for total_fragments to handle large fragment counts that overflow int
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_level~9"></span>
+              <span class="anchor" id="variable-max_level"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1427,7 +1617,7 @@ Uses int64 for total_fragments to handle large fragment counts that overflow int
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~24"></span>
+              <span class="anchor" id="variable-sys_geom~9"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in),</td>
@@ -1457,7 +1647,7 @@ Uses int64 for total_fragments to handle large fragment counts that overflow int
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~13"></span>
+              <span class="anchor" id="variable-bonds~4"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -1478,7 +1668,8 @@ Uses int64 for total_fragments to handle large fragment counts that overflow int
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-node_coordinator"></span> <h3> subroutine <a href='../proc/node_coordinator.html'>node_coordinator</a>(world_comm, node_comm, calc_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-node_coordinator"></span> <h3>module subroutine <a href='../proc/node_coordinator.html'>node_coordinator</a>(world_comm, node_comm, calc_type)  
+    <a href="../interface/node_coordinator.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -1498,7 +1689,7 @@ Handles work requests and result collection from local workers</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-world_comm~11"></span>
+              <span class="anchor" id="variable-world_comm~5"></span>
               class(comm_t),
             </td>
 <td>intent(in)</td>
@@ -1513,7 +1704,7 @@ Handles work requests and result collection from local workers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_comm~7"></span>
+              <span class="anchor" id="variable-node_comm~5"></span>
               class(comm_t),
             </td>
 <td>intent(in)</td>
@@ -1549,7 +1740,8 @@ Handles work requests and result collection from local workers</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-node_worker"></span> <h3> subroutine <a href='../proc/node_worker.html'>node_worker</a>(world_comm, node_comm, sys_geom, method, calc_type, bonds)  
+    <div class="card-header codesum"><span class="anchor" id="proc-node_worker"></span> <h3>module subroutine <a href='../proc/node_worker.html'>node_worker</a>(world_comm, node_comm, sys_geom, method, calc_type, bonds)  
+    <a href="../interface/node_worker.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -1568,7 +1760,7 @@ Handles work requests and result collection from local workers</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-world_comm~12"></span>
+              <span class="anchor" id="variable-world_comm~6"></span>
               class(comm_t),
             </td>
 <td>intent(in)</td>
@@ -1583,7 +1775,7 @@ Handles work requests and result collection from local workers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_comm~8"></span>
+              <span class="anchor" id="variable-node_comm~6"></span>
               class(comm_t),
             </td>
 <td>intent(in)</td>
@@ -1598,7 +1790,7 @@ Handles work requests and result collection from local workers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~25"></span>
+              <span class="anchor" id="variable-sys_geom~10"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in),</td>
@@ -1613,7 +1805,7 @@ Handles work requests and result collection from local workers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~9"></span>
+              <span class="anchor" id="variable-method~6"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -1643,7 +1835,7 @@ Handles work requests and result collection from local workers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~14"></span>
+              <span class="anchor" id="variable-bonds~5"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -1663,182 +1855,8 @@ Handles work requests and result collection from local workers</p>
     </div>
   </div>
 
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-send_fragment_to_node"></span> <h3> subroutine <a href='../proc/send_fragment_to_node.html'>send_fragment_to_node</a>(world_comm, fragment_idx, polymers, dest_rank)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Send fragment data to remote node coordinator
-Uses int64 for fragment_idx to handle large fragment indices that overflow int32.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-world_comm~10"></span>
-              type(comm_t),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>world_comm</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-fragment_idx~6"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>fragment_idx</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-polymers~6"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>polymers</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dest_rank"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>dest_rank</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-send_fragment_to_worker"></span> <h3> subroutine <a href='../proc/send_fragment_to_worker.html'>send_fragment_to_worker</a>(node_comm, fragment_idx, polymers, dest_rank)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Send fragment data to local worker
-Uses int64 for fragment_idx to handle large fragment indices that overflow int32.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-node_comm~6"></span>
-              type(comm_t),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>node_comm</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-fragment_idx~7"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>fragment_idx</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-polymers~7"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>polymers</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dest_rank~2"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>dest_rank</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
         </section>
         <br>
-
-
 
     </div>
   </div>
@@ -1858,7 +1876,7 @@ Uses int64 for fragment_idx to handle large fragment indices that overflow int32
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-07 01:28 +0000             </p>
+ on 2026-01-07 07:41 +0000             </p>
           </div>
         </div>
         <br>

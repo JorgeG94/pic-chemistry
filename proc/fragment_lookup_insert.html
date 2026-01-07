@@ -197,7 +197,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~24"></span>
+              <span class="anchor" id="variable-this~36"></span>
               class(<a href='../type/fragment_lookup_t.html'>fragment_lookup_t</a>),
             </td>
 <td>intent(inout)</td>
@@ -212,7 +212,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-monomers~7"></span>
+              <span class="anchor" id="variable-monomers"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -227,7 +227,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~5"></span>
+              <span class="anchor" id="variable-n~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -242,7 +242,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_idx~10"></span>
+              <span class="anchor" id="variable-fragment_idx~7"></span>
               integer(kind=int64),
             </td>
 <td>intent(in)</td>
@@ -509,50 +509,71 @@ large graphs.</div>
 <path fill="none" stroke="#0000ff" d="M673.17,-25.89C681.42,-25.12 689.96,-24.32 698.59,-23.52"/>
 <polygon fill="#0000ff" stroke="#0000ff" points="699.11,-26.99 708.74,-22.57 698.46,-20.02 699.11,-26.99"/>
 </g>
-<!-- interface~serial_fragment_processor -->
+<!-- interface~global_coordinator -->
 <g id="proc~~fragment_lookup_insert~~CalledByGraph_node7" class="node">
+<title>interface~global_coordinator</title>
+<g id="a_proc~~fragment_lookup_insert~~CalledByGraph_node7"><a xlink:href="../interface/global_coordinator.html" xlink:title="global_coordinator">
+<polygon fill="#a7506f" stroke="#a7506f" points="462.5,-87 349.5,-87 349.5,-63 462.5,-63 462.5,-87"/>
+<text text-anchor="middle" x="406" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">global_coordinator</text>
+</a>
+</g>
+</g>
+<!-- interface~global_coordinator&#45;&gt;proc~global_coordinator -->
+<g id="proc~~fragment_lookup_insert~~CalledByGraph_edge10" class="edge">
+<title>interface~global_coordinator&#45;&gt;proc~global_coordinator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M462.64,-75C483.58,-75 507.58,-75 529.35,-75"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="529.5,-78.5 539.5,-75 529.5,-71.5 529.5,-78.5"/>
+</g>
+<!-- interface~serial_fragment_processor -->
+<g id="proc~~fragment_lookup_insert~~CalledByGraph_node8" class="node">
 <title>interface~serial_fragment_processor</title>
-<g id="a_proc~~fragment_lookup_insert~~CalledByGraph_node7"><a xlink:href="../interface/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
+<g id="a_proc~~fragment_lookup_insert~~CalledByGraph_node8"><a xlink:href="../interface/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
 <polygon fill="#a7506f" stroke="#a7506f" points="483,-45 329,-45 329,-21 483,-21 483,-45"/>
 <text text-anchor="middle" x="406" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
 </a>
 </g>
 </g>
 <!-- interface~serial_fragment_processor&#45;&gt;proc~serial_fragment_processor -->
-<g id="proc~~fragment_lookup_insert~~CalledByGraph_edge10" class="edge">
+<g id="proc~~fragment_lookup_insert~~CalledByGraph_edge11" class="edge">
 <title>interface~serial_fragment_processor&#45;&gt;proc~serial_fragment_processor</title>
 <path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M483.2,-33C491.52,-33 500.03,-33 508.47,-33"/>
 <polygon fill="#00ffff" stroke="#00ffff" points="508.7,-36.5 518.7,-33 508.7,-29.5 508.7,-36.5"/>
 </g>
 <!-- proc~run_fragmented_calculation -->
-<g id="proc~~fragment_lookup_insert~~CalledByGraph_node8" class="node">
+<g id="proc~~fragment_lookup_insert~~CalledByGraph_node9" class="node">
 <title>proc~run_fragmented_calculation</title>
-<g id="a_proc~~fragment_lookup_insert~~CalledByGraph_node8"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
-<polygon fill="#d9534f" stroke="#d9534f" points="293,-45 130,-45 130,-21 293,-21 293,-45"/>
-<text text-anchor="middle" x="211.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
+<g id="a_proc~~fragment_lookup_insert~~CalledByGraph_node9"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="293,-66 130,-66 130,-42 293,-42 293,-66"/>
+<text text-anchor="middle" x="211.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
 </a>
 </g>
 </g>
+<!-- proc~run_fragmented_calculation&#45;&gt;interface~global_coordinator -->
+<g id="proc~~fragment_lookup_insert~~CalledByGraph_edge12" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;interface~global_coordinator</title>
+<path fill="none" stroke="#ff0000" d="M293.02,-62.78C308.42,-64.46 324.38,-66.21 339.25,-67.83"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="339.03,-71.32 349.35,-68.93 339.79,-64.37 339.03,-71.32"/>
+</g>
 <!-- proc~run_fragmented_calculation&#45;&gt;interface~serial_fragment_processor -->
-<g id="proc~~fragment_lookup_insert~~CalledByGraph_edge11" class="edge">
+<g id="proc~~fragment_lookup_insert~~CalledByGraph_edge13" class="edge">
 <title>proc~run_fragmented_calculation&#45;&gt;interface~serial_fragment_processor</title>
-<path fill="none" stroke="#ff0000" d="M293.02,-33C301.54,-33 310.22,-33 318.8,-33"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="318.8,-36.5 328.8,-33 318.8,-29.5 318.8,-36.5"/>
+<path fill="none" stroke="#00ffff" d="M293.02,-45.22C301.54,-44.29 310.22,-43.34 318.8,-42.4"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="319.24,-45.88 328.8,-41.31 318.48,-38.92 319.24,-45.88"/>
 </g>
 <!-- proc~run_calculation -->
-<g id="proc~~fragment_lookup_insert~~CalledByGraph_node9" class="node">
+<g id="proc~~fragment_lookup_insert~~CalledByGraph_node10" class="node">
 <title>proc~run_calculation</title>
-<g id="a_proc~~fragment_lookup_insert~~CalledByGraph_node9"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
-<polygon fill="#d9534f" stroke="#d9534f" points="94,-45 0,-45 0,-21 94,-21 94,-45"/>
-<text text-anchor="middle" x="47" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
+<g id="a_proc~~fragment_lookup_insert~~CalledByGraph_node10"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="94,-66 0,-66 0,-42 94,-42 94,-66"/>
+<text text-anchor="middle" x="47" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
 </a>
 </g>
 </g>
 <!-- proc~run_calculation&#45;&gt;proc~run_fragmented_calculation -->
-<g id="proc~~fragment_lookup_insert~~CalledByGraph_edge12" class="edge">
+<g id="proc~~fragment_lookup_insert~~CalledByGraph_edge14" class="edge">
 <title>proc~run_calculation&#45;&gt;proc~run_fragmented_calculation</title>
-<path fill="none" stroke="#ff0000" d="M94.13,-33C102.24,-33 110.94,-33 119.78,-33"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="119.8,-36.5 129.8,-33 119.8,-29.5 119.8,-36.5"/>
+<path fill="none" stroke="#ff0000" d="M94.13,-54C102.24,-54 110.94,-54 119.78,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="119.8,-57.5 129.8,-54 119.8,-50.5 119.8,-57.5"/>
 </g>
 </g>
 </svg>
@@ -805,7 +826,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-07 01:28 +0000             </p>
+ on 2026-01-07 07:41 +0000             </p>
           </div>
         </div>
         <br>

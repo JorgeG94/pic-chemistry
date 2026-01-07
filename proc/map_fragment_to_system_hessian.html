@@ -136,8 +136,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/map_fragment_to_system_hessian.html#variable-error~13">error</a>
-            <a class="list-group-item" href="../proc/map_fragment_to_system_hessian.html#variable-fragment~8">fragment</a>
+            <a class="list-group-item" href="../proc/map_fragment_to_system_hessian.html#variable-error~53">error</a>
+            <a class="list-group-item" href="../proc/map_fragment_to_system_hessian.html#variable-fragment~19">fragment</a>
         </div>
       </div>
     </div>
@@ -181,9 +181,9 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/mqc_error.html'>mqc_error</a></li>
-                  <li class="list-inline-item"><a href='../module/mqc_config_parser.html'>mqc_config_parser</a></li>
                   <li class="list-inline-item"><a href='../module/mqc_physical_fragment.html'>mqc_physical_fragment</a></li>
+                  <li class="list-inline-item"><a href='../module/mqc_config_parser.html'>mqc_config_parser</a></li>
+                  <li class="list-inline-item"><a href='../module/mqc_error.html'>mqc_error</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -558,7 +558,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-monomers~2"></span>
+              <span class="anchor" id="variable-monomers~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -573,7 +573,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~10"></span>
+              <span class="anchor" id="variable-sys_geom~25"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -603,7 +603,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~5"></span>
+              <span class="anchor" id="variable-bonds~18"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -1081,50 +1081,71 @@ large graphs.</div>
 <path fill="none" stroke="#ff0000" d="M673.17,-19.11C681.42,-19.88 689.96,-20.68 698.59,-21.48"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="698.46,-24.98 708.74,-22.43 699.11,-18.01 698.46,-24.98"/>
 </g>
-<!-- interface~serial_fragment_processor -->
+<!-- interface~global_coordinator -->
 <g id="proc~~map_fragment_to_system_hessian~~CalledByGraph_node6" class="node">
+<title>interface~global_coordinator</title>
+<g id="a_proc~~map_fragment_to_system_hessian~~CalledByGraph_node6"><a xlink:href="../interface/global_coordinator.html" xlink:title="global_coordinator">
+<polygon fill="#a7506f" stroke="#a7506f" points="462.5,-66 349.5,-66 349.5,-42 462.5,-42 462.5,-66"/>
+<text text-anchor="middle" x="406" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">global_coordinator</text>
+</a>
+</g>
+</g>
+<!-- interface~global_coordinator&#45;&gt;proc~global_coordinator -->
+<g id="proc~~map_fragment_to_system_hessian~~CalledByGraph_edge6" class="edge">
+<title>interface~global_coordinator&#45;&gt;proc~global_coordinator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M462.64,-54C483.58,-54 507.58,-54 529.35,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="529.5,-57.5 539.5,-54 529.5,-50.5 529.5,-57.5"/>
+</g>
+<!-- interface~serial_fragment_processor -->
+<g id="proc~~map_fragment_to_system_hessian~~CalledByGraph_node7" class="node">
 <title>interface~serial_fragment_processor</title>
-<g id="a_proc~~map_fragment_to_system_hessian~~CalledByGraph_node6"><a xlink:href="../interface/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
+<g id="a_proc~~map_fragment_to_system_hessian~~CalledByGraph_node7"><a xlink:href="../interface/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
 <polygon fill="#a7506f" stroke="#a7506f" points="483,-24 329,-24 329,0 483,0 483,-24"/>
 <text text-anchor="middle" x="406" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
 </a>
 </g>
 </g>
 <!-- interface~serial_fragment_processor&#45;&gt;proc~serial_fragment_processor -->
-<g id="proc~~map_fragment_to_system_hessian~~CalledByGraph_edge6" class="edge">
+<g id="proc~~map_fragment_to_system_hessian~~CalledByGraph_edge7" class="edge">
 <title>interface~serial_fragment_processor&#45;&gt;proc~serial_fragment_processor</title>
 <path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M483.2,-12C491.52,-12 500.03,-12 508.47,-12"/>
 <polygon fill="#00ffff" stroke="#00ffff" points="508.7,-15.5 518.7,-12 508.7,-8.5 508.7,-15.5"/>
 </g>
 <!-- proc~run_fragmented_calculation -->
-<g id="proc~~map_fragment_to_system_hessian~~CalledByGraph_node7" class="node">
+<g id="proc~~map_fragment_to_system_hessian~~CalledByGraph_node8" class="node">
 <title>proc~run_fragmented_calculation</title>
-<g id="a_proc~~map_fragment_to_system_hessian~~CalledByGraph_node7"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
-<polygon fill="#d9534f" stroke="#d9534f" points="293,-24 130,-24 130,0 293,0 293,-24"/>
-<text text-anchor="middle" x="211.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
+<g id="a_proc~~map_fragment_to_system_hessian~~CalledByGraph_node8"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="293,-45 130,-45 130,-21 293,-21 293,-45"/>
+<text text-anchor="middle" x="211.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
 </a>
 </g>
 </g>
+<!-- proc~run_fragmented_calculation&#45;&gt;interface~global_coordinator -->
+<g id="proc~~map_fragment_to_system_hessian~~CalledByGraph_edge8" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;interface~global_coordinator</title>
+<path fill="none" stroke="#ff0000" d="M293.02,-41.78C308.42,-43.46 324.38,-45.21 339.25,-46.83"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="339.03,-50.32 349.35,-47.93 339.79,-43.37 339.03,-50.32"/>
+</g>
 <!-- proc~run_fragmented_calculation&#45;&gt;interface~serial_fragment_processor -->
-<g id="proc~~map_fragment_to_system_hessian~~CalledByGraph_edge7" class="edge">
+<g id="proc~~map_fragment_to_system_hessian~~CalledByGraph_edge9" class="edge">
 <title>proc~run_fragmented_calculation&#45;&gt;interface~serial_fragment_processor</title>
-<path fill="none" stroke="#ff0000" d="M293.02,-12C301.54,-12 310.22,-12 318.8,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="318.8,-15.5 328.8,-12 318.8,-8.5 318.8,-15.5"/>
+<path fill="none" stroke="#00ffff" d="M293.02,-24.22C301.54,-23.29 310.22,-22.34 318.8,-21.4"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="319.24,-24.88 328.8,-20.31 318.48,-17.92 319.24,-24.88"/>
 </g>
 <!-- proc~run_calculation -->
-<g id="proc~~map_fragment_to_system_hessian~~CalledByGraph_node8" class="node">
+<g id="proc~~map_fragment_to_system_hessian~~CalledByGraph_node9" class="node">
 <title>proc~run_calculation</title>
-<g id="a_proc~~map_fragment_to_system_hessian~~CalledByGraph_node8"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
-<polygon fill="#d9534f" stroke="#d9534f" points="94,-24 0,-24 0,0 94,0 94,-24"/>
-<text text-anchor="middle" x="47" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
+<g id="a_proc~~map_fragment_to_system_hessian~~CalledByGraph_node9"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="94,-45 0,-45 0,-21 94,-21 94,-45"/>
+<text text-anchor="middle" x="47" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
 </a>
 </g>
 </g>
 <!-- proc~run_calculation&#45;&gt;proc~run_fragmented_calculation -->
-<g id="proc~~map_fragment_to_system_hessian~~CalledByGraph_edge8" class="edge">
+<g id="proc~~map_fragment_to_system_hessian~~CalledByGraph_edge10" class="edge">
 <title>proc~run_calculation&#45;&gt;proc~run_fragmented_calculation</title>
-<path fill="none" stroke="#ff0000" d="M94.13,-12C102.24,-12 110.94,-12 119.78,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="119.8,-15.5 129.8,-12 119.8,-8.5 119.8,-15.5"/>
+<path fill="none" stroke="#ff0000" d="M94.13,-33C102.24,-33 110.94,-33 119.78,-33"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="119.8,-36.5 129.8,-33 119.8,-29.5 119.8,-36.5"/>
 </g>
 </g>
 </svg>
@@ -1230,7 +1251,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-error~13"></span>
+              <span class="anchor" id="variable-error~53"></span>
               type(<a href='../type/error_t.html'>error_t</a>),
             </td>
               <td>private</td>
@@ -1247,7 +1268,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment~8"></span>
+              <span class="anchor" id="variable-fragment~19"></span>
               type(<a href='../type/physical_fragment_t.html'>physical_fragment_t</a>),
             </td>
               <td>private</td>
@@ -1363,7 +1384,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-07 01:28 +0000             </p>
+ on 2026-01-07 07:41 +0000             </p>
           </div>
         </div>
         <br>

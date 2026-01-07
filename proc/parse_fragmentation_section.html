@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.2% of total for procedures.">89 statements</a>
+                 title=" 1.5% of total for procedures.">109 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -138,10 +138,10 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/parse_fragmentation_section.html#variable-eq_pos~8">eq_pos</a>
             <a class="list-group-item" href="../proc/parse_fragmentation_section.html#variable-in_cutoffs">in_cutoffs</a>
-            <a class="list-group-item" href="../proc/parse_fragmentation_section.html#variable-io_stat~16">io_stat</a>
-            <a class="list-group-item" href="../proc/parse_fragmentation_section.html#variable-key~9">key</a>
-            <a class="list-group-item" href="../proc/parse_fragmentation_section.html#variable-line~22">line</a>
-            <a class="list-group-item" href="../proc/parse_fragmentation_section.html#variable-value~9">value</a>
+            <a class="list-group-item" href="../proc/parse_fragmentation_section.html#variable-io_stat~10">io_stat</a>
+            <a class="list-group-item" href="../proc/parse_fragmentation_section.html#variable-key~8">key</a>
+            <a class="list-group-item" href="../proc/parse_fragmentation_section.html#variable-line~20">line</a>
+            <a class="list-group-item" href="../proc/parse_fragmentation_section.html#variable-value~8">value</a>
         </div>
       </div>
     </div>
@@ -196,7 +196,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit~18"></span>
+              <span class="anchor" id="variable-unit~15"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -211,7 +211,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-config~15"></span>
+              <span class="anchor" id="variable-config~13"></span>
               type(<a href='../type/mqc_config_t.html'>mqc_config_t</a>),
             </td>
 <td>intent(inout)</td>
@@ -226,7 +226,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-error~40"></span>
+              <span class="anchor" id="variable-error~36"></span>
               type(<a href='../type/error_t.html'>error_t</a>),
             </td>
 <td>intent(out)</td>
@@ -615,7 +615,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_stat~16"></span>
+              <span class="anchor" id="variable-io_stat~10"></span>
               integer,
             </td>
               <td>private</td>
@@ -632,7 +632,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~9"></span>
+              <span class="anchor" id="variable-key~8"></span>
               character(len=MAX_LINE_LEN),
             </td>
               <td>private</td>
@@ -649,7 +649,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~22"></span>
+              <span class="anchor" id="variable-line~20"></span>
               character(len=MAX_LINE_LEN),
             </td>
               <td>private</td>
@@ -666,7 +666,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~9"></span>
+              <span class="anchor" id="variable-value~8"></span>
               character(len=MAX_LINE_LEN),
             </td>
               <td>private</td>
@@ -764,8 +764,8 @@ large graphs.</div>
 <span class="w">                  </span><span class="k">return</span>
 <span class="k">               end if</span>
 
-<span class="k">               if</span><span class="w"> </span><span class="p">(</span><span class="n">nmer_level</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                  call </span><span class="n">error</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">ERROR_PARSE</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;N-mer level too large in cutoffs (max 8 for octamer)&quot;</span><span class="p">)</span>
+<span class="k">               if</span><span class="w"> </span><span class="p">(</span><span class="n">nmer_level</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                  call </span><span class="n">error</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">ERROR_PARSE</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;N-mer level too large in cutoffs (max 10 for decamer)&quot;</span><span class="p">)</span>
 <span class="w">                  </span><span class="k">return</span>
 <span class="k">               end if</span>
 
@@ -776,9 +776,9 @@ large graphs.</div>
 <span class="w">                  </span><span class="k">return</span>
 <span class="k">               end if</span>
 
-<span class="w">               </span><span class="c">! Allocate array if not yet allocated (up to octamer = 8)</span>
+<span class="w">               </span><span class="c">! Allocate array if not yet allocated (up to decamer = 10)</span>
 <span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="nb">allocated</span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">fragment_cutoffs</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                  allocate</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">fragment_cutoffs</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
+<span class="k">                  allocate</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">fragment_cutoffs</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 <span class="w">                  </span><span class="n">config</span><span class="p">%</span><span class="n">fragment_cutoffs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span><span class="w">  </span><span class="c">! Initialize with sentinel value</span>
 <span class="w">               </span><span class="k">end if</span>
 
@@ -791,11 +791,33 @@ large graphs.</div>
 <span class="w">               </span><span class="n">config</span><span class="p">%</span><span class="n">frag_method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="k">value</span><span class="p">)</span>
 <span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;level&#39;</span><span class="p">)</span>
 <span class="w">               </span><span class="k">read</span><span class="w"> </span><span class="p">(</span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">io_stat</span><span class="p">)</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">frag_level</span>
-<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;allow_overlapping_fragments&#39;</span><span class="p">)</span>
+<span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">io_stat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                  if</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">frag_level</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                     call </span><span class="n">error</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">ERROR_VALIDATION</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Fragmentation level must be &gt;= 1&quot;</span><span class="p">)</span>
+<span class="w">                     </span><span class="k">return</span>
+<span class="k">                  end if</span>
+<span class="k">                  if</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">frag_level</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                     call </span><span class="n">error</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">ERROR_VALIDATION</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                    </span><span class="s2">&quot;Fragmentation level must be &lt;= 10 (decamers). Higher levels not supported.&quot;</span><span class="p">)</span>
+<span class="w">                     </span><span class="k">return</span>
+<span class="k">                  end if</span>
+<span class="k">               end if</span>
+<span class="k">            case</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;allow_overlapping_fragments&#39;</span><span class="p">)</span>
 <span class="w">               </span><span class="n">config</span><span class="p">%</span><span class="n">allow_overlapping_fragments</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="k">value</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;true&#39;</span><span class="p">)</span>
 <span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;max_intersection_level&#39;</span><span class="p">)</span>
 <span class="w">               </span><span class="k">read</span><span class="w"> </span><span class="p">(</span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">io_stat</span><span class="p">)</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">max_intersection_level</span>
-<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;embedding&#39;</span><span class="p">)</span>
+<span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">io_stat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                  if</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">max_intersection_level</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                     call </span><span class="n">error</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">ERROR_VALIDATION</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;max_intersection_level must be &gt;= 1&quot;</span><span class="p">)</span>
+<span class="w">                     </span><span class="k">return</span>
+<span class="k">                  end if</span>
+<span class="k">                  if</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">max_intersection_level</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                     call </span><span class="n">error</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">ERROR_VALIDATION</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                    </span><span class="s2">&quot;max_intersection_level must be &lt;= 10 (decamers). Higher levels not supported.&quot;</span><span class="p">)</span>
+<span class="w">                     </span><span class="k">return</span>
+<span class="k">                  end if</span>
+<span class="k">               end if</span>
+<span class="k">            case</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;embedding&#39;</span><span class="p">)</span>
 <span class="w">               </span><span class="n">config</span><span class="p">%</span><span class="n">embedding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="k">value</span><span class="p">)</span>
 <span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;cutoff_method&#39;</span><span class="p">)</span>
 <span class="w">               </span><span class="n">config</span><span class="p">%</span><span class="n">cutoff_method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="k">value</span><span class="p">)</span>
@@ -832,7 +854,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-07 01:28 +0000             </p>
+ on 2026-01-07 07:41 +0000             </p>
           </div>
         </div>
         <br>

@@ -136,7 +136,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../proc/get_next_combination.html#variable-i~47">i</a>
+            <a class="list-group-item" href="../proc/get_next_combination.html#variable-i~66">i</a>
         </div>
       </div>
     </div>
@@ -193,7 +193,7 @@ has_next = .true. if there&rsquo;s a next combination</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-indices~4"></span>
+              <span class="anchor" id="variable-indices~5"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -208,7 +208,7 @@ has_next = .true. if there&rsquo;s a next combination</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~6"></span>
+              <span class="anchor" id="variable-k~9"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -439,35 +439,56 @@ has_next = .true. if there&rsquo;s a next combination</p>
 <path fill="none" stroke="#0000ff" d="M543.17,-46.89C551.42,-46.12 559.96,-45.32 568.59,-44.52"/>
 <polygon fill="#0000ff" stroke="#0000ff" points="569.11,-47.99 578.74,-43.57 568.46,-41.02 569.11,-47.99"/>
 </g>
-<!-- interface~serial_fragment_processor -->
+<!-- interface~global_coordinator -->
 <g id="proc~~get_next_combination~~CalledByGraph_node10" class="node">
+<title>interface~global_coordinator</title>
+<g id="a_proc~~get_next_combination~~CalledByGraph_node10"><a xlink:href="../interface/global_coordinator.html" xlink:title="global_coordinator">
+<polygon fill="#a7506f" stroke="#a7506f" points="332.5,-108 219.5,-108 219.5,-84 332.5,-84 332.5,-108"/>
+<text text-anchor="middle" x="276" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">global_coordinator</text>
+</a>
+</g>
+</g>
+<!-- interface~global_coordinator&#45;&gt;proc~global_coordinator -->
+<g id="proc~~get_next_combination~~CalledByGraph_edge16" class="edge">
+<title>interface~global_coordinator&#45;&gt;proc~global_coordinator</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M332.64,-96C353.58,-96 377.58,-96 399.35,-96"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="399.5,-99.5 409.5,-96 399.5,-92.5 399.5,-99.5"/>
+</g>
+<!-- interface~serial_fragment_processor -->
+<g id="proc~~get_next_combination~~CalledByGraph_node11" class="node">
 <title>interface~serial_fragment_processor</title>
-<g id="a_proc~~get_next_combination~~CalledByGraph_node10"><a xlink:href="../interface/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
+<g id="a_proc~~get_next_combination~~CalledByGraph_node11"><a xlink:href="../interface/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
 <polygon fill="#a7506f" stroke="#a7506f" points="353,-66 199,-66 199,-42 353,-42 353,-66"/>
 <text text-anchor="middle" x="276" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
 </a>
 </g>
 </g>
 <!-- interface~serial_fragment_processor&#45;&gt;proc~serial_fragment_processor -->
-<g id="proc~~get_next_combination~~CalledByGraph_edge16" class="edge">
+<g id="proc~~get_next_combination~~CalledByGraph_edge17" class="edge">
 <title>interface~serial_fragment_processor&#45;&gt;proc~serial_fragment_processor</title>
 <path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M353.2,-54C361.52,-54 370.03,-54 378.47,-54"/>
 <polygon fill="#00ffff" stroke="#00ffff" points="378.7,-57.5 388.7,-54 378.7,-50.5 378.7,-57.5"/>
 </g>
 <!-- proc~run_fragmented_calculation -->
-<g id="proc~~get_next_combination~~CalledByGraph_node11" class="node">
+<g id="proc~~get_next_combination~~CalledByGraph_node12" class="node">
 <title>proc~run_fragmented_calculation</title>
-<g id="a_proc~~get_next_combination~~CalledByGraph_node11"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
-<polygon fill="#d9534f" stroke="#d9534f" points="163,-66 0,-66 0,-42 163,-42 163,-66"/>
-<text text-anchor="middle" x="81.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
+<g id="a_proc~~get_next_combination~~CalledByGraph_node12"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="163,-87 0,-87 0,-63 163,-63 163,-87"/>
+<text text-anchor="middle" x="81.5" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
 </a>
 </g>
 </g>
+<!-- proc~run_fragmented_calculation&#45;&gt;interface~global_coordinator -->
+<g id="proc~~get_next_combination~~CalledByGraph_edge18" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;interface~global_coordinator</title>
+<path fill="none" stroke="#ff0000" d="M163.02,-83.78C178.42,-85.46 194.38,-87.21 209.25,-88.83"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="209.03,-92.32 219.35,-89.93 209.79,-85.37 209.03,-92.32"/>
+</g>
 <!-- proc~run_fragmented_calculation&#45;&gt;interface~serial_fragment_processor -->
-<g id="proc~~get_next_combination~~CalledByGraph_edge17" class="edge">
+<g id="proc~~get_next_combination~~CalledByGraph_edge19" class="edge">
 <title>proc~run_fragmented_calculation&#45;&gt;interface~serial_fragment_processor</title>
-<path fill="none" stroke="#ff0000" d="M163.02,-54C171.54,-54 180.22,-54 188.8,-54"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="188.8,-57.5 198.8,-54 188.8,-50.5 188.8,-57.5"/>
+<path fill="none" stroke="#00ffff" d="M163.02,-66.22C171.54,-65.29 180.22,-64.34 188.8,-63.4"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="189.24,-66.88 198.8,-62.31 188.48,-59.92 189.24,-66.88"/>
 </g>
 </g>
 </svg>
@@ -573,7 +594,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~47"></span>
+              <span class="anchor" id="variable-i~66"></span>
               integer,
             </td>
               <td>private</td>
@@ -652,7 +673,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-07 01:28 +0000             </p>
+ on 2026-01-07 07:41 +0000             </p>
           </div>
         </div>
         <br>
