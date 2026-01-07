@@ -695,7 +695,6 @@ contains
                   frag_row_start = (frag_atom_i - 1)*3 + 1
                   sys_row_start = (sys_atom_i - 1)*3 + 1
 
-
                   ! Map this atom's Hessian blocks with all other atoms in fragment
                   frag_atom_j = 0
                   do j_mon = 1, n_monomers
