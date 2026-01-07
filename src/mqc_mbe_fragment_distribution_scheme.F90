@@ -11,7 +11,7 @@ module mqc_mbe_fragment_distribution_scheme
    use pic_io, only: to_char
    use mqc_mbe_io, only: print_fragment_xyz, print_unfragmented_json
    use omp_lib, only: omp_set_num_threads, omp_get_max_threads
-   use mqc_mbe, only: compute_mbe_energy, compute_mbe_energy_gradient, compute_mbe_energy_gradient_hessian
+   use mqc_mbe, only: compute_mbe
    use mqc_mpi_tags, only: TAG_WORKER_REQUEST, TAG_WORKER_FRAGMENT, TAG_WORKER_FINISH, &
                            TAG_WORKER_SCALAR_RESULT, &
                            TAG_NODE_REQUEST, TAG_NODE_FRAGMENT, TAG_NODE_FINISH, &
