@@ -1,0 +1,1270 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A demonstration of PIC as a framework for scientific applications targetting quantum chemistry">
+    <meta name="author" content="Jorge Luis Galvez Vallejo" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>compute_vibrational_frequencies &ndash; metalquicha</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">metalquicha </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../program/main.html">Program</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>compute_vibrational_frequencies
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.8% of total for procedures.">59 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/mqc_vibrational_analysis.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_vibrational_analysis.f90.html'>mqc_vibrational_analysis.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/mqc_vibrational_analysis.html'>mqc_vibrational_analysis</a></li>
+            <li class="breadcrumb-item active" aria-current="page">compute_vibrational_frequencies</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../proc/compute_vibrational_frequencies.html#variable-do_projection">do_projection</a>
+            <a class="list-group-item" href="../proc/compute_vibrational_frequencies.html#variable-eigenvalues~2">eigenvalues</a>
+            <a class="list-group-item" href="../proc/compute_vibrational_frequencies.html#variable-i~74">i</a>
+            <a class="list-group-item" href="../proc/compute_vibrational_frequencies.html#variable-info">info</a>
+            <a class="list-group-item" href="../proc/compute_vibrational_frequencies.html#variable-mw_hessian">mw_hessian</a>
+            <a class="list-group-item" href="../proc/compute_vibrational_frequencies.html#variable-n_coords~2">n_coords</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/compute_vibrational_frequencies.html#src">compute_vibrational_frequencies</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  subroutine compute_vibrational_frequencies(hessian, element_numbers, frequencies, eigenvalues_out, eigenvectors, coordinates, project_trans_rot, projected_hessian_out)  
+</h2>
+    
+
+    <p>Compute vibrational frequencies from the Hessian matrix.</p>
+<p>Algorithm:
+1. Mass-weight the Hessian: H_mw = M^{-1/2} * H * M^{-1/2}
+2. Optionally project out translation/rotation modes
+3. Diagonalize H_mw to get eigenvalues
+4. Convert eigenvalues to frequencies in cm⁻¹</p>
+<p>Negative eigenvalues produce negative frequencies (imaginary modes,
+indicating transition states or saddle points).</p>
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hessian~6"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hessian</strong>(:,:)</td>
+            <td>
+                <p>Hessian matrix in Hartree/Bohr² (3<em>N x 3</em>N)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-element_numbers~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>element_numbers</strong>(:)</td>
+            <td>
+                <p>Atomic numbers for each atom (N atoms)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-frequencies~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>frequencies</strong>(:)</td>
+            <td>
+                <p>Vibrational frequencies in cm⁻¹ (3<em>N modes, or 3</em>N-6 if projected)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eigenvalues_out"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>eigenvalues_out</strong>(:)</td>
+            <td>
+                <p>Raw eigenvalues from diagonalization (Hartree/Bohr²/amu)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eigenvectors"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>eigenvectors</strong>(:,:)</td>
+            <td>
+                <p>Normal mode eigenvectors (3<em>N x 3</em>N), columns are modes</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coordinates~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>coordinates</strong>(:,:)</td>
+            <td>
+                <p>Atomic coordinates in Bohr (3, N) - required for projection</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-project_trans_rot"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>project_trans_rot</strong></td>
+            <td>
+                <p>If true, project out translation/rotation modes (requires coordinates)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-projected_hessian_out"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>projected_hessian_out</strong>(:,:)</td>
+            <td>
+                <p>Mass-weighted Hessian after trans/rot projection (before diagonalization)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~compute_vibrational_frequencies~~CallsGraph Pages: 1 -->
+<svg id="proccompute_vibrational_frequenciesCallsGraph" width="518pt" height="200pt"
+ viewBox="0.00 0.00 518.00 200.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 196)">
+<title>proc~~compute_vibrational_frequencies~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-196 514,-196 514,4 -4,4"/>
+<!-- proc~compute_vibrational_frequencies -->
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph_node1" class="node">
+<title>proc~compute_vibrational_frequencies</title>
+<polygon fill="none" stroke="black" points="190,-108 0,-108 0,-84 190,-84 190,-108"/>
+<text text-anchor="middle" x="95" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50">compute_vibrational_frequencies</text>
+</g>
+<!-- error -->
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph_node2" class="node">
+<title>error</title>
+<polygon fill="#777777" stroke="#777777" points="332,-192 278,-192 278,-168 332,-168 332,-192"/>
+<text text-anchor="middle" x="305" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">error</text>
+</g>
+<!-- proc~compute_vibrational_frequencies&#45;&gt;error -->
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph_edge1" class="edge">
+<title>proc~compute_vibrational_frequencies&#45;&gt;error</title>
+<path fill="none" stroke="#ff0000" d="M117.98,-108.24C143.39,-122.01 186.76,-144.36 226,-159 239.51,-164.04 254.74,-168.42 268.14,-171.85"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="267.42,-175.28 277.97,-174.29 269.11,-168.49 267.42,-175.28"/>
+</g>
+<!-- pic_syev -->
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph_node3" class="node">
+<title>pic_syev</title>
+<polygon fill="#777777" stroke="#777777" points="334,-150 276,-150 276,-126 334,-126 334,-150"/>
+<text text-anchor="middle" x="305" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_syev</text>
+</g>
+<!-- proc~compute_vibrational_frequencies&#45;&gt;pic_syev -->
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph_edge2" class="edge">
+<title>proc~compute_vibrational_frequencies&#45;&gt;pic_syev</title>
+<path fill="none" stroke="#ff0000" d="M155.6,-108.04C191.09,-115.2 235.06,-124.08 265.89,-130.31"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="265.32,-133.76 275.82,-132.31 266.71,-126.9 265.32,-133.76"/>
+</g>
+<!-- proc~mass_weight_hessian -->
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph_node4" class="node">
+<title>proc~mass_weight_hessian</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CallsGraph_node4"><a xlink:href="../proc/mass_weight_hessian.html" xlink:title="mass_weight_hessian">
+<polygon fill="#d9534f" stroke="#d9534f" points="368.5,-108 241.5,-108 241.5,-84 368.5,-84 368.5,-108"/>
+<text text-anchor="middle" x="305" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mass_weight_hessian</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_vibrational_frequencies&#45;&gt;proc~mass_weight_hessian -->
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph_edge3" class="edge">
+<title>proc~compute_vibrational_frequencies&#45;&gt;proc~mass_weight_hessian</title>
+<path fill="none" stroke="#ff0000" d="M190.26,-96C203.92,-96 217.8,-96 230.95,-96"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="231.33,-99.5 241.33,-96 231.33,-92.5 231.33,-99.5"/>
+</g>
+<!-- proc~project_translation_rotation -->
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph_node5" class="node">
+<title>proc~project_translation_rotation</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CallsGraph_node5"><a xlink:href="../proc/project_translation_rotation.html" xlink:title="project_translation_rotation">
+<polygon fill="#d9534f" stroke="#d9534f" points="384,-66 226,-66 226,-42 384,-42 384,-66"/>
+<text text-anchor="middle" x="305" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">project_translation_rotation</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_vibrational_frequencies&#45;&gt;proc~project_translation_rotation -->
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph_edge4" class="edge">
+<title>proc~compute_vibrational_frequencies&#45;&gt;proc~project_translation_rotation</title>
+<path fill="none" stroke="#ff0000" d="M155.6,-83.96C180.19,-79 208.85,-73.21 234.4,-68.05"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="235.28,-71.45 244.39,-66.04 233.89,-64.59 235.28,-71.45"/>
+</g>
+<!-- warning -->
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph_node6" class="node">
+<title>warning</title>
+<polygon fill="#777777" stroke="#777777" points="332.5,-24 277.5,-24 277.5,0 332.5,0 332.5,-24"/>
+<text text-anchor="middle" x="305" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">warning</text>
+</g>
+<!-- proc~compute_vibrational_frequencies&#45;&gt;warning -->
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph_edge5" class="edge">
+<title>proc~compute_vibrational_frequencies&#45;&gt;warning</title>
+<path fill="none" stroke="#ff0000" d="M117.98,-83.76C143.39,-69.99 186.76,-47.64 226,-33 239.3,-28.04 254.27,-23.72 267.52,-20.31"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="268.4,-23.69 277.25,-17.88 266.7,-16.9 268.4,-23.69"/>
+</g>
+<!-- proc~element_mass -->
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph_node8" class="node">
+<title>proc~element_mass</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CallsGraph_node8"><a xlink:href="../proc/element_mass.html" xlink:title="element_mass">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="510,-108 420,-108 420,-84 510,-84 510,-108"/>
+<text text-anchor="middle" x="465" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">element_mass</text>
+</a>
+</g>
+</g>
+<!-- proc~mass_weight_hessian&#45;&gt;proc~element_mass -->
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph_edge6" class="edge">
+<title>proc~mass_weight_hessian&#45;&gt;proc~element_mass</title>
+<path fill="none" stroke="#00ff66" d="M368.9,-96C382.34,-96 396.44,-96 409.54,-96"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="409.79,-99.5 419.79,-96 409.79,-92.5 409.79,-99.5"/>
+</g>
+<!-- pic_gesvd -->
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph_node7" class="node">
+<title>pic_gesvd</title>
+<polygon fill="#777777" stroke="#777777" points="497.5,-66 432.5,-66 432.5,-42 497.5,-42 497.5,-66"/>
+<text text-anchor="middle" x="465" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_gesvd</text>
+</g>
+<!-- proc~project_translation_rotation&#45;&gt;pic_gesvd -->
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph_edge7" class="edge">
+<title>proc~project_translation_rotation&#45;&gt;pic_gesvd</title>
+<path fill="none" stroke="#0066ff" d="M384.07,-54C397.17,-54 410.3,-54 422.02,-54"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="422.35,-57.5 432.35,-54 422.35,-50.5 422.35,-57.5"/>
+</g>
+<!-- proc~project_translation_rotation&#45;&gt;proc~element_mass -->
+<g id="proc~~compute_vibrational_frequencies~~CallsGraph_edge8" class="edge">
+<title>proc~project_translation_rotation&#45;&gt;proc~element_mass</title>
+<path fill="none" stroke="#0066ff" d="M351.28,-66.04C369.6,-70.91 390.91,-76.57 410.03,-81.65"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="409.24,-85.07 419.81,-84.25 411.04,-78.3 409.24,-85.07"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~compute_vibrational_frequencies~~CalledByGraph Pages: 1 -->
+<svg id="proccompute_vibrational_frequenciesCalledByGraph" width="641pt" height="84pt"
+ viewBox="0.00 0.00 641.00 84.10" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph" class="graph" transform="scale(0.35 0.35) rotate(0) translate(4 234)">
+<title>proc~~compute_vibrational_frequencies~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-234 1810,-234 1810,4 -4,4"/>
+<!-- proc~compute_vibrational_frequencies -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node1" class="node">
+<title>proc~compute_vibrational_frequencies</title>
+<polygon fill="none" stroke="black" points="1806,-188 1616,-188 1616,-164 1806,-164 1806,-188"/>
+<text text-anchor="middle" x="1711" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50">compute_vibrational_frequencies</text>
+</g>
+<!-- proc~compute_vibrational_analysis -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node2" class="node">
+<title>proc~compute_vibrational_analysis</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node2"><a xlink:href="../proc/compute_vibrational_analysis.html" xlink:title="compute_vibrational_analysis">
+<polygon fill="#d9534f" stroke="#d9534f" points="1580,-148 1410,-148 1410,-124 1580,-124 1580,-148"/>
+<text text-anchor="middle" x="1495" y="-133.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_vibrational_analysis</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_vibrational_analysis&#45;&gt;proc~compute_vibrational_frequencies -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge1" class="edge">
+<title>proc~compute_vibrational_analysis&#45;&gt;proc~compute_vibrational_frequencies</title>
+<path fill="none" stroke="#ff0000" d="M1560.21,-148C1583.9,-152.43 1610.95,-157.49 1635.49,-162.07"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1635,-165.54 1645.47,-163.94 1636.28,-158.66 1635,-165.54"/>
+</g>
+<!-- proc~hessian_coordinator -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node3" class="node">
+<title>proc~hessian_coordinator</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node3"><a xlink:href="../proc/hessian_coordinator.html" xlink:title="hessian_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="1358,-188 1237,-188 1237,-164 1358,-164 1358,-188"/>
+<text text-anchor="middle" x="1297.5" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hessian_coordinator</text>
+</a>
+</g>
+</g>
+<!-- proc~hessian_coordinator&#45;&gt;proc~compute_vibrational_frequencies -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge2" class="edge">
+<title>proc~hessian_coordinator&#45;&gt;proc~compute_vibrational_frequencies</title>
+<path fill="none" stroke="#ff0000" d="M1358.34,-176C1422.97,-176 1527.2,-176 1605.43,-176"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1605.81,-179.5 1615.81,-176 1605.81,-172.5 1605.81,-179.5"/>
+</g>
+<!-- proc~hessian_coordinator&#45;&gt;proc~compute_vibrational_analysis -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge7" class="edge">
+<title>proc~hessian_coordinator&#45;&gt;proc~compute_vibrational_analysis</title>
+<path fill="none" stroke="#ff0000" d="M1357.16,-164C1378.52,-159.63 1402.86,-154.65 1425.03,-150.11"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1425.95,-153.5 1435.05,-148.06 1424.55,-146.64 1425.95,-153.5"/>
+</g>
+<!-- proc~unfragmented_calculation -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node4" class="node">
+<title>proc~unfragmented_calculation</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node4"><a xlink:href="../proc/unfragmented_calculation.html" xlink:title="unfragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="1374,-230 1221,-230 1221,-206 1374,-206 1374,-230"/>
+<text text-anchor="middle" x="1297.5" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unfragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~unfragmented_calculation&#45;&gt;proc~compute_vibrational_frequencies -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge3" class="edge">
+<title>proc~unfragmented_calculation&#45;&gt;proc~compute_vibrational_frequencies</title>
+<path fill="none" stroke="#ff0000" d="M1374.09,-210.65C1430.77,-205.1 1510.26,-197.22 1580,-190 1588.36,-189.13 1597.02,-188.23 1605.71,-187.31"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1606.35,-190.76 1615.93,-186.22 1605.61,-183.8 1606.35,-190.76"/>
+</g>
+<!-- proc~unfragmented_calculation&#45;&gt;proc~compute_vibrational_analysis -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge9" class="edge">
+<title>proc~unfragmented_calculation&#45;&gt;proc~compute_vibrational_analysis</title>
+<path fill="none" stroke="#ff0000" d="M1347.3,-205.96C1356.28,-203.32 1365.5,-200.3 1374,-197 1405.92,-184.59 1440.62,-166.4 1464.46,-153.11"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1466.35,-156.06 1473.34,-148.1 1462.91,-149.96 1466.35,-156.06"/>
+</g>
+<!-- interface~hessian_coordinator -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node5" class="node">
+<title>interface~hessian_coordinator</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node5"><a xlink:href="../interface/hessian_coordinator.html" xlink:title="hessian_coordinator">
+<polygon fill="#a7506f" stroke="#a7506f" points="1168.5,-188 1047.5,-188 1047.5,-164 1168.5,-164 1168.5,-188"/>
+<text text-anchor="middle" x="1108" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hessian_coordinator</text>
+</a>
+</g>
+</g>
+<!-- interface~hessian_coordinator&#45;&gt;proc~hessian_coordinator -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge10" class="edge">
+<title>interface~hessian_coordinator&#45;&gt;proc~hessian_coordinator</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1168.58,-176C1187.04,-176 1207.53,-176 1226.62,-176"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="1226.75,-179.5 1236.75,-176 1226.75,-172.5 1226.75,-179.5"/>
+</g>
+<!-- interface~unfragmented_calculation -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node6" class="node">
+<title>interface~unfragmented_calculation</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node6"><a xlink:href="../interface/unfragmented_calculation.html" xlink:title="unfragmented_calculation">
+<polygon fill="#a7506f" stroke="#a7506f" points="740,-230 587,-230 587,-206 740,-206 740,-230"/>
+<text text-anchor="middle" x="663.5" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unfragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- interface~unfragmented_calculation&#45;&gt;proc~unfragmented_calculation -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge11" class="edge">
+<title>interface~unfragmented_calculation&#45;&gt;proc~unfragmented_calculation</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M740.11,-218C858.34,-218 1086.29,-218 1210.58,-218"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="1210.81,-221.5 1220.81,-218 1210.81,-214.5 1210.81,-221.5"/>
+</g>
+<!-- proc~compute_gmbe -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node7" class="node">
+<title>proc~compute_gmbe</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node7"><a xlink:href="../proc/compute_gmbe.html" xlink:title="compute_gmbe">
+<polygon fill="#d9534f" stroke="#d9534f" points="1345.5,-70 1249.5,-70 1249.5,-46 1345.5,-46 1345.5,-70"/>
+<text text-anchor="middle" x="1297.5" y="-55.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_gmbe</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_gmbe&#45;&gt;proc~compute_vibrational_analysis -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge4" class="edge">
+<title>proc~compute_gmbe&#45;&gt;proc~compute_vibrational_analysis</title>
+<path fill="none" stroke="#ff0000" d="M1335.57,-70.13C1347.87,-74.32 1361.59,-79.18 1374,-84 1402.65,-95.12 1434.55,-109.02 1458.25,-119.65"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1457,-122.92 1467.55,-123.84 1459.88,-116.54 1457,-122.92"/>
+</g>
+<!-- proc~compute_mbe -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node8" class="node">
+<title>proc~compute_mbe</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node8"><a xlink:href="../proc/compute_mbe.html" xlink:title="compute_mbe">
+<polygon fill="#d9534f" stroke="#d9534f" points="1342,-28 1253,-28 1253,-4 1342,-4 1342,-28"/>
+<text text-anchor="middle" x="1297.5" y="-13.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe&#45;&gt;proc~compute_vibrational_analysis -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge5" class="edge">
+<title>proc~compute_mbe&#45;&gt;proc~compute_vibrational_analysis</title>
+<path fill="none" stroke="#ff0000" d="M1342.01,-24.77C1352.81,-27.83 1364.11,-31.84 1374,-37 1414.28,-58 1453.42,-94.13 1475.54,-116.45"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1473.14,-119.01 1482.63,-123.72 1478.15,-114.12 1473.14,-119.01"/>
+</g>
+<!-- proc~gmbe_pie_coordinator -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node9" class="node">
+<title>proc~gmbe_pie_coordinator</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node9"><a xlink:href="../proc/gmbe_pie_coordinator.html" xlink:title="gmbe_pie_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="1174.5,-108 1041.5,-108 1041.5,-84 1174.5,-84 1174.5,-108"/>
+<text text-anchor="middle" x="1108" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">gmbe_pie_coordinator</text>
+</a>
+</g>
+</g>
+<!-- proc~gmbe_pie_coordinator&#45;&gt;proc~compute_vibrational_analysis -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge6" class="edge">
+<title>proc~gmbe_pie_coordinator&#45;&gt;proc~compute_vibrational_analysis</title>
+<path fill="none" stroke="#ff0000" d="M1174.65,-102.1C1228.3,-107.17 1306.09,-114.71 1374,-122 1382.32,-122.89 1390.96,-123.85 1399.62,-124.82"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1399.44,-128.33 1409.77,-125.98 1400.23,-121.37 1399.44,-128.33"/>
+</g>
+<!-- proc~serial_gmbe_pie_processor -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node10" class="node">
+<title>proc~serial_gmbe_pie_processor</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node10"><a xlink:href="../proc/serial_gmbe_pie_processor.html" xlink:title="serial_gmbe_pie_processor">
+<polygon fill="#d9534f" stroke="#d9534f" points="975,-146 818,-146 818,-122 975,-122 975,-146"/>
+<text text-anchor="middle" x="896.5" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_gmbe_pie_processor</text>
+</a>
+</g>
+</g>
+<!-- proc~serial_gmbe_pie_processor&#45;&gt;proc~compute_vibrational_analysis -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge8" class="edge">
+<title>proc~serial_gmbe_pie_processor&#45;&gt;proc~compute_vibrational_analysis</title>
+<path fill="none" stroke="#ff0000" d="M975.18,-134.26C1084.17,-134.63 1282.25,-135.29 1399.6,-135.68"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1399.64,-139.18 1409.65,-135.72 1399.66,-132.18 1399.64,-139.18"/>
+</g>
+<!-- proc~distributed_unfragmented_hessian -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node11" class="node">
+<title>proc~distributed_unfragmented_hessian</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node11"><a xlink:href="../proc/distributed_unfragmented_hessian.html" xlink:title="distributed_unfragmented_hessian">
+<polygon fill="#d9534f" stroke="#d9534f" points="995,-188 798,-188 798,-164 995,-164 995,-188"/>
+<text text-anchor="middle" x="896.5" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">distributed_unfragmented_hessian</text>
+</a>
+</g>
+</g>
+<!-- proc~distributed_unfragmented_hessian&#45;&gt;interface~hessian_coordinator -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge12" class="edge">
+<title>proc~distributed_unfragmented_hessian&#45;&gt;interface~hessian_coordinator</title>
+<path fill="none" stroke="#ff0000" d="M995.2,-176C1009.39,-176 1023.76,-176 1037.26,-176"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1037.39,-179.5 1047.39,-176 1037.39,-172.5 1037.39,-179.5"/>
+</g>
+<!-- proc~global_coordinator -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node12" class="node">
+<title>proc~global_coordinator</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node12"><a xlink:href="../proc/global_coordinator.html" xlink:title="global_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="1164.5,-24 1051.5,-24 1051.5,0 1164.5,0 1164.5,-24"/>
+<text text-anchor="middle" x="1108" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">global_coordinator</text>
+</a>
+</g>
+</g>
+<!-- proc~global_coordinator&#45;&gt;proc~compute_mbe -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge14" class="edge">
+<title>proc~global_coordinator&#45;&gt;proc~compute_mbe</title>
+<path fill="none" stroke="#00ffff" d="M1164.75,-13.19C1189.4,-13.72 1218.27,-14.33 1242.7,-14.85"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="1242.8,-18.35 1252.87,-15.07 1242.94,-11.36 1242.8,-18.35"/>
+</g>
+<!-- proc~run_fragmented_calculation -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node13" class="node">
+<title>proc~run_fragmented_calculation</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node13"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="745,-106 582,-106 582,-82 745,-82 745,-106"/>
+<text text-anchor="middle" x="663.5" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_fragmented_calculation&#45;&gt;proc~gmbe_pie_coordinator -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge16" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;proc~gmbe_pie_coordinator</title>
+<path fill="none" stroke="#0000ff" d="M745.15,-94.36C826.5,-94.73 951.16,-95.3 1030.86,-95.66"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="1031.3,-99.16 1041.32,-95.7 1031.33,-92.16 1031.3,-99.16"/>
+</g>
+<!-- proc~run_fragmented_calculation&#45;&gt;proc~serial_gmbe_pie_processor -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge17" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;proc~serial_gmbe_pie_processor</title>
+<path fill="none" stroke="#ff00ff" d="M733.81,-106C759.61,-110.47 789.11,-115.58 815.77,-120.19"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="815.39,-123.68 825.84,-121.94 816.59,-116.78 815.39,-123.68"/>
+</g>
+<!-- interface~global_coordinator -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node17" class="node">
+<title>interface~global_coordinator</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node17"><a xlink:href="../interface/global_coordinator.html" xlink:title="global_coordinator">
+<polygon fill="#a7506f" stroke="#a7506f" points="953,-24 840,-24 840,0 953,0 953,-24"/>
+<text text-anchor="middle" x="896.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">global_coordinator</text>
+</a>
+</g>
+</g>
+<!-- proc~run_fragmented_calculation&#45;&gt;interface~global_coordinator -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge24" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;interface~global_coordinator</title>
+<path fill="none" stroke="#7fff00" d="M687.04,-81.87C713.11,-68.28 757.61,-46.4 798,-33 808.19,-29.62 819.17,-26.64 829.95,-24.07"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="830.8,-27.47 839.77,-21.83 829.24,-20.65 830.8,-27.47"/>
+</g>
+<!-- interface~serial_fragment_processor -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node18" class="node">
+<title>interface~serial_fragment_processor</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node18"><a xlink:href="../interface/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
+<polygon fill="#a7506f" stroke="#a7506f" points="973.5,-66 819.5,-66 819.5,-42 973.5,-42 973.5,-66"/>
+<text text-anchor="middle" x="896.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
+</a>
+</g>
+</g>
+<!-- proc~run_fragmented_calculation&#45;&gt;interface~serial_fragment_processor -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge25" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;interface~serial_fragment_processor</title>
+<path fill="none" stroke="#00ffff" d="M733.81,-82C759.61,-77.53 789.11,-72.42 815.77,-67.81"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="816.59,-71.22 825.84,-66.06 815.39,-64.32 816.59,-71.22"/>
+</g>
+<!-- proc~run_unfragmented_calculation -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node14" class="node">
+<title>proc~run_unfragmented_calculation</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node14"><a xlink:href="../proc/run_unfragmented_calculation.html" xlink:title="run_unfragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="529,-188 353,-188 353,-164 529,-164 529,-188"/>
+<text text-anchor="middle" x="441" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_unfragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_unfragmented_calculation&#45;&gt;interface~unfragmented_calculation -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge13" class="edge">
+<title>proc~run_unfragmented_calculation&#45;&gt;interface~unfragmented_calculation</title>
+<path fill="none" stroke="#ffff00" d="M505.19,-188.04C531.48,-193.04 562.17,-198.89 589.43,-204.08"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="588.83,-207.53 599.3,-205.96 590.14,-200.65 588.83,-207.53"/>
+</g>
+<!-- interface~distributed_unfragmented_hessian -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node16" class="node">
+<title>interface~distributed_unfragmented_hessian</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node16"><a xlink:href="../interface/distributed_unfragmented_hessian.html" xlink:title="distributed_unfragmented_hessian">
+<polygon fill="#a7506f" stroke="#a7506f" points="762,-188 565,-188 565,-164 762,-164 762,-188"/>
+<text text-anchor="middle" x="663.5" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">distributed_unfragmented_hessian</text>
+</a>
+</g>
+</g>
+<!-- proc~run_unfragmented_calculation&#45;&gt;interface~distributed_unfragmented_hessian -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge23" class="edge">
+<title>proc~run_unfragmented_calculation&#45;&gt;interface~distributed_unfragmented_hessian</title>
+<path fill="none" stroke="#ff0000" d="M529.15,-176C537.54,-176 546.12,-176 554.68,-176"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="554.71,-179.5 564.71,-176 554.71,-172.5 554.71,-179.5"/>
+</g>
+<!-- proc~serial_fragment_processor -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node15" class="node">
+<title>proc~serial_fragment_processor</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node15"><a xlink:href="../proc/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
+<polygon fill="#d9534f" stroke="#d9534f" points="1185,-66 1031,-66 1031,-42 1185,-42 1185,-66"/>
+<text text-anchor="middle" x="1108" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
+</a>
+</g>
+</g>
+<!-- proc~serial_fragment_processor&#45;&gt;proc~compute_mbe -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge15" class="edge">
+<title>proc~serial_fragment_processor&#45;&gt;proc~compute_mbe</title>
+<path fill="none" stroke="#00ffff" d="M1168.33,-41.98C1192.16,-37.15 1219.44,-31.62 1242.68,-26.91"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="1243.61,-30.29 1252.72,-24.87 1242.22,-23.43 1243.61,-30.29"/>
+</g>
+<!-- interface~distributed_unfragmented_hessian&#45;&gt;proc~distributed_unfragmented_hessian -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge18" class="edge">
+<title>interface~distributed_unfragmented_hessian&#45;&gt;proc~distributed_unfragmented_hessian</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M762.13,-176C770.63,-176 779.25,-176 787.83,-176"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="787.85,-179.5 797.85,-176 787.85,-172.5 787.85,-179.5"/>
+</g>
+<!-- interface~global_coordinator&#45;&gt;proc~global_coordinator -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge19" class="edge">
+<title>interface~global_coordinator&#45;&gt;proc~global_coordinator</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M953.09,-12C980.08,-12 1012.7,-12 1040.96,-12"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="1041.15,-15.5 1051.15,-12 1041.15,-8.5 1041.15,-15.5"/>
+</g>
+<!-- interface~serial_fragment_processor&#45;&gt;proc~serial_fragment_processor -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge22" class="edge">
+<title>interface~serial_fragment_processor&#45;&gt;proc~serial_fragment_processor</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M973.73,-54C988.99,-54 1005.12,-54 1020.69,-54"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="1020.83,-57.5 1030.83,-54 1020.83,-50.5 1020.83,-57.5"/>
+</g>
+<!-- proc~run_calculation -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node19" class="node">
+<title>proc~run_calculation</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node19"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="317,-147 223,-147 223,-123 317,-123 317,-147"/>
+<text text-anchor="middle" x="270" y="-132.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_calculation&#45;&gt;proc~run_fragmented_calculation -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge20" class="edge">
+<title>proc~run_calculation&#45;&gt;proc~run_fragmented_calculation</title>
+<path fill="none" stroke="#00ff66" d="M317.06,-130.18C379.48,-123.64 492.26,-111.83 571.95,-103.48"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="572.4,-106.95 581.98,-102.43 571.67,-99.99 572.4,-106.95"/>
+</g>
+<!-- proc~run_calculation&#45;&gt;proc~run_unfragmented_calculation -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge21" class="edge">
+<title>proc~run_calculation&#45;&gt;proc~run_unfragmented_calculation</title>
+<path fill="none" stroke="#0066ff" d="M317.18,-146.2C336.66,-150.93 359.6,-156.49 380.34,-161.53"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="379.78,-164.99 390.32,-163.95 381.43,-158.19 379.78,-164.99"/>
+</g>
+<!-- proc~compute_energy_and_forces -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node20" class="node">
+<title>proc~compute_energy_and_forces</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node20"><a xlink:href="../proc/compute_energy_and_forces.html" xlink:title="compute_energy_and_forces">
+<polygon fill="#d9534f" stroke="#d9534f" points="176.5,-189 10.5,-189 10.5,-165 176.5,-165 176.5,-189"/>
+<text text-anchor="middle" x="93.5" y="-174.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_energy_and_forces</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_energy_and_forces&#45;&gt;proc~run_calculation -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge26" class="edge">
+<title>proc~compute_energy_and_forces&#45;&gt;proc~run_calculation</title>
+<path fill="none" stroke="#7f00ff" d="M148.85,-164.92C161.39,-162.06 174.67,-158.98 187,-156 195.32,-153.99 204.09,-151.81 212.69,-149.64"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="213.82,-152.96 222.65,-147.11 212.1,-146.18 213.82,-152.96"/>
+</g>
+<!-- proc~run_multi_molecule_calculations -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node21" class="node">
+<title>proc~run_multi_molecule_calculations</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node21"><a xlink:href="../proc/run_multi_molecule_calculations.html" xlink:title="run_multi_molecule_calculations">
+<polygon fill="#d9534f" stroke="#d9534f" points="187,-147 0,-147 0,-123 187,-123 187,-147"/>
+<text text-anchor="middle" x="93.5" y="-132.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_multi_molecule_calculations</text>
+</a>
+</g>
+</g>
+<!-- proc~run_multi_molecule_calculations&#45;&gt;proc~run_calculation -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge27" class="edge">
+<title>proc~run_multi_molecule_calculations&#45;&gt;proc~run_calculation</title>
+<path fill="none" stroke="#7f00ff" d="M187.11,-135C195.83,-135 204.48,-135 212.7,-135"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="212.87,-138.5 222.87,-135 212.87,-131.5 212.87,-138.5"/>
+</g>
+<!-- program~main -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_node22" class="node">
+<title>program~main</title>
+<g id="a_proc~~compute_vibrational_frequencies~~CalledByGraph_node22"><a xlink:href="../program/main.html" xlink:title="main">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="120.5,-105 66.5,-105 66.5,-81 120.5,-81 120.5,-105"/>
+<text text-anchor="middle" x="93.5" y="-90.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
+</a>
+</g>
+</g>
+<!-- program~main&#45;&gt;proc~run_calculation -->
+<g id="proc~~compute_vibrational_frequencies~~CalledByGraph_edge28" class="edge">
+<title>program~main&#45;&gt;proc~run_calculation</title>
+<path fill="none" stroke="#7f00ff" d="M120.86,-98.78C139.39,-102.9 164.75,-108.63 187,-114 195.32,-116.01 204.09,-118.19 212.69,-120.36"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="212.1,-123.82 222.65,-122.89 213.82,-117.04 212.1,-123.82"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panproccompute_vibrational_frequenciesCalledByGraph = svgPanZoom('#proccompute_vibrational_frequenciesCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    <section>    
+      <h2>Variables</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-do_projection"></span>
+              logical,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>do_projection</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eigenvalues~2"></span>
+              real(kind=dp),
+            </td>
+              <td>private,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>eigenvalues</strong>(:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~74"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mw_hessian"></span>
+              real(kind=dp),
+            </td>
+              <td>private,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>mw_hessian</strong>(:,:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n_coords~2"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n_coords</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">compute_vibrational_frequencies</span><span class="p">(</span><span class="n">hessian</span><span class="p">,</span><span class="w"> </span><span class="n">element_numbers</span><span class="p">,</span><span class="w"> </span><span class="n">frequencies</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                              </span><span class="n">eigenvalues_out</span><span class="p">,</span><span class="w"> </span><span class="n">eigenvectors</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                              </span><span class="n">coordinates</span><span class="p">,</span><span class="w"> </span><span class="n">project_trans_rot</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                              </span><span class="n">projected_hessian_out</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!! Compute vibrational frequencies from the Hessian matrix.</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! Algorithm:</span>
+<span class="w">      </span><span class="c">!! 1. Mass-weight the Hessian: H_mw = M^{-1/2} * H * M^{-1/2}</span>
+<span class="w">      </span><span class="c">!! 2. Optionally project out translation/rotation modes</span>
+<span class="w">      </span><span class="c">!! 3. Diagonalize H_mw to get eigenvalues</span>
+<span class="w">      </span><span class="c">!! 4. Convert eigenvalues to frequencies in cm⁻¹</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! Negative eigenvalues produce negative frequencies (imaginary modes,</span>
+<span class="w">      </span><span class="c">!! indicating transition states or saddle points).</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hessian</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">         </span><span class="c">!! Hessian matrix in Hartree/Bohr² (3*N x 3*N)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">element_numbers</span><span class="p">(:)</span>
+<span class="w">         </span><span class="c">!! Atomic numbers for each atom (N atoms)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">frequencies</span><span class="p">(:)</span>
+<span class="w">         </span><span class="c">!! Vibrational frequencies in cm⁻¹ (3*N modes, or 3*N-6 if projected)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">eigenvalues_out</span><span class="p">(:)</span>
+<span class="w">         </span><span class="c">!! Raw eigenvalues from diagonalization (Hartree/Bohr²/amu)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">eigenvectors</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">         </span><span class="c">!! Normal mode eigenvectors (3*N x 3*N), columns are modes</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">coordinates</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">         </span><span class="c">!! Atomic coordinates in Bohr (3, N) - required for projection</span>
+<span class="w">      </span><span class="kt">logical</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">project_trans_rot</span>
+<span class="w">         </span><span class="c">!! If true, project out translation/rotation modes (requires coordinates)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">projected_hessian_out</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">         </span><span class="c">!! Mass-weighted Hessian after trans/rot projection (before diagonalization)</span>
+
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mw_hessian</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">eigenvalues</span><span class="p">(:)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n_coords</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">,</span><span class="w"> </span><span class="n">i</span>
+<span class="w">      </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">do_projection</span>
+
+<span class="w">      </span><span class="n">n_coords</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">hessian</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+
+<span class="w">      </span><span class="c">! Check if projection is requested</span>
+<span class="w">      </span><span class="n">do_projection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">project_trans_rot</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         if</span><span class="w"> </span><span class="p">(</span><span class="n">project_trans_rot</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="nb">present</span><span class="p">(</span><span class="n">coordinates</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="w">               </span><span class="c">! Cannot project without coordinates - fall back to no projection</span>
+<span class="w">               </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Missing coordinates, not projecting out tran/rot motions&quot;</span><span class="p">)</span>
+<span class="w">               </span><span class="n">do_projection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="k">               </span><span class="n">do_projection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">         end if</span>
+<span class="k">      end if</span>
+
+<span class="w">      </span><span class="c">! Mass-weight the Hessian</span>
+<span class="w">      </span><span class="k">call </span><span class="n">mass_weight_hessian</span><span class="p">(</span><span class="n">hessian</span><span class="p">,</span><span class="w"> </span><span class="n">element_numbers</span><span class="p">,</span><span class="w"> </span><span class="n">mw_hessian</span><span class="p">)</span>
+
+<span class="w">      </span><span class="c">! Optionally project out translation/rotation modes</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">do_projection</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         call </span><span class="n">project_translation_rotation</span><span class="p">(</span><span class="n">mw_hessian</span><span class="p">,</span><span class="w"> </span><span class="n">coordinates</span><span class="p">,</span><span class="w"> </span><span class="n">element_numbers</span><span class="p">)</span>
+<span class="w">      </span><span class="k">end if</span>
+
+<span class="w">      </span><span class="c">! Return projected Hessian if requested (before diagonalization destroys it)</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">projected_hessian_out</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         allocate</span><span class="w"> </span><span class="p">(</span><span class="n">projected_hessian_out</span><span class="p">(</span><span class="n">n_coords</span><span class="p">,</span><span class="w"> </span><span class="n">n_coords</span><span class="p">))</span>
+<span class="w">         </span><span class="n">projected_hessian_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mw_hessian</span>
+<span class="w">      </span><span class="k">end if</span>
+
+<span class="w">      </span><span class="c">! Allocate eigenvalue storage</span>
+<span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">(</span><span class="n">n_coords</span><span class="p">))</span>
+
+<span class="w">      </span><span class="c">! Diagonalize the mass-weighted Hessian</span>
+<span class="w">      </span><span class="c">! pic_syev overwrites mw_hessian with eigenvectors (if jobz=&#39;V&#39;, default)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">pic_syev</span><span class="p">(</span><span class="n">mw_hessian</span><span class="p">,</span><span class="w"> </span><span class="n">eigenvalues</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">info</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">         </span><span class="c">! Eigenvalue decomposition failed</span>
+<span class="w">         </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Eigenvalue decomposition in vibrational frequencies failed&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">frequencies</span><span class="p">(</span><span class="n">n_coords</span><span class="p">))</span>
+<span class="w">         </span><span class="n">frequencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span>
+<span class="w">         </span><span class="k">return</span>
+<span class="k">      end if</span>
+
+<span class="w">      </span><span class="c">! Convert eigenvalues to frequencies in cm⁻¹</span>
+<span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">frequencies</span><span class="p">(</span><span class="n">n_coords</span><span class="p">))</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n_coords</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c">! Real frequency</span>
+<span class="w">            </span><span class="n">frequencies</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">AU_TO_CM1</span><span class="p">)</span>
+<span class="w">         </span><span class="k">else</span>
+<span class="w">            </span><span class="c">! Imaginary frequency (negative eigenvalue) - report as negative</span>
+<span class="w">            </span><span class="n">frequencies</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nb">sqrt</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">*</span><span class="n">AU_TO_CM1</span><span class="p">)</span>
+<span class="w">         </span><span class="k">end if</span>
+<span class="k">      end do</span>
+
+<span class="w">      </span><span class="c">! Return eigenvalues if requested</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">eigenvalues_out</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         allocate</span><span class="w"> </span><span class="p">(</span><span class="n">eigenvalues_out</span><span class="p">(</span><span class="n">n_coords</span><span class="p">))</span>
+<span class="w">         </span><span class="n">eigenvalues_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eigenvalues</span>
+<span class="w">      </span><span class="k">end if</span>
+
+<span class="w">      </span><span class="c">! Return eigenvectors if requested</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">eigenvectors</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         allocate</span><span class="w"> </span><span class="p">(</span><span class="n">eigenvectors</span><span class="p">(</span><span class="n">n_coords</span><span class="p">,</span><span class="w"> </span><span class="n">n_coords</span><span class="p">))</span>
+<span class="w">         </span><span class="n">eigenvectors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mw_hessian</span>
+<span class="w">      </span><span class="k">end if</span>
+
+<span class="k">      deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">,</span><span class="w"> </span><span class="n">mw_hessian</span><span class="p">)</span>
+
+<span class="w">   </span><span class="k">end subroutine </span><span class="n">compute_vibrational_frequencies</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              metalquicha
+ was developed by Jorge Luis Galvez Vallejo<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-01-08 11:02 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

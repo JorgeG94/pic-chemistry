@@ -14,6 +14,7 @@ module mqc_mbe
                            TAG_NODE_SCALAR_RESULT
    use mqc_physical_fragment, only: system_geometry_t, physical_fragment_t, build_fragment_from_indices, to_angstrom
    use mqc_frag_utils, only: get_next_combination, fragment_lookup_t
+   use mqc_vibrational_analysis, only: compute_vibrational_analysis, print_vibrational_analysis
 
    implicit none
    private
@@ -580,6 +581,26 @@ contains
       if (compute_hess) then
          call logger%info("MBE Hessian computation completed")
          call logger%info("  Total Hessian Frobenius norm: "//to_char(sqrt(sum(total_hessian**2))))
+
+         ! Compute and print full vibrational analysis
+         block
+            real(dp), allocatable :: frequencies(:), reduced_masses(:), force_constants(:)
+            real(dp), allocatable :: cart_disp(:, :), fc_mdyne(:)
+
+            call logger%info("  Computing vibrational analysis (projecting trans/rot modes)...")
+            call compute_vibrational_analysis(total_hessian, sys_geom%element_numbers, frequencies, &
+                                              reduced_masses, force_constants, cart_disp, &
+                                              coordinates=sys_geom%coordinates, &
+                                              project_trans_rot=.true., &
+                                              force_constants_mdyne=fc_mdyne)
+
+            if (allocated(frequencies)) then
+               call print_vibrational_analysis(frequencies, reduced_masses, force_constants, &
+                                               cart_disp, sys_geom%element_numbers, &
+                                               force_constants_mdyne=fc_mdyne)
+               deallocate (frequencies, reduced_masses, force_constants, cart_disp, fc_mdyne)
+            end if
+         end block
       end if
 
       ! Print detailed breakdown if requested
@@ -824,6 +845,26 @@ contains
       if (compute_hess) then
          call logger%info("GMBE Hessian computation completed")
          call logger%info("  Total Hessian Frobenius norm: "//to_char(sqrt(sum(total_hessian**2))))
+
+         ! Compute and print full vibrational analysis
+         block
+            real(dp), allocatable :: frequencies(:), reduced_masses(:), force_constants(:)
+            real(dp), allocatable :: cart_disp(:, :), fc_mdyne(:)
+
+            call logger%info("  Computing vibrational analysis (projecting trans/rot modes)...")
+            call compute_vibrational_analysis(total_hessian, sys_geom%element_numbers, frequencies, &
+                                              reduced_masses, force_constants, cart_disp, &
+                                              coordinates=sys_geom%coordinates, &
+                                              project_trans_rot=.true., &
+                                              force_constants_mdyne=fc_mdyne)
+
+            if (allocated(frequencies)) then
+               call print_vibrational_analysis(frequencies, reduced_masses, force_constants, &
+                                               cart_disp, sys_geom%element_numbers, &
+                                               force_constants_mdyne=fc_mdyne)
+               deallocate (frequencies, reduced_masses, force_constants, cart_disp, fc_mdyne)
+            end if
+         end block
       end if
 
    end subroutine compute_gmbe

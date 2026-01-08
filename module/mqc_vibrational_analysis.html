@@ -1,0 +1,1623 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A demonstration of PIC as a framework for scientific applications targetting quantum chemistry">
+    <meta name="author" content="Jorge Luis Galvez Vallejo" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>mqc_vibrational_analysis &ndash; metalquicha</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">metalquicha </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../program/main.html">Program</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>mqc_vibrational_analysis
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 5.3% of total for modules and submodules.">440 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/mqc_vibrational_analysis.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_vibrational_analysis.f90.html'>mqc_vibrational_analysis.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">mqc_vibrational_analysis</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mqc_vibrational_analysis.html#variable-au_to_cm1">AU_TO_CM1</a>
+            <a class="list-group-item" href="../module/mqc_vibrational_analysis.html#variable-au_to_mdyne_ang">AU_TO_MDYNE_ANG</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mqc_vibrational_analysis.html#proc-compute_cartesian_displacements">compute_cartesian_displacements</a>
+            <a class="list-group-item" href="../module/mqc_vibrational_analysis.html#proc-compute_force_constants">compute_force_constants</a>
+            <a class="list-group-item" href="../module/mqc_vibrational_analysis.html#proc-compute_reduced_masses">compute_reduced_masses</a>
+            <a class="list-group-item" href="../module/mqc_vibrational_analysis.html#proc-compute_vibrational_analysis">compute_vibrational_analysis</a>
+            <a class="list-group-item" href="../module/mqc_vibrational_analysis.html#proc-compute_vibrational_frequencies">compute_vibrational_frequencies</a>
+            <a class="list-group-item" href="../module/mqc_vibrational_analysis.html#proc-mass_weight_hessian">mass_weight_hessian</a>
+            <a class="list-group-item" href="../module/mqc_vibrational_analysis.html#proc-print_vibrational_analysis">print_vibrational_analysis</a>
+            <a class="list-group-item" href="../module/mqc_vibrational_analysis.html#proc-project_translation_rotation">project_translation_rotation</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>Computes vibrational frequencies from the mass-weighted Hessian matrix.
+Uses LAPACK eigenvalue decomposition via pic-blas interfaces.</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='mqc_elements.html'>mqc_elements</a></li>
+                  <li class="list-inline-item">pic_logger</li>
+                  <li class="list-inline-item">pic_types</li>
+                  <li class="list-inline-item">pic_lapack_interfaces</li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~mqc_vibrational_analysis~~UsesGraph Pages: 1 -->
+<svg id="modulemqc_vibrational_analysisUsesGraph" width="415pt" height="132pt"
+ viewBox="0.00 0.00 415.00 132.38" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~mqc_vibrational_analysis~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 128.38)">
+<title>module~~mqc_vibrational_analysis~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-128.38 411,-128.38 411,4 -4,4"/>
+<!-- module~mqc_vibrational_analysis -->
+<g id="module~~mqc_vibrational_analysis~~UsesGraph_node1" class="node">
+<title>module~mqc_vibrational_analysis</title>
+<polygon fill="none" stroke="black" points="407,-61.38 261,-61.38 261,-37.38 407,-37.38 407,-61.38"/>
+<text text-anchor="middle" x="334" y="-46.98" font-family="Helvetica,sans-Serif" font-size="10.50">mqc_vibrational_analysis</text>
+</g>
+<!-- module~mqc_elements -->
+<g id="module~~mqc_vibrational_analysis~~UsesGraph_node2" class="node">
+<title>module~mqc_elements</title>
+<g id="a_module~~mqc_vibrational_analysis~~UsesGraph_node2"><a xlink:href="../module/mqc_elements.html" xlink:title="mqc_elements">
+<polygon fill="#337ab7" stroke="#337ab7" points="207,-124.38 116,-124.38 116,-100.38 207,-100.38 207,-124.38"/>
+<text text-anchor="middle" x="161.5" y="-109.98" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_elements</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_vibrational_analysis&#45;&gt;module~mqc_elements -->
+<g id="module~~mqc_vibrational_analysis~~UsesGraph_edge1" class="edge">
+<title>module~mqc_vibrational_analysis&#45;&gt;module~mqc_elements</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M302.88,-61.53C281.3,-70.12 251.48,-81.79 225,-91.38 219.82,-93.25 214.38,-95.17 208.96,-97.04"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="207.62,-93.8 199.28,-100.34 209.88,-100.42 207.62,-93.8"/>
+</g>
+<!-- pic_lapack_interfaces -->
+<g id="module~~mqc_vibrational_analysis~~UsesGraph_node3" class="node">
+<title>pic_lapack_interfaces</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="225,-82.38 98,-82.38 98,-58.38 225,-58.38 225,-82.38"/>
+<text text-anchor="middle" x="161.5" y="-67.98" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_lapack_interfaces</text>
+</g>
+<!-- module~mqc_vibrational_analysis&#45;&gt;pic_lapack_interfaces -->
+<g id="module~~mqc_vibrational_analysis~~UsesGraph_edge2" class="edge">
+<title>module~mqc_vibrational_analysis&#45;&gt;pic_lapack_interfaces</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M260.69,-58.28C252.3,-59.32 243.74,-60.37 235.35,-61.41"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="234.71,-57.96 225.21,-62.65 235.57,-64.91 234.71,-57.96"/>
+</g>
+<!-- pic_logger -->
+<g id="module~~mqc_vibrational_analysis~~UsesGraph_node4" class="node">
+<title>pic_logger</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="195.5,-40.38 127.5,-40.38 127.5,-16.38 195.5,-16.38 195.5,-40.38"/>
+<text text-anchor="middle" x="161.5" y="-25.98" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_logger</text>
+</g>
+<!-- module~mqc_vibrational_analysis&#45;&gt;pic_logger -->
+<g id="module~~mqc_vibrational_analysis~~UsesGraph_edge3" class="edge">
+<title>module~mqc_vibrational_analysis&#45;&gt;pic_logger</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M260.69,-40.47C242.05,-38.18 222.57,-35.78 205.91,-33.73"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="206.3,-30.25 195.94,-32.5 205.44,-37.19 206.3,-30.25"/>
+</g>
+<!-- pic_types -->
+<g id="module~~mqc_vibrational_analysis~~UsesGraph_node5" class="node">
+<title>pic_types</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="62,-41.38 0,-41.38 0,-17.38 62,-17.38 62,-41.38"/>
+<text text-anchor="middle" x="31" y="-26.98" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_types</text>
+</g>
+<!-- module~mqc_vibrational_analysis&#45;&gt;pic_types -->
+<g id="module~~mqc_vibrational_analysis~~UsesGraph_edge4" class="edge">
+<title>module~mqc_vibrational_analysis&#45;&gt;pic_types</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M309.31,-37.21C287.92,-26.95 255.25,-13.05 225,-7.38 169.52,3.03 153.72,1.66 98,-7.38 89.08,-8.83 79.73,-11.31 70.97,-14.09"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="69.74,-10.82 61.39,-17.33 71.98,-17.45 69.74,-10.82"/>
+</g>
+<!-- module~mqc_elements&#45;&gt;pic_types -->
+<g id="module~~mqc_vibrational_analysis~~UsesGraph_edge6" class="edge">
+<title>module~mqc_elements&#45;&gt;pic_types</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M116.73,-100.37C110.24,-97.83 103.8,-94.85 98,-91.38 79.23,-80.15 61.37,-62.81 48.97,-49.33"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="51.27,-46.64 42,-41.51 46.05,-51.3 51.27,-46.64"/>
+</g>
+<!-- pic_ascii -->
+<g id="module~~mqc_vibrational_analysis~~UsesGraph_node6" class="node">
+<title>pic_ascii</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="60,-124.38 2,-124.38 2,-100.38 60,-100.38 60,-124.38"/>
+<text text-anchor="middle" x="31" y="-109.98" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_ascii</text>
+</g>
+<!-- module~mqc_elements&#45;&gt;pic_ascii -->
+<g id="module~~mqc_vibrational_analysis~~UsesGraph_edge5" class="edge">
+<title>module~mqc_elements&#45;&gt;pic_ascii</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M115.92,-112.38C100.99,-112.38 84.48,-112.38 70.09,-112.38"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="70.04,-108.88 60.04,-112.38 70.04,-115.88 70.04,-108.88"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~mqc_vibrational_analysis~~UsedByGraph Pages: 1 -->
+<svg id="modulemqc_vibrational_analysisUsedByGraph" width="641pt" height="146pt"
+ viewBox="0.00 0.00 641.00 146.39" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph" class="graph" transform="scale(0.54 0.54) rotate(0) translate(4 269.37)">
+<title>module~~mqc_vibrational_analysis~~UsedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-269.37 1193,-269.37 1193,4 -4,4"/>
+<!-- module~mqc_vibrational_analysis -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_node1" class="node">
+<title>module~mqc_vibrational_analysis</title>
+<polygon fill="none" stroke="black" points="146,-140.37 0,-140.37 0,-116.37 146,-116.37 146,-140.37"/>
+<text text-anchor="middle" x="73" y="-125.97" font-family="Helvetica,sans-Serif" font-size="10.50">mqc_vibrational_analysis</text>
+</g>
+<!-- module~mqc_gmbe_fragment_distribution_scheme -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_node2" class="node">
+<title>module~mqc_gmbe_fragment_distribution_scheme</title>
+<g id="a_module~~mqc_vibrational_analysis~~UsedByGraph_node2"><a xlink:href="../module/mqc_gmbe_fragment_distribution_scheme.html" xlink:title="mqc_gmbe_fragment_distribution_scheme">
+<polygon fill="#337ab7" stroke="#337ab7" points="878,-265.37 639,-265.37 639,-241.37 878,-241.37 878,-265.37"/>
+<text text-anchor="middle" x="758.5" y="-250.97" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_gmbe_fragment_distribution_scheme</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_gmbe_fragment_distribution_scheme&#45;&gt;module~mqc_vibrational_analysis -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_edge1" class="edge">
+<title>module~mqc_gmbe_fragment_distribution_scheme&#45;&gt;module~mqc_vibrational_analysis</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M638.82,-244.2C521.35,-233.28 337.11,-211.15 182,-170.37 157.14,-163.84 130.19,-153.36 109.44,-144.51"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="110.64,-141.22 100.07,-140.45 107.85,-147.64 110.64,-141.22"/>
+</g>
+<!-- module~mqc_mbe_fragment_distribution_scheme~2 -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_node7" class="node">
+<title>module~mqc_mbe_fragment_distribution_scheme~2</title>
+<g id="a_module~~mqc_vibrational_analysis~~UsedByGraph_node7"><a xlink:href="../module/mqc_mbe_fragment_distribution_scheme~2.html" xlink:title="mqc_mbe_fragment_distribution_scheme">
+<polygon fill="#337ab7" stroke="#337ab7" points="603,-161.37 371,-161.37 371,-137.37 603,-137.37 603,-161.37"/>
+<text text-anchor="middle" x="487" y="-146.97" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_mbe_fragment_distribution_scheme</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_gmbe_fragment_distribution_scheme&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2 -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_edge11" class="edge">
+<title>module~mqc_gmbe_fragment_distribution_scheme&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M666.1,-241.32C656.78,-238.87 647.6,-235.92 639,-232.37 620.99,-224.95 619.74,-217.34 603,-207.37 577.16,-191.99 546.74,-176.76 523.68,-165.78"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="525.13,-162.59 514.59,-161.48 522.14,-168.92 525.13,-162.59"/>
+</g>
+<!-- module~mqc_mbe -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_node3" class="node">
+<title>module~mqc_mbe</title>
+<g id="a_module~~mqc_vibrational_analysis~~UsedByGraph_node3"><a xlink:href="../module/mqc_mbe.html" xlink:title="mqc_mbe">
+<polygon fill="#337ab7" stroke="#337ab7" points="291,-161.37 226,-161.37 226,-137.37 291,-137.37 291,-161.37"/>
+<text text-anchor="middle" x="258.5" y="-146.97" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_mbe</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_mbe&#45;&gt;module~mqc_vibrational_analysis -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_edge2" class="edge">
+<title>module~mqc_mbe&#45;&gt;module~mqc_vibrational_analysis</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M225.96,-145.76C206.68,-143.56 181.06,-140.63 156.36,-137.8"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="156.55,-134.3 146.22,-136.64 155.76,-141.25 156.55,-134.3"/>
+</g>
+<!-- proc~hessian_coordinator -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_node4" class="node">
+<title>proc~hessian_coordinator</title>
+<g id="a_module~~mqc_vibrational_analysis~~UsedByGraph_node4"><a xlink:href="../proc/hessian_coordinator.html" xlink:title="hessian_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="319,-119.37 198,-119.37 198,-95.37 319,-95.37 319,-119.37"/>
+<text text-anchor="middle" x="258.5" y="-104.97" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hessian_coordinator</text>
+</a>
+</g>
+</g>
+<!-- proc~hessian_coordinator&#45;&gt;module~mqc_vibrational_analysis -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_edge3" class="edge">
+<title>proc~hessian_coordinator&#45;&gt;module~mqc_vibrational_analysis</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M197.92,-114.19C184.62,-115.71 170.28,-117.35 156.24,-118.96"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="155.63,-115.51 146.09,-120.12 156.42,-122.46 155.63,-115.51"/>
+</g>
+<!-- proc~unfragmented_calculation -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_node5" class="node">
+<title>proc~unfragmented_calculation</title>
+<g id="a_module~~mqc_vibrational_analysis~~UsedByGraph_node5"><a xlink:href="../proc/unfragmented_calculation.html" xlink:title="unfragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="335,-77.37 182,-77.37 182,-53.37 335,-53.37 335,-77.37"/>
+<text text-anchor="middle" x="258.5" y="-62.97" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unfragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~unfragmented_calculation&#45;&gt;module~mqc_vibrational_analysis -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_edge4" class="edge">
+<title>proc~unfragmented_calculation&#45;&gt;module~mqc_vibrational_analysis</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M211.36,-77.42C201.61,-80.18 191.42,-83.24 182,-86.37 158.43,-94.21 132.48,-104.26 111.92,-112.56"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="110.54,-109.34 102.59,-116.35 113.18,-115.83 110.54,-109.34"/>
+</g>
+<!-- module~mqc_driver -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_node6" class="node">
+<title>module~mqc_driver</title>
+<g id="a_module~~mqc_vibrational_analysis~~UsedByGraph_node6"><a xlink:href="../module/mqc_driver.html" xlink:title="mqc_driver">
+<polygon fill="#337ab7" stroke="#337ab7" points="987,-141.37 914,-141.37 914,-117.37 987,-117.37 987,-141.37"/>
+<text text-anchor="middle" x="950.5" y="-126.97" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_driver</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_driver&#45;&gt;module~mqc_gmbe_fragment_distribution_scheme -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_edge5" class="edge">
+<title>module~mqc_driver&#45;&gt;module~mqc_gmbe_fragment_distribution_scheme</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M944.78,-141.58C935.58,-163.65 913.01,-209.95 878,-232.37 875.36,-234.07 872.62,-235.63 869.8,-237.08"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="868.2,-233.97 860.57,-241.32 871.12,-240.33 868.2,-233.97"/>
+</g>
+<!-- module~mqc_driver&#45;&gt;module~mqc_mbe -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_edge6" class="edge">
+<title>module~mqc_driver&#45;&gt;module~mqc_mbe</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M945.4,-117.27C936.96,-94.5 915.23,-45.85 878,-26.37 783.88,22.87 743.83,-9.25 639,-26.37 498.35,-49.34 471.25,-86.6 335,-128.37 324.05,-131.73 312.13,-135.15 301.06,-138.23"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="299.91,-134.92 291.2,-140.95 301.77,-141.67 299.91,-134.92"/>
+</g>
+<!-- module~mqc_driver&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2 -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_edge10" class="edge">
+<title>module~mqc_driver&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M913.67,-130.93C850.1,-133.68 714.74,-139.55 613.63,-143.93"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="613.18,-140.44 603.34,-144.37 613.48,-147.44 613.18,-140.44"/>
+</g>
+<!-- module~mqc_mbe_fragment_distribution_scheme~2&#45;&gt;module~mqc_mbe -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_edge7" class="edge">
+<title>module~mqc_mbe_fragment_distribution_scheme~2&#45;&gt;module~mqc_mbe</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M370.76,-149.37C345.93,-149.37 321.23,-149.37 301.44,-149.37"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="301.27,-145.87 291.27,-149.37 301.27,-152.87 301.27,-145.87"/>
+</g>
+<!-- module~mqc_hessian_distribution_scheme -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_node8" class="node">
+<title>module~mqc_hessian_distribution_scheme</title>
+<g id="a_module~~mqc_vibrational_analysis~~UsedByGraph_node8"><a xlink:href="../module/mqc_hessian_distribution_scheme.html" xlink:title="mqc_hessian_distribution_scheme">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="855.5,-101.37 661.5,-101.37 661.5,-77.37 855.5,-77.37 855.5,-101.37"/>
+<text text-anchor="middle" x="758.5" y="-86.97" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_hessian_distribution_scheme</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_hessian_distribution_scheme&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2 -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_edge12" class="edge">
+<title>module~mqc_hessian_distribution_scheme&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2</title>
+<path fill="none" stroke="#00ffff" d="M702.32,-101.41C682.37,-105.79 659.66,-110.78 639,-115.37 610.16,-121.78 578.24,-128.96 551.2,-135.06"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="550.08,-131.73 541.09,-137.34 551.62,-138.55 550.08,-131.73"/>
+</g>
+<!-- module~mqc_mbe_fragment_distribution_scheme -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_node9" class="node">
+<title>module~mqc_mbe_fragment_distribution_scheme</title>
+<g id="a_module~~mqc_vibrational_analysis~~UsedByGraph_node9"><a xlink:href="../module/mqc_mbe_fragment_distribution_scheme.html" xlink:title="mqc_mbe_fragment_distribution_scheme">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="874.5,-59.37 642.5,-59.37 642.5,-35.37 874.5,-35.37 874.5,-59.37"/>
+<text text-anchor="middle" x="758.5" y="-44.97" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_mbe_fragment_distribution_scheme</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_mbe_fragment_distribution_scheme&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2 -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_edge13" class="edge">
+<title>module~mqc_mbe_fragment_distribution_scheme&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2</title>
+<path fill="none" stroke="#00ffff" d="M670.92,-59.42C660.04,-61.89 649.17,-64.85 639,-68.37 592.9,-84.36 543.88,-113.12 514.61,-131.71"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="512.7,-128.78 506.19,-137.13 516.49,-134.67 512.7,-128.78"/>
+</g>
+<!-- module~mqc_serial_fragment_processor -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_node10" class="node">
+<title>module~mqc_serial_fragment_processor</title>
+<g id="a_module~~mqc_vibrational_analysis~~UsedByGraph_node10"><a xlink:href="../module/mqc_serial_fragment_processor.html" xlink:title="mqc_serial_fragment_processor">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="849.5,-223.37 667.5,-223.37 667.5,-199.37 849.5,-199.37 849.5,-223.37"/>
+<text text-anchor="middle" x="758.5" y="-208.97" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_serial_fragment_processor</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_serial_fragment_processor&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2 -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_edge14" class="edge">
+<title>module~mqc_serial_fragment_processor&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2</title>
+<path fill="none" stroke="#00ffff" d="M683.65,-199.34C668.82,-196.63 653.37,-193.59 639,-190.37 605.21,-182.81 567.63,-172.61 538.42,-164.28"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="539.03,-160.81 528.45,-161.42 537.1,-167.54 539.03,-160.81"/>
+</g>
+<!-- module~mqc_unfragmented_workflow -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_node11" class="node">
+<title>module~mqc_unfragmented_workflow</title>
+<g id="a_module~~mqc_vibrational_analysis~~UsedByGraph_node11"><a xlink:href="../module/mqc_unfragmented_workflow.html" xlink:title="mqc_unfragmented_workflow">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="843.5,-181.37 673.5,-181.37 673.5,-157.37 843.5,-157.37 843.5,-181.37"/>
+<text text-anchor="middle" x="758.5" y="-166.97" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_unfragmented_workflow</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_unfragmented_workflow&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2 -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_edge15" class="edge">
+<title>module~mqc_unfragmented_workflow&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2</title>
+<path fill="none" stroke="#00ffff" d="M673.34,-163.13C654.22,-161.71 633.52,-160.17 613.12,-158.66"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="613.37,-155.17 603.14,-157.92 612.85,-162.15 613.37,-155.17"/>
+</g>
+<!-- proc~compute_energy_and_forces -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_node12" class="node">
+<title>proc~compute_energy_and_forces</title>
+<g id="a_module~~mqc_vibrational_analysis~~UsedByGraph_node12"><a xlink:href="../proc/compute_energy_and_forces.html" xlink:title="compute_energy_and_forces">
+<polygon fill="#d9534f" stroke="#d9534f" points="1189,-162.37 1023,-162.37 1023,-138.37 1189,-138.37 1189,-162.37"/>
+<text text-anchor="middle" x="1106" y="-147.97" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_energy_and_forces</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_energy_and_forces&#45;&gt;module~mqc_driver -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_edge8" class="edge">
+<title>proc~compute_energy_and_forces&#45;&gt;module~mqc_driver</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1022.86,-139.14C1014.04,-137.93 1005.31,-136.73 997.15,-135.62"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="997.53,-132.14 987.15,-134.25 996.58,-139.07 997.53,-132.14"/>
+</g>
+<!-- program~main -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_node13" class="node">
+<title>program~main</title>
+<g id="a_module~~mqc_vibrational_analysis~~UsedByGraph_node13"><a xlink:href="../program/main.html" xlink:title="main">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1133,-120.37 1079,-120.37 1079,-96.37 1133,-96.37 1133,-120.37"/>
+<text text-anchor="middle" x="1106" y="-105.97" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
+</a>
+</g>
+</g>
+<!-- program~main&#45;&gt;module~mqc_driver -->
+<g id="module~~mqc_vibrational_analysis~~UsedByGraph_edge9" class="edge">
+<title>program~main&#45;&gt;module~mqc_driver</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1078.96,-111.94C1056.68,-114.98 1024.09,-119.44 997.44,-123.09"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="996.62,-119.67 987.18,-124.49 997.56,-126.6 996.62,-119.67"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panmodulemqc_vibrational_analysisUsedByGraph = svgPanZoom('#modulemqc_vibrational_analysisUsedByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+        <section>
+          <h2>Variables</h2>
+            <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-au_to_cm1"></span>
+              real(kind=dp),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>AU_TO_CM1</strong></td>
+<td> =</td>
+                <td>2.642461e7_dp</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-au_to_mdyne_ang"></span>
+              real(kind=dp),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>AU_TO_MDYNE_ANG</strong></td>
+<td> =</td>
+                <td>15.569141_dp</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+        </section>
+        <br>
+
+
+
+
+
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-compute_cartesian_displacements"></span> <h3>public  subroutine <a href='../proc/compute_cartesian_displacements.html'>compute_cartesian_displacements</a>(eigenvectors, element_numbers, cartesian_displacements, normalize_max)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Convert mass-weighted eigenvectors to Cartesian displacements.</p><a href="../proc/compute_cartesian_displacements.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eigenvectors~4"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eigenvectors</strong>(:,:)</td>
+            <td>
+<p>Mass-weighted eigenvectors (3<em>N x 3</em>N)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-element_numbers~8"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>element_numbers</strong>(:)</td>
+            <td>
+<p>Atomic numbers for each atom (N atoms)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cartesian_displacements~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>cartesian_displacements</strong>(:,:)</td>
+            <td>
+<p>Cartesian displacement vectors (3<em>N x 3</em>N), columns are modes</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-normalize_max"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>normalize_max</strong></td>
+            <td>
+<p>If true, normalize so max displacement = 1 (default: true)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-compute_force_constants"></span> <h3>public  subroutine <a href='../proc/compute_force_constants.html'>compute_force_constants</a>(eigenvalues, reduced_masses, force_constants, force_constants_mdyne)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute force constants for each normal mode.</p><a href="../proc/compute_force_constants.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eigenvalues~4"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eigenvalues</strong>(:)</td>
+            <td>
+<p>Eigenvalues from mass-weighted Hessian diagonalization (1/amu)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-reduced_masses~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>reduced_masses</strong>(:)</td>
+            <td>
+<p>Reduced masses in amu</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-force_constants~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>force_constants</strong>(:)</td>
+            <td>
+<p>Force constants in atomic units (Hartree/Bohr²)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-force_constants_mdyne~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>force_constants_mdyne</strong>(:)</td>
+            <td>
+<p>Force constants in mdyne/Å (common experimental unit)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-compute_reduced_masses"></span> <h3>public  subroutine <a href='../proc/compute_reduced_masses.html'>compute_reduced_masses</a>(eigenvectors, element_numbers, reduced_masses)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute reduced masses for each normal mode.</p><a href="../proc/compute_reduced_masses.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eigenvectors~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eigenvectors</strong>(:,:)</td>
+            <td>
+<p>Mass-weighted eigenvectors from diagonalization (3<em>N x 3</em>N)
+Columns are normal modes, assumed normalized (Σ_i L²_{i,k} = 1)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-element_numbers~7"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>element_numbers</strong>(:)</td>
+            <td>
+<p>Atomic numbers for each atom (N atoms)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-reduced_masses~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>reduced_masses</strong>(:)</td>
+            <td>
+<p>Reduced masses in amu (one per mode)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-compute_vibrational_analysis"></span> <h3>public  subroutine <a href='../proc/compute_vibrational_analysis.html'>compute_vibrational_analysis</a>(hessian, element_numbers, frequencies, reduced_masses, force_constants, cartesian_displacements, eigenvalues_out, eigenvectors_out, coordinates, project_trans_rot, force_constants_mdyne)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Perform complete vibrational analysis from Hessian matrix.</p><a href="../proc/compute_vibrational_analysis.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hessian~7"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hessian</strong>(:,:)</td>
+            <td>
+<p>Hessian matrix in Hartree/Bohr² (3<em>N x 3</em>N)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-element_numbers~4"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>element_numbers</strong>(:)</td>
+            <td>
+<p>Atomic numbers for each atom (N atoms)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-frequencies~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>frequencies</strong>(:)</td>
+            <td>
+<p>Vibrational frequencies in cm⁻¹</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-reduced_masses"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>reduced_masses</strong>(:)</td>
+            <td>
+<p>Reduced masses in amu</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-force_constants"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>force_constants</strong>(:)</td>
+            <td>
+<p>Force constants in Hartree/Bohr²</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cartesian_displacements"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>cartesian_displacements</strong>(:,:)</td>
+            <td>
+<p>Cartesian displacement vectors (3<em>N x 3</em>N)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eigenvalues_out~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>eigenvalues_out</strong>(:)</td>
+            <td>
+<p>Raw eigenvalues from diagonalization</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eigenvectors_out"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>eigenvectors_out</strong>(:,:)</td>
+            <td>
+<p>Mass-weighted eigenvectors</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coordinates~4"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>coordinates</strong>(:,:)</td>
+            <td>
+<p>Atomic coordinates in Bohr (3, N) - required for projection</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-project_trans_rot~2"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>project_trans_rot</strong></td>
+            <td>
+<p>If true, project out translation/rotation modes</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-force_constants_mdyne"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>force_constants_mdyne</strong>(:)</td>
+            <td>
+<p>Force constants in mdyne/Å</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-compute_vibrational_frequencies"></span> <h3>public  subroutine <a href='../proc/compute_vibrational_frequencies.html'>compute_vibrational_frequencies</a>(hessian, element_numbers, frequencies, eigenvalues_out, eigenvectors, coordinates, project_trans_rot, projected_hessian_out)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute vibrational frequencies from the Hessian matrix.</p><a href="../proc/compute_vibrational_frequencies.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hessian~6"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hessian</strong>(:,:)</td>
+            <td>
+<p>Hessian matrix in Hartree/Bohr² (3<em>N x 3</em>N)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-element_numbers~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>element_numbers</strong>(:)</td>
+            <td>
+<p>Atomic numbers for each atom (N atoms)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-frequencies~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>frequencies</strong>(:)</td>
+            <td>
+<p>Vibrational frequencies in cm⁻¹ (3<em>N modes, or 3</em>N-6 if projected)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eigenvalues_out"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>eigenvalues_out</strong>(:)</td>
+            <td>
+<p>Raw eigenvalues from diagonalization (Hartree/Bohr²/amu)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eigenvectors"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>eigenvectors</strong>(:,:)</td>
+            <td>
+<p>Normal mode eigenvectors (3<em>N x 3</em>N), columns are modes</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coordinates~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>coordinates</strong>(:,:)</td>
+            <td>
+<p>Atomic coordinates in Bohr (3, N) - required for projection</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-project_trans_rot"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>project_trans_rot</strong></td>
+            <td>
+<p>If true, project out translation/rotation modes (requires coordinates)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-projected_hessian_out"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>projected_hessian_out</strong>(:,:)</td>
+            <td>
+<p>Mass-weighted Hessian after trans/rot projection (before diagonalization)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mass_weight_hessian"></span> <h3>public  subroutine <a href='../proc/mass_weight_hessian.html'>mass_weight_hessian</a>(hessian, element_numbers, mw_hessian)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Apply mass weighting to Hessian matrix.</p><a href="../proc/mass_weight_hessian.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hessian~8"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hessian</strong>(:,:)</td>
+            <td>
+<p>Input Hessian in Hartree/Bohr² (3<em>N x 3</em>N)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-element_numbers~5"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>element_numbers</strong>(:)</td>
+            <td>
+<p>Atomic numbers for each atom (N atoms)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mw_hessian~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>mw_hessian</strong>(:,:)</td>
+            <td>
+<p>Mass-weighted Hessian (3<em>N x 3</em>N)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-print_vibrational_analysis"></span> <h3>public  subroutine <a href='../proc/print_vibrational_analysis.html'>print_vibrational_analysis</a>(frequencies, reduced_masses, force_constants, cartesian_displacements, element_numbers, force_constants_mdyne, print_displacements, n_atoms)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Print vibrational analysis results in a formatted table.</p><a href="../proc/print_vibrational_analysis.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-frequencies~4"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>frequencies</strong>(:)</td>
+            <td>
+<p>Vibrational frequencies in cm⁻¹</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-reduced_masses~4"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>reduced_masses</strong>(:)</td>
+            <td>
+<p>Reduced masses in amu</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-force_constants~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>force_constants</strong>(:)</td>
+            <td>
+<p>Force constants in Hartree/Bohr² (or mdyne/Å if force_constants_mdyne provided)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cartesian_displacements~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>cartesian_displacements</strong>(:,:)</td>
+            <td>
+<p>Cartesian displacement vectors (3<em>N x 3</em>N)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-element_numbers~9"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>element_numbers</strong>(:)</td>
+            <td>
+<p>Atomic numbers for each atom</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-force_constants_mdyne~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>force_constants_mdyne</strong>(:)</td>
+            <td>
+<p>Force constants in mdyne/Å (if provided, these are printed instead)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-print_displacements"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>print_displacements</strong></td>
+            <td>
+<p>If true, print Cartesian displacement vectors (default: true)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n_atoms~20"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n_atoms</strong></td>
+            <td>
+<p>Number of atoms (if not provided, derived from size of element_numbers)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-project_translation_rotation"></span> <h3>public  subroutine <a href='../proc/project_translation_rotation.html'>project_translation_rotation</a>(mw_hessian, coordinates, element_numbers)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Project out translation and rotation modes from mass-weighted Hessian.</p><a href="../proc/project_translation_rotation.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mw_hessian~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mw_hessian</strong>(:,:)</td>
+            <td>
+<p>Mass-weighted Hessian (modified in place)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coordinates~5"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>coordinates</strong>(:,:)</td>
+            <td>
+<p>Atomic coordinates in Bohr (3, N)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-element_numbers~6"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>element_numbers</strong>(:)</td>
+            <td>
+<p>Atomic numbers for each atom (N atoms)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              metalquicha
+ was developed by Jorge Luis Galvez Vallejo<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-01-08 11:02 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

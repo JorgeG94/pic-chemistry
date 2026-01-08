@@ -1,0 +1,1028 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A demonstration of PIC as a framework for scientific applications targetting quantum chemistry">
+    <meta name="author" content="Jorge Luis Galvez Vallejo" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>mass_weight_hessian &ndash; metalquicha</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">metalquicha </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../program/main.html">Program</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>mass_weight_hessian
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.3% of total for procedures.">24 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/mqc_vibrational_analysis.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_vibrational_analysis.f90.html'>mqc_vibrational_analysis.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/mqc_vibrational_analysis.html'>mqc_vibrational_analysis</a></li>
+            <li class="breadcrumb-item active" aria-current="page">mass_weight_hessian</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../proc/mass_weight_hessian.html#variable-i~75">i</a>
+            <a class="list-group-item" href="../proc/mass_weight_hessian.html#variable-iatom~15">iatom</a>
+            <a class="list-group-item" href="../proc/mass_weight_hessian.html#variable-icoord~3">icoord</a>
+            <a class="list-group-item" href="../proc/mass_weight_hessian.html#variable-inv_sqrt_mass">inv_sqrt_mass</a>
+            <a class="list-group-item" href="../proc/mass_weight_hessian.html#variable-j~26">j</a>
+            <a class="list-group-item" href="../proc/mass_weight_hessian.html#variable-mass">mass</a>
+            <a class="list-group-item" href="../proc/mass_weight_hessian.html#variable-n_atoms~16">n_atoms</a>
+            <a class="list-group-item" href="../proc/mass_weight_hessian.html#variable-n_coords~3">n_coords</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/mass_weight_hessian.html#src">mass_weight_hessian</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  subroutine mass_weight_hessian(hessian, element_numbers, mw_hessian)  
+</h2>
+    
+
+    <p>Apply mass weighting to Hessian matrix.</p>
+<p>H_mw(i,j) = H(i,j) / sqrt(m_i * m_j)</p>
+<p>where m_i is the mass of the atom corresponding to coordinate i.
+Each atom contributes 3 coordinates (x, y, z).</p>
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hessian~8"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hessian</strong>(:,:)</td>
+            <td>
+                <p>Input Hessian in Hartree/Bohr² (3<em>N x 3</em>N)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-element_numbers~5"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>element_numbers</strong>(:)</td>
+            <td>
+                <p>Atomic numbers for each atom (N atoms)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mw_hessian~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>mw_hessian</strong>(:,:)</td>
+            <td>
+                <p>Mass-weighted Hessian (3<em>N x 3</em>N)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~mass_weight_hessian~~CallsGraph Pages: 1 -->
+<svg id="procmass_weight_hessianCallsGraph" width="261pt" height="32pt"
+ viewBox="0.00 0.00 261.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~mass_weight_hessian~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~mass_weight_hessian~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 257,-28 257,4 -4,4"/>
+<!-- proc~mass_weight_hessian -->
+<g id="proc~~mass_weight_hessian~~CallsGraph_node1" class="node">
+<title>proc~mass_weight_hessian</title>
+<polygon fill="none" stroke="black" points="127,-24 0,-24 0,0 127,0 127,-24"/>
+<text text-anchor="middle" x="63.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">mass_weight_hessian</text>
+</g>
+<!-- proc~element_mass -->
+<g id="proc~~mass_weight_hessian~~CallsGraph_node2" class="node">
+<title>proc~element_mass</title>
+<g id="a_proc~~mass_weight_hessian~~CallsGraph_node2"><a xlink:href="../proc/element_mass.html" xlink:title="element_mass">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="253,-24 163,-24 163,0 253,0 253,-24"/>
+<text text-anchor="middle" x="208" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">element_mass</text>
+</a>
+</g>
+</g>
+<!-- proc~mass_weight_hessian&#45;&gt;proc~element_mass -->
+<g id="proc~~mass_weight_hessian~~CallsGraph_edge1" class="edge">
+<title>proc~mass_weight_hessian&#45;&gt;proc~element_mass</title>
+<path fill="none" stroke="#ff0000" d="M127,-12C135.62,-12 144.4,-12 152.85,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="152.94,-15.5 162.94,-12 152.94,-8.5 152.94,-15.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~mass_weight_hessian~~CalledByGraph Pages: 1 -->
+<svg id="procmass_weight_hessianCalledByGraph" width="641pt" height="109pt"
+ viewBox="0.00 0.00 641.00 108.86" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~mass_weight_hessian~~CalledByGraph" class="graph" transform="scale(0.45 0.45) rotate(0) translate(4 238)">
+<title>proc~~mass_weight_hessian~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-238 1421,-238 1421,4 -4,4"/>
+<!-- proc~mass_weight_hessian -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node1" class="node">
+<title>proc~mass_weight_hessian</title>
+<polygon fill="none" stroke="black" points="1417,-129 1290,-129 1290,-105 1417,-105 1417,-129"/>
+<text text-anchor="middle" x="1353.5" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50">mass_weight_hessian</text>
+</g>
+<!-- proc~compute_vibrational_frequencies -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node2" class="node">
+<title>proc~compute_vibrational_frequencies</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node2"><a xlink:href="../proc/compute_vibrational_frequencies.html" xlink:title="compute_vibrational_frequencies">
+<polygon fill="#d9534f" stroke="#d9534f" points="1254,-129 1064,-129 1064,-105 1254,-105 1254,-129"/>
+<text text-anchor="middle" x="1159" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_vibrational_frequencies</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_vibrational_frequencies&#45;&gt;proc~mass_weight_hessian -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge1" class="edge">
+<title>proc~compute_vibrational_frequencies&#45;&gt;proc~mass_weight_hessian</title>
+<path fill="none" stroke="#ff0000" d="M1254.28,-117C1262.88,-117 1271.5,-117 1279.87,-117"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1279.93,-120.5 1289.93,-117 1279.93,-113.5 1279.93,-120.5"/>
+</g>
+<!-- proc~compute_vibrational_analysis -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node3" class="node">
+<title>proc~compute_vibrational_analysis</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node3"><a xlink:href="../proc/compute_vibrational_analysis.html" xlink:title="compute_vibrational_analysis">
+<polygon fill="#d9534f" stroke="#d9534f" points="1028,-129 858,-129 858,-105 1028,-105 1028,-129"/>
+<text text-anchor="middle" x="943" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_vibrational_analysis</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_vibrational_analysis&#45;&gt;proc~compute_vibrational_frequencies -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge2" class="edge">
+<title>proc~compute_vibrational_analysis&#45;&gt;proc~compute_vibrational_frequencies</title>
+<path fill="none" stroke="#ff0000" d="M1028.27,-117C1036.68,-117 1045.28,-117 1053.86,-117"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1053.91,-120.5 1063.91,-117 1053.91,-113.5 1053.91,-120.5"/>
+</g>
+<!-- proc~hessian_coordinator -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node4" class="node">
+<title>proc~hessian_coordinator</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node4"><a xlink:href="../proc/hessian_coordinator.html" xlink:title="hessian_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="804,-234 683,-234 683,-210 804,-210 804,-234"/>
+<text text-anchor="middle" x="743.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hessian_coordinator</text>
+</a>
+</g>
+</g>
+<!-- proc~hessian_coordinator&#45;&gt;proc~compute_vibrational_frequencies -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge3" class="edge">
+<title>proc~hessian_coordinator&#45;&gt;proc~compute_vibrational_frequencies</title>
+<path fill="none" stroke="#ff0000" d="M791.93,-209.96C868.3,-190.56 1018.24,-152.49 1100.55,-131.59"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1101.65,-134.92 1110.48,-129.07 1099.93,-128.13 1101.65,-134.92"/>
+</g>
+<!-- proc~hessian_coordinator&#45;&gt;proc~compute_vibrational_analysis -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge8" class="edge">
+<title>proc~hessian_coordinator&#45;&gt;proc~compute_vibrational_analysis</title>
+<path fill="none" stroke="#ff0000" d="M798.77,-209.99C806.73,-207.46 814.7,-204.48 822,-201 839.81,-192.5 841.88,-186.39 858,-175 877.18,-161.46 899,-146.4 915.59,-135.02"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="917.95,-137.65 924.23,-129.11 914,-131.87 917.95,-137.65"/>
+</g>
+<!-- proc~unfragmented_calculation -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node5" class="node">
+<title>proc~unfragmented_calculation</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node5"><a xlink:href="../proc/unfragmented_calculation.html" xlink:title="unfragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="820,-24 667,-24 667,0 820,0 820,-24"/>
+<text text-anchor="middle" x="743.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unfragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~unfragmented_calculation&#45;&gt;proc~compute_vibrational_frequencies -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge4" class="edge">
+<title>proc~unfragmented_calculation&#45;&gt;proc~compute_vibrational_frequencies</title>
+<path fill="none" stroke="#ff0000" d="M791.93,-24.04C868.3,-43.44 1018.24,-81.51 1100.55,-102.41"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1099.93,-105.87 1110.48,-104.93 1101.65,-99.08 1099.93,-105.87"/>
+</g>
+<!-- proc~unfragmented_calculation&#45;&gt;proc~compute_vibrational_analysis -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge10" class="edge">
+<title>proc~unfragmented_calculation&#45;&gt;proc~compute_vibrational_analysis</title>
+<path fill="none" stroke="#ff0000" d="M802.57,-24.12C809.34,-26.58 815.97,-29.51 822,-33 841.58,-44.34 840.02,-55.27 858,-69 873.51,-80.85 892.25,-91.83 908.08,-100.29"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="906.54,-103.43 917.03,-104.97 909.79,-97.23 906.54,-103.43"/>
+</g>
+<!-- interface~hessian_coordinator -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node6" class="node">
+<title>interface~hessian_coordinator</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node6"><a xlink:href="../interface/hessian_coordinator.html" xlink:title="hessian_coordinator">
+<polygon fill="#a7506f" stroke="#a7506f" points="608,-234 487,-234 487,-210 608,-210 608,-234"/>
+<text text-anchor="middle" x="547.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hessian_coordinator</text>
+</a>
+</g>
+</g>
+<!-- interface~hessian_coordinator&#45;&gt;proc~hessian_coordinator -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge11" class="edge">
+<title>interface~hessian_coordinator&#45;&gt;proc~hessian_coordinator</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M608.02,-222C628.41,-222 651.41,-222 672.55,-222"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="672.75,-225.5 682.75,-222 672.75,-218.5 672.75,-225.5"/>
+</g>
+<!-- interface~unfragmented_calculation -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node7" class="node">
+<title>interface~unfragmented_calculation</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node7"><a xlink:href="../interface/unfragmented_calculation.html" xlink:title="unfragmented_calculation">
+<polygon fill="#a7506f" stroke="#a7506f" points="624,-24 471,-24 471,0 624,0 624,-24"/>
+<text text-anchor="middle" x="547.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unfragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- interface~unfragmented_calculation&#45;&gt;proc~unfragmented_calculation -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge12" class="edge">
+<title>interface~unfragmented_calculation&#45;&gt;proc~unfragmented_calculation</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M624.06,-12C634.7,-12 645.71,-12 656.53,-12"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="656.83,-15.5 666.83,-12 656.83,-8.5 656.83,-15.5"/>
+</g>
+<!-- proc~compute_gmbe -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node8" class="node">
+<title>proc~compute_gmbe</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node8"><a xlink:href="../proc/compute_gmbe.html" xlink:title="compute_gmbe">
+<polygon fill="#d9534f" stroke="#d9534f" points="791.5,-150 695.5,-150 695.5,-126 791.5,-126 791.5,-150"/>
+<text text-anchor="middle" x="743.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_gmbe</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_gmbe&#45;&gt;proc~compute_vibrational_analysis -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge5" class="edge">
+<title>proc~compute_gmbe&#45;&gt;proc~compute_vibrational_analysis</title>
+<path fill="none" stroke="#ff0000" d="M791.56,-133C808.46,-131.2 828.18,-129.1 847.67,-127.03"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="848.25,-130.49 857.83,-125.95 847.51,-123.53 848.25,-130.49"/>
+</g>
+<!-- proc~compute_mbe -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node9" class="node">
+<title>proc~compute_mbe</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node9"><a xlink:href="../proc/compute_mbe.html" xlink:title="compute_mbe">
+<polygon fill="#d9534f" stroke="#d9534f" points="788,-66 699,-66 699,-42 788,-42 788,-66"/>
+<text text-anchor="middle" x="743.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_mbe</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_mbe&#45;&gt;proc~compute_vibrational_analysis -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge6" class="edge">
+<title>proc~compute_mbe&#45;&gt;proc~compute_vibrational_analysis</title>
+<path fill="none" stroke="#ff0000" d="M788.11,-65.23C799.21,-68.24 811.08,-71.61 822,-75 848.19,-83.12 877.23,-93.25 900.18,-101.53"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="899.02,-104.83 909.61,-104.95 901.41,-98.25 899.02,-104.83"/>
+</g>
+<!-- proc~gmbe_pie_coordinator -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node10" class="node">
+<title>proc~gmbe_pie_coordinator</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node10"><a xlink:href="../proc/gmbe_pie_coordinator.html" xlink:title="gmbe_pie_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="810,-192 677,-192 677,-168 810,-168 810,-192"/>
+<text text-anchor="middle" x="743.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">gmbe_pie_coordinator</text>
+</a>
+</g>
+</g>
+<!-- proc~gmbe_pie_coordinator&#45;&gt;proc~compute_vibrational_analysis -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge7" class="edge">
+<title>proc~gmbe_pie_coordinator&#45;&gt;proc~compute_vibrational_analysis</title>
+<path fill="none" stroke="#ff0000" d="M790.97,-167.99C801.23,-165.18 812.01,-162.1 822,-159 848.19,-150.88 877.23,-140.75 900.18,-132.47"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="901.41,-135.75 909.61,-129.05 899.02,-129.17 901.41,-135.75"/>
+</g>
+<!-- proc~serial_gmbe_pie_processor -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node11" class="node">
+<title>proc~serial_gmbe_pie_processor</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node11"><a xlink:href="../proc/serial_gmbe_pie_processor.html" xlink:title="serial_gmbe_pie_processor">
+<polygon fill="#d9534f" stroke="#d9534f" points="822,-108 665,-108 665,-84 822,-84 822,-108"/>
+<text text-anchor="middle" x="743.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_gmbe_pie_processor</text>
+</a>
+</g>
+</g>
+<!-- proc~serial_gmbe_pie_processor&#45;&gt;proc~compute_vibrational_analysis -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge9" class="edge">
+<title>proc~serial_gmbe_pie_processor&#45;&gt;proc~compute_vibrational_analysis</title>
+<path fill="none" stroke="#ff0000" d="M822.27,-104.27C830.65,-105.16 839.24,-106.07 847.79,-106.98"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="847.47,-110.47 857.78,-108.05 848.21,-103.51 847.47,-110.47"/>
+</g>
+<!-- proc~distributed_unfragmented_hessian -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node12" class="node">
+<title>proc~distributed_unfragmented_hessian</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node12"><a xlink:href="../proc/distributed_unfragmented_hessian.html" xlink:title="distributed_unfragmented_hessian">
+<polygon fill="#d9534f" stroke="#d9534f" points="430,-234 233,-234 233,-210 430,-210 430,-234"/>
+<text text-anchor="middle" x="331.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">distributed_unfragmented_hessian</text>
+</a>
+</g>
+</g>
+<!-- proc~distributed_unfragmented_hessian&#45;&gt;interface~hessian_coordinator -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge13" class="edge">
+<title>proc~distributed_unfragmented_hessian&#45;&gt;interface~hessian_coordinator</title>
+<path fill="none" stroke="#ff0000" d="M430.11,-222C445.87,-222 461.91,-222 476.84,-222"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="476.98,-225.5 486.98,-222 476.98,-218.5 476.98,-225.5"/>
+</g>
+<!-- proc~global_coordinator -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node13" class="node">
+<title>proc~global_coordinator</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node13"><a xlink:href="../proc/global_coordinator.html" xlink:title="global_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="604,-108 491,-108 491,-84 604,-84 604,-108"/>
+<text text-anchor="middle" x="547.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">global_coordinator</text>
+</a>
+</g>
+</g>
+<!-- proc~global_coordinator&#45;&gt;proc~compute_mbe -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge15" class="edge">
+<title>proc~global_coordinator&#45;&gt;proc~compute_mbe</title>
+<path fill="none" stroke="#00ffff" d="M604.09,-83.96C630.8,-78.18 662.66,-71.28 689.08,-65.57"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="689.88,-68.97 698.92,-63.44 688.4,-62.13 689.88,-68.97"/>
+</g>
+<!-- proc~run_fragmented_calculation -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node14" class="node">
+<title>proc~run_fragmented_calculation</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node14"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="629,-150 466,-150 466,-126 629,-126 629,-150"/>
+<text text-anchor="middle" x="547.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_fragmented_calculation&#45;&gt;proc~gmbe_pie_coordinator -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge17" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;proc~gmbe_pie_coordinator</title>
+<path fill="none" stroke="#0000ff" d="M604.09,-150.04C626.82,-154.96 653.28,-160.69 676.95,-165.81"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="676.39,-169.27 686.9,-167.96 677.87,-162.43 676.39,-169.27"/>
+</g>
+<!-- proc~run_fragmented_calculation&#45;&gt;proc~serial_gmbe_pie_processor -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge18" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;proc~serial_gmbe_pie_processor</title>
+<path fill="none" stroke="#ff00ff" d="M604.09,-125.96C626.82,-121.04 653.28,-115.31 676.95,-110.19"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="677.87,-113.57 686.9,-108.04 676.39,-106.73 677.87,-113.57"/>
+</g>
+<!-- proc~run_unfragmented_calculation -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node15" class="node">
+<title>proc~run_unfragmented_calculation</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node15"><a xlink:href="../proc/run_unfragmented_calculation.html" xlink:title="run_unfragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="419.5,-24 243.5,-24 243.5,0 419.5,0 419.5,-24"/>
+<text text-anchor="middle" x="331.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_unfragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_unfragmented_calculation&#45;&gt;interface~unfragmented_calculation -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge14" class="edge">
+<title>proc~run_unfragmented_calculation&#45;&gt;interface~unfragmented_calculation</title>
+<path fill="none" stroke="#ffff00" d="M419.54,-12C433.1,-12 447.1,-12 460.62,-12"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="460.86,-15.5 470.86,-12 460.86,-8.5 460.86,-15.5"/>
+</g>
+<!-- proc~serial_fragment_processor -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node16" class="node">
+<title>proc~serial_fragment_processor</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node16"><a xlink:href="../proc/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
+<polygon fill="#d9534f" stroke="#d9534f" points="624.5,-66 470.5,-66 470.5,-42 624.5,-42 624.5,-66"/>
+<text text-anchor="middle" x="547.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
+</a>
+</g>
+</g>
+<!-- proc~serial_fragment_processor&#45;&gt;proc~compute_mbe -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge16" class="edge">
+<title>proc~serial_fragment_processor&#45;&gt;proc~compute_mbe</title>
+<path fill="none" stroke="#00ffff" d="M624.62,-54C646.04,-54 668.89,-54 688.72,-54"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="688.78,-57.5 698.78,-54 688.78,-50.5 688.78,-57.5"/>
+</g>
+<!-- interface~distributed_unfragmented_hessian -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node17" class="node">
+<title>interface~distributed_unfragmented_hessian</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node17"><a xlink:href="../interface/distributed_unfragmented_hessian.html" xlink:title="distributed_unfragmented_hessian">
+<polygon fill="#a7506f" stroke="#a7506f" points="197,-234 0,-234 0,-210 197,-210 197,-234"/>
+<text text-anchor="middle" x="98.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">distributed_unfragmented_hessian</text>
+</a>
+</g>
+</g>
+<!-- interface~distributed_unfragmented_hessian&#45;&gt;proc~distributed_unfragmented_hessian -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge19" class="edge">
+<title>interface~distributed_unfragmented_hessian&#45;&gt;proc~distributed_unfragmented_hessian</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M197.13,-222C205.63,-222 214.25,-222 222.83,-222"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="222.85,-225.5 232.85,-222 222.85,-218.5 222.85,-225.5"/>
+</g>
+<!-- interface~global_coordinator -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node18" class="node">
+<title>interface~global_coordinator</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node18"><a xlink:href="../interface/global_coordinator.html" xlink:title="global_coordinator">
+<polygon fill="#a7506f" stroke="#a7506f" points="388,-108 275,-108 275,-84 388,-84 388,-108"/>
+<text text-anchor="middle" x="331.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">global_coordinator</text>
+</a>
+</g>
+</g>
+<!-- interface~global_coordinator&#45;&gt;proc~global_coordinator -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge20" class="edge">
+<title>interface~global_coordinator&#45;&gt;proc~global_coordinator</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M388.17,-96C416.42,-96 450.92,-96 480.5,-96"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="480.74,-99.5 490.74,-96 480.74,-92.5 480.74,-99.5"/>
+</g>
+<!-- interface~serial_fragment_processor -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node19" class="node">
+<title>interface~serial_fragment_processor</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node19"><a xlink:href="../interface/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
+<polygon fill="#a7506f" stroke="#a7506f" points="408.5,-66 254.5,-66 254.5,-42 408.5,-42 408.5,-66"/>
+<text text-anchor="middle" x="331.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
+</a>
+</g>
+</g>
+<!-- interface~serial_fragment_processor&#45;&gt;proc~serial_fragment_processor -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge23" class="edge">
+<title>interface~serial_fragment_processor&#45;&gt;proc~serial_fragment_processor</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M408.55,-54C425.17,-54 442.87,-54 459.86,-54"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="460.33,-57.5 470.33,-54 460.33,-50.5 460.33,-57.5"/>
+</g>
+<!-- proc~run_calculation -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_node20" class="node">
+<title>proc~run_calculation</title>
+<g id="a_proc~~mass_weight_hessian~~CalledByGraph_node20"><a xlink:href="../proc/run_calculation.html" xlink:title="run_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="145.5,-87 51.5,-87 51.5,-63 145.5,-63 145.5,-87"/>
+<text text-anchor="middle" x="98.5" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_calculation&#45;&gt;proc~run_fragmented_calculation -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge21" class="edge">
+<title>proc~run_calculation&#45;&gt;proc~run_fragmented_calculation</title>
+<path fill="none" stroke="#00ff66" d="M130.52,-87.08C157.24,-96.92 197.06,-110.24 233,-117 307.14,-130.94 392.67,-135.95 455.65,-137.6"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="455.87,-141.11 465.95,-137.85 456.04,-134.11 455.87,-141.11"/>
+</g>
+<!-- proc~run_calculation&#45;&gt;proc~run_unfragmented_calculation -->
+<g id="proc~~mass_weight_hessian~~CalledByGraph_edge22" class="edge">
+<title>proc~run_calculation&#45;&gt;proc~run_unfragmented_calculation</title>
+<path fill="none" stroke="#0066ff" d="M134.66,-62.96C161.43,-54.03 199.29,-41.91 233,-33 241.85,-30.66 251.21,-28.39 260.48,-26.26"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="261.49,-29.62 270.48,-24.01 259.95,-22.79 261.49,-29.62"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocmass_weight_hessianCalledByGraph = svgPanZoom('#procmass_weight_hessianCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    <section>    
+      <h2>Variables</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~75"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iatom~15"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iatom</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-icoord~3"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>icoord</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-inv_sqrt_mass"></span>
+              real(kind=dp),
+            </td>
+              <td>private,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>inv_sqrt_mass</strong>(:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-j~26"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>j</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mass"></span>
+              real(kind=dp),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mass</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n_atoms~16"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n_atoms</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n_coords~3"></span>
+              integer,
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n_coords</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">mass_weight_hessian</span><span class="p">(</span><span class="n">hessian</span><span class="p">,</span><span class="w"> </span><span class="n">element_numbers</span><span class="p">,</span><span class="w"> </span><span class="n">mw_hessian</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!! Apply mass weighting to Hessian matrix.</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! H_mw(i,j) = H(i,j) / sqrt(m_i * m_j)</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! where m_i is the mass of the atom corresponding to coordinate i.</span>
+<span class="w">      </span><span class="c">!! Each atom contributes 3 coordinates (x, y, z).</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hessian</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">         </span><span class="c">!! Input Hessian in Hartree/Bohr² (3*N x 3*N)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">element_numbers</span><span class="p">(:)</span>
+<span class="w">         </span><span class="c">!! Atomic numbers for each atom (N atoms)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mw_hessian</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">         </span><span class="c">!! Mass-weighted Hessian (3*N x 3*N)</span>
+
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">inv_sqrt_mass</span><span class="p">(:)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n_atoms</span><span class="p">,</span><span class="w"> </span><span class="n">n_coords</span><span class="p">,</span><span class="w"> </span><span class="n">iatom</span><span class="p">,</span><span class="w"> </span><span class="n">icoord</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mass</span>
+
+<span class="w">      </span><span class="n">n_atoms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">element_numbers</span><span class="p">)</span>
+<span class="w">      </span><span class="n">n_coords</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">n_atoms</span>
+
+<span class="w">      </span><span class="c">! Build inverse square root mass vector (each mass repeated 3x for x,y,z)</span>
+<span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">inv_sqrt_mass</span><span class="p">(</span><span class="n">n_coords</span><span class="p">))</span>
+<span class="w">      </span><span class="k">do </span><span class="n">iatom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n_atoms</span>
+<span class="w">         </span><span class="n">mass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_mass</span><span class="p">(</span><span class="n">element_numbers</span><span class="p">(</span><span class="n">iatom</span><span class="p">))</span>
+<span class="w">         </span><span class="k">do </span><span class="n">icoord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">            </span><span class="n">inv_sqrt_mass</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">iatom</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">icoord</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">mass</span><span class="p">)</span>
+<span class="w">         </span><span class="k">end do</span>
+<span class="k">      end do</span>
+
+<span class="w">      </span><span class="c">! Apply mass weighting: H_mw(i,j) = H(i,j) * inv_sqrt_mass(i) * inv_sqrt_mass(j)</span>
+<span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">mw_hessian</span><span class="p">(</span><span class="n">n_coords</span><span class="p">,</span><span class="w"> </span><span class="n">n_coords</span><span class="p">))</span>
+<span class="w">      </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n_coords</span>
+<span class="w">         </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n_coords</span>
+<span class="w">            </span><span class="n">mw_hessian</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hessian</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">inv_sqrt_mass</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">inv_sqrt_mass</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<span class="w">         </span><span class="k">end do</span>
+<span class="k">      end do</span>
+
+<span class="k">      deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">inv_sqrt_mass</span><span class="p">)</span>
+
+<span class="w">   </span><span class="k">end subroutine </span><span class="n">mass_weight_hessian</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              metalquicha
+ was developed by Jorge Luis Galvez Vallejo<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-01-08 11:02 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
