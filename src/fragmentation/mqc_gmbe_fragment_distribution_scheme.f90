@@ -18,7 +18,7 @@ module mqc_gmbe_fragment_distribution_scheme
    use mqc_result_types, only: calculation_result_t, result_send, result_isend, result_recv, result_irecv
    use mqc_mbe_fragment_distribution_scheme, only: do_fragment_work
    use mqc_mbe_io, only: print_gmbe_json, print_gmbe_pie_json
-   use mqc_vibrational_analysis, only: compute_vibrational_frequencies
+   use mqc_vibrational_analysis, only: compute_vibrational_analysis, print_vibrational_analysis
    implicit none
    ! Error handling imported where needed
    private
@@ -186,54 +186,23 @@ contains
          call logger%info("GMBE PIE Hessian computation completed")
          call logger%info("  Total Hessian Frobenius norm: "//to_char(sqrt(sum(total_hessian**2))))
 
-         ! Compute and print vibrational frequencies
+         ! Compute and print full vibrational analysis
          block
-            real(dp), allocatable :: frequencies(:), eigenvalues(:)
-            character(len=256) :: freq_line
-            integer :: imode, n_vib
+            real(dp), allocatable :: frequencies(:), reduced_masses(:), force_constants(:)
+            real(dp), allocatable :: cart_disp(:, :), fc_mdyne(:)
 
-            call logger%info("  Computing vibrational frequencies (projecting trans/rot modes)...")
-            call compute_vibrational_frequencies(total_hessian, sys_geom%element_numbers, frequencies, eigenvalues, &
-                                                 coordinates=sys_geom%coordinates, project_trans_rot=.true.)
+            call logger%info("  Computing vibrational analysis (projecting trans/rot modes)...")
+            call compute_vibrational_analysis(total_hessian, sys_geom%element_numbers, frequencies, &
+                                              reduced_masses, force_constants, cart_disp, &
+                                              coordinates=sys_geom%coordinates, &
+                                              project_trans_rot=.true., &
+                                              force_constants_mdyne=fc_mdyne)
 
             if (allocated(frequencies)) then
-               call logger%info(" ")
-               call logger%info("All modes (mass-weighted Hessian eigenvalues):")
-               call logger%info("  Mode   Eigenvalue (a.u.)    Frequency (cm^-1)")
-               call logger%info("  ----   ----------------    ------------------")
-               do imode = 1, size(frequencies)
-                  if (frequencies(imode) < 0.0_dp) then
-                     write (freq_line, '(a,i5,a,es16.8,a,f12.2,a)') &
-                        "  ", imode, "    ", eigenvalues(imode), "    ", frequencies(imode), "i"
-                  else
-                     write (freq_line, '(a,i5,a,es16.8,a,f12.2)') &
-                        "  ", imode, "    ", eigenvalues(imode), "    ", frequencies(imode)
-                  end if
-                  call logger%info(trim(freq_line))
-               end do
-
-               ! Print only vibrational frequencies
-               call logger%info(" ")
-               call logger%info("Vibrational frequencies only (excluding trans/rot modes):")
-               call logger%info("  Mode   Frequency (cm^-1)")
-               call logger%info("  ----   ------------------")
-               n_vib = 0
-               do imode = 1, size(frequencies)
-                  if (abs(eigenvalues(imode)) > 1.0e-6_dp) then
-                     n_vib = n_vib + 1
-                     if (frequencies(imode) < 0.0_dp) then
-                        write (freq_line, '(a,i5,a,f12.2,a)') "  ", n_vib, "    ", frequencies(imode), "i"
-                     else
-                        write (freq_line, '(a,i5,a,f12.2)') "  ", n_vib, "    ", frequencies(imode)
-                     end if
-                     call logger%info(trim(freq_line))
-                  end if
-               end do
-               write (freq_line, '(a,i3,a)') "  (", n_vib, " vibrational modes)"
-               call logger%info(trim(freq_line))
-
-               deallocate (frequencies)
-               if (allocated(eigenvalues)) deallocate (eigenvalues)
+               call print_vibrational_analysis(frequencies, reduced_masses, force_constants, &
+                                               cart_disp, sys_geom%element_numbers, &
+                                               force_constants_mdyne=fc_mdyne)
+               deallocate (frequencies, reduced_masses, force_constants, cart_disp, fc_mdyne)
             end if
          end block
       end if
@@ -554,54 +523,23 @@ contains
          call logger%info("GMBE PIE Hessian computation completed")
          call logger%info("  Total Hessian Frobenius norm: "//to_char(sqrt(sum(total_hessian**2))))
 
-         ! Compute and print vibrational frequencies
+         ! Compute and print full vibrational analysis
          block
-            real(dp), allocatable :: frequencies(:), eigenvalues(:)
-            character(len=256) :: freq_line
-            integer :: imode, n_vib
+            real(dp), allocatable :: frequencies(:), reduced_masses(:), force_constants(:)
+            real(dp), allocatable :: cart_disp(:, :), fc_mdyne(:)
 
-            call logger%info("  Computing vibrational frequencies (projecting trans/rot modes)...")
-            call compute_vibrational_frequencies(total_hessian, sys_geom%element_numbers, frequencies, eigenvalues, &
-                                                 coordinates=sys_geom%coordinates, project_trans_rot=.true.)
+            call logger%info("  Computing vibrational analysis (projecting trans/rot modes)...")
+            call compute_vibrational_analysis(total_hessian, sys_geom%element_numbers, frequencies, &
+                                              reduced_masses, force_constants, cart_disp, &
+                                              coordinates=sys_geom%coordinates, &
+                                              project_trans_rot=.true., &
+                                              force_constants_mdyne=fc_mdyne)
 
             if (allocated(frequencies)) then
-               call logger%info(" ")
-               call logger%info("All modes (mass-weighted Hessian eigenvalues):")
-               call logger%info("  Mode   Eigenvalue (a.u.)    Frequency (cm^-1)")
-               call logger%info("  ----   ----------------    ------------------")
-               do imode = 1, size(frequencies)
-                  if (frequencies(imode) < 0.0_dp) then
-                     write (freq_line, '(a,i5,a,es16.8,a,f12.2,a)') &
-                        "  ", imode, "    ", eigenvalues(imode), "    ", frequencies(imode), "i"
-                  else
-                     write (freq_line, '(a,i5,a,es16.8,a,f12.2)') &
-                        "  ", imode, "    ", eigenvalues(imode), "    ", frequencies(imode)
-                  end if
-                  call logger%info(trim(freq_line))
-               end do
-
-               ! Print only vibrational frequencies
-               call logger%info(" ")
-               call logger%info("Vibrational frequencies only (excluding trans/rot modes):")
-               call logger%info("  Mode   Frequency (cm^-1)")
-               call logger%info("  ----   ------------------")
-               n_vib = 0
-               do imode = 1, size(frequencies)
-                  if (abs(eigenvalues(imode)) > 1.0e-6_dp) then
-                     n_vib = n_vib + 1
-                     if (frequencies(imode) < 0.0_dp) then
-                        write (freq_line, '(a,i5,a,f12.2,a)') "  ", n_vib, "    ", frequencies(imode), "i"
-                     else
-                        write (freq_line, '(a,i5,a,f12.2)') "  ", n_vib, "    ", frequencies(imode)
-                     end if
-                     call logger%info(trim(freq_line))
-                  end if
-               end do
-               write (freq_line, '(a,i3,a)') "  (", n_vib, " vibrational modes)"
-               call logger%info(trim(freq_line))
-
-               deallocate (frequencies)
-               if (allocated(eigenvalues)) deallocate (eigenvalues)
+               call print_vibrational_analysis(frequencies, reduced_masses, force_constants, &
+                                               cart_disp, sys_geom%element_numbers, &
+                                               force_constants_mdyne=fc_mdyne)
+               deallocate (frequencies, reduced_masses, force_constants, cart_disp, fc_mdyne)
             end if
          end block
       end if

@@ -5,19 +5,28 @@ module mqc_vibrational_analysis
    use pic_types, only: dp
    use pic_lapack_interfaces, only: pic_syev, pic_gesvd
    use pic_logger, only:
-   use mqc_elements, only: element_mass
+   use mqc_elements, only: element_mass, element_number_to_symbol
    use pic_logger, only: logger => global_logger
    implicit none
    private
 
    public :: compute_vibrational_frequencies
+   public :: compute_vibrational_analysis
    public :: mass_weight_hessian
    public :: project_translation_rotation
+   public :: compute_reduced_masses
+   public :: compute_force_constants
+   public :: compute_cartesian_displacements
+   public :: print_vibrational_analysis
 
    ! Conversion factor from atomic units (Hartree/Bohr²/amu) to cm⁻¹
    ! Derived from fundamental constants:
    !   sqrt(Hartree/(Bohr²·amu)) → s⁻¹ → cm⁻¹
    real(dp), parameter :: AU_TO_CM1 = 2.642461e7_dp
+
+   ! Conversion factor from atomic units (Hartree/Bohr²) to mdyne/Å
+   ! 1 Hartree/Bohr² = 15.569141 mdyne/Å
+   real(dp), parameter :: AU_TO_MDYNE_ANG = 15.569141_dp
 
 contains
 
@@ -129,6 +138,79 @@ contains
       deallocate (eigenvalues, mw_hessian)
 
    end subroutine compute_vibrational_frequencies
+
+   subroutine compute_vibrational_analysis(hessian, element_numbers, frequencies, &
+                                           reduced_masses, force_constants, &
+                                           cartesian_displacements, &
+                                           eigenvalues_out, eigenvectors_out, &
+                                           coordinates, project_trans_rot, &
+                                           force_constants_mdyne)
+      !! Perform complete vibrational analysis from Hessian matrix.
+      !!
+      !! This is a convenience wrapper that computes:
+      !! - Vibrational frequencies in cm⁻¹
+      !! - Reduced masses in amu
+      !! - Force constants in Hartree/Bohr² (and optionally mdyne/Å)
+      !! - Cartesian displacement vectors (normalized)
+      !!
+      !! Optionally projects out translation/rotation modes.
+      real(dp), intent(in) :: hessian(:, :)
+         !! Hessian matrix in Hartree/Bohr² (3*N x 3*N)
+      integer, intent(in) :: element_numbers(:)
+         !! Atomic numbers for each atom (N atoms)
+      real(dp), allocatable, intent(out) :: frequencies(:)
+         !! Vibrational frequencies in cm⁻¹
+      real(dp), allocatable, intent(out) :: reduced_masses(:)
+         !! Reduced masses in amu
+      real(dp), allocatable, intent(out) :: force_constants(:)
+         !! Force constants in Hartree/Bohr²
+      real(dp), allocatable, intent(out) :: cartesian_displacements(:, :)
+         !! Cartesian displacement vectors (3*N x 3*N)
+      real(dp), allocatable, intent(out), optional :: eigenvalues_out(:)
+         !! Raw eigenvalues from diagonalization
+      real(dp), allocatable, intent(out), optional :: eigenvectors_out(:, :)
+         !! Mass-weighted eigenvectors
+      real(dp), intent(in), optional :: coordinates(:, :)
+         !! Atomic coordinates in Bohr (3, N) - required for projection
+      logical, intent(in), optional :: project_trans_rot
+         !! If true, project out translation/rotation modes
+      real(dp), allocatable, intent(out), optional :: force_constants_mdyne(:)
+         !! Force constants in mdyne/Å
+
+      real(dp), allocatable :: eigenvalues(:)
+      real(dp), allocatable :: eigenvectors(:, :)
+
+      ! First compute frequencies and eigenvectors
+      call compute_vibrational_frequencies(hessian, element_numbers, frequencies, &
+                                           eigenvalues_out=eigenvalues, &
+                                           eigenvectors=eigenvectors, &
+                                           coordinates=coordinates, &
+                                           project_trans_rot=project_trans_rot)
+
+      ! Compute reduced masses from eigenvectors
+      call compute_reduced_masses(eigenvectors, element_numbers, reduced_masses)
+
+      ! Compute force constants from eigenvalues and reduced masses
+      call compute_force_constants(eigenvalues, reduced_masses, force_constants, &
+                                   force_constants_mdyne)
+
+      ! Compute Cartesian displacements from eigenvectors
+      call compute_cartesian_displacements(eigenvectors, element_numbers, &
+                                           cartesian_displacements)
+
+      ! Optionally return eigenvalues and eigenvectors
+      if (present(eigenvalues_out)) then
+         allocate (eigenvalues_out(size(eigenvalues)))
+         eigenvalues_out = eigenvalues
+      end if
+      if (present(eigenvectors_out)) then
+         allocate (eigenvectors_out(size(eigenvectors, 1), size(eigenvectors, 2)))
+         eigenvectors_out = eigenvectors
+      end if
+
+      deallocate (eigenvalues, eigenvectors)
+
+   end subroutine compute_vibrational_analysis
 
    subroutine mass_weight_hessian(hessian, element_numbers, mw_hessian)
       !! Apply mass weighting to Hessian matrix.
@@ -337,5 +419,326 @@ contains
       deallocate (D, com, r, sqrt_mass, S, U, VT, D_orth, proj, temp)
 
    end subroutine project_translation_rotation
+
+   subroutine compute_reduced_masses(eigenvectors, element_numbers, reduced_masses)
+      !! Compute reduced masses for each normal mode.
+      !!
+      !! The reduced mass μ_k for mode k is defined as:
+      !!   μ_k = 1 / Σ_i (L_mw_{i,k}² / m_i)
+      !!
+      !! where L_mw is the mass-weighted eigenvector (normalized to 1).
+      !! This formula arises from the relationship Q_k = Σ_i √m_i * x_i * L_mw_{i,k}
+      !! and ensures that the harmonic oscillator relation ω² = k/μ holds.
+      real(dp), intent(in) :: eigenvectors(:, :)
+         !! Mass-weighted eigenvectors from diagonalization (3*N x 3*N)
+         !! Columns are normal modes, assumed normalized (Σ_i L²_{i,k} = 1)
+      integer, intent(in) :: element_numbers(:)
+         !! Atomic numbers for each atom (N atoms)
+      real(dp), allocatable, intent(out) :: reduced_masses(:)
+         !! Reduced masses in amu (one per mode)
+
+      integer :: n_atoms, n_coords, iatom, icoord, k, idx
+      real(dp) :: mass, sum_over_mass
+
+      n_atoms = size(element_numbers)
+      n_coords = 3*n_atoms
+
+      allocate (reduced_masses(n_coords))
+
+      ! For each normal mode k
+      do k = 1, n_coords
+         sum_over_mass = 0.0_dp
+
+         ! Sum over all 3N coordinates: Σ_i (L²_{i,k} / m_i)
+         do iatom = 1, n_atoms
+            mass = element_mass(element_numbers(iatom))
+            do icoord = 1, 3
+               idx = 3*(iatom - 1) + icoord
+               sum_over_mass = sum_over_mass + eigenvectors(idx, k)**2/mass
+            end do
+         end do
+
+         ! μ_k = 1 / Σ_i (L²_{i,k} / m_i)
+         if (sum_over_mass > 1.0e-14_dp) then
+            reduced_masses(k) = 1.0_dp/sum_over_mass
+         else
+            ! Near-zero contribution (e.g., trans/rot mode) - assign a large mass
+            reduced_masses(k) = 1.0e10_dp
+         end if
+      end do
+
+   end subroutine compute_reduced_masses
+
+   subroutine compute_force_constants(eigenvalues, reduced_masses, force_constants, &
+                                      force_constants_mdyne)
+      !! Compute force constants for each normal mode.
+      !!
+      !! From the harmonic oscillator relation:
+      !!   ω² = k/μ  →  k = ω² × μ = eigenvalue × μ
+      !!
+      !! Returns force constants in both atomic units (Hartree/Bohr²) and mdyne/Å.
+      real(dp), intent(in) :: eigenvalues(:)
+         !! Eigenvalues from mass-weighted Hessian diagonalization (1/amu)
+      real(dp), intent(in) :: reduced_masses(:)
+         !! Reduced masses in amu
+      real(dp), allocatable, intent(out) :: force_constants(:)
+         !! Force constants in atomic units (Hartree/Bohr²)
+      real(dp), allocatable, intent(out), optional :: force_constants_mdyne(:)
+         !! Force constants in mdyne/Å (common experimental unit)
+
+      integer :: n_modes, k
+
+      n_modes = size(eigenvalues)
+      allocate (force_constants(n_modes))
+
+      ! k = eigenvalue × μ (eigenvalue has units Hartree/(Bohr²·amu), μ in amu)
+      ! So force_constant has units Hartree/Bohr²
+      do k = 1, n_modes
+         if (eigenvalues(k) >= 0.0_dp) then
+            force_constants(k) = eigenvalues(k)*reduced_masses(k)
+         else
+            ! Imaginary frequency mode - report absolute value
+            force_constants(k) = -abs(eigenvalues(k))*reduced_masses(k)
+         end if
+      end do
+
+      ! Optionally convert to mdyne/Å
+      if (present(force_constants_mdyne)) then
+         allocate (force_constants_mdyne(n_modes))
+         force_constants_mdyne = force_constants*AU_TO_MDYNE_ANG
+      end if
+
+   end subroutine compute_force_constants
+
+   subroutine compute_cartesian_displacements(eigenvectors, element_numbers, &
+                                              cartesian_displacements, normalize_max)
+      !! Convert mass-weighted eigenvectors to Cartesian displacements.
+      !!
+      !! The Cartesian displacement for coordinate i in mode k is:
+      !!   x_{i,k} = L_mw_{i,k} / √(m_i)
+      !!
+      !! The output can be normalized in two ways:
+      !! - normalize_max=.true. (default): normalize so max|x| = 1 for each mode (Gaussian convention)
+      !! - normalize_max=.false.: normalize so Σ_i x²_{i,k} = 1
+      real(dp), intent(in) :: eigenvectors(:, :)
+         !! Mass-weighted eigenvectors (3*N x 3*N)
+      integer, intent(in) :: element_numbers(:)
+         !! Atomic numbers for each atom (N atoms)
+      real(dp), allocatable, intent(out) :: cartesian_displacements(:, :)
+         !! Cartesian displacement vectors (3*N x 3*N), columns are modes
+      logical, intent(in), optional :: normalize_max
+         !! If true, normalize so max displacement = 1 (default: true)
+
+      integer :: n_atoms, n_coords, iatom, icoord, k, idx
+      real(dp) :: mass, inv_sqrt_mass, norm, max_disp
+      logical :: use_max_norm
+
+      n_atoms = size(element_numbers)
+      n_coords = 3*n_atoms
+
+      use_max_norm = .true.
+      if (present(normalize_max)) use_max_norm = normalize_max
+
+      allocate (cartesian_displacements(n_coords, n_coords))
+
+      ! Convert from mass-weighted to Cartesian: x = L_mw / √m
+      do k = 1, n_coords
+         do iatom = 1, n_atoms
+            mass = element_mass(element_numbers(iatom))
+            inv_sqrt_mass = 1.0_dp/sqrt(mass)
+            do icoord = 1, 3
+               idx = 3*(iatom - 1) + icoord
+               cartesian_displacements(idx, k) = eigenvectors(idx, k)*inv_sqrt_mass
+            end do
+         end do
+      end do
+
+      ! Normalize each mode
+      do k = 1, n_coords
+         if (use_max_norm) then
+            ! Gaussian convention: normalize so max |displacement| = 1
+            max_disp = maxval(abs(cartesian_displacements(:, k)))
+            if (max_disp > 1.0e-14_dp) then
+               cartesian_displacements(:, k) = cartesian_displacements(:, k)/max_disp
+            end if
+         else
+            ! Standard normalization: Σ_i x²_{i,k} = 1
+            norm = sqrt(sum(cartesian_displacements(:, k)**2))
+            if (norm > 1.0e-14_dp) then
+               cartesian_displacements(:, k) = cartesian_displacements(:, k)/norm
+            end if
+         end if
+      end do
+
+   end subroutine compute_cartesian_displacements
+
+   subroutine print_vibrational_analysis(frequencies, reduced_masses, force_constants, &
+                                         cartesian_displacements, element_numbers, &
+                                         force_constants_mdyne, print_displacements, &
+                                         n_atoms)
+      !! Print vibrational analysis results in a formatted table.
+      !!
+      !! Output format is similar to Gaussian, with frequencies grouped in columns.
+      !! Optionally prints Cartesian displacement vectors for each mode.
+      real(dp), intent(in) :: frequencies(:)
+         !! Vibrational frequencies in cm⁻¹
+      real(dp), intent(in) :: reduced_masses(:)
+         !! Reduced masses in amu
+      real(dp), intent(in) :: force_constants(:)
+         !! Force constants in Hartree/Bohr² (or mdyne/Å if force_constants_mdyne provided)
+      real(dp), intent(in) :: cartesian_displacements(:, :)
+         !! Cartesian displacement vectors (3*N x 3*N)
+      integer, intent(in) :: element_numbers(:)
+         !! Atomic numbers for each atom
+      real(dp), intent(in), optional :: force_constants_mdyne(:)
+         !! Force constants in mdyne/Å (if provided, these are printed instead)
+      logical, intent(in), optional :: print_displacements
+         !! If true, print Cartesian displacement vectors (default: true)
+      integer, intent(in), optional :: n_atoms
+         !! Number of atoms (if not provided, derived from size of element_numbers)
+
+      integer :: n_modes, n_at, n_groups, igroup, imode, iatom, icoord, k
+      integer :: mode_start, mode_end, modes_in_group
+      logical :: do_print_disp
+      character(len=512) :: line
+      character(len=16) :: freq_str, mass_str, fc_str
+      character(len=2) :: elem_sym
+      character(len=3) :: coord_label
+      real(dp) :: fc_value
+
+      n_modes = size(frequencies)
+      if (present(n_atoms)) then
+         n_at = n_atoms
+      else
+         n_at = size(element_numbers)
+      end if
+
+      do_print_disp = .true.
+      if (present(print_displacements)) do_print_disp = print_displacements
+
+      call logger%info(" ")
+      call logger%info("============================================================")
+      call logger%info("                  VIBRATIONAL ANALYSIS")
+      call logger%info("============================================================")
+      call logger%info(" ")
+
+      ! Print in groups of 3 modes (like Gaussian)
+      n_groups = (n_modes + 2)/3
+
+      do igroup = 1, n_groups
+         mode_start = (igroup - 1)*3 + 1
+         mode_end = min(igroup*3, n_modes)
+         modes_in_group = mode_end - mode_start + 1
+
+         ! Mode numbers header
+         line = "                    "
+         do k = mode_start, mode_end
+            write (freq_str, '(i12)') k
+            line = trim(line)//freq_str
+         end do
+         call logger%info(trim(line))
+
+         ! Frequencies (show "i" only for significant imaginary frequencies)
+         line = " Frequencies --  "
+         do k = mode_start, mode_end
+            if (frequencies(k) < 0.0_dp .and. abs(frequencies(k)) > 10.0_dp) then
+               ! Significant imaginary frequency - show with "i"
+               write (freq_str, '(f12.4,a)') abs(frequencies(k)), "i"
+            else
+               ! Real or near-zero frequency
+               write (freq_str, '(f12.4)') abs(frequencies(k))
+            end if
+            line = trim(line)//freq_str
+         end do
+         call logger%info(trim(line))
+
+         ! Reduced masses
+         line = " Red. masses --  "
+         do k = mode_start, mode_end
+            write (mass_str, '(f12.4)') reduced_masses(k)
+            line = trim(line)//mass_str
+         end do
+         call logger%info(trim(line))
+
+         ! Force constants
+         if (present(force_constants_mdyne)) then
+            line = " Frc consts  --  "
+            do k = mode_start, mode_end
+               write (fc_str, '(f12.4)') force_constants_mdyne(k)
+               line = trim(line)//fc_str
+            end do
+         else
+            line = " Frc consts  --  "
+            do k = mode_start, mode_end
+               write (fc_str, '(f12.6)') force_constants(k)
+               line = trim(line)//fc_str
+            end do
+         end if
+         call logger%info(trim(line))
+
+         ! Cartesian displacements
+         if (do_print_disp) then
+          call logger%info(" Atom          X         Y         Z       X         Y         Z       X         Y         Z")
+
+            do iatom = 1, n_at
+               elem_sym = element_number_to_symbol(element_numbers(iatom))
+
+               ! Build line with atom info and displacements for each mode
+               write (line, '(i4,1x,a2)') iatom, elem_sym
+
+               do k = mode_start, mode_end
+                  do icoord = 1, 3
+                     write (freq_str, '(f10.5)') cartesian_displacements(3*(iatom - 1) + icoord, k)
+                     line = trim(line)//freq_str
+                  end do
+               end do
+               call logger%info(trim(line))
+            end do
+         end if
+
+         call logger%info(" ")
+      end do
+
+      ! Summary statistics
+      call logger%info("------------------------------------------------------------")
+      call logger%info(" Summary:")
+
+      ! Count real vs imaginary frequencies
+      block
+         integer :: n_real, n_imag, n_zero
+         real(dp) :: zero_thresh
+         zero_thresh = 10.0_dp  ! frequencies below 10 cm⁻¹ considered "zero"
+
+         n_real = 0
+         n_imag = 0
+         n_zero = 0
+         do k = 1, n_modes
+            if (abs(frequencies(k)) < zero_thresh) then
+               n_zero = n_zero + 1
+            else if (frequencies(k) < 0.0_dp) then
+               n_imag = n_imag + 1
+            else
+               n_real = n_real + 1
+            end if
+         end do
+
+         write (line, '(a,i5)') "   Total modes:              ", n_modes
+         call logger%info(trim(line))
+         write (line, '(a,i5)') "   Real frequencies:         ", n_real
+         call logger%info(trim(line))
+         write (line, '(a,i5)') "   Imaginary frequencies:    ", n_imag
+         call logger%info(trim(line))
+         write (line, '(a,i5)') "   Near-zero (trans/rot):    ", n_zero
+         call logger%info(trim(line))
+
+         if (n_imag > 0) then
+            call logger%warning("System has imaginary frequencies - may be a transition state")
+         end if
+      end block
+
+      call logger%info("============================================================")
+      call logger%info(" ")
+
+   end subroutine print_vibrational_analysis
 
 end module mqc_vibrational_analysis

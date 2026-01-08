@@ -52,7 +52,8 @@ contains
       !! Coordinator for distributed Hessian calculation
       !! Distributes displacement work and collects gradient results
       use mqc_finite_differences, only: finite_diff_hessian_from_gradients
-      use mqc_vibrational_analysis, only: compute_vibrational_frequencies
+      use mqc_vibrational_analysis, only: compute_vibrational_frequencies, &
+                                          compute_vibrational_analysis, print_vibrational_analysis
 #ifndef MQC_WITHOUT_TBLITE
       use mqc_method_xtb, only: xtb_method_t
 #endif
@@ -244,45 +245,26 @@ contains
          end if
       end if
 
-      ! Print vibrational frequencies and eigenvalues
+      ! Compute and print full vibrational analysis
       if (allocated(frequencies)) then
-         call logger%info(" ")
-         call logger%info("All modes (mass-weighted Hessian eigenvalues):")
-         call logger%info("  Mode   Eigenvalue (a.u.)    Frequency (cm^-1)")
-         call logger%info("  ----   ----------------    ------------------")
-         do i = 1, size(frequencies)
-            if (frequencies(i) < 0.0_dp) then
-               write (result_line, '(a,i5,a,es16.8,a,f12.2,a)') &
-                  "  ", i, "    ", eigenvalues(i), "    ", frequencies(i), "i"
-            else
-               write (result_line, '(a,i5,a,es16.8,a,f12.2)') &
-                  "  ", i, "    ", eigenvalues(i), "    ", frequencies(i)
-            end if
-            call logger%info(trim(result_line))
-         end do
+         block
+            real(dp), allocatable :: vib_freqs(:), reduced_masses(:), force_constants(:)
+            real(dp), allocatable :: cart_disp(:, :), fc_mdyne(:)
 
-         ! Print only vibrational frequencies (excluding trans/rot modes near zero)
-         call logger%info(" ")
-         call logger%info("Vibrational frequencies only (excluding trans/rot modes):")
-         call logger%info("  Mode   Frequency (cm^-1)")
-         call logger%info("  ----   ------------------")
-         j = 0
-         do i = 1, size(frequencies)
-            ! Skip modes with eigenvalues near zero (trans/rot modes)
-            if (abs(eigenvalues(i)) > 1.0e-6_dp) then
-               j = j + 1
-               if (frequencies(i) < 0.0_dp) then
-                  write (result_line, '(a,i5,a,f12.2,a)') "  ", j, "    ", frequencies(i), "i"
-               else
-                  write (result_line, '(a,i5,a,f12.2)') "  ", j, "    ", frequencies(i)
-               end if
-               call logger%info(trim(result_line))
+            call compute_vibrational_analysis(result%hessian, sys_geom%element_numbers, vib_freqs, &
+                                              reduced_masses, force_constants, cart_disp, &
+                                              coordinates=sys_geom%coordinates, &
+                                              project_trans_rot=.true., &
+                                              force_constants_mdyne=fc_mdyne)
+
+            if (allocated(vib_freqs)) then
+               call print_vibrational_analysis(vib_freqs, reduced_masses, force_constants, &
+                                               cart_disp, sys_geom%element_numbers, &
+                                               force_constants_mdyne=fc_mdyne)
+               deallocate (vib_freqs, reduced_masses, force_constants, cart_disp, fc_mdyne)
             end if
-         end do
-         write (result_line, '(a,i3,a)') "  (", j, " vibrational modes)"
-         call logger%info(trim(result_line))
+         end block
       end if
-      call logger%info("============================================")
 
       ! Output JSON
       call print_unfragmented_json(result)

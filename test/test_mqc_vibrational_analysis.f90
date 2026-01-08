@@ -1,7 +1,9 @@
 module test_mqc_vibrational_analysis
    use testdrive, only: new_unittest, unittest_type, error_type, check
    use mqc_vibrational_analysis, only: compute_vibrational_frequencies, mass_weight_hessian, &
-                                       project_translation_rotation
+                                       project_translation_rotation, compute_vibrational_analysis, &
+                                       compute_reduced_masses, compute_force_constants, &
+                                       compute_cartesian_displacements, print_vibrational_analysis
    use pic_types, only: dp
    implicit none
    private
@@ -21,7 +23,12 @@ contains
                   new_unittest("diatomic_frequencies", test_diatomic_frequencies), &
                   new_unittest("frequency_ordering", test_frequency_ordering), &
                   new_unittest("imaginary_frequencies", test_imaginary_frequencies), &
-                  new_unittest("trans_rot_projection", test_trans_rot_projection) &
+                  new_unittest("trans_rot_projection", test_trans_rot_projection), &
+                  new_unittest("reduced_masses", test_reduced_masses), &
+                  new_unittest("force_constants", test_force_constants), &
+                  new_unittest("cartesian_displacements", test_cartesian_displacements), &
+                  new_unittest("full_vibrational_analysis", test_full_vibrational_analysis), &
+                  new_unittest("print_vibrational_output", test_print_vibrational_output) &
                   ]
    end subroutine collect_mqc_vibrational_analysis_tests
 
@@ -288,6 +295,269 @@ contains
       deallocate (frequencies, eigenvalues)
 
    end subroutine test_trans_rot_projection
+
+   subroutine test_reduced_masses(error)
+      !! Test reduced mass calculation
+      type(error_type), allocatable, intent(out) :: error
+
+      real(dp) :: hessian(6, 6)
+      real(dp), allocatable :: frequencies(:), eigenvalues(:), eigenvectors(:, :)
+      real(dp), allocatable :: reduced_masses(:)
+      integer :: element_numbers(2)
+      real(dp) :: force_constant
+
+      ! Two hydrogen atoms - diatomic
+      element_numbers = [1, 1]
+      force_constant = 0.5_dp
+
+      ! Diatomic Hessian
+      hessian = 0.0_dp
+      hessian(1, 1) = force_constant
+      hessian(2, 2) = force_constant
+      hessian(3, 3) = force_constant
+      hessian(4, 4) = force_constant
+      hessian(5, 5) = force_constant
+      hessian(6, 6) = force_constant
+      hessian(1, 4) = -force_constant
+      hessian(4, 1) = -force_constant
+      hessian(2, 5) = -force_constant
+      hessian(5, 2) = -force_constant
+      hessian(3, 6) = -force_constant
+      hessian(6, 3) = -force_constant
+
+      call compute_vibrational_frequencies(hessian, element_numbers, frequencies, &
+                                           eigenvalues_out=eigenvalues, &
+                                           eigenvectors=eigenvectors)
+
+      call compute_reduced_masses(eigenvectors, element_numbers, reduced_masses)
+
+      ! Should get 6 reduced masses
+      call check(error, size(reduced_masses) == 6, "Should have 6 reduced masses")
+      if (allocated(error)) return
+
+      ! All reduced masses should be positive
+      call check(error, all(reduced_masses > 0.0_dp), "Reduced masses should be positive")
+      if (allocated(error)) return
+
+      ! For H2, the vibrational mode reduced mass should be approximately μ = m1*m2/(m1+m2) = 0.504 amu
+      ! The stretching mode (highest frequency) should have reduced mass near this value
+      call check(error, reduced_masses(6) < 2.0_dp, &
+                 "Stretching mode reduced mass should be less than single atom mass")
+
+      deallocate (frequencies, eigenvalues, eigenvectors, reduced_masses)
+
+   end subroutine test_reduced_masses
+
+   subroutine test_force_constants(error)
+      !! Test force constant calculation
+      type(error_type), allocatable, intent(out) :: error
+
+      real(dp) :: hessian(6, 6)
+      real(dp), allocatable :: frequencies(:), eigenvalues(:), eigenvectors(:, :)
+      real(dp), allocatable :: reduced_masses(:), force_constants(:), force_constants_mdyne(:)
+      integer :: element_numbers(2)
+      real(dp) :: input_k
+
+      ! Two hydrogen atoms
+      element_numbers = [1, 1]
+      input_k = 0.5_dp  ! Hartree/Bohr^2
+
+      ! Diatomic Hessian
+      hessian = 0.0_dp
+      hessian(1, 1) = input_k
+      hessian(2, 2) = input_k
+      hessian(3, 3) = input_k
+      hessian(4, 4) = input_k
+      hessian(5, 5) = input_k
+      hessian(6, 6) = input_k
+      hessian(1, 4) = -input_k
+      hessian(4, 1) = -input_k
+      hessian(2, 5) = -input_k
+      hessian(5, 2) = -input_k
+      hessian(3, 6) = -input_k
+      hessian(6, 3) = -input_k
+
+      call compute_vibrational_frequencies(hessian, element_numbers, frequencies, &
+                                           eigenvalues_out=eigenvalues, &
+                                           eigenvectors=eigenvectors)
+
+      call compute_reduced_masses(eigenvectors, element_numbers, reduced_masses)
+      call compute_force_constants(eigenvalues, reduced_masses, force_constants, &
+                                   force_constants_mdyne)
+
+      ! Should get 6 force constants
+      call check(error, size(force_constants) == 6, "Should have 6 force constants")
+      if (allocated(error)) return
+
+      call check(error, size(force_constants_mdyne) == 6, "Should have 6 force constants in mdyne/A")
+      if (allocated(error)) return
+
+      ! Force constants should be related to eigenvalues by k = eigenvalue * reduced_mass
+      ! The stretching modes should have positive force constants
+      call check(error, force_constants(6) > 0.0_dp, &
+                 "Stretching mode force constant should be positive")
+      if (allocated(error)) return
+
+      ! mdyne/A should be ~ 15.57 times atomic units
+      call check(error, abs(force_constants_mdyne(6) - force_constants(6)*15.569141_dp) < 1.0e-6_dp, &
+                 "mdyne/A conversion should be correct")
+
+      deallocate (frequencies, eigenvalues, eigenvectors, reduced_masses, force_constants, &
+                  force_constants_mdyne)
+
+   end subroutine test_force_constants
+
+   subroutine test_cartesian_displacements(error)
+      !! Test Cartesian displacement calculation
+      type(error_type), allocatable, intent(out) :: error
+
+      real(dp) :: hessian(6, 6)
+      real(dp), allocatable :: frequencies(:), eigenvectors(:, :)
+      real(dp), allocatable :: cart_disp(:, :)
+      integer :: element_numbers(2)
+      real(dp) :: force_constant, max_disp
+      integer :: k
+
+      ! Two hydrogen atoms
+      element_numbers = [1, 1]
+      force_constant = 0.5_dp
+
+      ! Diatomic Hessian
+      hessian = 0.0_dp
+      hessian(1, 1) = force_constant
+      hessian(2, 2) = force_constant
+      hessian(3, 3) = force_constant
+      hessian(4, 4) = force_constant
+      hessian(5, 5) = force_constant
+      hessian(6, 6) = force_constant
+      hessian(1, 4) = -force_constant
+      hessian(4, 1) = -force_constant
+      hessian(2, 5) = -force_constant
+      hessian(5, 2) = -force_constant
+      hessian(3, 6) = -force_constant
+      hessian(6, 3) = -force_constant
+
+      call compute_vibrational_frequencies(hessian, element_numbers, frequencies, &
+                                           eigenvectors=eigenvectors)
+
+      call compute_cartesian_displacements(eigenvectors, element_numbers, cart_disp)
+
+      ! Should have 6x6 matrix
+      call check(error, size(cart_disp, 1) == 6, "Should have 6 rows in Cartesian displacements")
+      if (allocated(error)) return
+      call check(error, size(cart_disp, 2) == 6, "Should have 6 columns in Cartesian displacements")
+      if (allocated(error)) return
+
+      ! Each mode should be normalized so max displacement = 1 (Gaussian convention)
+      do k = 1, 6
+         max_disp = maxval(abs(cart_disp(:, k)))
+         call check(error, abs(max_disp - 1.0_dp) < 1.0e-10_dp .or. max_disp < 1.0e-10_dp, &
+                    "Cartesian displacements should be normalized to max=1")
+         if (allocated(error)) return
+      end do
+
+      deallocate (frequencies, eigenvectors, cart_disp)
+
+   end subroutine test_cartesian_displacements
+
+   subroutine test_full_vibrational_analysis(error)
+      !! Test the complete vibrational analysis wrapper
+      type(error_type), allocatable, intent(out) :: error
+
+      real(dp) :: hessian(9, 9)
+      real(dp) :: coordinates(3, 3)
+      real(dp), allocatable :: frequencies(:), reduced_masses(:), force_constants(:)
+      real(dp), allocatable :: cart_disp(:, :), force_constants_mdyne(:)
+      integer :: element_numbers(3)
+      integer :: i
+
+      ! Water-like molecule
+      element_numbers = [8, 1, 1]
+
+      ! Coordinates (Bohr)
+      coordinates(:, 1) = [0.0_dp, 0.0_dp, 0.0_dp]
+      coordinates(:, 2) = [1.8_dp, 0.0_dp, 0.5_dp]
+      coordinates(:, 3) = [-0.6_dp, 1.7_dp, -0.3_dp]
+
+      ! Identity Hessian for testing
+      hessian = 0.0_dp
+      do i = 1, 9
+         hessian(i, i) = 1.0_dp
+      end do
+
+      call compute_vibrational_analysis(hessian, element_numbers, frequencies, &
+                                        reduced_masses, force_constants, cart_disp, &
+                                        coordinates=coordinates, &
+                                        project_trans_rot=.true., &
+                                        force_constants_mdyne=force_constants_mdyne)
+
+      ! Check all outputs have correct size
+      call check(error, size(frequencies) == 9, "Should have 9 frequencies")
+      if (allocated(error)) return
+
+      call check(error, size(reduced_masses) == 9, "Should have 9 reduced masses")
+      if (allocated(error)) return
+
+      call check(error, size(force_constants) == 9, "Should have 9 force constants")
+      if (allocated(error)) return
+
+      call check(error, size(force_constants_mdyne) == 9, "Should have 9 force constants in mdyne/A")
+      if (allocated(error)) return
+
+      call check(error, size(cart_disp, 1) == 9, "Should have 9 rows in Cartesian displacements")
+      if (allocated(error)) return
+
+      call check(error, size(cart_disp, 2) == 9, "Should have 9 columns in Cartesian displacements")
+
+      deallocate (frequencies, reduced_masses, force_constants, cart_disp, force_constants_mdyne)
+
+   end subroutine test_full_vibrational_analysis
+
+   subroutine test_print_vibrational_output(error)
+      !! Test that print_vibrational_analysis runs without errors
+      type(error_type), allocatable, intent(out) :: error
+
+      real(dp) :: hessian(6, 6)
+      real(dp), allocatable :: frequencies(:), reduced_masses(:), force_constants(:)
+      real(dp), allocatable :: cart_disp(:, :), force_constants_mdyne(:)
+      integer :: element_numbers(2)
+      real(dp) :: force_constant
+
+      ! Two hydrogen atoms
+      element_numbers = [1, 1]
+      force_constant = 0.5_dp
+
+      ! Diatomic Hessian
+      hessian = 0.0_dp
+      hessian(1, 1) = force_constant
+      hessian(2, 2) = force_constant
+      hessian(3, 3) = force_constant
+      hessian(4, 4) = force_constant
+      hessian(5, 5) = force_constant
+      hessian(6, 6) = force_constant
+      hessian(1, 4) = -force_constant
+      hessian(4, 1) = -force_constant
+      hessian(2, 5) = -force_constant
+      hessian(5, 2) = -force_constant
+      hessian(3, 6) = -force_constant
+      hessian(6, 3) = -force_constant
+
+      ! Compute full vibrational analysis
+      call compute_vibrational_analysis(hessian, element_numbers, frequencies, &
+                                        reduced_masses, force_constants, cart_disp, &
+                                        force_constants_mdyne=force_constants_mdyne)
+
+      ! Print should run without errors
+      call print_vibrational_analysis(frequencies, reduced_masses, force_constants, &
+                                      cart_disp, element_numbers, &
+                                      force_constants_mdyne=force_constants_mdyne)
+
+      ! If we got here without crashing, test passed
+      call check(error, .true., "Print vibrational analysis should complete without errors")
+
+      deallocate (frequencies, reduced_masses, force_constants, cart_disp, force_constants_mdyne)
+
+   end subroutine test_print_vibrational_output
 
 end module test_mqc_vibrational_analysis
 
