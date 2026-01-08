@@ -52,6 +52,7 @@ contains
       !! Coordinator for distributed Hessian calculation
       !! Distributes displacement work and collects gradient results
       use mqc_finite_differences, only: finite_diff_hessian_from_gradients
+      use mqc_vibrational_analysis, only: compute_vibrational_frequencies
 #ifndef MQC_WITHOUT_TBLITE
       use mqc_method_xtb, only: xtb_method_t
 #endif
@@ -76,9 +77,12 @@ contains
       type(request_t) :: req
       integer :: current_log_level
       logical :: is_verbose
-      character(len=256) :: result_line
+      character(len=2048) :: result_line  ! Large buffer for Hessian matrix rows
       real(dp) :: hess_norm
       integer :: i, j
+      real(dp), allocatable :: frequencies(:)
+      real(dp), allocatable :: eigenvalues(:)
+      real(dp), allocatable :: projected_hessian(:, :)
 #ifndef MQC_WITHOUT_TBLITE
       type(xtb_method_t) :: xtb_calc
 #endif
@@ -94,6 +98,7 @@ contains
       call logger%info("Distributed unfragmented Hessian calculation")
       call logger%info("  Total atoms: "//to_char(n_atoms))
       call logger%info("  Gradient calculations needed: "//to_char(2*n_displacements))
+      call logger%info("  Finite difference step size: "//to_char(displacement)//" Bohr")
       call logger%info("  MPI ranks: "//to_char(n_ranks))
       call logger%info("  Work distribution: Dynamic queue")
       call logger%info("============================================")
@@ -196,6 +201,12 @@ contains
       result%hessian = hessian
       result%has_hessian = .true.
 
+      ! Compute vibrational frequencies from the Hessian (with trans/rot projection)
+      call logger%info("  Computing vibrational frequencies (projecting trans/rot modes)...")
+      call compute_vibrational_frequencies(result%hessian, sys_geom%element_numbers, frequencies, eigenvalues, &
+                                           coordinates=sys_geom%coordinates, project_trans_rot=.true., &
+                                           projected_hessian_out=projected_hessian)
+
       ! Print results
       call logger%info("============================================")
       call logger%info("Distributed Hessian calculation completed")
@@ -220,7 +231,56 @@ contains
                call logger%info(trim(result_line))
             end do
             call logger%info(" ")
+
+            ! Print projected mass-weighted Hessian
+            if (allocated(projected_hessian)) then
+               call logger%info("Mass-weighted Hessian after trans/rot projection (a.u.):")
+               do i = 1, 3*n_atoms
+                  write (result_line, '(a,i5,a,999f15.8)') "  Row ", i, ": ", (projected_hessian(i, j), j=1, 3*n_atoms)
+                  call logger%info(trim(result_line))
+               end do
+               call logger%info(" ")
+            end if
          end if
+      end if
+
+      ! Print vibrational frequencies and eigenvalues
+      if (allocated(frequencies)) then
+         call logger%info(" ")
+         call logger%info("All modes (mass-weighted Hessian eigenvalues):")
+         call logger%info("  Mode   Eigenvalue (a.u.)    Frequency (cm^-1)")
+         call logger%info("  ----   ----------------    ------------------")
+         do i = 1, size(frequencies)
+            if (frequencies(i) < 0.0_dp) then
+               write (result_line, '(a,i5,a,es16.8,a,f12.2,a)') &
+                  "  ", i, "    ", eigenvalues(i), "    ", frequencies(i), "i"
+            else
+               write (result_line, '(a,i5,a,es16.8,a,f12.2)') &
+                  "  ", i, "    ", eigenvalues(i), "    ", frequencies(i)
+            end if
+            call logger%info(trim(result_line))
+         end do
+
+         ! Print only vibrational frequencies (excluding trans/rot modes near zero)
+         call logger%info(" ")
+         call logger%info("Vibrational frequencies only (excluding trans/rot modes):")
+         call logger%info("  Mode   Frequency (cm^-1)")
+         call logger%info("  ----   ------------------")
+         j = 0
+         do i = 1, size(frequencies)
+            ! Skip modes with eigenvalues near zero (trans/rot modes)
+            if (abs(eigenvalues(i)) > 1.0e-6_dp) then
+               j = j + 1
+               if (frequencies(i) < 0.0_dp) then
+                  write (result_line, '(a,i5,a,f12.2,a)') "  ", j, "    ", frequencies(i), "i"
+               else
+                  write (result_line, '(a,i5,a,f12.2)') "  ", j, "    ", frequencies(i)
+               end if
+               call logger%info(trim(result_line))
+            end if
+         end do
+         write (result_line, '(a,i3,a)') "  (", j, " vibrational modes)"
+         call logger%info(trim(result_line))
       end if
       call logger%info("============================================")
 
@@ -231,6 +291,9 @@ contains
       call result%destroy()
       deallocate (forward_gradients, backward_gradients)
       if (allocated(hessian)) deallocate (hessian)
+      if (allocated(frequencies)) deallocate (frequencies)
+      if (allocated(eigenvalues)) deallocate (eigenvalues)
+      if (allocated(projected_hessian)) deallocate (projected_hessian)
 
    end subroutine hessian_coordinator
 

@@ -17,6 +17,7 @@ program main
    use mqc_logo, only: print_logo
    use pic_timer, only: timer_type
    use mqc_error, only: error_t
+   use pic_knowledge, only: get_knowledge
    implicit none
 
    type(timer_type) :: my_timer      !! Execution timing
@@ -115,6 +116,7 @@ program main
    end if
 
    if (world_comm%rank() == 0) then
+      call get_knowledge()
       call my_timer%stop()
       call logger%info("Total processing time: "//to_char(my_timer%get_elapsed_time())//" s")
    end if

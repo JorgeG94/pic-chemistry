@@ -6,6 +6,7 @@ contains
       !! This is a simple single-process calculation without MPI distribution
       !! If result_out is present, returns result instead of writing JSON and destroying it
       use mqc_error, only: error_t
+      use mqc_vibrational_analysis, only: compute_vibrational_frequencies
       type(system_geometry_t), intent(in), optional :: sys_geom
       integer(int32), intent(in) :: method
       integer(int32), intent(in) :: calc_type
@@ -59,7 +60,7 @@ contains
       call logger%info("============================================")
       call logger%info("Unfragmented calculation completed")
       block
-         character(len=256) :: result_line
+         character(len=2048) :: result_line  ! Large buffer for Hessian matrix rows
          integer :: current_log_level, iatom, i, j
          real(dp) :: hess_norm
 
@@ -101,6 +102,74 @@ contains
                end do
                call logger%info(" ")
             end if
+
+            ! Compute and print vibrational frequencies
+            block
+               real(dp), allocatable :: frequencies(:)
+               real(dp), allocatable :: eigenvalues(:)
+               real(dp), allocatable :: projected_hessian(:, :)
+               integer :: ii, jj
+               call logger%info("  Computing vibrational frequencies (projecting trans/rot modes)...")
+               call compute_vibrational_frequencies(result%hessian, sys_geom%element_numbers, frequencies, eigenvalues, &
+                                                    coordinates=sys_geom%coordinates, project_trans_rot=.true., &
+                                                    projected_hessian_out=projected_hessian)
+
+               ! Print projected mass-weighted Hessian if verbose and small system
+               if (current_log_level >= verbose_level .and. total_atoms < 20) then
+                  if (allocated(projected_hessian)) then
+                     call logger%info(" ")
+                     call logger%info("Mass-weighted Hessian after trans/rot projection (a.u.):")
+                     do ii = 1, 3*total_atoms
+                        write (result_line, '(a,i5,a,999f15.8)') "  Row ", ii, ": ", &
+                           (projected_hessian(ii, jj), jj=1, 3*total_atoms)
+                        call logger%info(trim(result_line))
+                     end do
+                     call logger%info(" ")
+                  end if
+               end if
+
+               if (allocated(frequencies)) then
+                  call logger%info(" ")
+                  call logger%info("All modes (mass-weighted Hessian eigenvalues):")
+                  call logger%info("  Mode   Eigenvalue (a.u.)    Frequency (cm^-1)")
+                  call logger%info("  ----   ----------------    ------------------")
+                  do i = 1, size(frequencies)
+                     if (frequencies(i) < 0.0_dp) then
+                        write (result_line, '(a,i5,a,es16.8,a,f12.2,a)') &
+                           "  ", i, "    ", eigenvalues(i), "    ", frequencies(i), "i"
+                     else
+                        write (result_line, '(a,i5,a,es16.8,a,f12.2)') &
+                           "  ", i, "    ", eigenvalues(i), "    ", frequencies(i)
+                     end if
+                     call logger%info(trim(result_line))
+                  end do
+
+                  ! Print only vibrational frequencies (excluding trans/rot modes near zero)
+                  call logger%info(" ")
+                  call logger%info("Vibrational frequencies only (excluding trans/rot modes):")
+                  call logger%info("  Mode   Frequency (cm^-1)")
+                  call logger%info("  ----   ------------------")
+                  jj = 0
+                  do i = 1, size(frequencies)
+                     ! Skip modes with eigenvalues near zero (trans/rot modes)
+                     if (abs(eigenvalues(i)) > 1.0e-6_dp) then
+                        jj = jj + 1
+                        if (frequencies(i) < 0.0_dp) then
+                           write (result_line, '(a,i5,a,f12.2,a)') "  ", jj, "    ", frequencies(i), "i"
+                        else
+                           write (result_line, '(a,i5,a,f12.2)') "  ", jj, "    ", frequencies(i)
+                        end if
+                        call logger%info(trim(result_line))
+                     end if
+                  end do
+                  write (result_line, '(a,i3,a)') "  (", jj, " vibrational modes)"
+                  call logger%info(trim(result_line))
+
+                  deallocate (frequencies)
+                  if (allocated(eigenvalues)) deallocate (eigenvalues)
+               end if
+               if (allocated(projected_hessian)) deallocate (projected_hessian)
+            end block
          end if
       end block
       call logger%info("============================================")

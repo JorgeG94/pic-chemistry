@@ -738,8 +738,8 @@ contains
             case ('level')
                read (value, *, iostat=io_stat) config%frag_level
                if (io_stat == 0) then
-                  if (config%frag_level < 1) then
-                     call error%set(ERROR_VALIDATION, "Fragmentation level must be >= 1")
+                  if (config%frag_level < 0) then
+                     call error%set(ERROR_VALIDATION, "Fragmentation level must be >= 0 (0 = unfragmented)")
                      return
                   end if
                   if (config%frag_level > 10) then
