@@ -160,9 +160,11 @@ contains
          error stop "Failed to create XTB calculator"
       end if
 
-      ! Allocate gradient and sigma arrays
+      ! Allocate gradient and sigma arrays (initialize to zero)
       allocate (gradient(3, fragment%n_atoms))
       allocate (sigma(3, 3))
+      gradient = 0.0_wp
+      sigma = 0.0_wp
 
       ! Create wavefunction and run single point calculation with gradient
       call new_wavefunction(wfn, mol%nat, calc%bas%nsh, calc%bas%nao, 1, this%kt, grad=.true.)
@@ -222,16 +224,15 @@ contains
 
       n_atoms = fragment%n_atoms
       n_displacements = 3*n_atoms
+      displacement = DEFAULT_DISPLACEMENT
 
       if (this%verbose) then
          call logger%info("XTB: Computing Hessian via finite differences")
          call logger%info("  Method: Central differences of gradients")
          call logger%info("  Atoms: "//to_char(n_atoms))
          call logger%info("  Gradient calculations needed: "//to_char(2*n_displacements))
+         call logger%info("  Finite difference step size: "//to_char(displacement)//" Bohr")
       end if
-
-      ! Use default displacement (0.001 Bohr ~ 0.0005 Angstrom)
-      displacement = DEFAULT_DISPLACEMENT
 
       ! Generate all perturbed geometries
       call generate_perturbed_geometries(fragment, displacement, forward_geoms, backward_geoms)

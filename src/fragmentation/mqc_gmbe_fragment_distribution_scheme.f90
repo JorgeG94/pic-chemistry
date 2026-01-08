@@ -18,6 +18,7 @@ module mqc_gmbe_fragment_distribution_scheme
    use mqc_result_types, only: calculation_result_t, result_send, result_isend, result_recv, result_irecv
    use mqc_mbe_fragment_distribution_scheme, only: do_fragment_work
    use mqc_mbe_io, only: print_gmbe_json, print_gmbe_pie_json
+   use mqc_vibrational_analysis, only: compute_vibrational_analysis, print_vibrational_analysis
    implicit none
    ! Error handling imported where needed
    private
@@ -184,6 +185,26 @@ contains
       if (calc_type == CALC_TYPE_HESSIAN) then
          call logger%info("GMBE PIE Hessian computation completed")
          call logger%info("  Total Hessian Frobenius norm: "//to_char(sqrt(sum(total_hessian**2))))
+
+         ! Compute and print full vibrational analysis
+         block
+            real(dp), allocatable :: frequencies(:), reduced_masses(:), force_constants(:)
+            real(dp), allocatable :: cart_disp(:, :), fc_mdyne(:)
+
+            call logger%info("  Computing vibrational analysis (projecting trans/rot modes)...")
+            call compute_vibrational_analysis(total_hessian, sys_geom%element_numbers, frequencies, &
+                                              reduced_masses, force_constants, cart_disp, &
+                                              coordinates=sys_geom%coordinates, &
+                                              project_trans_rot=.true., &
+                                              force_constants_mdyne=fc_mdyne)
+
+            if (allocated(frequencies)) then
+               call print_vibrational_analysis(frequencies, reduced_masses, force_constants, &
+                                               cart_disp, sys_geom%element_numbers, &
+                                               force_constants_mdyne=fc_mdyne)
+               deallocate (frequencies, reduced_masses, force_constants, cart_disp, fc_mdyne)
+            end if
+         end block
       end if
 
       call logger%info(" ")
@@ -501,6 +522,26 @@ contains
          ! Print Hessian information
          call logger%info("GMBE PIE Hessian computation completed")
          call logger%info("  Total Hessian Frobenius norm: "//to_char(sqrt(sum(total_hessian**2))))
+
+         ! Compute and print full vibrational analysis
+         block
+            real(dp), allocatable :: frequencies(:), reduced_masses(:), force_constants(:)
+            real(dp), allocatable :: cart_disp(:, :), fc_mdyne(:)
+
+            call logger%info("  Computing vibrational analysis (projecting trans/rot modes)...")
+            call compute_vibrational_analysis(total_hessian, sys_geom%element_numbers, frequencies, &
+                                              reduced_masses, force_constants, cart_disp, &
+                                              coordinates=sys_geom%coordinates, &
+                                              project_trans_rot=.true., &
+                                              force_constants_mdyne=fc_mdyne)
+
+            if (allocated(frequencies)) then
+               call print_vibrational_analysis(frequencies, reduced_masses, force_constants, &
+                                               cart_disp, sys_geom%element_numbers, &
+                                               force_constants_mdyne=fc_mdyne)
+               deallocate (frequencies, reduced_masses, force_constants, cart_disp, fc_mdyne)
+            end if
+         end block
       end if
 
       call coord_timer%stop()
