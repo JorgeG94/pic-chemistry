@@ -5,7 +5,8 @@ module mqc_gmbe_fragment_distribution_scheme
    use pic_types, only: int32, int64, dp
    use pic_timer, only: timer_type
    use mqc_calc_types, only: CALC_TYPE_GRADIENT
- use pic_mpi_lib, only: comm_t, send, recv, isend, irecv, wait, iprobe, MPI_Status, request_t, MPI_ANY_SOURCE, MPI_ANY_TAG, abort_comm
+   use pic_mpi_lib, only: comm_t, send, recv, isend, irecv, &
+                          wait, iprobe, MPI_Status, request_t, MPI_ANY_SOURCE, MPI_ANY_TAG, abort_comm
    use pic_logger, only: logger => global_logger
    use pic_io, only: to_char
    use mqc_mpi_tags, only: TAG_WORKER_REQUEST, TAG_WORKER_FRAGMENT, TAG_WORKER_FINISH, &
