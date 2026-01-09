@@ -1,0 +1,680 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A demonstration of PIC as a framework for scientific applications targetting quantum chemistry">
+    <meta name="author" content="Jorge Luis Galvez Vallejo" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>mqc_resources &ndash; metalquicha</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">metalquicha </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../program/main.html">Program</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>mqc_resources
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.1% of total for modules and submodules.">9 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/mqc_resources.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_resources.f90.html'>mqc_resources.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">mqc_resources</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#types-0"
+         aria-expanded="false" aria-controls="types-0">
+         <h4 class="card-header bg-primary text-white">Derived Types</h4>
+      </a>
+      <div id="types-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mqc_resources.html#type-resources_t">resources_t</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>Container type for calculation resources - extensible for future needs</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='mqc_mpi_comms.html'>mqc_mpi_comms</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~mqc_resources~~UsesGraph Pages: 1 -->
+<svg id="modulemqc_resourcesUsesGraph" width="350pt" height="32pt"
+ viewBox="0.00 0.00 350.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~mqc_resources~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>module~~mqc_resources~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 346,-28 346,4 -4,4"/>
+<!-- module~mqc_resources -->
+<g id="module~~mqc_resources~~UsesGraph_node1" class="node">
+<title>module~mqc_resources</title>
+<polygon fill="none" stroke="black" points="342,-24 250,-24 250,0 342,0 342,-24"/>
+<text text-anchor="middle" x="296" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">mqc_resources</text>
+</g>
+<!-- module~mqc_mpi_comms -->
+<g id="module~~mqc_resources~~UsesGraph_node2" class="node">
+<title>module~mqc_mpi_comms</title>
+<g id="a_module~~mqc_resources~~UsesGraph_node2"><a xlink:href="../module/mqc_mpi_comms.html" xlink:title="mqc_mpi_comms">
+<polygon fill="#337ab7" stroke="#337ab7" points="214,-24 108,-24 108,0 214,0 214,-24"/>
+<text text-anchor="middle" x="161" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_mpi_comms</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_resources&#45;&gt;module~mqc_mpi_comms -->
+<g id="module~~mqc_resources~~UsesGraph_edge1" class="edge">
+<title>module~mqc_resources&#45;&gt;module~mqc_mpi_comms</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M249.97,-12C241.74,-12 233.01,-12 224.38,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="224.33,-8.5 214.33,-12 224.33,-15.5 224.33,-8.5"/>
+</g>
+<!-- pic_mpi_lib -->
+<g id="module~~mqc_resources~~UsesGraph_node3" class="node">
+<title>pic_mpi_lib</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="72,-24 0,-24 0,0 72,0 72,-24"/>
+<text text-anchor="middle" x="36" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_mpi_lib</text>
+</g>
+<!-- module~mqc_mpi_comms&#45;&gt;pic_mpi_lib -->
+<g id="module~~mqc_resources~~UsesGraph_edge2" class="edge">
+<title>module~mqc_mpi_comms&#45;&gt;pic_mpi_lib</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M107.84,-12C99.37,-12 90.65,-12 82.36,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="82.13,-8.5 72.13,-12 82.13,-15.5 82.13,-8.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~mqc_resources~~UsedByGraph Pages: 1 -->
+<svg id="modulemqc_resourcesUsedByGraph" width="641pt" height="214pt"
+ viewBox="0.00 0.00 641.00 213.67" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~mqc_resources~~UsedByGraph" class="graph" transform="scale(0.67 0.67) rotate(0) translate(4 314)">
+<title>module~~mqc_resources~~UsedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-314 950,-314 950,4 -4,4"/>
+<!-- module~mqc_resources -->
+<g id="module~~mqc_resources~~UsedByGraph_node1" class="node">
+<title>module~mqc_resources</title>
+<polygon fill="none" stroke="black" points="92,-115 0,-115 0,-91 92,-91 92,-115"/>
+<text text-anchor="middle" x="46" y="-100.6" font-family="Helvetica,sans-Serif" font-size="10.50">mqc_resources</text>
+</g>
+<!-- module~mqc_calculation_interface -->
+<g id="module~~mqc_resources~~UsedByGraph_node2" class="node">
+<title>module~mqc_calculation_interface</title>
+<g id="a_module~~mqc_resources~~UsedByGraph_node2"><a xlink:href="../module/mqc_calculation_interface.html" xlink:title="mqc_calculation_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="320.5,-209 167.5,-209 167.5,-185 320.5,-185 320.5,-209"/>
+<text text-anchor="middle" x="244" y="-194.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_calculation_interface</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_calculation_interface&#45;&gt;module~mqc_resources -->
+<g id="module~~mqc_resources~~UsedByGraph_edge1" class="edge">
+<title>module~mqc_calculation_interface&#45;&gt;module~mqc_resources</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M167.46,-189.37C153.89,-186.3 140.2,-182 128,-176 102.01,-163.22 78.16,-139.65 63.17,-122.75"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="65.73,-120.35 56.56,-115.06 60.43,-124.92 65.73,-120.35"/>
+</g>
+<!-- module~mqc_driver -->
+<g id="module~~mqc_resources~~UsedByGraph_node3" class="node">
+<title>module~mqc_driver</title>
+<g id="a_module~~mqc_resources~~UsedByGraph_node3"><a xlink:href="../module/mqc_driver.html" xlink:title="mqc_driver">
+<polygon fill="#337ab7" stroke="#337ab7" points="744,-84 671,-84 671,-60 744,-60 744,-84"/>
+<text text-anchor="middle" x="707.5" y="-69.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_driver</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_driver&#45;&gt;module~mqc_resources -->
+<g id="module~~mqc_resources~~UsedByGraph_edge2" class="edge">
+<title>module~mqc_driver&#45;&gt;module~mqc_resources</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M670.9,-66C632.81,-60.11 570.56,-52 516.5,-52"/>
+</g>
+<!-- module~mqc_mbe_fragment_distribution_scheme~2 -->
+<g id="module~~mqc_resources~~UsedByGraph_node4" class="node">
+<title>module~mqc_mbe_fragment_distribution_scheme~2</title>
+<g id="a_module~~mqc_resources~~UsedByGraph_node4"><a xlink:href="../module/mqc_mbe_fragment_distribution_scheme~2.html" xlink:title="mqc_mbe_fragment_distribution_scheme">
+<polygon fill="#337ab7" stroke="#337ab7" points="360,-167 128,-167 128,-143 360,-143 360,-167"/>
+<text text-anchor="middle" x="244" y="-152.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_mbe_fragment_distribution_scheme</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_driver&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2 -->
+<g id="module~~mqc_resources~~UsedByGraph_edge8" class="edge">
+<title>module~mqc_driver&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M705.63,-84.06C702.61,-116.05 689.5,-203.05 635,-239 590.67,-268.25 441.94,-265.66 396,-239 368.11,-222.81 386.32,-194.64 360,-176 357.86,-174.49 355.65,-173.07 353.37,-171.75"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="354.79,-168.55 344.3,-167.1 351.6,-174.78 354.79,-168.55"/>
+</g>
+<!-- module~mqc_gmbe_fragment_distribution_scheme -->
+<g id="module~~mqc_resources~~UsedByGraph_node7" class="node">
+<title>module~mqc_gmbe_fragment_distribution_scheme</title>
+<g id="a_module~~mqc_resources~~UsedByGraph_node7"><a xlink:href="../module/mqc_gmbe_fragment_distribution_scheme.html" xlink:title="mqc_gmbe_fragment_distribution_scheme">
+<polygon fill="#337ab7" stroke="#337ab7" points="635,-310 396,-310 396,-286 635,-286 635,-310"/>
+<text text-anchor="middle" x="515.5" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_gmbe_fragment_distribution_scheme</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_driver&#45;&gt;module~mqc_gmbe_fragment_distribution_scheme -->
+<g id="module~~mqc_resources~~UsedByGraph_edge14" class="edge">
+<title>module~mqc_driver&#45;&gt;module~mqc_gmbe_fragment_distribution_scheme</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M706.03,-84.1C704,-119.03 693.13,-220.84 635,-272 631,-275.52 626.64,-278.6 622.02,-281.29"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="620.15,-278.31 612.85,-285.99 623.34,-284.54 620.15,-278.31"/>
+</g>
+<!-- module~mqc_mbe_fragment_distribution_scheme~2&#45;&gt;module~mqc_resources -->
+<g id="module~~mqc_resources~~UsedByGraph_edge3" class="edge">
+<title>module~mqc_mbe_fragment_distribution_scheme~2&#45;&gt;module~mqc_resources</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M197.54,-142.94C169.09,-135.39 132.26,-125.62 102.15,-117.63"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="102.78,-114.18 92.21,-115 100.98,-120.94 102.78,-114.18"/>
+</g>
+<!-- proc~gmbe_pie_coordinator -->
+<g id="module~~mqc_resources~~UsedByGraph_node5" class="node">
+<title>proc~gmbe_pie_coordinator</title>
+<g id="a_module~~mqc_resources~~UsedByGraph_node5"><a xlink:href="../proc/gmbe_pie_coordinator.html" xlink:title="gmbe_pie_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="310.5,-24 177.5,-24 177.5,0 310.5,0 310.5,-24"/>
+<text text-anchor="middle" x="244" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">gmbe_pie_coordinator</text>
+</a>
+</g>
+</g>
+<!-- proc~gmbe_pie_coordinator&#45;&gt;module~mqc_resources -->
+<g id="module~~mqc_resources~~UsedByGraph_edge4" class="edge">
+<title>proc~gmbe_pie_coordinator&#45;&gt;module~mqc_resources</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M177.39,-21.46C160.77,-25.29 143.3,-30.62 128,-38 104.21,-49.47 81.13,-69.09 65.73,-83.78"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="63.11,-81.45 58.42,-90.95 68.01,-86.45 63.11,-81.45"/>
+</g>
+<!-- program~main -->
+<g id="module~~mqc_resources~~UsedByGraph_node6" class="node">
+<title>program~main</title>
+<g id="a_module~~mqc_resources~~UsedByGraph_node6"><a xlink:href="../program/main.html" xlink:title="main">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="890,-44 836,-44 836,-20 890,-20 890,-44"/>
+<text text-anchor="middle" x="863" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
+</a>
+</g>
+</g>
+<!-- program~main&#45;&gt;module~mqc_resources -->
+<g id="module~~mqc_resources~~UsedByGraph_edge5" class="edge">
+<title>program~main&#45;&gt;module~mqc_resources</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M835.59,-34.57C777.8,-39.98 635.76,-52 516.5,-52"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M514.5,-52C364.71,-49.66 189.48,-76.87 102.23,-92.48"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="101.5,-89.05 92.28,-94.28 102.75,-95.94 101.5,-89.05"/>
+</g>
+<!-- program~main&#45;&gt;module~mqc_driver -->
+<g id="module~~mqc_resources~~UsedByGraph_edge7" class="edge">
+<title>program~main&#45;&gt;module~mqc_driver</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M835.76,-38.65C819.66,-42.75 798.63,-48.14 780,-53 771.6,-55.19 762.66,-57.55 754.04,-59.83"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="752.89,-56.52 744.12,-62.47 754.69,-63.28 752.89,-56.52"/>
+</g>
+<!-- module~mqc_gmbe_fragment_distribution_scheme&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2 -->
+<g id="module~~mqc_resources~~UsedByGraph_edge9" class="edge">
+<title>module~mqc_gmbe_fragment_distribution_scheme&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M418.25,-285.88C410.18,-282.28 402.61,-277.72 396,-272 361.56,-242.16 394.96,-205.23 360,-176 358.45,-174.71 356.85,-173.48 355.2,-172.32"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="356.96,-169.3 346.61,-167.05 353.31,-175.26 356.96,-169.3"/>
+</g>
+<!-- module~mqc_hessian_distribution_scheme -->
+<g id="module~~mqc_resources~~UsedByGraph_node8" class="node">
+<title>module~mqc_hessian_distribution_scheme</title>
+<g id="a_module~~mqc_resources~~UsedByGraph_node8"><a xlink:href="../module/mqc_hessian_distribution_scheme.html" xlink:title="mqc_hessian_distribution_scheme">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="612.5,-230 418.5,-230 418.5,-206 612.5,-206 612.5,-230"/>
+<text text-anchor="middle" x="515.5" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_hessian_distribution_scheme</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_hessian_distribution_scheme&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2 -->
+<g id="module~~mqc_resources~~UsedByGraph_edge10" class="edge">
+<title>module~mqc_hessian_distribution_scheme&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2</title>
+<path fill="none" stroke="#00ff66" d="M426.21,-205.93C415.88,-203.47 405.61,-200.53 396,-197 378.61,-190.62 377.37,-182.43 360,-176 353.61,-173.63 346.91,-171.53 340.1,-169.65"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="340.62,-166.17 330.07,-167.07 338.88,-172.95 340.62,-166.17"/>
+</g>
+<!-- module~mqc_mbe_fragment_distribution_scheme -->
+<g id="module~~mqc_resources~~UsedByGraph_node9" class="node">
+<title>module~mqc_mbe_fragment_distribution_scheme</title>
+<g id="a_module~~mqc_resources~~UsedByGraph_node9"><a xlink:href="../module/mqc_mbe_fragment_distribution_scheme.html" xlink:title="mqc_mbe_fragment_distribution_scheme">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="631.5,-188 399.5,-188 399.5,-164 631.5,-164 631.5,-188"/>
+<text text-anchor="middle" x="515.5" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_mbe_fragment_distribution_scheme</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_mbe_fragment_distribution_scheme&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2 -->
+<g id="module~~mqc_resources~~UsedByGraph_edge11" class="edge">
+<title>module~mqc_mbe_fragment_distribution_scheme&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2</title>
+<path fill="none" stroke="#00ff66" d="M399.43,-167.03C389.76,-166.28 379.96,-165.52 370.23,-164.76"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="370.36,-161.26 360.12,-163.97 369.82,-168.24 370.36,-161.26"/>
+</g>
+<!-- module~mqc_serial_fragment_processor -->
+<g id="module~~mqc_resources~~UsedByGraph_node10" class="node">
+<title>module~mqc_serial_fragment_processor</title>
+<g id="a_module~~mqc_resources~~UsedByGraph_node10"><a xlink:href="../module/mqc_serial_fragment_processor.html" xlink:title="mqc_serial_fragment_processor">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="606.5,-146 424.5,-146 424.5,-122 606.5,-122 606.5,-146"/>
+<text text-anchor="middle" x="515.5" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_serial_fragment_processor</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_serial_fragment_processor&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2 -->
+<g id="module~~mqc_resources~~UsedByGraph_edge12" class="edge">
+<title>module~mqc_serial_fragment_processor&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2</title>
+<path fill="none" stroke="#00ff66" d="M424.39,-141.02C407.09,-142.37 388.68,-143.8 370.5,-145.22"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="370.12,-141.74 360.43,-146.01 370.67,-148.72 370.12,-141.74"/>
+</g>
+<!-- module~mqc_unfragmented_workflow -->
+<g id="module~~mqc_resources~~UsedByGraph_node11" class="node">
+<title>module~mqc_unfragmented_workflow</title>
+<g id="a_module~~mqc_resources~~UsedByGraph_node11"><a xlink:href="../module/mqc_unfragmented_workflow.html" xlink:title="mqc_unfragmented_workflow">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="600.5,-104 430.5,-104 430.5,-80 600.5,-80 600.5,-104"/>
+<text text-anchor="middle" x="515.5" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_unfragmented_workflow</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_unfragmented_workflow&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2 -->
+<g id="module~~mqc_resources~~UsedByGraph_edge13" class="edge">
+<title>module~mqc_unfragmented_workflow&#45;&gt;module~mqc_mbe_fragment_distribution_scheme~2</title>
+<path fill="none" stroke="#00ff66" d="M440.32,-104.02C425.58,-106.72 410.26,-109.76 396,-113 361.55,-120.82 323.21,-131.51 293.78,-140.15"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="292.76,-136.8 284.16,-142.99 294.74,-143.52 292.76,-136.8"/>
+</g>
+<!-- proc~compute_energy_and_forces -->
+<g id="module~~mqc_resources~~UsedByGraph_node12" class="node">
+<title>proc~compute_energy_and_forces</title>
+<g id="a_module~~mqc_resources~~UsedByGraph_node12"><a xlink:href="../proc/compute_energy_and_forces.html" xlink:title="compute_energy_and_forces">
+<polygon fill="#d9534f" stroke="#d9534f" points="946,-86 780,-86 780,-62 946,-62 946,-86"/>
+<text text-anchor="middle" x="863" y="-71.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_energy_and_forces</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_energy_and_forces&#45;&gt;module~mqc_driver -->
+<g id="module~~mqc_resources~~UsedByGraph_edge6" class="edge">
+<title>proc~compute_energy_and_forces&#45;&gt;module~mqc_driver</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M779.86,-72.93C771.04,-72.81 762.31,-72.7 754.15,-72.59"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="754.19,-69.1 744.15,-72.46 754.1,-76.09 754.19,-69.1"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panmodulemqc_resourcesUsedByGraph = svgPanZoom('#modulemqc_resourcesUsedByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+
+
+
+
+        <section>
+          <h2>Derived Types</h2>
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-resources_t"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/resources_t.html'>resources_t</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Container for calculation resources</p><a href="../type/resources_t.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mpi_comms"></span>
+              type(<a href='../type/mpi_comms_t.html'>mpi_comms_t</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mpi_comms</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+<p>MPI communicators</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              metalquicha
+ was developed by Jorge Luis Galvez Vallejo<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-01-09 10:29 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

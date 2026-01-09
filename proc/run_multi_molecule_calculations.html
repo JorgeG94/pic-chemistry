@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.9% of total for procedures.">142 statements</a>
+                 title=" 1.9% of total for procedures.">141 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -137,18 +137,17 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-color">color</a>
-            <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-config~2">config</a>
-            <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-error~7">error</a>
+            <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-config~17">config</a>
+            <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-error~52">error</a>
             <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-has_fragmented_molecules">has_fragmented_molecules</a>
-            <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-imol">imol</a>
+            <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-imol~3">imol</a>
             <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-individual_json_files">individual_json_files</a>
-            <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-mol_comm">mol_comm</a>
             <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-mol_name">mol_name</a>
-            <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-mol_node_comm">mol_node_comm</a>
+            <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-mol_resources">mol_resources</a>
             <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-molecules_processed">molecules_processed</a>
             <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-my_rank">my_rank</a>
             <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-num_ranks">num_ranks</a>
-            <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-sys_geom~11">sys_geom</a>
+            <a class="list-group-item" href="../proc/run_multi_molecule_calculations.html#variable-sys_geom~35">sys_geom</a>
         </div>
       </div>
     </div>
@@ -184,7 +183,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public  subroutine run_multi_molecule_calculations(world_comm, node_comm, mqc_config)  
+    <h2>public  subroutine run_multi_molecule_calculations(resources, mqc_config)  
 </h2>
         <div class="card mb-4">
       <h3 class="card-header card-title bg-light">Uses</h3>
@@ -192,11 +191,11 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/mqc_json.html'>mqc_json</a></li>
+                  <li class="list-inline-item"><a href='../module/mqc_error.html'>mqc_error</a></li>
                   <li class="list-inline-item"><a href='../module/mqc_io_helpers.html'>mqc_io_helpers</a></li>
                   <li class="list-inline-item"><a href='../module/mqc_config_parser.html'>mqc_config_parser</a></li>
+                  <li class="list-inline-item"><a href='../module/mqc_json.html'>mqc_json</a></li>
                   <li class="list-inline-item"><a href='../module/mqc_config_adapter.html'>mqc_config_adapter</a></li>
-                  <li class="list-inline-item"><a href='../module/mqc_error.html'>mqc_error</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -676,37 +675,22 @@ Each molecule is independent, so assign one molecule per rank</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-world_comm~11"></span>
-              type(comm_t),
+              <span class="anchor" id="variable-resources~9"></span>
+              type(<a href='../type/resources_t.html'>resources_t</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>world_comm</strong></td>
+            <td><strong>resources</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_comm~6"></span>
-              type(comm_t),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>node_comm</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-mqc_config"></span>
+              <span class="anchor" id="variable-mqc_config~4"></span>
               type(<a href='../type/mqc_config_t.html'>mqc_config_t</a>),
             </td>
 <td>intent(in)</td>
@@ -3620,7 +3604,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-config~2"></span>
+              <span class="anchor" id="variable-config~17"></span>
               type(<a href='../type/driver_config_t.html'>driver_config_t</a>),
             </td>
               <td>private</td>
@@ -3637,7 +3621,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-error~7"></span>
+              <span class="anchor" id="variable-error~52"></span>
               type(<a href='../type/error_t.html'>error_t</a>),
             </td>
               <td>private</td>
@@ -3671,7 +3655,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-imol"></span>
+              <span class="anchor" id="variable-imol~3"></span>
               integer,
             </td>
               <td>private</td>
@@ -3705,23 +3689,6 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mol_comm"></span>
-              type(comm_t),
-            </td>
-              <td>private</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>mol_comm</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
               <span class="anchor" id="variable-mol_name"></span>
               character(len=:),
             </td>
@@ -3739,15 +3706,15 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mol_node_comm"></span>
-              type(comm_t),
+              <span class="anchor" id="variable-mol_resources"></span>
+              type(<a href='../type/resources_t.html'>resources_t</a>),
             </td>
               <td>private</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>mol_node_comm</strong></td>
+            <td><strong>mol_resources</strong></td>
                 <td></td>
                 <td></td>
             <td>
@@ -3807,7 +3774,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~11"></span>
+              <span class="anchor" id="variable-sys_geom~35"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
               <td>private</td>
@@ -3838,7 +3805,7 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">run_multi_molecule_calculations</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">mqc_config</span><span class="p">)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">run_multi_molecule_calculations</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span><span class="w"> </span><span class="n">mqc_config</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Run calculations for multiple molecules with MPI parallelization</span>
 <span class="w">      </span><span class="c">!! Each molecule is independent, so assign one molecule per rank</span>
 <span class="w">      </span><span class="k">use </span><span class="n">mqc_config_parser</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">mqc_config_t</span>
@@ -3847,13 +3814,12 @@ large graphs.</div>
 <span class="w">      </span><span class="k">use </span><span class="n">mqc_io_helpers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">set_molecule_suffix</span><span class="p">,</span><span class="w"> </span><span class="n">get_output_json_filename</span>
 <span class="w">      </span><span class="k">use </span><span class="n">mqc_json</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">merge_multi_molecule_json</span>
 
-<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">comm_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">world_comm</span>
-<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">comm_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">node_comm</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">resources_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">resources</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">mqc_config_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mqc_config</span>
 
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">driver_config_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">config</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">system_geometry_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sys_geom</span>
-<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">comm_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mol_comm</span><span class="p">,</span><span class="w"> </span><span class="n">mol_node_comm</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">resources_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mol_resources</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">error_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">error</span>
 <span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">imol</span><span class="p">,</span><span class="w"> </span><span class="n">my_rank</span><span class="p">,</span><span class="w"> </span><span class="n">num_ranks</span><span class="p">,</span><span class="w"> </span><span class="n">color</span>
 <span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">molecules_processed</span>
@@ -3861,8 +3827,8 @@ large graphs.</div>
 <span class="w">      </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">has_fragmented_molecules</span>
 <span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">256</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">individual_json_files</span><span class="p">(:)</span>
 
-<span class="w">      </span><span class="n">my_rank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">world_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">()</span>
-<span class="w">      </span><span class="n">num_ranks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">world_comm</span><span class="p">%</span><span class="n">size</span><span class="p">()</span>
+<span class="w">      </span><span class="n">my_rank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">()</span>
+<span class="w">      </span><span class="n">num_ranks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">%</span><span class="n">size</span><span class="p">()</span>
 
 <span class="w">      </span><span class="c">! Allocate array to track individual JSON files for merging</span>
 <span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">individual_json_files</span><span class="p">(</span><span class="n">mqc_config</span><span class="p">%</span><span class="n">nmol</span><span class="p">))</span>
@@ -3930,14 +3896,14 @@ large graphs.</div>
 <span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">my_rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="k">                  call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Error converting geometry for &quot;</span><span class="o">//</span><span class="n">mol_name</span><span class="o">//</span><span class="s2">&quot;: &quot;</span><span class="o">//</span><span class="n">error</span><span class="p">%</span><span class="n">get_full_trace</span><span class="p">())</span>
 <span class="w">               </span><span class="k">end if</span>
-<span class="k">               call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="k">               call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">            </span><span class="k">end if</span>
 
 <span class="w">            </span><span class="c">! Set output filename suffix for this molecule</span>
 <span class="w">            </span><span class="k">call </span><span class="n">set_molecule_suffix</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">mol_name</span><span class="p">))</span>
 
 <span class="w">            </span><span class="c">! Run calculation for this molecule</span>
-<span class="w">            </span><span class="k">call </span><span class="n">run_calculation</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">mqc_config</span><span class="p">%</span><span class="n">molecules</span><span class="p">(</span><span class="n">imol</span><span class="p">)%</span><span class="n">bonds</span><span class="p">)</span>
+<span class="w">            </span><span class="k">call </span><span class="n">run_calculation</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">mqc_config</span><span class="p">%</span><span class="n">molecules</span><span class="p">(</span><span class="n">imol</span><span class="p">)%</span><span class="n">bonds</span><span class="p">)</span>
 
 <span class="w">            </span><span class="c">! Track the JSON filename for later merging</span>
 <span class="w">            </span><span class="n">individual_json_files</span><span class="p">(</span><span class="n">imol</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_output_json_filename</span><span class="p">()</span>
@@ -3977,14 +3943,14 @@ large graphs.</div>
 <span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">%</span><span class="n">has_error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
 <span class="k">                  call </span><span class="n">error</span><span class="p">%</span><span class="n">add_context</span><span class="p">(</span><span class="s2">&quot;mqc_driver:run_multi_molecule_calculation&quot;</span><span class="p">)</span>
 <span class="w">  </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Rank &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">my_rank</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot;: Error converting geometry for &quot;</span><span class="o">//</span><span class="n">mol_name</span><span class="o">//</span><span class="s2">&quot;: &quot;</span><span class="o">//</span><span class="n">error</span><span class="p">%</span><span class="n">get_full_trace</span><span class="p">())</span>
-<span class="w">                  </span><span class="k">call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">                  </span><span class="k">call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">               </span><span class="k">end if</span>
 
 <span class="w">               </span><span class="c">! Set output filename suffix for this molecule</span>
 <span class="w">               </span><span class="k">call </span><span class="n">set_molecule_suffix</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">mol_name</span><span class="p">))</span>
 
 <span class="w">               </span><span class="c">! Run calculation for this molecule</span>
-<span class="w">               </span><span class="k">call </span><span class="n">run_calculation</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">mqc_config</span><span class="p">%</span><span class="n">molecules</span><span class="p">(</span><span class="n">imol</span><span class="p">)%</span><span class="n">bonds</span><span class="p">)</span>
+<span class="w">               </span><span class="k">call </span><span class="n">run_calculation</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">mqc_config</span><span class="p">%</span><span class="n">molecules</span><span class="p">(</span><span class="n">imol</span><span class="p">)%</span><span class="n">bonds</span><span class="p">)</span>
 
 <span class="w">               </span><span class="c">! Track the JSON filename for later merging</span>
 <span class="w">               </span><span class="n">individual_json_files</span><span class="p">(</span><span class="n">imol</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_output_json_filename</span><span class="p">()</span>
@@ -4006,7 +3972,7 @@ large graphs.</div>
 <span class="k">      end if</span>
 
 <span class="w">      </span><span class="c">! Synchronize all ranks</span>
-<span class="w">      </span><span class="k">call </span><span class="n">world_comm</span><span class="p">%</span><span class="n">barrier</span><span class="p">()</span>
+<span class="w">      </span><span class="k">call </span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">%</span><span class="n">barrier</span><span class="p">()</span>
 
 <span class="w">      </span><span class="c">! In parallel execution, rank 0 needs to reconstruct all JSON filenames for merging</span>
 <span class="w">      </span><span class="c">! since each rank only populated its own entry</span>
@@ -4071,7 +4037,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-09 10:18 +0000             </p>
+ on 2026-01-09 10:29 +0000             </p>
           </div>
         </div>
         <br>

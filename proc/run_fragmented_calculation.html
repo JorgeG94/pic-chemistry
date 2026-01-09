@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.8% of total for procedures.">137 statements</a>
+                 title=" 1.8% of total for procedures.">136 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -138,26 +138,26 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-all_node_leader_ranks">all_node_leader_ranks</a>
             <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-global_node_rank">global_node_rank</a>
-            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-i~10">i</a>
-            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-intersection_levels">intersection_levels</a>
-            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-intersection_sets">intersection_sets</a>
+            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-i~55">i</a>
+            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-intersection_levels~4">intersection_levels</a>
+            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-intersection_sets~5">intersection_sets</a>
             <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-intersections">intersections</a>
-            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-j">j</a>
-            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-monomers~3">monomers</a>
+            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-j~19">j</a>
+            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-monomers~6">monomers</a>
             <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-n_expected_frags">n_expected_frags</a>
-            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-n_intersections">n_intersections</a>
-            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-n_monomers">n_monomers</a>
-            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-n_pie_terms">n_pie_terms</a>
+            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-n_intersections~4">n_intersections</a>
+            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-n_monomers~8">n_monomers</a>
+            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-n_pie_terms~2">n_pie_terms</a>
             <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-n_primaries">n_primaries</a>
             <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-n_primaries_i64">n_primaries_i64</a>
             <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-n_rows">n_rows</a>
-            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-node_leader_ranks~2">node_leader_ranks</a>
-            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-num_nodes~2">num_nodes</a>
-            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-pie_atom_sets">pie_atom_sets</a>
-            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-pie_coefficients">pie_coefficients</a>
+            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-node_leader_ranks~3">node_leader_ranks</a>
+            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-num_nodes~3">num_nodes</a>
+            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-pie_atom_sets~2">pie_atom_sets</a>
+            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-pie_coefficients~2">pie_coefficients</a>
             <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-pie_error">pie_error</a>
-            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-polymers~3">polymers</a>
-            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-total_fragments~3">total_fragments</a>
+            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-polymers~13">polymers</a>
+            <a class="list-group-item" href="../proc/run_fragmented_calculation.html#variable-total_fragments~5">total_fragments</a>
         </div>
       </div>
     </div>
@@ -193,7 +193,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private  subroutine run_fragmented_calculation(world_comm, node_comm, method, calc_type, sys_geom, max_level, allow_overlapping_fragments, max_intersection_level, bonds, driver_config)  
+    <h2>private  subroutine run_fragmented_calculation(resources, method, calc_type, sys_geom, max_level, allow_overlapping_fragments, max_intersection_level, bonds, driver_config)  
 </h2>
     
 
@@ -216,37 +216,22 @@ If allow_overlapping_fragments=true, uses GMBE with intersection correction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-world_comm~10"></span>
-              type(comm_t),
+              <span class="anchor" id="variable-resources~8"></span>
+              type(<a href='../type/resources_t.html'>resources_t</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>world_comm</strong></td>
+            <td><strong>resources</strong></td>
             <td>
-                <p>Global MPI communicator</p>
+                <p>Resources container (MPI comms, etc.)</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_comm~5"></span>
-              type(comm_t),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>node_comm</strong></td>
-            <td>
-                <p>Node-local MPI communicator</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-method~9"></span>
+              <span class="anchor" id="variable-method~14"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -261,7 +246,7 @@ If allow_overlapping_fragments=true, uses GMBE with intersection correction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-calc_type~8"></span>
+              <span class="anchor" id="variable-calc_type~17"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -276,7 +261,7 @@ If allow_overlapping_fragments=true, uses GMBE with intersection correction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~10"></span>
+              <span class="anchor" id="variable-sys_geom~34"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -291,7 +276,7 @@ If allow_overlapping_fragments=true, uses GMBE with intersection correction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_level~4"></span>
+              <span class="anchor" id="variable-max_level~16"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -306,7 +291,7 @@ If allow_overlapping_fragments=true, uses GMBE with intersection correction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-allow_overlapping_fragments"></span>
+              <span class="anchor" id="variable-allow_overlapping_fragments~3"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -321,7 +306,7 @@ If allow_overlapping_fragments=true, uses GMBE with intersection correction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_intersection_level"></span>
+              <span class="anchor" id="variable-max_intersection_level~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -336,7 +321,7 @@ If allow_overlapping_fragments=true, uses GMBE with intersection correction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~7"></span>
+              <span class="anchor" id="variable-bonds~24"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -351,7 +336,7 @@ If allow_overlapping_fragments=true, uses GMBE with intersection correction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-driver_config~3"></span>
+              <span class="anchor" id="variable-driver_config~4"></span>
               type(<a href='../type/driver_config_t.html'>driver_config_t</a>),
             </td>
 <td>intent(in)</td>
@@ -3759,7 +3744,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~10"></span>
+              <span class="anchor" id="variable-i~55"></span>
               integer,
             </td>
               <td>private</td>
@@ -3776,7 +3761,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-intersection_levels"></span>
+              <span class="anchor" id="variable-intersection_levels~4"></span>
               integer,
             </td>
               <td>private,</td>
@@ -3793,7 +3778,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-intersection_sets"></span>
+              <span class="anchor" id="variable-intersection_sets~5"></span>
               integer,
             </td>
               <td>private,</td>
@@ -3827,7 +3812,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-j"></span>
+              <span class="anchor" id="variable-j~19"></span>
               integer,
             </td>
               <td>private</td>
@@ -3844,7 +3829,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-monomers~3"></span>
+              <span class="anchor" id="variable-monomers~6"></span>
               integer,
             </td>
               <td>private,</td>
@@ -3878,7 +3863,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_intersections"></span>
+              <span class="anchor" id="variable-n_intersections~4"></span>
               integer,
             </td>
               <td>private</td>
@@ -3895,7 +3880,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_monomers"></span>
+              <span class="anchor" id="variable-n_monomers~8"></span>
               integer,
             </td>
               <td>private</td>
@@ -3912,7 +3897,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_pie_terms"></span>
+              <span class="anchor" id="variable-n_pie_terms~2"></span>
               integer(kind=int64),
             </td>
               <td>private</td>
@@ -3980,7 +3965,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_leader_ranks~2"></span>
+              <span class="anchor" id="variable-node_leader_ranks~3"></span>
               integer,
             </td>
               <td>private,</td>
@@ -3997,7 +3982,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-num_nodes~2"></span>
+              <span class="anchor" id="variable-num_nodes~3"></span>
               integer,
             </td>
               <td>private</td>
@@ -4014,7 +3999,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pie_atom_sets"></span>
+              <span class="anchor" id="variable-pie_atom_sets~2"></span>
               integer,
             </td>
               <td>private,</td>
@@ -4031,7 +4016,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pie_coefficients"></span>
+              <span class="anchor" id="variable-pie_coefficients~2"></span>
               integer,
             </td>
               <td>private,</td>
@@ -4065,7 +4050,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-polymers~3"></span>
+              <span class="anchor" id="variable-polymers~13"></span>
               integer,
             </td>
               <td>private,</td>
@@ -4082,7 +4067,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_fragments~3"></span>
+              <span class="anchor" id="variable-total_fragments~5"></span>
               integer(kind=int64),
             </td>
               <td>private</td>
@@ -4113,15 +4098,14 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">run_fragmented_calculation</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">subroutine </span><span class="n">run_fragmented_calculation</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                         </span><span class="n">allow_overlapping_fragments</span><span class="p">,</span><span class="w"> </span><span class="n">max_intersection_level</span><span class="p">,</span><span class="w"> </span><span class="n">bonds</span><span class="p">,</span><span class="w"> </span><span class="n">driver_config</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Handle fragmented calculation (nlevel &gt; 0)</span>
 <span class="w">      </span><span class="c">!!</span>
 <span class="w">      </span><span class="c">!! Generates fragments, distributes work across MPI processes organized in nodes,</span>
 <span class="w">      </span><span class="c">!! and coordinates many-body expansion calculation using hierarchical parallelism.</span>
 <span class="w">      </span><span class="c">!! If allow_overlapping_fragments=true, uses GMBE with intersection correction.</span>
-<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">comm_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">world_comm</span><span class="w">  </span><span class="c">!! Global MPI communicator</span>
-<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">comm_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">node_comm</span><span class="w">   </span><span class="c">!! Node-local MPI communicator</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">resources_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">resources</span><span class="w">  </span><span class="c">!! Resources container (MPI comms, etc.)</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">method</span><span class="w">  </span><span class="c">!! Quantum chemistry method</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_type</span><span class="w">  </span><span class="c">!! Calculation type</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">system_geometry_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sys_geom</span><span class="w">  </span><span class="c">!! System geometry and fragment info</span>
@@ -4157,7 +4141,7 @@ large graphs.</div>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">error_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pie_error</span><span class="w">  </span><span class="c">!! Error from PIE enumeration</span>
 
 <span class="w">      </span><span class="c">! Generate fragments</span>
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">world_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="k">         if</span><span class="w"> </span><span class="p">(</span><span class="n">allow_overlapping_fragments</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">            </span><span class="c">! GMBE mode: PIE-based inclusion-exclusion</span>
 <span class="w">            </span><span class="c">! GMBE(1): primaries are monomers</span>
@@ -4207,7 +4191,7 @@ large graphs.</div>
 <span class="w">                                          </span><span class="n">pie_atom_sets</span><span class="p">,</span><span class="w"> </span><span class="n">pie_coefficients</span><span class="p">,</span><span class="w"> </span><span class="n">n_pie_terms</span><span class="p">,</span><span class="w"> </span><span class="n">pie_error</span><span class="p">)</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pie_error</span><span class="p">%</span><span class="n">has_error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
 <span class="k">               call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;GMBE PIE enumeration failed: &quot;</span><span class="o">//</span><span class="n">pie_error</span><span class="p">%</span><span class="n">get_message</span><span class="p">())</span>
-<span class="w">               </span><span class="k">call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">               </span><span class="k">call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">            </span><span class="k">end if</span>
 
 <span class="k">            call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;GMBE PIE enumeration complete: &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">n_pie_terms</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot; unique subsystems to evaluate&quot;</span><span class="p">)</span>
@@ -4259,24 +4243,24 @@ large graphs.</div>
 <span class="k">      end if</span>
 
 <span class="w">      </span><span class="c">! Broadcast total_fragments to all ranks</span>
-<span class="w">      </span><span class="k">call </span><span class="n">bcast</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">total_fragments</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">      </span><span class="k">call </span><span class="n">bcast</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">total_fragments</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
 
 <span class="w">      </span><span class="c">! Determine node leaders</span>
 <span class="w">      </span><span class="n">global_node_rank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">node_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">global_node_rank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">world_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">()</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">global_node_rank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">()</span>
 
-<span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">all_node_leader_ranks</span><span class="p">(</span><span class="n">world_comm</span><span class="p">%</span><span class="n">size</span><span class="p">()))</span>
-<span class="w">      </span><span class="k">call </span><span class="n">allgather</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">global_node_rank</span><span class="p">,</span><span class="w"> </span><span class="n">all_node_leader_ranks</span><span class="p">)</span>
+<span class="w">      </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">all_node_leader_ranks</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">%</span><span class="n">size</span><span class="p">()))</span>
+<span class="w">      </span><span class="k">call </span><span class="n">allgather</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">global_node_rank</span><span class="p">,</span><span class="w"> </span><span class="n">all_node_leader_ranks</span><span class="p">)</span>
 
 <span class="w">      </span><span class="n">num_nodes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="p">(</span><span class="n">all_node_leader_ranks</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">world_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="k">         call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running with &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot; node(s)&quot;</span><span class="p">)</span>
 <span class="w">      </span><span class="k">end if</span>
 
 <span class="k">      allocate</span><span class="w"> </span><span class="p">(</span><span class="n">node_leader_ranks</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">))</span>
 <span class="w">      </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">      </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">world_comm</span><span class="p">%</span><span class="n">size</span><span class="p">()</span>
+<span class="w">      </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">%</span><span class="n">size</span><span class="p">()</span>
 <span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">all_node_leader_ranks</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="k">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">            </span><span class="n">node_leader_ranks</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">all_node_leader_ranks</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
@@ -4285,7 +4269,7 @@ large graphs.</div>
 <span class="k">      deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">all_node_leader_ranks</span><span class="p">)</span>
 
 <span class="w">      </span><span class="c">! Execute appropriate role</span>
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">world_comm</span><span class="p">%</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">%</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">         </span><span class="c">! Single rank: process fragments serially</span>
 <span class="w">         </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running in serial mode (single MPI rank)&quot;</span><span class="p">)</span>
 <span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">allow_overlapping_fragments</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
@@ -4295,34 +4279,34 @@ large graphs.</div>
 <span class="w">            </span><span class="c">! Standard MBE serial processing</span>
 <span class="w">            </span><span class="k">call </span><span class="n">serial_fragment_processor</span><span class="p">(</span><span class="n">total_fragments</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">bonds</span><span class="p">)</span>
 <span class="w">         </span><span class="k">end if</span>
-<span class="k">      else if</span><span class="w"> </span><span class="p">(</span><span class="n">world_comm</span><span class="p">%</span><span class="n">leader</span><span class="p">()</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">node_comm</span><span class="p">%</span><span class="n">leader</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
+<span class="k">      else if</span><span class="w"> </span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">%</span><span class="n">leader</span><span class="p">()</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">%</span><span class="n">leader</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
 <span class="w">         </span><span class="c">! Global coordinator (rank 0, node leader on node 0)</span>
 <span class="w">         </span><span class="k">call </span><span class="n">omp_set_num_threads</span><span class="p">(</span><span class="n">omp_get_max_threads</span><span class="p">())</span>
 <span class="w">         </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">verbose</span><span class="p">(</span><span class="s2">&quot;Rank 0: Acting as global coordinator&quot;</span><span class="p">)</span>
 <span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">allow_overlapping_fragments</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">            </span><span class="c">! GMBE MPI processing - PIE-based approach</span>
-<span class="w">            </span><span class="k">call </span><span class="n">gmbe_pie_coordinator</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">pie_atom_sets</span><span class="p">,</span><span class="w"> </span><span class="n">pie_coefficients</span><span class="p">,</span><span class="w"> </span><span class="n">n_pie_terms</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="k">call </span><span class="n">gmbe_pie_coordinator</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span><span class="w"> </span><span class="n">pie_atom_sets</span><span class="p">,</span><span class="w"> </span><span class="n">pie_coefficients</span><span class="p">,</span><span class="w"> </span><span class="n">n_pie_terms</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                      </span><span class="n">node_leader_ranks</span><span class="p">,</span><span class="w"> </span><span class="n">num_nodes</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">bonds</span><span class="p">)</span>
 <span class="w">         </span><span class="k">else</span>
 <span class="w">            </span><span class="c">! Standard MBE MPI processing</span>
-<span class="w">            </span><span class="k">call </span><span class="n">global_coordinator</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">total_fragments</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="k">call </span><span class="n">global_coordinator</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span><span class="w"> </span><span class="n">total_fragments</span><span class="p">,</span><span class="w"> </span><span class="n">polymers</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                    </span><span class="n">node_leader_ranks</span><span class="p">,</span><span class="w"> </span><span class="n">num_nodes</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">bonds</span><span class="p">)</span>
 <span class="w">         </span><span class="k">end if</span>
-<span class="k">      else if</span><span class="w"> </span><span class="p">(</span><span class="n">node_comm</span><span class="p">%</span><span class="n">leader</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
+<span class="k">      else if</span><span class="w"> </span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">%</span><span class="n">leader</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
 <span class="w">         </span><span class="c">! Node coordinator (node leader on other nodes)</span>
-<span class="w">         </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">verbose</span><span class="p">(</span><span class="s2">&quot;Rank &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">world_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">())</span><span class="o">//</span><span class="s2">&quot;: Acting as node coordinator&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">verbose</span><span class="p">(</span><span class="s2">&quot;Rank &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">())</span><span class="o">//</span><span class="s2">&quot;: Acting as node coordinator&quot;</span><span class="p">)</span>
 <span class="w">         </span><span class="c">! Node coordinator works for both MBE and GMBE (receives fragments from global coordinator)</span>
-<span class="w">         </span><span class="k">call </span><span class="n">node_coordinator</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">node_coordinator</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">)</span>
 <span class="w">      </span><span class="k">else</span>
 <span class="w">         </span><span class="c">! Worker</span>
 <span class="w">         </span><span class="k">call </span><span class="n">omp_set_num_threads</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="w">         </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">verbose</span><span class="p">(</span><span class="s2">&quot;Rank &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">world_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">())</span><span class="o">//</span><span class="s2">&quot;: Acting as worker&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">verbose</span><span class="p">(</span><span class="s2">&quot;Rank &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">())</span><span class="o">//</span><span class="s2">&quot;: Acting as worker&quot;</span><span class="p">)</span>
 <span class="w">         </span><span class="c">! Worker processes work for both MBE and GMBE (fragment_type distinguishes them)</span>
-<span class="w">         </span><span class="k">call </span><span class="n">node_worker</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">bonds</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">node_worker</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">bonds</span><span class="p">)</span>
 <span class="w">      </span><span class="k">end if</span>
 
 <span class="w">      </span><span class="c">! Cleanup</span>
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">world_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">%</span><span class="n">rank</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="k">         if</span><span class="w"> </span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">polymers</span><span class="p">))</span><span class="w"> </span><span class="k">deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">polymers</span><span class="p">)</span>
 <span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">node_leader_ranks</span><span class="p">))</span><span class="w"> </span><span class="k">deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">node_leader_ranks</span><span class="p">)</span>
 <span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">intersections</span><span class="p">))</span><span class="w"> </span><span class="k">deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">intersections</span><span class="p">)</span>
@@ -4356,7 +4340,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-09 10:18 +0000             </p>
+ on 2026-01-09 10:29 +0000             </p>
           </div>
         </div>
         <br>

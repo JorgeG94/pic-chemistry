@@ -138,9 +138,9 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/node_coordinator.html#variable-dummy_msg~2">dummy_msg</a>
             <a class="list-group-item" href="../proc/node_coordinator.html#variable-finished_workers">finished_workers</a>
-            <a class="list-group-item" href="../proc/node_coordinator.html#variable-fragment_idx~7">fragment_idx</a>
-            <a class="list-group-item" href="../proc/node_coordinator.html#variable-fragment_indices~3">fragment_indices</a>
-            <a class="list-group-item" href="../proc/node_coordinator.html#variable-fragment_size~3">fragment_size</a>
+            <a class="list-group-item" href="../proc/node_coordinator.html#variable-fragment_idx~5">fragment_idx</a>
+            <a class="list-group-item" href="../proc/node_coordinator.html#variable-fragment_indices~4">fragment_indices</a>
+            <a class="list-group-item" href="../proc/node_coordinator.html#variable-fragment_size~4">fragment_size</a>
             <a class="list-group-item" href="../proc/node_coordinator.html#variable-fragment_type~3">fragment_type</a>
             <a class="list-group-item" href="../proc/node_coordinator.html#variable-global_status">global_status</a>
             <a class="list-group-item" href="../proc/node_coordinator.html#variable-has_result">has_result</a>
@@ -187,7 +187,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>module subroutine node_coordinator(world_comm, node_comm, calc_type)  
+    <h2>module subroutine node_coordinator(resources, calc_type)  
     <a href="../interface/node_coordinator.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
@@ -209,37 +209,22 @@ Handles work requests and result collection from local workers</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-world_comm~15"></span>
-              class(comm_t),
+              <span class="anchor" id="variable-resources~2"></span>
+              type(<a href='../type/resources_t.html'>resources_t</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>world_comm</strong></td>
+            <td><strong>resources</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_comm~9"></span>
-              class(comm_t),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>node_comm</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-calc_type~13"></span>
+              <span class="anchor" id="variable-calc_type~6"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -776,7 +761,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_idx~7"></span>
+              <span class="anchor" id="variable-fragment_idx~5"></span>
               integer(kind=int64),
             </td>
               <td>private</td>
@@ -793,7 +778,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_indices~3"></span>
+              <span class="anchor" id="variable-fragment_indices~4"></span>
               integer(kind=int32),
             </td>
               <td>private,</td>
@@ -810,7 +795,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_size~3"></span>
+              <span class="anchor" id="variable-fragment_size~4"></span>
               integer(kind=int32),
             </td>
               <td>private</td>
@@ -971,7 +956,7 @@ large graphs.</div>
               
             </td>
             <td>::</td>
-            <td><strong>worker_fragment_map</strong>(node_comm%size())</td>
+            <td><strong>worker_fragment_map</strong>(resources%mpi_comms%node_comm%size())</td>
                 <td></td>
                 <td></td>
             <td>
@@ -1028,10 +1013,10 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">module subroutine </span><span class="n">node_coordinator</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">module subroutine </span><span class="n">node_coordinator</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Node coordinator for distributing fragments to local workers</span>
 <span class="w">      </span><span class="c">!! Handles work requests and result collection from local workers</span>
-<span class="w">      </span><span class="k">class</span><span class="p">(</span><span class="n">comm_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">resources_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">resources</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_type</span>
 
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment_idx</span>
@@ -1043,7 +1028,7 @@ large graphs.</div>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">local_dummy</span>
 
 <span class="w">      </span><span class="c">! For tracking worker-fragment mapping and collecting results</span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">worker_fragment_map</span><span class="p">(</span><span class="n">node_comm</span><span class="p">%</span><span class="n">size</span><span class="p">())</span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">worker_fragment_map</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">%</span><span class="n">size</span><span class="p">())</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">worker_source</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">calculation_result_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">worker_result</span>
 
@@ -1055,10 +1040,10 @@ large graphs.</div>
 <span class="w">      </span><span class="n">dummy_msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 <span class="w">      </span><span class="n">worker_fragment_map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 
-<span class="w">      </span><span class="k">do while</span><span class="w"> </span><span class="p">(</span><span class="n">finished_workers</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">node_comm</span><span class="p">%</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">      </span><span class="k">do while</span><span class="w"> </span><span class="p">(</span><span class="n">finished_workers</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">%</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 
 <span class="w">         </span><span class="c">! PRIORITY 1: Check for incoming results from local workers</span>
-<span class="w">         </span><span class="k">call </span><span class="n">iprobe</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_ANY_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_SCALAR_RESULT</span><span class="p">,</span><span class="w"> </span><span class="n">has_result</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">iprobe</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_ANY_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_SCALAR_RESULT</span><span class="p">,</span><span class="w"> </span><span class="n">has_result</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">)</span>
 <span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">has_result</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="k">            </span><span class="n">worker_source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">status</span><span class="p">%</span><span class="n">MPI_SOURCE</span>
 
@@ -1066,11 +1051,11 @@ large graphs.</div>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">worker_fragment_map</span><span class="p">(</span><span class="n">worker_source</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="k">               call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Node coordinator received result from worker &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">worker_source</span><span class="p">)</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                 </span><span class="s2">&quot; but no fragment was assigned!&quot;</span><span class="p">)</span>
-<span class="w">               </span><span class="k">call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">               </span><span class="k">call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">            </span><span class="k">end if</span>
 
 <span class="w">            </span><span class="c">! Receive result from worker</span>
-<span class="w">            </span><span class="k">call </span><span class="n">result_irecv</span><span class="p">(</span><span class="n">worker_result</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">worker_source</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_SCALAR_RESULT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="w">            </span><span class="k">call </span><span class="n">result_irecv</span><span class="p">(</span><span class="n">worker_result</span><span class="p">,</span><span class="w"> </span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">worker_source</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_SCALAR_RESULT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">            </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
 
 <span class="w">            </span><span class="c">! Check for calculation errors before forwarding</span>
@@ -1078,13 +1063,13 @@ large graphs.</div>
 <span class="k">               call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Fragment &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">worker_fragment_map</span><span class="p">(</span><span class="n">worker_source</span><span class="p">))</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                 </span><span class="s2">&quot; calculation failed on worker &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">worker_source</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot;: &quot;</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                 </span><span class="n">worker_result</span><span class="p">%</span><span class="n">error</span><span class="p">%</span><span class="n">get_message</span><span class="p">())</span>
-<span class="w">               </span><span class="k">call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">               </span><span class="k">call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">            </span><span class="k">end if</span>
 
 <span class="w">            </span><span class="c">! Forward results to global coordinator with fragment index</span>
-<span class="w">            </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">worker_fragment_map</span><span class="p">(</span><span class="n">worker_source</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_NODE_SCALAR_RESULT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span><span class="w">  </span><span class="c">! fragment_idx</span>
+<span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">worker_fragment_map</span><span class="p">(</span><span class="n">worker_source</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_NODE_SCALAR_RESULT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span><span class="w">  </span><span class="c">! fragment_idx</span>
 <span class="w">            </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
-<span class="w">            </span><span class="k">call </span><span class="n">result_isend</span><span class="p">(</span><span class="n">worker_result</span><span class="p">,</span><span class="w"> </span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_NODE_SCALAR_RESULT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span><span class="w">                </span><span class="c">! result</span>
+<span class="w">  </span><span class="k">call </span><span class="n">result_isend</span><span class="p">(</span><span class="n">worker_result</span><span class="p">,</span><span class="w"> </span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_NODE_SCALAR_RESULT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span><span class="w">                </span><span class="c">! result</span>
 <span class="w">            </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
 
 <span class="w">            </span><span class="c">! Clear the mapping</span>
@@ -1092,38 +1077,38 @@ large graphs.</div>
 <span class="w">         </span><span class="k">end if</span>
 
 <span class="w">         </span><span class="c">! PRIORITY 2: Check for work requests from local workers</span>
-<span class="w">         </span><span class="k">call </span><span class="n">iprobe</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_ANY_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_REQUEST</span><span class="p">,</span><span class="w"> </span><span class="n">local_message_pending</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">iprobe</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_ANY_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_REQUEST</span><span class="p">,</span><span class="w"> </span><span class="n">local_message_pending</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">)</span>
 
 <span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">local_message_pending</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">            </span><span class="c">! Only process work request if this worker doesn&#39;t have pending results</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">worker_fragment_map</span><span class="p">(</span><span class="n">status</span><span class="p">%</span><span class="n">MPI_SOURCE</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               call </span><span class="n">irecv</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">local_dummy</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">%</span><span class="n">MPI_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_REQUEST</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="k">               call </span><span class="n">irecv</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">local_dummy</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">%</span><span class="n">MPI_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_REQUEST</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">               </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
 
 <span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">more_fragments</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                  call </span><span class="n">isend</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">dummy_msg</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_NODE_REQUEST</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="k">                  call </span><span class="n">isend</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">dummy_msg</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_NODE_REQUEST</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">                  </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
-<span class="w">                  </span><span class="k">call </span><span class="n">irecv</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_ANY_TAG</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="w">                  </span><span class="k">call </span><span class="n">irecv</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_ANY_TAG</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">                  </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">,</span><span class="w"> </span><span class="n">global_status</span><span class="p">)</span>
 
 <span class="w">                  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">global_status</span><span class="p">%</span><span class="n">MPI_TAG</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">TAG_NODE_FRAGMENT</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">                     </span><span class="c">! Receive fragment type (0 = monomer indices, 1 = intersection atom list)</span>
-<span class="w">                     </span><span class="k">call </span><span class="n">irecv</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_type</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_NODE_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="w">                     </span><span class="k">call </span><span class="n">irecv</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_type</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_NODE_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">                     </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
-<span class="w">                     </span><span class="k">call </span><span class="n">irecv</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_NODE_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="w">                     </span><span class="k">call </span><span class="n">irecv</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_NODE_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">                     </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
 <span class="w">                     </span><span class="c">! Note: must use blocking recv for allocatable arrays since size is unknown</span>
 <span class="w">                     </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_indices</span><span class="p">(</span><span class="n">fragment_size</span><span class="p">))</span>
-<span class="w">                     </span><span class="k">call </span><span class="n">recv</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_indices</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_NODE_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">global_status</span><span class="p">)</span>
+<span class="w">                     </span><span class="k">call </span><span class="n">recv</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_indices</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_NODE_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">global_status</span><span class="p">)</span>
 
 <span class="w">                     </span><span class="c">! Forward to worker</span>
-<span class="w">                     </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">%</span><span class="n">MPI_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="w">                     </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">%</span><span class="n">MPI_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">                     </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
-<span class="w">                     </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_type</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">%</span><span class="n">MPI_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="w">                     </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_type</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">%</span><span class="n">MPI_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">                     </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
-<span class="w">                     </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">%</span><span class="n">MPI_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="w">                     </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">%</span><span class="n">MPI_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">                     </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
-<span class="w">                     </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_indices</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">%</span><span class="n">MPI_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="w">                  </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_indices</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">%</span><span class="n">MPI_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">                     </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
 
 <span class="w">                     </span><span class="c">! Track which fragment was sent to this worker</span>
@@ -1131,13 +1116,13 @@ large graphs.</div>
 
 <span class="w">                     </span><span class="k">deallocate</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_indices</span><span class="p">)</span>
 <span class="w">                  </span><span class="k">else</span>
-<span class="k">                     call </span><span class="n">isend</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">%</span><span class="n">MPI_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FINISH</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="k">                     call </span><span class="n">isend</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">%</span><span class="n">MPI_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FINISH</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">                     </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
 <span class="w">                     </span><span class="n">finished_workers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">finished_workers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">                     </span><span class="n">more_fragments</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
 <span class="w">                  </span><span class="k">end if</span>
 <span class="k">               else</span>
-<span class="k">                  call </span><span class="n">isend</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">%</span><span class="n">MPI_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FINISH</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="k">                  call </span><span class="n">isend</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">%</span><span class="n">MPI_SOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FINISH</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">                  </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
 <span class="w">                  </span><span class="n">finished_workers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">finished_workers</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">               </span><span class="k">end if</span>
@@ -1168,7 +1153,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-09 10:18 +0000             </p>
+ on 2026-01-09 10:29 +0000             </p>
           </div>
         </div>
         <br>

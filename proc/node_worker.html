@@ -137,14 +137,14 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/node_worker.html#variable-dummy_msg~3">dummy_msg</a>
-            <a class="list-group-item" href="../proc/node_worker.html#variable-error~10">error</a>
-            <a class="list-group-item" href="../proc/node_worker.html#variable-fragment_idx~8">fragment_idx</a>
-            <a class="list-group-item" href="../proc/node_worker.html#variable-fragment_indices~4">fragment_indices</a>
-            <a class="list-group-item" href="../proc/node_worker.html#variable-fragment_size~4">fragment_size</a>
+            <a class="list-group-item" href="../proc/node_worker.html#variable-error~3">error</a>
+            <a class="list-group-item" href="../proc/node_worker.html#variable-fragment_idx~6">fragment_idx</a>
+            <a class="list-group-item" href="../proc/node_worker.html#variable-fragment_indices~5">fragment_indices</a>
+            <a class="list-group-item" href="../proc/node_worker.html#variable-fragment_size~5">fragment_size</a>
             <a class="list-group-item" href="../proc/node_worker.html#variable-fragment_type~4">fragment_type</a>
             <a class="list-group-item" href="../proc/node_worker.html#variable-phys_frag~3">phys_frag</a>
             <a class="list-group-item" href="../proc/node_worker.html#variable-req~7">req</a>
-            <a class="list-group-item" href="../proc/node_worker.html#variable-result~13">result</a>
+            <a class="list-group-item" href="../proc/node_worker.html#variable-result~6">result</a>
             <a class="list-group-item" href="../proc/node_worker.html#variable-status~5">status</a>
         </div>
       </div>
@@ -181,7 +181,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>module subroutine node_worker(world_comm, node_comm, sys_geom, method, calc_type, bonds)  
+    <h2>module subroutine node_worker(resources, sys_geom, method, calc_type, bonds)  
     <a href="../interface/node_worker.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
         <div class="card mb-4">
@@ -322,37 +322,22 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-world_comm~16"></span>
-              class(comm_t),
+              <span class="anchor" id="variable-resources~3"></span>
+              type(<a href='../type/resources_t.html'>resources_t</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>world_comm</strong></td>
+            <td><strong>resources</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_comm~10"></span>
-              class(comm_t),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>node_comm</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sys_geom~13"></span>
+              <span class="anchor" id="variable-sys_geom~3"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in),</td>
@@ -367,7 +352,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~11"></span>
+              <span class="anchor" id="variable-method~3"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -382,7 +367,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-calc_type~14"></span>
+              <span class="anchor" id="variable-calc_type~7"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -397,7 +382,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~9"></span>
+              <span class="anchor" id="variable-bonds~3"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -1629,7 +1614,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-error~10"></span>
+              <span class="anchor" id="variable-error~3"></span>
               type(<a href='../type/error_t.html'>error_t</a>),
             </td>
               <td>private</td>
@@ -1646,7 +1631,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_idx~8"></span>
+              <span class="anchor" id="variable-fragment_idx~6"></span>
               integer(kind=int64),
             </td>
               <td>private</td>
@@ -1663,7 +1648,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_indices~4"></span>
+              <span class="anchor" id="variable-fragment_indices~5"></span>
               integer(kind=int32),
             </td>
               <td>private,</td>
@@ -1680,7 +1665,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment_size~4"></span>
+              <span class="anchor" id="variable-fragment_size~5"></span>
               integer(kind=int32),
             </td>
               <td>private</td>
@@ -1748,7 +1733,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~13"></span>
+              <span class="anchor" id="variable-result~6"></span>
               type(<a href='../type/calculation_result_t.html'>calculation_result_t</a>),
             </td>
               <td>private</td>
@@ -1796,10 +1781,10 @@ large graphs.</div>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">module subroutine </span><span class="n">node_worker</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">bonds</span><span class="p">)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">module subroutine </span><span class="n">node_worker</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span><span class="w"> </span><span class="n">sys_geom</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">bonds</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Node worker for processing fragments assigned by node coordinator</span>
 <span class="w">      </span><span class="k">use </span><span class="n">mqc_error</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">error_t</span>
-<span class="w">      </span><span class="k">class</span><span class="p">(</span><span class="n">comm_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">resources_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">resources</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">system_geometry_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sys_geom</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">method</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_type</span>
@@ -1820,21 +1805,21 @@ large graphs.</div>
 <span class="w">      </span><span class="n">dummy_msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 
 <span class="w">      </span><span class="k">do</span>
-<span class="k">         call </span><span class="n">isend</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">dummy_msg</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_REQUEST</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="k">         call </span><span class="n">isend</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">dummy_msg</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_REQUEST</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">         </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
-<span class="w">         </span><span class="k">call </span><span class="n">irecv</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_ANY_TAG</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">irecv</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_ANY_TAG</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">         </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">)</span>
 
 <span class="w">         </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="p">%</span><span class="n">MPI_TAG</span><span class="p">)</span>
 <span class="w">         </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">)</span>
 <span class="w">            </span><span class="c">! Receive fragment type (0 = monomer indices, 1 = intersection atom list)</span>
-<span class="w">            </span><span class="k">call </span><span class="n">irecv</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_type</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="w">            </span><span class="k">call </span><span class="n">irecv</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_type</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">            </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
-<span class="w">            </span><span class="k">call </span><span class="n">irecv</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="w">            </span><span class="k">call </span><span class="n">irecv</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_size</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">            </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
 <span class="w">            </span><span class="c">! Note: must use blocking recv for allocatable arrays since size is unknown</span>
 <span class="w">            </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">fragment_indices</span><span class="p">(</span><span class="n">fragment_size</span><span class="p">))</span>
-<span class="w">            </span><span class="k">call </span><span class="n">recv</span><span class="p">(</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_indices</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">)</span>
+<span class="w">            </span><span class="k">call </span><span class="n">recv</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="n">fragment_indices</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_FRAGMENT</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">)</span>
 
 <span class="w">            </span><span class="c">! Build physical fragment based on type</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">sys_geom</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
@@ -1848,20 +1833,20 @@ large graphs.</div>
 
 <span class="k">               if</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">%</span><span class="n">has_error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
 <span class="k">                  call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">%</span><span class="n">get_full_trace</span><span class="p">())</span>
-<span class="w">                  </span><span class="k">call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">                  </span><span class="k">call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">               </span><span class="k">end if</span>
 
 <span class="w">               </span><span class="c">! Process the chemistry fragment with physical geometry</span>
-<span class="w">               </span><span class="k">call </span><span class="n">do_fragment_work</span><span class="p">(</span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">phys_frag</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">world_comm</span><span class="p">)</span>
+<span class="w">               </span><span class="k">call </span><span class="n">do_fragment_work</span><span class="p">(</span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">phys_frag</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">)</span>
 
 <span class="w">               </span><span class="k">call </span><span class="n">phys_frag</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
 <span class="w">            </span><span class="k">else</span>
 <span class="w">               </span><span class="c">! Process without physical geometry (old behavior)</span>
-<span class="w">               </span><span class="k">call </span><span class="n">do_fragment_work</span><span class="p">(</span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="o">=</span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">world_comm</span><span class="o">=</span><span class="n">world_comm</span><span class="p">)</span>
+<span class="w">       </span><span class="k">call </span><span class="n">do_fragment_work</span><span class="p">(</span><span class="n">fragment_idx</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">calc_type</span><span class="o">=</span><span class="n">calc_type</span><span class="p">,</span><span class="w"> </span><span class="n">world_comm</span><span class="o">=</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">)</span>
 <span class="w">            </span><span class="k">end if</span>
 
 <span class="w">            </span><span class="c">! Send result back to coordinator</span>
-<span class="w">            </span><span class="k">call </span><span class="n">result_isend</span><span class="p">(</span><span class="k">result</span><span class="p">,</span><span class="w"> </span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_SCALAR_RESULT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
+<span class="w">            </span><span class="k">call </span><span class="n">result_isend</span><span class="p">(</span><span class="k">result</span><span class="p">,</span><span class="w"> </span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">node_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_SCALAR_RESULT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">            </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
 
 <span class="w">            </span><span class="c">! Clean up result</span>
@@ -1873,7 +1858,7 @@ large graphs.</div>
 <span class="w">            </span><span class="c">! Unexpected MPI tag - this should not happen in normal operation</span>
 <span class="w">            </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Worker received unexpected MPI tag: &quot;</span><span class="o">//</span><span class="n">to_char</span><span class="p">(</span><span class="n">status</span><span class="p">%</span><span class="n">MPI_TAG</span><span class="p">))</span>
 <span class="w">            </span><span class="k">call </span><span class="n">logger</span><span class="p">%</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Expected TAG_WORKER_FRAGMENT or TAG_WORKER_FINISH&quot;</span><span class="p">)</span>
-<span class="w">            </span><span class="k">call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="k">call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">resources</span><span class="p">%</span><span class="n">mpi_comms</span><span class="p">%</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">         </span><span class="k">end select</span>
 <span class="k">      end do</span>
 <span class="k">   end subroutine </span><span class="n">node_worker</span>
@@ -1900,7 +1885,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-09 10:18 +0000             </p>
+ on 2026-01-09 10:29 +0000             </p>
           </div>
         </div>
         <br>
