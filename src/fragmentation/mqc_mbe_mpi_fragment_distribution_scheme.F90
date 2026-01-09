@@ -262,7 +262,7 @@ contains
             allocate (mbe_total_gradient(3, sys_geom%total_atoms))
             allocate (mbe_total_hessian(3*sys_geom%total_atoms, 3*sys_geom%total_atoms))
             call compute_mbe(polymers, total_fragments, max_level, results, mbe_total_energy, &
-                             sys_geom, mbe_total_gradient, mbe_total_hessian, bonds)
+                             sys_geom, mbe_total_gradient, mbe_total_hessian, bonds, world_comm)
             deallocate (mbe_total_gradient, mbe_total_hessian)
          else if (calc_type_local == CALC_TYPE_GRADIENT) then
             if (.not. present(sys_geom)) then
@@ -271,10 +271,11 @@ contains
             end if
             allocate (mbe_total_gradient(3, sys_geom%total_atoms))
             call compute_mbe(polymers, total_fragments, max_level, results, mbe_total_energy, &
-                             sys_geom, mbe_total_gradient, bonds=bonds)
+                             sys_geom, mbe_total_gradient, bonds=bonds, world_comm=world_comm)
             deallocate (mbe_total_gradient)
          else
-            call compute_mbe(polymers, total_fragments, max_level, results, mbe_total_energy)
+            call compute_mbe(polymers, total_fragments, max_level, results, mbe_total_energy, &
+                             world_comm=world_comm)
          end if
 
          call coord_timer%stop()
