@@ -51,7 +51,7 @@ contains
    module subroutine hessian_coordinator(world_comm, sys_geom, method, displacement)
       !! Coordinator for distributed Hessian calculation
       !! Distributes displacement work and collects gradient results
-      use mqc_finite_differences, only: finite_diff_hessian_from_gradients
+      use mqc_finite_differences, only: finite_diff_hessian_from_gradients, finite_diff_dipole_derivatives
       use mqc_vibrational_analysis, only: compute_vibrational_frequencies, &
                                           compute_vibrational_analysis, print_vibrational_analysis
 #ifndef MQC_WITHOUT_TBLITE
@@ -67,17 +67,20 @@ contains
       type(timer_type) :: coord_timer
       real(dp), allocatable :: forward_gradients(:, :, :)  ! (n_displacements, 3, n_atoms)
       real(dp), allocatable :: backward_gradients(:, :, :)  ! (n_displacements, 3, n_atoms)
+      real(dp), allocatable :: forward_dipoles(:, :)  ! (n_displacements, 3)
+      real(dp), allocatable :: backward_dipoles(:, :)  ! (n_displacements, 3)
       real(dp), allocatable :: hessian(:, :)
       real(dp), allocatable :: grad_buffer(:, :)
+      real(dp), allocatable :: dipole_buffer(:)
       type(calculation_result_t) :: result
       integer :: n_atoms, n_displacements, n_ranks
       integer :: current_disp, finished_workers, dummy_msg, worker_rank
       integer :: disp_idx, gradient_type  ! gradient_type: 1=forward, 2=backward
       type(MPI_Status) :: status
-      logical :: has_pending
+      logical :: has_pending, has_dipole_flag
       type(request_t) :: req
       integer :: current_log_level
-      logical :: is_verbose
+      logical :: is_verbose, compute_dipole_derivs
       character(len=2048) :: result_line  ! Large buffer for Hessian matrix rows
       real(dp) :: hess_norm
       integer :: i, j
@@ -115,10 +118,16 @@ contains
       full_system%multiplicity = sys_geom%multiplicity
       call full_system%compute_nelec()
 
-      ! Allocate storage for all gradients
+      ! Allocate storage for all gradients and dipoles
       allocate (forward_gradients(n_displacements, 3, n_atoms))
       allocate (backward_gradients(n_displacements, 3, n_atoms))
+      allocate (forward_dipoles(n_displacements, 3))
+      allocate (backward_dipoles(n_displacements, 3))
       allocate (grad_buffer(3, n_atoms))
+      allocate (dipole_buffer(3))
+      forward_dipoles = 0.0_dp
+      backward_dipoles = 0.0_dp
+      compute_dipole_derivs = .true.  ! Assume we'll get dipoles until proven otherwise
 
       current_disp = 1
       finished_workers = 0
@@ -139,11 +148,21 @@ contains
             call wait(req)
             call recv(world_comm, grad_buffer, worker_rank, TAG_WORKER_SCALAR_RESULT, status)
 
-            ! Store gradient in appropriate array
+            ! Receive dipole flag and data
+            call recv(world_comm, has_dipole_flag, worker_rank, TAG_WORKER_SCALAR_RESULT, status)
+            if (has_dipole_flag) then
+               call recv(world_comm, dipole_buffer, worker_rank, TAG_WORKER_SCALAR_RESULT, status)
+            else
+               compute_dipole_derivs = .false.
+            end if
+
+            ! Store gradient and dipole in appropriate arrays
             if (gradient_type == 1) then
                forward_gradients(disp_idx, :, :) = grad_buffer
+               if (has_dipole_flag) forward_dipoles(disp_idx, :) = dipole_buffer
             else
                backward_gradients(disp_idx, :, :) = grad_buffer
+               if (has_dipole_flag) backward_dipoles(disp_idx, :) = dipole_buffer
             end if
 
             ! Log progress every 10% or at completion (count both forward and backward)
@@ -176,7 +195,7 @@ contains
          end if
       end do
 
-      deallocate (grad_buffer)
+      deallocate (grad_buffer, dipole_buffer)
       call coord_timer%stop()
       call logger%info("All gradient calculations completed in "//to_char(coord_timer%get_elapsed_time())//" s")
 
@@ -188,13 +207,37 @@ contains
       call coord_timer%stop()
       call logger%info("Hessian assembly completed in "//to_char(coord_timer%get_elapsed_time())//" s")
 
-      ! Compute energy and gradient at reference geometry
-      call logger%info("  Computing reference energy and gradient...")
+      ! Compute dipole derivatives if we have dipoles from all displacements
+      ! Save them temporarily since calc_gradient below will reinitialize result
+      block
+         real(dp), allocatable :: saved_dipole_derivs(:, :)
+         logical :: have_dipole_derivs
+
+         have_dipole_derivs = .false.
+         if (compute_dipole_derivs) then
+            call logger%info("  Computing dipole derivatives for IR intensities...")
+            call finite_diff_dipole_derivatives(n_atoms, forward_dipoles, backward_dipoles, &
+                                                displacement, saved_dipole_derivs)
+            have_dipole_derivs = .true.
+         end if
+
+         ! Compute energy and gradient at reference geometry
+         call logger%info("  Computing reference energy and gradient...")
 #ifndef MQC_WITHOUT_TBLITE
-      xtb_calc%variant = method_type_to_string(method)
-      xtb_calc%verbose = is_verbose
-      call xtb_calc%calc_gradient(full_system, result)
+         xtb_calc%variant = method_type_to_string(method)
+         xtb_calc%verbose = is_verbose
+         call xtb_calc%calc_gradient(full_system, result)
 #endif
+
+         ! Restore dipole derivatives after calc_gradient
+         if (have_dipole_derivs) then
+            if (.not. allocated(result%dipole_derivatives)) then
+               allocate (result%dipole_derivatives(size(saved_dipole_derivs, 1), size(saved_dipole_derivs, 2)))
+            end if
+            result%dipole_derivatives = saved_dipole_derivs
+            result%has_dipole_derivatives = .true.
+         end if
+      end block
 
       ! Store Hessian in result
       if (allocated(result%hessian)) deallocate (result%hessian)
@@ -249,18 +292,36 @@ contains
       if (allocated(frequencies)) then
          block
             real(dp), allocatable :: vib_freqs(:), reduced_masses(:), force_constants(:)
-            real(dp), allocatable :: cart_disp(:, :), fc_mdyne(:)
+            real(dp), allocatable :: cart_disp(:, :), fc_mdyne(:), ir_intensities(:)
 
-            call compute_vibrational_analysis(result%hessian, sys_geom%element_numbers, vib_freqs, &
-                                              reduced_masses, force_constants, cart_disp, &
-                                              coordinates=sys_geom%coordinates, &
-                                              project_trans_rot=.true., &
-                                              force_constants_mdyne=fc_mdyne)
+            if (result%has_dipole_derivatives) then
+               call compute_vibrational_analysis(result%hessian, sys_geom%element_numbers, vib_freqs, &
+                                                 reduced_masses, force_constants, cart_disp, &
+                                                 coordinates=sys_geom%coordinates, &
+                                                 project_trans_rot=.true., &
+                                                 force_constants_mdyne=fc_mdyne, &
+                                                 dipole_derivatives=result%dipole_derivatives, &
+                                                 ir_intensities=ir_intensities)
+            else
+               call compute_vibrational_analysis(result%hessian, sys_geom%element_numbers, vib_freqs, &
+                                                 reduced_masses, force_constants, cart_disp, &
+                                                 coordinates=sys_geom%coordinates, &
+                                                 project_trans_rot=.true., &
+                                                 force_constants_mdyne=fc_mdyne)
+            end if
 
             if (allocated(vib_freqs)) then
-               call print_vibrational_analysis(vib_freqs, reduced_masses, force_constants, &
-                                               cart_disp, sys_geom%element_numbers, &
-                                               force_constants_mdyne=fc_mdyne)
+               if (allocated(ir_intensities)) then
+                  call print_vibrational_analysis(vib_freqs, reduced_masses, force_constants, &
+                                                  cart_disp, sys_geom%element_numbers, &
+                                                  force_constants_mdyne=fc_mdyne, &
+                                                  ir_intensities=ir_intensities)
+                  deallocate (ir_intensities)
+               else
+                  call print_vibrational_analysis(vib_freqs, reduced_masses, force_constants, &
+                                                  cart_disp, sys_geom%element_numbers, &
+                                                  force_constants_mdyne=fc_mdyne)
+               end if
                deallocate (vib_freqs, reduced_masses, force_constants, cart_disp, fc_mdyne)
             end if
          end block
@@ -271,7 +332,7 @@ contains
 
       ! Cleanup
       call result%destroy()
-      deallocate (forward_gradients, backward_gradients)
+      deallocate (forward_gradients, backward_gradients, forward_dipoles, backward_dipoles)
       if (allocated(hessian)) deallocate (hessian)
       if (allocated(frequencies)) deallocate (frequencies)
       if (allocated(eigenvalues)) deallocate (eigenvalues)
@@ -347,13 +408,17 @@ contains
             call abort_comm(world_comm, 1)
          end if
 
-         ! Send: displacement index, gradient type (1=forward), gradient data
+         ! Send: displacement index, gradient type (1=forward), gradient data, dipole flag, dipole data
          gradient_type = 1
          call isend(world_comm, disp_idx, 0, TAG_WORKER_SCALAR_RESULT, req)
          call wait(req)
          call isend(world_comm, gradient_type, 0, TAG_WORKER_SCALAR_RESULT, req)
          call wait(req)
          call send(world_comm, grad_result%gradient, 0, TAG_WORKER_SCALAR_RESULT)
+         call send(world_comm, grad_result%has_dipole, 0, TAG_WORKER_SCALAR_RESULT)
+         if (grad_result%has_dipole) then
+            call send(world_comm, grad_result%dipole, 0, TAG_WORKER_SCALAR_RESULT)
+         end if
 
          call grad_result%destroy()
          call displaced_geom%destroy()
@@ -372,13 +437,17 @@ contains
             call abort_comm(world_comm, 1)
          end if
 
-         ! Send: displacement index, gradient type (2=backward), gradient data
+         ! Send: displacement index, gradient type (2=backward), gradient data, dipole flag, dipole data
          gradient_type = 2
          call isend(world_comm, disp_idx, 0, TAG_WORKER_SCALAR_RESULT, req)
          call wait(req)
          call isend(world_comm, gradient_type, 0, TAG_WORKER_SCALAR_RESULT, req)
          call wait(req)
          call send(world_comm, grad_result%gradient, 0, TAG_WORKER_SCALAR_RESULT)
+         call send(world_comm, grad_result%has_dipole, 0, TAG_WORKER_SCALAR_RESULT)
+         if (grad_result%has_dipole) then
+            call send(world_comm, grad_result%dipole, 0, TAG_WORKER_SCALAR_RESULT)
+         end if
 
          call grad_result%destroy()
          call displaced_geom%destroy()

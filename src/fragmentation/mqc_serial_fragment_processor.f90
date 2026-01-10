@@ -104,6 +104,7 @@ contains
       if (calc_type_local == CALC_TYPE_HESSIAN) then
          call mbe_result%allocate_gradient(sys_geom%total_atoms)
          call mbe_result%allocate_hessian(sys_geom%total_atoms)
+         call mbe_result%allocate_dipole_derivatives(sys_geom%total_atoms)
       else if (calc_type_local == CALC_TYPE_GRADIENT) then
          call mbe_result%allocate_gradient(sys_geom%total_atoms)
       end if

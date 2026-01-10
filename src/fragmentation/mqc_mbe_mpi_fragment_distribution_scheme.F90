@@ -293,6 +293,7 @@ contains
             end if
             call mbe_result%allocate_gradient(sys_geom%total_atoms)
             call mbe_result%allocate_hessian(sys_geom%total_atoms)
+            call mbe_result%allocate_dipole_derivatives(sys_geom%total_atoms)
          else if (calc_type_local == CALC_TYPE_GRADIENT) then
             if (.not. present(sys_geom)) then
                call logger%error("sys_geom required for gradient calculation in global_coordinator")
