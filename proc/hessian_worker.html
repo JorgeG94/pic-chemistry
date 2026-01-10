@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.9% of total for procedures.">72 statements</a>
+                 title=" 1.0% of total for procedures.">80 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -141,10 +141,10 @@
             <a class="list-group-item" href="../proc/hessian_worker.html#variable-disp_idx~3">disp_idx</a>
             <a class="list-group-item" href="../proc/hessian_worker.html#variable-displaced_geom~2">displaced_geom</a>
             <a class="list-group-item" href="../proc/hessian_worker.html#variable-dummy_msg~6">dummy_msg</a>
-            <a class="list-group-item" href="../proc/hessian_worker.html#variable-full_system~3">full_system</a>
+            <a class="list-group-item" href="../proc/hessian_worker.html#variable-full_system~2">full_system</a>
             <a class="list-group-item" href="../proc/hessian_worker.html#variable-grad_result">grad_result</a>
             <a class="list-group-item" href="../proc/hessian_worker.html#variable-gradient_type~2">gradient_type</a>
-            <a class="list-group-item" href="../proc/hessian_worker.html#variable-n_atoms~22">n_atoms</a>
+            <a class="list-group-item" href="../proc/hessian_worker.html#variable-n_atoms~20">n_atoms</a>
             <a class="list-group-item" href="../proc/hessian_worker.html#variable-req~12">req</a>
             <a class="list-group-item" href="../proc/hessian_worker.html#variable-status~8">status</a>
             <a class="list-group-item" href="../proc/hessian_worker.html#variable-xtb_calc~3">xtb_calc</a>
@@ -833,7 +833,7 @@ Requests displacement indices, computes gradients, and sends results back</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-world_comm~19"></span>
+              <span class="anchor" id="variable-world_comm~18"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -848,7 +848,7 @@ Requests displacement indices, computes gradients, and sends results back</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~50"></span>
+              <span class="anchor" id="variable-sys_geom~46"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -863,7 +863,7 @@ Requests displacement indices, computes gradients, and sends results back</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~21"></span>
+              <span class="anchor" id="variable-method~20"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -1719,7 +1719,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-full_system~3"></span>
+              <span class="anchor" id="variable-full_system~2"></span>
               type(<a href='../type/physical_fragment_t.html'>physical_fragment_t</a>),
             </td>
               <td>private</td>
@@ -1770,7 +1770,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_atoms~22"></span>
+              <span class="anchor" id="variable-n_atoms~20"></span>
               integer,
             </td>
               <td>private</td>
@@ -1920,15 +1920,19 @@ large graphs.</div>
 <span class="w">            </span><span class="k">call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">         </span><span class="k">end if</span>
 
-<span class="w">         </span><span class="c">! Send: displacement index, gradient type (1=forward), gradient data</span>
+<span class="w">         </span><span class="c">! Send: displacement index, gradient type (1=forward), gradient data, dipole flag, dipole</span>
 <span class="w">         </span><span class="n">gradient_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">         </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">disp_idx</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_SCALAR_RESULT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">         </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
 <span class="w">         </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">gradient_type</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_SCALAR_RESULT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">         </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
 <span class="w">         </span><span class="k">call </span><span class="n">send</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">grad_result</span><span class="p">%</span><span class="n">gradient</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_SCALAR_RESULT</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">send</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">grad_result</span><span class="p">%</span><span class="n">has_dipole</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_SCALAR_RESULT</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">grad_result</span><span class="p">%</span><span class="n">has_dipole</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            call </span><span class="n">send</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">grad_result</span><span class="p">%</span><span class="n">dipole</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_SCALAR_RESULT</span><span class="p">)</span>
+<span class="w">         </span><span class="k">end if</span>
 
-<span class="w">         </span><span class="k">call </span><span class="n">grad_result</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
+<span class="k">         call </span><span class="n">grad_result</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
 <span class="w">         </span><span class="k">call </span><span class="n">displaced_geom</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
 
 <span class="w">         </span><span class="c">! Compute BACKWARD gradient</span>
@@ -1945,15 +1949,19 @@ large graphs.</div>
 <span class="w">            </span><span class="k">call </span><span class="n">abort_comm</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">         </span><span class="k">end if</span>
 
-<span class="w">         </span><span class="c">! Send: displacement index, gradient type (2=backward), gradient data</span>
+<span class="w">         </span><span class="c">! Send: displacement index, gradient type (2=backward), gradient data, dipole flag, dipole</span>
 <span class="w">         </span><span class="n">gradient_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
 <span class="w">         </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">disp_idx</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_SCALAR_RESULT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">         </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
 <span class="w">         </span><span class="k">call </span><span class="n">isend</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">gradient_type</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_SCALAR_RESULT</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">)</span>
 <span class="w">         </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
 <span class="w">         </span><span class="k">call </span><span class="n">send</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">grad_result</span><span class="p">%</span><span class="n">gradient</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_SCALAR_RESULT</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">send</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">grad_result</span><span class="p">%</span><span class="n">has_dipole</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_SCALAR_RESULT</span><span class="p">)</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">grad_result</span><span class="p">%</span><span class="n">has_dipole</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            call </span><span class="n">send</span><span class="p">(</span><span class="n">world_comm</span><span class="p">,</span><span class="w"> </span><span class="n">grad_result</span><span class="p">%</span><span class="n">dipole</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TAG_WORKER_SCALAR_RESULT</span><span class="p">)</span>
+<span class="w">         </span><span class="k">end if</span>
 
-<span class="w">         </span><span class="k">call </span><span class="n">grad_result</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
+<span class="k">         call </span><span class="n">grad_result</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
 <span class="w">         </span><span class="k">call </span><span class="n">displaced_geom</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
 <span class="w">      </span><span class="k">end do</span>
 <span class="cp">#else</span>
@@ -1985,7 +1993,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-10 10:13 +0000             </p>
+ on 2026-01-10 12:44 +0000             </p>
           </div>
         </div>
         <br>
