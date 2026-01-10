@@ -276,44 +276,34 @@ contains
       call coord_timer%stop()
       call logger%info("Time to evaluate all fragments "//to_char(coord_timer%get_elapsed_time())//" s")
       block
-         real(dp) :: mbe_total_energy
-         real(dp), allocatable :: mbe_total_gradient(:, :)
-         real(dp), allocatable :: mbe_total_hessian(:, :)
-         real(dp), allocatable :: mbe_total_dipole(:)
+         use mqc_result_types, only: mbe_result_t
+         type(mbe_result_t) :: mbe_result
 
          ! Compute the many-body expansion
          call logger%info(" ")
          call logger%info("Computing Many-Body Expansion (MBE)...")
          call coord_timer%start()
 
-         ! Allocate dipole array (always, as it's a small 3-element vector)
-         allocate (mbe_total_dipole(3))
-
-         ! Use combined function if computing gradients or Hessians (more efficient)
+         ! Allocate mbe_result components based on calc_type
+         call mbe_result%allocate_dipole()  ! Always compute dipole
          if (calc_type_local == CALC_TYPE_HESSIAN) then
             if (.not. present(sys_geom)) then
                call logger%error("sys_geom required for Hessian calculation in global_coordinator")
                call abort_comm(resources%mpi_comms%world_comm, 1)
             end if
-            allocate (mbe_total_gradient(3, sys_geom%total_atoms))
-            allocate (mbe_total_hessian(3*sys_geom%total_atoms, 3*sys_geom%total_atoms))
-            call compute_mbe(polymers, total_fragments, max_level, results, mbe_total_energy, &
-                 sys_geom, mbe_total_gradient, mbe_total_hessian, mbe_total_dipole, bonds, resources%mpi_comms%world_comm)
-            deallocate (mbe_total_gradient, mbe_total_hessian)
+            call mbe_result%allocate_gradient(sys_geom%total_atoms)
+            call mbe_result%allocate_hessian(sys_geom%total_atoms)
          else if (calc_type_local == CALC_TYPE_GRADIENT) then
             if (.not. present(sys_geom)) then
                call logger%error("sys_geom required for gradient calculation in global_coordinator")
                call abort_comm(resources%mpi_comms%world_comm, 1)
             end if
-            allocate (mbe_total_gradient(3, sys_geom%total_atoms))
-            call compute_mbe(polymers, total_fragments, max_level, results, mbe_total_energy, &
-      sys_geom, mbe_total_gradient, total_dipole=mbe_total_dipole, bonds=bonds, world_comm=resources%mpi_comms%world_comm)
-            deallocate (mbe_total_gradient)
-         else
-            call compute_mbe(polymers, total_fragments, max_level, results, mbe_total_energy, &
-                             total_dipole=mbe_total_dipole, world_comm=resources%mpi_comms%world_comm)
+            call mbe_result%allocate_gradient(sys_geom%total_atoms)
          end if
-         deallocate (mbe_total_dipole)
+
+         call compute_mbe(polymers, total_fragments, max_level, results, mbe_result, &
+                          sys_geom, bonds, resources%mpi_comms%world_comm)
+         call mbe_result%destroy()
 
          call coord_timer%stop()
          call logger%info("Time to compute MBE "//to_char(coord_timer%get_elapsed_time())//" s")

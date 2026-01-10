@@ -493,39 +493,27 @@ contains
    end subroutine print_mbe_gradient_info
 
    subroutine compute_mbe(polymers, fragment_count, max_level, results, &
-                          total_energy, &
-                          sys_geom, total_gradient, total_hessian, total_dipole, bonds, world_comm)
+                          mbe_result, sys_geom, bonds, world_comm)
       !! Compute many-body expansion (MBE) energy with optional gradient, hessian, and dipole
       !!
       !! This is the core routine that handles all MBE computations.
-      !! Optional arguments control what derivatives/properties are computed:
-      !!   - If sys_geom and total_gradient are present: compute gradient
-      !!   - If total_hessian is also present: compute hessian
-      !!   - If total_dipole is present: compute total dipole moment
-      use mqc_result_types, only: calculation_result_t
+      !! The caller pre-allocates desired components in mbe_result before calling:
+      !!   - mbe_result%gradient allocated: compute gradient (requires sys_geom)
+      !!   - mbe_result%hessian allocated: compute hessian (requires sys_geom)
+      !!   - mbe_result%dipole allocated: compute total dipole moment
+      use mqc_result_types, only: calculation_result_t, mbe_result_t
       use mqc_config_parser, only: bond_t
 
       ! Required arguments
       integer(int64), intent(in) :: fragment_count
       integer, intent(in) :: polymers(:, :), max_level
       type(calculation_result_t), intent(in) :: results(:)
-      real(dp), intent(out) :: total_energy
+      type(mbe_result_t), intent(inout) :: mbe_result  !! Pre-allocated by caller
 
-      ! Optional arguments for gradient computation
-      type(system_geometry_t), intent(in), optional :: sys_geom
-      real(dp), intent(out), optional :: total_gradient(:, :)  !! (3, total_atoms)
-
-      ! Optional arguments for hessian computation
-      real(dp), intent(out), optional :: total_hessian(:, :)   !! (3*total_atoms, 3*total_atoms)
-
-      ! Optional arguments for dipole computation
-      real(dp), intent(out), optional :: total_dipole(:)       !! (3) Total dipole moment
-
-      ! Optional bond information for hydrogen cap handling
-      type(bond_t), intent(in), optional :: bonds(:)
-
-      ! Optional MPI communicator for abort
-      type(comm_t), intent(in), optional :: world_comm
+      ! Optional arguments
+      type(system_geometry_t), intent(in), optional :: sys_geom  !! Required for gradient/hessian
+      type(bond_t), intent(in), optional :: bonds(:)             !! Bond info for H-cap handling
+      type(comm_t), intent(in), optional :: world_comm           !! MPI communicator for abort
 
       ! Local variables
       integer(int64) :: i
@@ -537,10 +525,10 @@ contains
       logical :: do_detailed_print, compute_grad, compute_hess, compute_dipole
       type(fragment_lookup_t) :: lookup
 
-      ! Determine what to compute based on optional arguments
-      compute_grad = present(sys_geom) .and. present(total_gradient)
-      compute_hess = compute_grad .and. present(total_hessian)
-      compute_dipole = present(total_dipole)
+      ! Determine what to compute based on allocated components in mbe_result
+      compute_grad = allocated(mbe_result%gradient)
+      compute_hess = allocated(mbe_result%hessian)
+      compute_dipole = allocated(mbe_result%dipole)
 
       ! Validate inputs for gradient computation
       if (compute_grad) then
@@ -598,25 +586,25 @@ contains
          energies(i) = results(i)%energy%total()
       end do
 
-      ! Allocate gradient arrays if needed
+      ! Allocate gradient delta arrays if needed
       if (compute_grad) then
          allocate (delta_gradients(3, sys_geom%total_atoms, fragment_count))
          delta_gradients = 0.0_dp
-         total_gradient = 0.0_dp
+         mbe_result%gradient = 0.0_dp
       end if
 
-      ! Allocate hessian arrays if needed
+      ! Allocate hessian delta arrays if needed
       if (compute_hess) then
          allocate (delta_hessians(hess_dim, hess_dim, fragment_count))
          delta_hessians = 0.0_dp
-         total_hessian = 0.0_dp
+         mbe_result%hessian = 0.0_dp
       end if
 
-      ! Allocate dipole arrays if needed
+      ! Allocate dipole delta arrays if needed
       if (compute_dipole) then
          allocate (delta_dipoles(3, fragment_count))
          delta_dipoles = 0.0_dp
-         total_dipole = 0.0_dp
+         mbe_result%dipole = 0.0_dp
       end if
 
       ! Build hash table for fast fragment lookups
@@ -692,48 +680,52 @@ contains
       ! Clean up lookup table
       call lookup%destroy()
 
-      ! Compute totals
-      total_energy = sum(sum_by_level)
+      ! Compute totals and set status flags
+      mbe_result%total_energy = sum(sum_by_level)
+      mbe_result%has_energy = .true.
 
       if (compute_grad) then
          do i = 1_int64, fragment_count
             fragment_size = count(polymers(i, :) > 0)
             if (fragment_size <= max_level) then
-               total_gradient = total_gradient + delta_gradients(:, :, i)
+               mbe_result%gradient = mbe_result%gradient + delta_gradients(:, :, i)
             end if
          end do
+         mbe_result%has_gradient = .true.
       end if
 
       if (compute_hess) then
          do i = 1_int64, fragment_count
             fragment_size = count(polymers(i, :) > 0)
             if (fragment_size <= max_level) then
-               total_hessian = total_hessian + delta_hessians(:, :, i)
+               mbe_result%hessian = mbe_result%hessian + delta_hessians(:, :, i)
             end if
          end do
+         mbe_result%has_hessian = .true.
       end if
 
       if (compute_dipole) then
          do i = 1_int64, fragment_count
             fragment_size = count(polymers(i, :) > 0)
             if (fragment_size <= max_level) then
-               total_dipole = total_dipole + delta_dipoles(:, i)
+               mbe_result%dipole = mbe_result%dipole + delta_dipoles(:, i)
             end if
          end do
+         mbe_result%has_dipole = .true.
       end if
 
       ! Print energy breakdown (always)
-      call print_mbe_energy_breakdown(sum_by_level, max_level, total_energy)
+      call print_mbe_energy_breakdown(sum_by_level, max_level, mbe_result%total_energy)
 
       ! Print gradient info if computed
       if (compute_grad) then
-         call print_mbe_gradient_info(total_gradient, sys_geom, current_log_level)
+         call print_mbe_gradient_info(mbe_result%gradient, sys_geom, current_log_level)
       end if
 
       ! Print hessian info if computed
       if (compute_hess) then
          call logger%info("MBE Hessian computation completed")
-         call logger%info("  Total Hessian Frobenius norm: "//to_char(sqrt(sum(total_hessian**2))))
+         call logger%info("  Total Hessian Frobenius norm: "//to_char(sqrt(sum(mbe_result%hessian**2))))
 
          ! Compute and print full vibrational analysis
          block
@@ -741,7 +733,7 @@ contains
             real(dp), allocatable :: cart_disp(:, :), fc_mdyne(:)
 
             call logger%info("  Computing vibrational analysis (projecting trans/rot modes)...")
-            call compute_vibrational_analysis(total_hessian, sys_geom%element_numbers, frequencies, &
+            call compute_vibrational_analysis(mbe_result%hessian, sys_geom%element_numbers, frequencies, &
                                               reduced_masses, force_constants, cart_disp, &
                                               coordinates=sys_geom%coordinates, &
                                               project_trans_rot=.true., &
@@ -761,9 +753,9 @@ contains
          block
             character(len=256) :: dipole_line
             real(dp) :: dipole_magnitude
-            dipole_magnitude = norm2(total_dipole)*2.541746_dp  ! Convert e*Bohr to Debye
+            dipole_magnitude = norm2(mbe_result%dipole)*2.541746_dp  ! Convert e*Bohr to Debye
             call logger%info("MBE Dipole moment:")
-            write (dipole_line, '(a,3f15.8)') "  Dipole (e*Bohr): ", total_dipole
+            write (dipole_line, '(a,3f15.8)') "  Dipole (e*Bohr): ", mbe_result%dipole
             call logger%info(trim(dipole_line))
             write (dipole_line, '(a,f15.8)') "  Dipole magnitude (Debye): ", dipole_magnitude
             call logger%info(trim(dipole_line))
@@ -775,17 +767,9 @@ contains
          call print_detailed_breakdown(polymers, fragment_count, max_level, energies, delta_energies)
       end if
 
-      ! Write JSON output with appropriate arguments
-      if (compute_hess) then
-         call print_detailed_breakdown_json(polymers, fragment_count, max_level, energies, delta_energies, &
-                                         sum_by_level, total_energy, total_gradient, total_hessian, results, total_dipole)
-      else if (compute_grad) then
-         call print_detailed_breakdown_json(polymers, fragment_count, max_level, energies, delta_energies, &
-                                   sum_by_level, total_energy, total_gradient, results=results, total_dipole=total_dipole)
-      else
-         call print_detailed_breakdown_json(polymers, fragment_count, max_level, energies, delta_energies, &
-                                            sum_by_level, total_energy, results=results, total_dipole=total_dipole)
-      end if
+      ! Write JSON output
+      call print_detailed_breakdown_json(polymers, fragment_count, max_level, energies, delta_energies, &
+                                         sum_by_level, mbe_result, results)
 
       ! Cleanup
       deallocate (sum_by_level, delta_energies, energies)
