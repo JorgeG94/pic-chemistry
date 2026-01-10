@@ -66,6 +66,7 @@ module mqc_result_types
       real(dp), allocatable :: sigma(:, :)     !! Stress tensor (3,3) (Hartree/Bohr^3)
       real(dp), allocatable :: hessian(:, :)    !! Energy hessian (future implementation)
       real(dp), allocatable :: dipole(:)        !! Dipole moment vector (3) (Debye)
+      real(dp), allocatable :: dipole_derivatives(:, :)  !! Dipole derivatives (3, 3N) in a.u. for IR intensities
 
       ! Fragment metadata
       real(dp) :: distance = 0.0_dp      !! Minimal atomic distance between monomers (Angstrom, 0 for monomers)
@@ -76,6 +77,7 @@ module mqc_result_types
       logical :: has_sigma = .false.     !! Stress tensor has been computed
       logical :: has_hessian = .false.   !! Hessian has been computed
       logical :: has_dipole = .false.    !! Dipole moment has been computed
+      logical :: has_dipole_derivatives = .false.  !! Dipole derivatives have been computed
 
       ! Error handling
       type(error_t) :: error             !! Calculation error (if any)
@@ -96,12 +98,14 @@ module mqc_result_types
       real(dp), allocatable :: gradient(:, :)        !! Total gradient (3, total_atoms) (Hartree/Bohr)
       real(dp), allocatable :: hessian(:, :)         !! Total Hessian (3*natoms, 3*natoms)
       real(dp), allocatable :: dipole(:)             !! Total dipole moment (3) (e*Bohr)
+      real(dp), allocatable :: dipole_derivatives(:, :)  !! Dipole derivatives (3, 3*natoms) for IR intensities
 
       ! Computation status flags
       logical :: has_energy = .false.                !! Energy has been computed
       logical :: has_gradient = .false.              !! Gradient has been computed
       logical :: has_hessian = .false.               !! Hessian has been computed
       logical :: has_dipole = .false.                !! Dipole has been computed
+      logical :: has_dipole_derivatives = .false.    !! Dipole derivatives have been computed
    contains
       procedure :: destroy => mbe_result_destroy            !! Clean up allocated memory
       procedure :: reset => mbe_result_reset                !! Reset all values and flags
@@ -210,6 +214,7 @@ contains
       if (allocated(this%sigma)) deallocate (this%sigma)
       if (allocated(this%hessian)) deallocate (this%hessian)
       if (allocated(this%dipole)) deallocate (this%dipole)
+      if (allocated(this%dipole_derivatives)) deallocate (this%dipole_derivatives)
       call this%reset()
    end subroutine result_destroy
 
@@ -223,6 +228,7 @@ contains
       this%has_sigma = .false.
       this%has_hessian = .false.
       this%has_dipole = .false.
+      this%has_dipole_derivatives = .false.
       this%has_error = .false.
    end subroutine result_reset
 
@@ -236,6 +242,7 @@ contains
       if (allocated(this%gradient)) deallocate (this%gradient)
       if (allocated(this%hessian)) deallocate (this%hessian)
       if (allocated(this%dipole)) deallocate (this%dipole)
+      if (allocated(this%dipole_derivatives)) deallocate (this%dipole_derivatives)
       call this%reset()
    end subroutine mbe_result_destroy
 
@@ -247,6 +254,7 @@ contains
       this%has_gradient = .false.
       this%has_hessian = .false.
       this%has_dipole = .false.
+      this%has_dipole_derivatives = .false.
    end subroutine mbe_result_reset
 
    subroutine mbe_result_allocate_gradient(this, total_atoms)
@@ -301,10 +309,22 @@ contains
          call send(comm, result%gradient, dest, tag)
       end if
 
+      ! Send Hessian flag and data if present
+      call send(comm, result%has_hessian, dest, tag)
+      if (result%has_hessian) then
+         call send(comm, result%hessian, dest, tag)
+      end if
+
       ! Send dipole flag and data if present
       call send(comm, result%has_dipole, dest, tag)
       if (result%has_dipole) then
          call send(comm, result%dipole, dest, tag)
+      end if
+
+      ! Send dipole derivatives flag and data if present
+      call send(comm, result%has_dipole_derivatives, dest, tag)
+      if (result%has_dipole_derivatives) then
+         call send(comm, result%dipole_derivatives, dest, tag)
       end if
    end subroutine result_send
 
@@ -345,6 +365,12 @@ contains
       call send(comm, result%has_dipole, dest, tag)
       if (result%has_dipole) then
          call send(comm, result%dipole, dest, tag)
+      end if
+
+      ! Send dipole derivatives flag and data (blocking to avoid needing multiple request handles)
+      call send(comm, result%has_dipole_derivatives, dest, tag)
+      if (result%has_dipole_derivatives) then
+         call send(comm, result%dipole_derivatives, dest, tag)
       end if
    end subroutine result_isend
 
@@ -387,6 +413,13 @@ contains
       if (result%has_dipole) then
          ! Receive allocatable dipole array (MPI lib handles allocation)
          call recv(comm, result%dipole, source, tag, status)
+      end if
+
+      ! Receive dipole derivatives flag and data if present
+      call recv(comm, result%has_dipole_derivatives, source, tag, status)
+      if (result%has_dipole_derivatives) then
+         ! Receive allocatable dipole derivatives array (MPI lib handles allocation)
+         call recv(comm, result%dipole_derivatives, source, tag, status)
       end if
    end subroutine result_recv
 
@@ -432,6 +465,13 @@ contains
       if (result%has_dipole) then
          ! Receive allocatable dipole array (MPI lib handles allocation)
          call recv(comm, result%dipole, source, tag, status)
+      end if
+
+      ! Receive dipole derivatives flag and data (blocking to avoid needing multiple request handles)
+      call recv(comm, result%has_dipole_derivatives, source, tag, status)
+      if (result%has_dipole_derivatives) then
+         ! Receive allocatable dipole derivatives array (MPI lib handles allocation)
+         call recv(comm, result%dipole_derivatives, source, tag, status)
       end if
    end subroutine result_irecv
 
