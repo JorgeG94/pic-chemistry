@@ -18,7 +18,7 @@ module mqc_method_xtb
    use tblite_container, only: container_type
    use tblite_solvation, only: solvation_type, solvation_input, alpb_input, &
                                new_solvation, new_solvation_cds, new_solvation_shift, &
-                               cds_input, shift_input
+                               cds_input, shift_input, cpcm_input, cpcm_solvation
    use tblite_xtb_calculator, only: xtb_calculator
    use tblite_xtb_gfn1, only: new_gfn1_calculator
    use tblite_xtb_gfn2, only: new_gfn2_calculator
@@ -40,9 +40,13 @@ module mqc_method_xtb
       real(wp) :: kt = 300.0_wp*3.166808578545117e-06_wp  !! Electronic temperature (300 K)
       ! Solvation settings (leave solvent unallocated for gas phase)
       character(len=:), allocatable :: solvent  !! Solvent name: "water", "ethanol", etc.
-      character(len=:), allocatable :: solvation_model  !! "alpb" (default) or "gbsa"
-      logical :: use_cds = .true.               !! Include non-polar CDS terms
-      logical :: use_shift = .true.             !! Include solution state shift
+      character(len=:), allocatable :: solvation_model  !! "alpb" (default), "gbsa", or "cpcm"
+      logical :: use_cds = .true.               !! Include non-polar CDS terms (not for CPCM)
+      logical :: use_shift = .true.             !! Include solution state shift (not for CPCM)
+      ! CPCM-specific settings
+      real(wp) :: dielectric = -1.0_wp          !! Direct dielectric constant (-1 = use solvent lookup)
+      integer :: cpcm_nang = 110                !! Number of angular points for CPCM cavity
+      real(wp) :: cpcm_rscale = 1.0_wp          !! Radii scaling for CPCM cavity
    contains
       procedure :: calc_energy => xtb_calc_energy      !! Energy-only calculation
       procedure :: calc_gradient => xtb_calc_gradient  !! Energy + gradient calculation
@@ -115,14 +119,16 @@ contains
          return
       end if
 
-      ! Add solvation if configured
-      if (allocated(this%solvent)) then
+      ! Add solvation if configured (either solvent name or direct dielectric)
+      if (allocated(this%solvent) .or. this%dielectric > 0.0_wp) then
          if (allocated(this%solvation_model)) then
             call add_solvation_to_calc(calc, mol, this%solvent, this%solvation_model, this%variant, &
-                                       this%use_cds, this%use_shift, error)
+                                       this%use_cds, this%use_shift, this%dielectric, &
+                                       this%cpcm_nang, this%cpcm_rscale, error)
          else
             call add_solvation_to_calc(calc, mol, this%solvent, "alpb", this%variant, &
-                                       this%use_cds, this%use_shift, error)
+                                       this%use_cds, this%use_shift, this%dielectric, &
+                                       this%cpcm_nang, this%cpcm_rscale, error)
          end if
          if (allocated(error)) then
             call result%error%set(ERROR_GENERIC, "Failed to add solvation: "//error%message)
@@ -225,14 +231,16 @@ contains
          return
       end if
 
-      ! Add solvation if configured
-      if (allocated(this%solvent)) then
+      ! Add solvation if configured (either solvent name or direct dielectric)
+      if (allocated(this%solvent) .or. this%dielectric > 0.0_wp) then
          if (allocated(this%solvation_model)) then
             call add_solvation_to_calc(calc, mol, this%solvent, this%solvation_model, this%variant, &
-                                       this%use_cds, this%use_shift, error)
+                                       this%use_cds, this%use_shift, this%dielectric, &
+                                       this%cpcm_nang, this%cpcm_rscale, error)
          else
             call add_solvation_to_calc(calc, mol, this%solvent, "alpb", this%variant, &
-                                       this%use_cds, this%use_shift, error)
+                                       this%use_cds, this%use_shift, this%dielectric, &
+                                       this%cpcm_nang, this%cpcm_rscale, error)
          end if
          if (allocated(error)) then
             call result%error%set(ERROR_GENERIC, "Failed to add solvation: "//error%message)
@@ -404,22 +412,70 @@ contains
 
    end subroutine xtb_calc_hessian
 
-   subroutine add_solvation_to_calc(calc, mol, solvent, solvation_model, method, use_cds, use_shift, error)
+   subroutine add_solvation_to_calc(calc, mol, solvent, solvation_model, method, use_cds, use_shift, &
+                                    dielectric, cpcm_nang, cpcm_rscale, error)
       !! Add implicit solvation model to XTB calculator
       !!
-      !! Adds ALPB or GBSA solvation plus optional CDS and shift corrections.
+      !! Adds ALPB, GBSA, or CPCM solvation. For ALPB/GBSA, optionally adds CDS and shift corrections.
+      !! CPCM does not support CDS or shift corrections.
       type(xtb_calculator), intent(inout) :: calc
       type(structure_type), intent(in) :: mol
-      character(len=*), intent(in) :: solvent
-      character(len=*), intent(in) :: solvation_model  !! "alpb" (default) or "gbsa"
-      character(len=*), intent(in) :: method
+      character(len=*), intent(in) :: solvent           !! Solvent name (can be empty if dielectric > 0)
+      character(len=*), intent(in) :: solvation_model   !! "alpb", "gbsa", or "cpcm"
+      character(len=*), intent(in) :: method            !! "gfn1" or "gfn2"
       logical, intent(in) :: use_cds, use_shift
+      real(wp), intent(in) :: dielectric                !! Direct dielectric constant (-1 = use solvent lookup)
+      integer, intent(in) :: cpcm_nang                  !! Angular grid points for CPCM
+      real(wp), intent(in) :: cpcm_rscale               !! Radii scaling for CPCM
       type(error_type), allocatable, intent(out) :: error
 
       type(solvation_input) :: solv_input
       class(container_type), allocatable :: cont
       class(solvation_type), allocatable :: solv
       logical :: use_alpb
+      real(wp) :: eps
+
+      ! Handle CPCM model separately
+      if (trim(solvation_model) == 'cpcm') then
+         ! CPCM does not support CDS or shift - silently skip them
+         ! (use_cds and use_shift are ignored for CPCM)
+
+         ! Get dielectric constant (direct value or lookup from solvent name)
+         if (dielectric > 0.0_wp) then
+            eps = dielectric
+         else if (len_trim(solvent) > 0) then
+            eps = get_solvent_dielectric(solvent)
+            if (eps < 0.0_wp) then
+               allocate (error)
+               error%message = "Unknown solvent for CPCM dielectric lookup: "//trim(solvent)
+               return
+            end if
+         else
+            allocate (error)
+            error%message = "CPCM requires either solvent name or dielectric constant"
+            return
+         end if
+
+         ! Create CPCM solvation
+         allocate (solv_input%cpcm)
+         solv_input%cpcm%dielectric_const = eps
+         solv_input%cpcm%nang = cpcm_nang
+         solv_input%cpcm%rscale = cpcm_rscale
+
+         call new_solvation(solv, mol, solv_input, error)
+         if (allocated(error)) return
+         call move_alloc(solv, cont)
+         call calc%push_back(cont)
+
+         return
+      end if
+
+      ! For ALPB/GBSA, we need a solvent name
+      if (len_trim(solvent) == 0) then
+         allocate (error)
+         error%message = "ALPB/GBSA solvation requires a solvent name"
+         return
+      end if
 
       ! Determine if using ALPB or GBSA (GBSA = ALPB with alpb flag false)
       use_alpb = .true.
@@ -463,5 +519,121 @@ contains
          call calc%push_back(cont)
       end if
    end subroutine add_solvation_to_calc
+
+   pure function get_solvent_dielectric(solvent_name) result(eps)
+      !! Get dielectric constant for a named solvent
+      !!
+      !! Returns the static dielectric constant (relative permittivity) for common solvents.
+      !! Returns -1.0 if the solvent is not found.
+      character(len=*), intent(in) :: solvent_name
+      real(wp) :: eps
+
+      character(len=32) :: name_lower
+      integer :: i
+
+      ! Convert to lowercase for case-insensitive matching
+      name_lower = solvent_name
+      do i = 1, len_trim(name_lower)
+         if (name_lower(i:i) >= 'A' .and. name_lower(i:i) <= 'Z') then
+            name_lower(i:i) = char(ichar(name_lower(i:i)) + 32)
+         end if
+      end do
+
+      select case (trim(name_lower))
+         ! Water
+      case ('water', 'h2o')
+         eps = 78.4_wp
+         ! Alcohols
+      case ('methanol', 'ch3oh')
+         eps = 32.7_wp
+      case ('ethanol', 'c2h5oh')
+         eps = 24.6_wp
+      case ('1-propanol', 'propanol')
+         eps = 20.1_wp
+      case ('2-propanol', 'isopropanol')
+         eps = 19.9_wp
+      case ('1-butanol', 'butanol')
+         eps = 17.5_wp
+      case ('2-butanol')
+         eps = 15.8_wp
+      case ('1-octanol', 'octanol')
+         eps = 9.9_wp
+         ! Polar aprotic
+      case ('acetone')
+         eps = 20.7_wp
+      case ('acetonitrile', 'ch3cn')
+         eps = 37.5_wp
+      case ('dmso', 'dimethylsulfoxide')
+         eps = 46.7_wp
+      case ('dmf', 'dimethylformamide')
+         eps = 36.7_wp
+      case ('thf', 'tetrahydrofuran')
+         eps = 7.6_wp
+      case ('formamide')
+         eps = 109.5_wp
+         ! Aromatics
+      case ('benzene')
+         eps = 2.3_wp
+      case ('toluene')
+         eps = 2.4_wp
+      case ('pyridine')
+         eps = 12.4_wp
+      case ('aniline')
+         eps = 6.9_wp
+      case ('nitrobenzene')
+         eps = 34.8_wp
+      case ('chlorobenzene')
+         eps = 5.6_wp
+         ! Halogenated
+      case ('chloroform', 'chcl3')
+         eps = 4.8_wp
+      case ('dichloromethane', 'ch2cl2', 'dcm')
+         eps = 8.9_wp
+      case ('carbon tetrachloride', 'ccl4')
+         eps = 2.2_wp
+         ! Ethers
+      case ('diethylether', 'ether')
+         eps = 4.3_wp
+      case ('dioxane')
+         eps = 2.2_wp
+      case ('furan')
+         eps = 2.9_wp
+         ! Alkanes
+      case ('pentane')
+         eps = 1.8_wp
+      case ('hexane', 'n-hexane')
+         eps = 1.9_wp
+      case ('cyclohexane')
+         eps = 2.0_wp
+      case ('heptane', 'n-heptane')
+         eps = 1.9_wp
+      case ('octane', 'n-octane')
+         eps = 1.9_wp
+      case ('decane')
+         eps = 2.0_wp
+      case ('hexadecane')
+         eps = 2.0_wp
+         ! Other
+      case ('nitromethane')
+         eps = 35.9_wp
+      case ('cs2', 'carbondisulfide')
+         eps = 2.6_wp
+      case ('ethyl acetate', 'ethylacetate')
+         eps = 6.0_wp
+      case ('acetic acid', 'aceticacid')
+         eps = 6.2_wp
+      case ('formic acid', 'formicacid')
+         eps = 51.1_wp
+      case ('phenol')
+         eps = 9.8_wp
+      case ('woctanol')
+         eps = 8.1_wp
+         ! Infinite dielectric (conductor)
+      case ('inf')
+         eps = 1.0e10_wp
+      case default
+         eps = -1.0_wp  ! Unknown solvent
+      end select
+   end function get_solvent_dielectric
 
 end module mqc_method_xtb

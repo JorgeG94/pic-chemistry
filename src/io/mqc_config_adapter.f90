@@ -31,9 +31,13 @@ module mqc_config_adapter
 
       ! XTB solvation settings
       character(len=:), allocatable :: solvent  !! Solvent name or empty for gas phase
-      character(len=:), allocatable :: solvation_model  !! "alpb" (default) or "gbsa"
-      logical :: use_cds = .true.               !! Include CDS non-polar terms
-      logical :: use_shift = .true.             !! Include solution state shift
+      character(len=:), allocatable :: solvation_model  !! "alpb" (default), "gbsa", or "cpcm"
+      logical :: use_cds = .true.               !! Include CDS non-polar terms (not for CPCM)
+      logical :: use_shift = .true.             !! Include solution state shift (not for CPCM)
+      ! CPCM-specific settings
+      real(dp) :: dielectric = -1.0_dp          !! Direct dielectric constant (-1 = use solvent lookup)
+      integer :: cpcm_nang = 110                !! Number of angular grid points for CPCM
+      real(dp) :: cpcm_rscale = 1.0_dp          !! Radii scaling factor for CPCM
 
       ! Calculation-specific keywords (structured)
       type(hessian_keywords_t) :: hessian  !! Hessian calculation keywords
@@ -99,6 +103,10 @@ contains
       end if
       driver_config%use_cds = mqc_config%use_cds
       driver_config%use_shift = mqc_config%use_shift
+      ! Copy CPCM-specific settings
+      driver_config%dielectric = mqc_config%dielectric
+      driver_config%cpcm_nang = mqc_config%cpcm_nang
+      driver_config%cpcm_rscale = mqc_config%cpcm_rscale
 
       ! Set calculation-specific keywords
       driver_config%hessian%displacement = mqc_config%hessian_displacement

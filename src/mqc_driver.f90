@@ -50,22 +50,38 @@ contains
       integer :: i  !! Loop counter
 
       ! Set XTB solvation options from config (before any calculations)
-      if (allocated(config%solvent)) then
+      if (allocated(config%solvent) .or. config%dielectric > 0.0_dp) then
          if (allocated(config%solvation_model)) then
             call set_xtb_options(solvent=config%solvent, solvation_model=config%solvation_model, &
-                                 use_cds=config%use_cds, use_shift=config%use_shift)
+                                 use_cds=config%use_cds, use_shift=config%use_shift, &
+                                 dielectric=config%dielectric, cpcm_nang=config%cpcm_nang, &
+                                 cpcm_rscale=config%cpcm_rscale)
          else
             call set_xtb_options(solvent=config%solvent, solvation_model="alpb", &
-                                 use_cds=config%use_cds, use_shift=config%use_shift)
+                                 use_cds=config%use_cds, use_shift=config%use_shift, &
+                                 dielectric=config%dielectric, cpcm_nang=config%cpcm_nang, &
+                                 cpcm_rscale=config%cpcm_rscale)
          end if
          if (resources%mpi_comms%world_comm%rank() == 0) then
             if (allocated(config%solvation_model)) then
-               call logger%info("XTB solvation enabled: "//trim(config%solvation_model)//" with "//config%solvent)
+               if (trim(config%solvation_model) == 'cpcm') then
+                  if (config%dielectric > 0.0_dp) then
+                     call logger%info("XTB solvation enabled: cpcm with dielectric = "//to_char(config%dielectric))
+                  else
+                     call logger%info("XTB solvation enabled: cpcm with "//config%solvent)
+                  end if
+                  call logger%info("  CPCM grid points (nang): "//to_char(config%cpcm_nang))
+                  call logger%info("  CPCM radii scale: "//to_char(config%cpcm_rscale))
+               else
+                  call logger%info("XTB solvation enabled: "//trim(config%solvation_model)//" with "//config%solvent)
+                  if (config%use_cds) call logger%info("  CDS (non-polar) terms: enabled")
+                  if (config%use_shift) call logger%info("  Solution state shift: enabled")
+               end if
             else
                call logger%info("XTB solvation enabled: alpb with "//config%solvent)
+               if (config%use_cds) call logger%info("  CDS (non-polar) terms: enabled")
+               if (config%use_shift) call logger%info("  Solution state shift: enabled")
             end if
-            if (config%use_cds) call logger%info("  CDS (non-polar) terms: enabled")
-            if (config%use_shift) call logger%info("  Solution state shift: enabled")
          end if
       else
          call set_xtb_options(use_cds=config%use_cds, use_shift=config%use_shift)

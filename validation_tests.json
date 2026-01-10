@@ -101,6 +101,12 @@
       "type": "unfragmented"
      },
       {
+      "name": "CPCM solvation of w1 in water",
+      "input": "validation/inputs/w1_water_cpcm.mqc",
+      "expected_energy": -5.881430808516041,
+      "type": "unfragmented"
+     },
+      {
       "name": "GBSA solvation of w1 in water",
       "input": "validation/inputs/w1_water_gbsa.mqc",
       "expected_energy": -5.935225830899037,

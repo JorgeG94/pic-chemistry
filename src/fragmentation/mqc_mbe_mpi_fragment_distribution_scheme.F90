@@ -53,6 +53,10 @@ contains
          end if
          xtb_calc%use_cds = xtb_options%use_cds
          xtb_calc%use_shift = xtb_options%use_shift
+         ! CPCM-specific settings
+         xtb_calc%dielectric = xtb_options%dielectric
+         xtb_calc%cpcm_nang = xtb_options%cpcm_nang
+         xtb_calc%cpcm_rscale = xtb_options%cpcm_rscale
 
          ! Run the calculation using the method API
          select case (calc_type_local)
