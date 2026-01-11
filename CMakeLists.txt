@@ -61,6 +61,11 @@ else()
   add_compile_definitions(MQC_WITHOUT_LIBCINT)
 endif()
 
+if(NOT TARGET "jsonfortran::jsonfortran")
+  find_package("jsonfortran" REQUIRED)
+  list(APPEND libraries_to_link jsonfortran::jsonfortran)
+endif()
+
 find_package(
   OpenMP
   COMPONENTS Fortran

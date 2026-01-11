@@ -8,6 +8,7 @@ module mqc_mbe_io
    use mqc_io_helpers, only: get_output_json_filename, get_basename
    use mqc_thermochemistry, only: thermochemistry_result_t
    use mqc_physical_constants, only: HARTREE_TO_CALMOL, R_CALMOLK, AU_TO_DEBYE, CAL_TO_J
+   use json_module, only: json_core, json_value
    implicit none
    private
    public :: print_fragment_xyz, print_detailed_breakdown, print_detailed_breakdown_json
@@ -679,7 +680,7 @@ contains
                                           frequencies, reduced_masses, force_constants, &
                                           thermo, ir_intensities)
       !! Private implementation for writing vibrational/thermochemistry JSON
-      !! Takes extracted values from either calculation_result_t or mbe_result_t
+      !! Uses json-fortran library for clean, maintainable JSON output
       real(dp), intent(in) :: total_energy
       logical, intent(in) :: has_energy
       real(dp), intent(in), optional :: dipole(:)
@@ -694,324 +695,203 @@ contains
       type(thermochemistry_result_t), intent(in) :: thermo
       real(dp), intent(in), optional :: ir_intensities(:)
 
-      integer :: unit, io_stat, i, n_modes
-      character(len=512) :: json_line
+      type(json_core) :: json
+      type(json_value), pointer :: root, main_obj, dipole_obj, vib_obj, thermo_obj
+      type(json_value), pointer :: moi_obj, rot_obj, pf_obj, contrib_obj, table_obj
+      type(json_value), pointer :: trans_obj, rot_contrib, vib_contrib, elec_obj
+      type(json_value), pointer :: vib_row, rot_row, int_row, tr_row, tot_row
+      type(json_value), pointer :: thermal_obj, total_e_obj
+      integer :: io_stat, iunit
       character(len=256) :: output_file, basename
-      logical :: has_ir
+      real(dp) :: pV_cal, H_vib_cal, H_rot_cal, H_trans_cal, H_total_cal
+      real(dp) :: Cv_total, S_total, S_total_J, H_int_cal, Cv_int, S_int, S_int_J, Cp_trans
 
       output_file = get_output_json_filename()
       basename = get_basename()
-      n_modes = size(frequencies)
-      has_ir = present(ir_intensities)
 
-      open (newunit=unit, file=trim(output_file), status='replace', action='write', iostat=io_stat)
-      if (io_stat /= 0) then
-         call logger%error("Failed to open "//trim(output_file)//" for writing")
-         return
-      end if
+      call json%initialize()
 
-      call logger%info("Writing vibrational/thermochemistry JSON to "//trim(output_file))
+      ! Create root object
+      call json%create_object(root, '')
 
-      write (unit, '(a)') "{"
-      write (json_line, '(a,a,a)') '  "', trim(basename), '": {'
-      write (unit, '(a)') trim(json_line)
+      ! Create main object with basename as key
+      call json%create_object(main_obj, trim(basename))
+      call json%add(root, main_obj)
 
       ! Total energy
-      if (has_energy) then
-         write (json_line, '(a,f25.15,a)') '    "total_energy": ', total_energy, ','
-         write (unit, '(a)') trim(json_line)
-      end if
+      if (has_energy) call json%add(main_obj, 'total_energy', total_energy)
 
       ! Dipole
       if (has_dipole .and. present(dipole)) then
-         write (unit, '(a)') '    "dipole": {'
-         write (json_line, '(a,f25.15,a)') '      "x": ', dipole(1), ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f25.15,a)') '      "y": ', dipole(2), ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f25.15,a)') '      "z": ', dipole(3), ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f25.15)') '      "magnitude_debye": ', norm2(dipole)*AU_TO_DEBYE
-         write (unit, '(a)') trim(json_line)
-         write (unit, '(a)') '    },'
+         call json%create_object(dipole_obj, 'dipole')
+         call json%add(main_obj, dipole_obj)
+         call json%add(dipole_obj, 'x', dipole(1))
+         call json%add(dipole_obj, 'y', dipole(2))
+         call json%add(dipole_obj, 'z', dipole(3))
+         call json%add(dipole_obj, 'magnitude_debye', norm2(dipole)*AU_TO_DEBYE)
       end if
 
-      ! Gradient norm
-      if (has_gradient .and. present(gradient_norm)) then
-         write (json_line, '(a,f25.15,a)') '    "gradient_norm": ', gradient_norm, ','
-         write (unit, '(a)') trim(json_line)
-      end if
-
-      ! Hessian norm
-      if (has_hessian .and. present(hessian_norm)) then
-         write (json_line, '(a,f25.15,a)') '    "hessian_frobenius_norm": ', hessian_norm, ','
-         write (unit, '(a)') trim(json_line)
-      end if
+      ! Gradient and Hessian norms
+      if (has_gradient .and. present(gradient_norm)) call json%add(main_obj, 'gradient_norm', gradient_norm)
+      if (has_hessian .and. present(hessian_norm)) call json%add(main_obj, 'hessian_frobenius_norm', hessian_norm)
 
       ! Vibrational analysis section
-      write (unit, '(a)') '    "vibrational_analysis": {'
-      write (json_line, '(a,i0,a)') '      "n_modes": ', n_modes, ','
-      write (unit, '(a)') trim(json_line)
-
-      ! Frequencies array
-      write (unit, '(a)', advance='no') '      "frequencies_cm1": ['
-      do i = 1, n_modes
-         if (i > 1) write (unit, '(a)', advance='no') ', '
-         write (json_line, '(ES15.6)') frequencies(i)
-         write (unit, '(a)', advance='no') trim(adjustl(json_line))
-      end do
-      write (unit, '(a)') '],'
-
-      ! Reduced masses array
-      write (unit, '(a)', advance='no') '      "reduced_masses_amu": ['
-      do i = 1, n_modes
-         if (i > 1) write (unit, '(a)', advance='no') ', '
-         write (json_line, '(ES15.6)') reduced_masses(i)
-         write (unit, '(a)', advance='no') trim(adjustl(json_line))
-      end do
-      write (unit, '(a)') '],'
-
-      ! Force constants array
-      write (unit, '(a)', advance='no') '      "force_constants_mdyne_ang": ['
-      do i = 1, n_modes
-         if (i > 1) write (unit, '(a)', advance='no') ', '
-         write (json_line, '(ES15.6)') force_constants(i)
-         write (unit, '(a)', advance='no') trim(adjustl(json_line))
-      end do
-      if (has_ir) then
-         write (unit, '(a)') '],'
-      else
-         write (unit, '(a)') ']'
-      end if
-
-      ! IR intensities array (optional)
-      if (has_ir) then
-         write (unit, '(a)', advance='no') '      "ir_intensities_km_mol": ['
-         do i = 1, n_modes
-            if (i > 1) write (unit, '(a)', advance='no') ', '
-            write (json_line, '(ES15.6)') ir_intensities(i)
-            write (unit, '(a)', advance='no') trim(adjustl(json_line))
-         end do
-         write (unit, '(a)') ']'
-      end if
-
-      write (unit, '(a)') '    },'
+      call json%create_object(vib_obj, 'vibrational_analysis')
+      call json%add(main_obj, vib_obj)
+      call json%add(vib_obj, 'n_modes', size(frequencies))
+      call json%add(vib_obj, 'frequencies_cm1', frequencies)
+      call json%add(vib_obj, 'reduced_masses_amu', reduced_masses)
+      call json%add(vib_obj, 'force_constants_mdyne_ang', force_constants)
+      if (present(ir_intensities)) call json%add(vib_obj, 'ir_intensities_km_mol', ir_intensities)
 
       ! Thermochemistry section
-      write (unit, '(a)') '    "thermochemistry": {'
+      call json%create_object(thermo_obj, 'thermochemistry')
+      call json%add(main_obj, thermo_obj)
 
       ! Conditions
-      write (json_line, '(a,f10.4,a)') '      "temperature_K": ', thermo%temperature, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f10.4,a)') '      "pressure_atm": ', thermo%pressure, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f12.6,a)') '      "molecular_mass_amu": ', thermo%total_mass, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,i0,a)') '      "symmetry_number": ', thermo%symmetry_number, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,i0,a)') '      "spin_multiplicity": ', thermo%spin_multiplicity, ','
-      write (unit, '(a)') trim(json_line)
-      if (thermo%is_linear) then
-         write (unit, '(a)') '      "is_linear": true,'
-      else
-         write (unit, '(a)') '      "is_linear": false,'
-      end if
-      write (json_line, '(a,i0,a)') '      "n_real_frequencies": ', thermo%n_real_freqs, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,i0,a)') '      "n_imaginary_frequencies": ', thermo%n_imag_freqs, ','
-      write (unit, '(a)') trim(json_line)
+      call json%add(thermo_obj, 'temperature_K', thermo%temperature)
+      call json%add(thermo_obj, 'pressure_atm', thermo%pressure)
+      call json%add(thermo_obj, 'molecular_mass_amu', thermo%total_mass)
+      call json%add(thermo_obj, 'symmetry_number', thermo%symmetry_number)
+      call json%add(thermo_obj, 'spin_multiplicity', thermo%spin_multiplicity)
+      call json%add(thermo_obj, 'is_linear', thermo%is_linear)
+      call json%add(thermo_obj, 'n_real_frequencies', thermo%n_real_freqs)
+      call json%add(thermo_obj, 'n_imaginary_frequencies', thermo%n_imag_freqs)
 
-      ! Moments of inertia and rotational constants
-      write (unit, '(a)') '      "moments_of_inertia_amu_ang2": {'
-      write (json_line, '(a,f15.8,a)') '        "Ia": ', thermo%moments(1), ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f15.8,a)') '        "Ib": ', thermo%moments(2), ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f15.8)') '        "Ic": ', thermo%moments(3)
-      write (unit, '(a)') trim(json_line)
-      write (unit, '(a)') '      },'
+      ! Moments of inertia
+      call json%create_object(moi_obj, 'moments_of_inertia_amu_ang2')
+      call json%add(thermo_obj, moi_obj)
+      call json%add(moi_obj, 'Ia', thermo%moments(1))
+      call json%add(moi_obj, 'Ib', thermo%moments(2))
+      call json%add(moi_obj, 'Ic', thermo%moments(3))
 
-      write (unit, '(a)') '      "rotational_constants_GHz": {'
-      write (json_line, '(a,f15.8,a)') '        "A": ', thermo%rot_const(1), ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f15.8,a)') '        "B": ', thermo%rot_const(2), ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f15.8)') '        "C": ', thermo%rot_const(3)
-      write (unit, '(a)') trim(json_line)
-      write (unit, '(a)') '      },'
+      ! Rotational constants
+      call json%create_object(rot_obj, 'rotational_constants_GHz')
+      call json%add(thermo_obj, rot_obj)
+      call json%add(rot_obj, 'A', thermo%rot_const(1))
+      call json%add(rot_obj, 'B', thermo%rot_const(2))
+      call json%add(rot_obj, 'C', thermo%rot_const(3))
 
       ! Partition functions
-      write (unit, '(a)') '      "partition_functions": {'
-      write (json_line, '(a,ES15.6,a)') '        "translational": ', thermo%q_trans, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f15.6,a)') '        "rotational": ', thermo%q_rot, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f15.6)') '        "vibrational": ', thermo%q_vib
-      write (unit, '(a)') trim(json_line)
-      write (unit, '(a)') '      },'
+      call json%create_object(pf_obj, 'partition_functions')
+      call json%add(thermo_obj, pf_obj)
+      call json%add(pf_obj, 'translational', thermo%q_trans)
+      call json%add(pf_obj, 'rotational', thermo%q_rot)
+      call json%add(pf_obj, 'vibrational', thermo%q_vib)
 
       ! Thermodynamic contributions
-      write (unit, '(a)') '      "contributions": {'
-      write (unit, '(a)') '        "translational": {'
-      write (json_line, '(a,f18.12,a)') '          "energy_hartree": ', thermo%E_trans, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f12.6,a)') '          "entropy_cal_mol_K": ', thermo%S_trans, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f12.6)') '          "Cv_cal_mol_K": ', thermo%Cv_trans
-      write (unit, '(a)') trim(json_line)
-      write (unit, '(a)') '        },'
+      call json%create_object(contrib_obj, 'contributions')
+      call json%add(thermo_obj, contrib_obj)
 
-      write (unit, '(a)') '        "rotational": {'
-      write (json_line, '(a,f18.12,a)') '          "energy_hartree": ', thermo%E_rot, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f12.6,a)') '          "entropy_cal_mol_K": ', thermo%S_rot, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f12.6)') '          "Cv_cal_mol_K": ', thermo%Cv_rot
-      write (unit, '(a)') trim(json_line)
-      write (unit, '(a)') '        },'
+      call json%create_object(trans_obj, 'translational')
+      call json%add(contrib_obj, trans_obj)
+      call json%add(trans_obj, 'energy_hartree', thermo%E_trans)
+      call json%add(trans_obj, 'entropy_cal_mol_K', thermo%S_trans)
+      call json%add(trans_obj, 'Cv_cal_mol_K', thermo%Cv_trans)
 
-      write (unit, '(a)') '        "vibrational": {'
-      write (json_line, '(a,f18.12,a)') '          "energy_hartree": ', thermo%E_vib, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f12.6,a)') '          "entropy_cal_mol_K": ', thermo%S_vib, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f12.6)') '          "Cv_cal_mol_K": ', thermo%Cv_vib
-      write (unit, '(a)') trim(json_line)
-      write (unit, '(a)') '        },'
+      call json%create_object(rot_contrib, 'rotational')
+      call json%add(contrib_obj, rot_contrib)
+      call json%add(rot_contrib, 'energy_hartree', thermo%E_rot)
+      call json%add(rot_contrib, 'entropy_cal_mol_K', thermo%S_rot)
+      call json%add(rot_contrib, 'Cv_cal_mol_K', thermo%Cv_rot)
 
-      write (unit, '(a)') '        "electronic": {'
-      write (json_line, '(a,f18.12,a)') '          "energy_hartree": ', thermo%E_elec, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f12.6)') '          "entropy_cal_mol_K": ', thermo%S_elec
-      write (unit, '(a)') trim(json_line)
-      write (unit, '(a)') '        }'
-      write (unit, '(a)') '      },'
+      call json%create_object(vib_contrib, 'vibrational')
+      call json%add(contrib_obj, vib_contrib)
+      call json%add(vib_contrib, 'energy_hartree', thermo%E_vib)
+      call json%add(vib_contrib, 'entropy_cal_mol_K', thermo%S_vib)
+      call json%add(vib_contrib, 'Cv_cal_mol_K', thermo%Cv_vib)
 
-      ! Contribution table (matching stdout format)
-      block
-         real(dp) :: pV_cal, H_vib_cal, H_rot_cal, H_trans_cal, H_total_cal
-         real(dp) :: Cv_total, S_total, S_total_J
-         real(dp) :: H_int_cal, Cv_int, S_int, S_int_J
-         real(dp) :: Cp_trans
+      call json%create_object(elec_obj, 'electronic')
+      call json%add(contrib_obj, elec_obj)
+      call json%add(elec_obj, 'energy_hartree', thermo%E_elec)
+      call json%add(elec_obj, 'entropy_cal_mol_K', thermo%S_elec)
 
-         pV_cal = R_CALMOLK*thermo%temperature
-         H_vib_cal = thermo%E_vib*HARTREE_TO_CALMOL
-         H_rot_cal = thermo%E_rot*HARTREE_TO_CALMOL
-         H_trans_cal = thermo%E_trans*HARTREE_TO_CALMOL + pV_cal
-         H_total_cal = H_vib_cal + H_rot_cal + H_trans_cal
-         H_int_cal = H_vib_cal + H_rot_cal
-         Cp_trans = thermo%Cv_trans + R_CALMOLK
-         Cv_int = thermo%Cv_vib + thermo%Cv_rot
-         Cv_total = Cp_trans + thermo%Cv_rot + thermo%Cv_vib
-         S_int = thermo%S_vib + thermo%S_rot
-         S_int_J = S_int*CAL_TO_J
-         S_total = thermo%S_trans + thermo%S_rot + thermo%S_vib + thermo%S_elec
-         S_total_J = S_total*CAL_TO_J
+      ! Contribution table
+      pV_cal = R_CALMOLK*thermo%temperature
+      H_vib_cal = thermo%E_vib*HARTREE_TO_CALMOL
+      H_rot_cal = thermo%E_rot*HARTREE_TO_CALMOL
+      H_trans_cal = thermo%E_trans*HARTREE_TO_CALMOL + pV_cal
+      H_total_cal = H_vib_cal + H_rot_cal + H_trans_cal
+      H_int_cal = H_vib_cal + H_rot_cal
+      Cp_trans = thermo%Cv_trans + R_CALMOLK
+      Cv_int = thermo%Cv_vib + thermo%Cv_rot
+      Cv_total = Cp_trans + thermo%Cv_rot + thermo%Cv_vib
+      S_int = thermo%S_vib + thermo%S_rot
+      S_int_J = S_int*CAL_TO_J
+      S_total = thermo%S_trans + thermo%S_rot + thermo%S_vib + thermo%S_elec
+      S_total_J = S_total*CAL_TO_J
 
-         write (unit, '(a)') '      "contribution_table": {'
-         ! VIB row
-         write (unit, '(a)') '        "VIB": {'
-         write (json_line, '(a,f12.4,a)') '          "H_cal_mol": ', H_vib_cal, ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f12.4,a)') '          "Cp_cal_mol_K": ', thermo%Cv_vib, ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f12.4,a)') '          "S_cal_mol_K": ', thermo%S_vib, ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f12.4)') '          "S_J_mol_K": ', thermo%S_vib*CAL_TO_J
-         write (unit, '(a)') trim(json_line)
-         write (unit, '(a)') '        },'
+      call json%create_object(table_obj, 'contribution_table')
+      call json%add(thermo_obj, table_obj)
 
-         ! ROT row
-         write (unit, '(a)') '        "ROT": {'
-         write (json_line, '(a,f12.4,a)') '          "H_cal_mol": ', H_rot_cal, ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f12.4,a)') '          "Cp_cal_mol_K": ', thermo%Cv_rot, ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f12.4,a)') '          "S_cal_mol_K": ', thermo%S_rot, ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f12.4)') '          "S_J_mol_K": ', thermo%S_rot*CAL_TO_J
-         write (unit, '(a)') trim(json_line)
-         write (unit, '(a)') '        },'
+      call json%create_object(vib_row, 'VIB')
+      call json%add(table_obj, vib_row)
+      call json%add(vib_row, 'H_cal_mol', H_vib_cal)
+      call json%add(vib_row, 'Cp_cal_mol_K', thermo%Cv_vib)
+      call json%add(vib_row, 'S_cal_mol_K', thermo%S_vib)
+      call json%add(vib_row, 'S_J_mol_K', thermo%S_vib*CAL_TO_J)
 
-         ! INT row (internal = VIB + ROT)
-         write (unit, '(a)') '        "INT": {'
-         write (json_line, '(a,f12.4,a)') '          "H_cal_mol": ', H_int_cal, ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f12.4,a)') '          "Cp_cal_mol_K": ', Cv_int, ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f12.4,a)') '          "S_cal_mol_K": ', S_int, ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f12.4)') '          "S_J_mol_K": ', S_int_J
-         write (unit, '(a)') trim(json_line)
-         write (unit, '(a)') '        },'
+      call json%create_object(rot_row, 'ROT')
+      call json%add(table_obj, rot_row)
+      call json%add(rot_row, 'H_cal_mol', H_rot_cal)
+      call json%add(rot_row, 'Cp_cal_mol_K', thermo%Cv_rot)
+      call json%add(rot_row, 'S_cal_mol_K', thermo%S_rot)
+      call json%add(rot_row, 'S_J_mol_K', thermo%S_rot*CAL_TO_J)
 
-         ! TR row (translational)
-         write (unit, '(a)') '        "TR": {'
-         write (json_line, '(a,f12.4,a)') '          "H_cal_mol": ', H_trans_cal, ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f12.4,a)') '          "Cp_cal_mol_K": ', Cp_trans, ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f12.4,a)') '          "S_cal_mol_K": ', thermo%S_trans, ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f12.4)') '          "S_J_mol_K": ', thermo%S_trans*CAL_TO_J
-         write (unit, '(a)') trim(json_line)
-         write (unit, '(a)') '        },'
+      call json%create_object(int_row, 'INT')
+      call json%add(table_obj, int_row)
+      call json%add(int_row, 'H_cal_mol', H_int_cal)
+      call json%add(int_row, 'Cp_cal_mol_K', Cv_int)
+      call json%add(int_row, 'S_cal_mol_K', S_int)
+      call json%add(int_row, 'S_J_mol_K', S_int_J)
 
-         ! TOT row (total)
-         write (unit, '(a)') '        "TOT": {'
-         write (json_line, '(a,f12.4,a)') '          "H_cal_mol": ', H_total_cal, ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f12.4,a)') '          "Cp_cal_mol_K": ', Cv_total, ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f12.4,a)') '          "S_cal_mol_K": ', S_total, ','
-         write (unit, '(a)') trim(json_line)
-         write (json_line, '(a,f12.4)') '          "S_J_mol_K": ', S_total_J
-         write (unit, '(a)') trim(json_line)
-         write (unit, '(a)') '        }'
-         write (unit, '(a)') '      },'
-      end block
+      call json%create_object(tr_row, 'TR')
+      call json%add(table_obj, tr_row)
+      call json%add(tr_row, 'H_cal_mol', H_trans_cal)
+      call json%add(tr_row, 'Cp_cal_mol_K', Cp_trans)
+      call json%add(tr_row, 'S_cal_mol_K', thermo%S_trans)
+      call json%add(tr_row, 'S_J_mol_K', thermo%S_trans*CAL_TO_J)
+
+      call json%create_object(tot_row, 'TOT')
+      call json%add(table_obj, tot_row)
+      call json%add(tot_row, 'H_cal_mol', H_total_cal)
+      call json%add(tot_row, 'Cp_cal_mol_K', Cv_total)
+      call json%add(tot_row, 'S_cal_mol_K', S_total)
+      call json%add(tot_row, 'S_J_mol_K', S_total_J)
 
       ! Zero-point energy
-      write (json_line, '(a,f18.12,a)') '      "zero_point_energy_hartree": ', thermo%zpe_hartree, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f12.6,a)') '      "zero_point_energy_kcal_mol": ', thermo%zpe_kcalmol, ','
-      write (unit, '(a)') trim(json_line)
+      call json%add(thermo_obj, 'zero_point_energy_hartree', thermo%zpe_hartree)
+      call json%add(thermo_obj, 'zero_point_energy_kcal_mol', thermo%zpe_kcalmol)
 
       ! Thermal corrections
-      write (unit, '(a)') '      "thermal_corrections_hartree": {'
-      write (json_line, '(a,f18.12,a)') '        "to_energy": ', thermo%thermal_correction_energy, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f18.12,a)') '        "to_enthalpy": ', thermo%thermal_correction_enthalpy, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f18.12)') '        "to_gibbs": ', thermo%thermal_correction_gibbs
-      write (unit, '(a)') trim(json_line)
-      write (unit, '(a)') '      },'
+      call json%create_object(thermal_obj, 'thermal_corrections_hartree')
+      call json%add(thermo_obj, thermal_obj)
+      call json%add(thermal_obj, 'to_energy', thermo%thermal_correction_energy)
+      call json%add(thermal_obj, 'to_enthalpy', thermo%thermal_correction_enthalpy)
+      call json%add(thermal_obj, 'to_gibbs', thermo%thermal_correction_gibbs)
 
-      ! Total energies (with electronic energy)
-      write (unit, '(a)') '      "total_energies_hartree": {'
-      write (json_line, '(a,f20.12,a)') '        "electronic": ', total_energy, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f20.12,a)') '        "electronic_plus_zpe": ', &
-         total_energy + thermo%zpe_hartree, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f20.12,a)') '        "electronic_plus_thermal_E": ', &
-         total_energy + thermo%thermal_correction_energy, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f20.12,a)') '        "electronic_plus_thermal_H": ', &
-         total_energy + thermo%thermal_correction_enthalpy, ','
-      write (unit, '(a)') trim(json_line)
-      write (json_line, '(a,f20.12)') '        "electronic_plus_thermal_G": ', &
-         total_energy + thermo%thermal_correction_gibbs
-      write (unit, '(a)') trim(json_line)
-      write (unit, '(a)') '      }'
+      ! Total energies
+      call json%create_object(total_e_obj, 'total_energies_hartree')
+      call json%add(thermo_obj, total_e_obj)
+      call json%add(total_e_obj, 'electronic', total_energy)
+      call json%add(total_e_obj, 'electronic_plus_zpe', total_energy + thermo%zpe_hartree)
+      call json%add(total_e_obj, 'electronic_plus_thermal_E', total_energy + thermo%thermal_correction_energy)
+      call json%add(total_e_obj, 'electronic_plus_thermal_H', total_energy + thermo%thermal_correction_enthalpy)
+      call json%add(total_e_obj, 'electronic_plus_thermal_G', total_energy + thermo%thermal_correction_gibbs)
 
-      write (unit, '(a)') '    }'
+      ! Write to file
+      call logger%info("Writing vibrational/thermochemistry JSON to "//trim(output_file))
+      open (newunit=iunit, file=trim(output_file), status='replace', action='write', iostat=io_stat)
+      if (io_stat /= 0) then
+         call logger%error("Failed to open "//trim(output_file)//" for writing")
+         call json%destroy(root)
+         return
+      end if
 
-      ! Close main object
-      write (unit, '(a)') '  }'
-      write (unit, '(a)') '}'
+      call json%print(root, iunit)
+      close (iunit)
 
-      close (unit)
+      call json%destroy(root)
       call logger%info("Vibrational/thermochemistry JSON written successfully to "//trim(output_file))
 
    end subroutine write_vibrational_json_impl
