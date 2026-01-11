@@ -23,3 +23,4 @@ The API docs for the code itself can be found here: https://jorgeg94.github.io/m
    capabilities
    input_files
    validation
+   vibrational_analysis
