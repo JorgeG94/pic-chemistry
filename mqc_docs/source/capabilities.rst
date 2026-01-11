@@ -64,6 +64,65 @@ Semi-empirical quantum chemistry via the `tblite <https://github.com/tblite/tbli
 - **GFN2-xTB**: Latest parametrization, general-purpose, highest accuracy
 - **GFN1-xTB**: Earlier version, faster, good for large systems
 
+Implicit Solvation
+------------------
+
+Implicit solvation models account for solvent effects without explicit solvent molecules:
+
+**Supported models:**
+
+- **ALPB**: Analytical Linearized Poisson-Boltzmann (recommended for GFN2-xTB)
+- **GBSA**: Generalized Born with Solvent-Accessible Surface Area
+- **CPCM**: Conductor-like Polarizable Continuum Model
+
+**Supported solvents:**
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Category
+     - Solvents
+   * - Water
+     - ``water``, ``h2o``
+   * - Alcohols
+     - ``methanol``, ``ch3oh``, ``ethanol``, ``c2h5oh``, ``1-propanol``, ``propanol``,
+       ``2-propanol``, ``isopropanol``, ``1-butanol``, ``butanol``, ``2-butanol``,
+       ``1-octanol``, ``octanol``, ``decanol``
+   * - Polar aprotic
+     - ``acetone``, ``acetonitrile``, ``ch3cn``, ``dmso``, ``dimethylsulfoxide``,
+       ``dmf``, ``dimethylformamide``, ``thf``, ``tetrahydrofuran``
+   * - Aromatics
+     - ``benzene``, ``toluene``, ``pyridine``, ``aniline``, ``nitrobenzene``,
+       ``chlorobenzene``, ``phenol``
+   * - Halogenated
+     - ``chloroform``, ``chcl3``, ``dichloromethane``, ``ch2cl2``, ``dcm``,
+       ``carbon tetrachloride``, ``ccl4``
+   * - Ethers
+     - ``diethylether``, ``ether``, ``dioxane``, ``furan``
+   * - Alkanes
+     - ``pentane``, ``hexane``, ``n-hexane``, ``cyclohexane``, ``heptane``,
+       ``n-heptane``, ``octane``, ``n-octane``, ``decane``, ``hexadecane``
+   * - Other organics
+     - ``nitromethane``, ``formamide``, ``cs2``, ``carbondisulfide``
+   * - Esters/acids
+     - ``ethyl acetate``, ``ethylacetate``, ``acetic acid``, ``aceticacid``,
+       ``formic acid``, ``formicacid``
+   * - Special
+     - ``woctanol`` (wet octanol), ``inf`` (infinite dielectric/conductor)
+
+**Usage example:**
+
+.. code-block:: json
+
+   {
+     "model": {
+       "method": "XTB-GFN2",
+       "solvent": "water",
+       "solvation_model": "alpb"
+     }
+   }
+
 Calculation Types
 =================
 
