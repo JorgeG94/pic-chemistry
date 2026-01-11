@@ -229,7 +229,9 @@ contains
                call print_vibrational_analysis(frequencies, reduced_masses, force_constants, &
                                                cart_disp, sys_geom%element_numbers, &
                                                force_constants_mdyne=fc_mdyne, &
-                                               ir_intensities=ir_intensities)
+                                               ir_intensities=ir_intensities, &
+                                               coordinates=sys_geom%coordinates, &
+                                               electronic_energy=total_energy)
                deallocate (frequencies, reduced_masses, force_constants, cart_disp, fc_mdyne)
                if (allocated(ir_intensities)) deallocate (ir_intensities)
             end if
@@ -610,7 +612,9 @@ contains
                call print_vibrational_analysis(frequencies, reduced_masses, force_constants, &
                                                cart_disp, sys_geom%element_numbers, &
                                                force_constants_mdyne=fc_mdyne, &
-                                               ir_intensities=ir_intensities)
+                                               ir_intensities=ir_intensities, &
+                                               coordinates=sys_geom%coordinates, &
+                                               electronic_energy=total_energy)
                deallocate (frequencies, reduced_masses, force_constants, cart_disp, fc_mdyne)
                if (allocated(ir_intensities)) deallocate (ir_intensities)
             end if

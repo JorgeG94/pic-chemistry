@@ -894,12 +894,16 @@ contains
                   call print_vibrational_analysis(frequencies, reduced_masses, force_constants, &
                                                   cart_disp, sys_geom%element_numbers, &
                                                   force_constants_mdyne=fc_mdyne, &
-                                                  ir_intensities=ir_intensities)
+                                                  ir_intensities=ir_intensities, &
+                                                  coordinates=sys_geom%coordinates, &
+                                                  electronic_energy=mbe_result%total_energy)
                   deallocate (ir_intensities)
                else
                   call print_vibrational_analysis(frequencies, reduced_masses, force_constants, &
                                                   cart_disp, sys_geom%element_numbers, &
-                                                  force_constants_mdyne=fc_mdyne)
+                                                  force_constants_mdyne=fc_mdyne, &
+                                                  coordinates=sys_geom%coordinates, &
+                                                  electronic_energy=mbe_result%total_energy)
                end if
                deallocate (frequencies, reduced_masses, force_constants, cart_disp, fc_mdyne)
             end if
@@ -1179,7 +1183,9 @@ contains
             if (allocated(frequencies)) then
                call print_vibrational_analysis(frequencies, reduced_masses, force_constants, &
                                                cart_disp, sys_geom%element_numbers, &
-                                               force_constants_mdyne=fc_mdyne)
+                                               force_constants_mdyne=fc_mdyne, &
+                                               coordinates=sys_geom%coordinates, &
+                                               electronic_energy=total_energy)
                deallocate (frequencies, reduced_masses, force_constants, cart_disp, fc_mdyne)
             end if
          end block
