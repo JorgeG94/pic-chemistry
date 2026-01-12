@@ -139,14 +139,14 @@
             <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-atom_list~3">atom_list</a>
             <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-coeff">coeff</a>
             <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-current_log_level~8">current_log_level</a>
-            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-error~54">error</a>
+            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-error~64">error</a>
             <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-hess_dim~6">hess_dim</a>
-            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-iatom~7">iatom</a>
-            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-ir_intensities~2">ir_intensities</a>
-            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-max_atoms~8">max_atoms</a>
-            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-n_atoms~7">n_atoms</a>
-            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-phys_frag~5">phys_frag</a>
-            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-pie_energies">pie_energies</a>
+            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-iatom~18">iatom</a>
+            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-ir_intensities~8">ir_intensities</a>
+            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-max_atoms~9">max_atoms</a>
+            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-n_atoms~22">n_atoms</a>
+            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-phys_frag~4">phys_frag</a>
+            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-pie_energies~2">pie_energies</a>
             <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-results~8">results</a>
             <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-term_dipole_derivs">term_dipole_derivs</a>
             <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-term_energy">term_energy</a>
@@ -154,9 +154,9 @@
             <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-term_hessian~2">term_hessian</a>
             <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-term_idx~2">term_idx</a>
             <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-total_dipole_derivs">total_dipole_derivs</a>
-            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-total_energy~5">total_energy</a>
-            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-total_gradient~5">total_gradient</a>
-            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-total_hessian~3">total_hessian</a>
+            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-total_energy~9">total_energy</a>
+            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-total_gradient~6">total_gradient</a>
+            <a class="list-group-item" href="../proc/serial_gmbe_pie_processor.html#variable-total_hessian~4">total_hessian</a>
         </div>
       </div>
     </div>
@@ -201,9 +201,9 @@
             <li class="list-group-item">
               <ul class="list-inline">
                   <li class="list-inline-item"><a href='../module/mqc_physical_fragment.html'>mqc_physical_fragment</a></li>
-                  <li class="list-inline-item"><a href='../module/mqc_calc_types.html'>mqc_calc_types</a></li>
                   <li class="list-inline-item"><a href='../module/mqc_error.html'>mqc_error</a></li>
                   <li class="list-inline-item">pic_logger</li>
+                  <li class="list-inline-item"><a href='../module/mqc_calc_types.html'>mqc_calc_types</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -596,7 +596,7 @@ Supports energy-only, energy+gradient, and energy+gradient+Hessian calculations<
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-pie_atom_sets~3"></span>
+              <span class="anchor" id="variable-pie_atom_sets~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -611,7 +611,7 @@ Supports energy-only, energy+gradient, and energy+gradient+Hessian calculations<
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pie_coefficients~3"></span>
+              <span class="anchor" id="variable-pie_coefficients~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -626,7 +626,7 @@ Supports energy-only, energy+gradient, and energy+gradient+Hessian calculations<
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_pie_terms~3"></span>
+              <span class="anchor" id="variable-n_pie_terms~4"></span>
               integer(kind=int64),
             </td>
 <td>intent(in)</td>
@@ -641,7 +641,7 @@ Supports energy-only, energy+gradient, and energy+gradient+Hessian calculations<
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~44"></span>
+              <span class="anchor" id="variable-sys_geom~49"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -656,7 +656,7 @@ Supports energy-only, energy+gradient, and energy+gradient+Hessian calculations<
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~16"></span>
+              <span class="anchor" id="variable-method~18"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -671,7 +671,7 @@ Supports energy-only, energy+gradient, and energy+gradient+Hessian calculations<
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-calc_type~17"></span>
+              <span class="anchor" id="variable-calc_type~15"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -686,7 +686,7 @@ Supports energy-only, energy+gradient, and energy+gradient+Hessian calculations<
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~28"></span>
+              <span class="anchor" id="variable-bonds~27"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -2702,7 +2702,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-error~54"></span>
+              <span class="anchor" id="variable-error~64"></span>
               type(<a href='../type/error_t.html'>error_t</a>),
             </td>
               <td>private</td>
@@ -2736,7 +2736,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iatom~7"></span>
+              <span class="anchor" id="variable-iatom~18"></span>
               integer,
             </td>
               <td>private</td>
@@ -2753,7 +2753,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ir_intensities~2"></span>
+              <span class="anchor" id="variable-ir_intensities~8"></span>
               real(kind=dp),
             </td>
               <td>private,</td>
@@ -2770,7 +2770,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_atoms~8"></span>
+              <span class="anchor" id="variable-max_atoms~9"></span>
               integer,
             </td>
               <td>private</td>
@@ -2787,7 +2787,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_atoms~7"></span>
+              <span class="anchor" id="variable-n_atoms~22"></span>
               integer,
             </td>
               <td>private</td>
@@ -2804,7 +2804,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-phys_frag~5"></span>
+              <span class="anchor" id="variable-phys_frag~4"></span>
               type(<a href='../type/physical_fragment_t.html'>physical_fragment_t</a>),
             </td>
               <td>private</td>
@@ -2821,7 +2821,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pie_energies"></span>
+              <span class="anchor" id="variable-pie_energies~2"></span>
               real(kind=dp),
             </td>
               <td>private,</td>
@@ -2957,7 +2957,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_energy~5"></span>
+              <span class="anchor" id="variable-total_energy~9"></span>
               real(kind=dp),
             </td>
               <td>private</td>
@@ -2974,7 +2974,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_gradient~5"></span>
+              <span class="anchor" id="variable-total_gradient~6"></span>
               real(kind=dp),
             </td>
               <td>private,</td>
@@ -2991,7 +2991,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_hessian~3"></span>
+              <span class="anchor" id="variable-total_hessian~4"></span>
               real(kind=dp),
             </td>
               <td>private,</td>
@@ -3301,7 +3301,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-11 12:14 +0000             </p>
+ on 2026-01-12 20:43 +0000             </p>
           </div>
         </div>
         <br>

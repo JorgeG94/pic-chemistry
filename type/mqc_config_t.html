@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p>12.3% of total for derived types.</p>Including implementation: 74 statements,  6.4% of total for derived types.">45 statements</a>
+                 title="<p>12.7% of total for derived types.</p>Including implementation: 76 statements,  6.6% of total for derived types.">47 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -142,10 +142,10 @@
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-aimd_output_frequency">aimd_output_frequency</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-allow_overlapping_fragments">allow_overlapping_fragments</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-aux_basis">aux_basis</a>
-            <a class="list-group-item" href="../type/mqc_config_t.html#variable-basis">basis</a>
-            <a class="list-group-item" href="../type/mqc_config_t.html#variable-bonds~2">bonds</a>
+            <a class="list-group-item" href="../type/mqc_config_t.html#variable-basis~3">basis</a>
+            <a class="list-group-item" href="../type/mqc_config_t.html#variable-bonds~6">bonds</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-calc_type">calc_type</a>
-            <a class="list-group-item" href="../type/mqc_config_t.html#variable-charge~3">charge</a>
+            <a class="list-group-item" href="../type/mqc_config_t.html#variable-charge~5">charge</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-cpcm_nang">cpcm_nang</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-cpcm_rscale">cpcm_rscale</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-cutoff_method">cutoff_method</a>
@@ -156,14 +156,16 @@
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-frag_method">frag_method</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-fragment_cutoffs">fragment_cutoffs</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-fragments~2">fragments</a>
-            <a class="list-group-item" href="../type/mqc_config_t.html#variable-geometry~2">geometry</a>
+            <a class="list-group-item" href="../type/mqc_config_t.html#variable-geometry~3">geometry</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-hessian_displacement">hessian_displacement</a>
+            <a class="list-group-item" href="../type/mqc_config_t.html#variable-hessian_pressure">hessian_pressure</a>
+            <a class="list-group-item" href="../type/mqc_config_t.html#variable-hessian_temperature">hessian_temperature</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-index_base">index_base</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-log_level">log_level</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-max_intersection_level">max_intersection_level</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-method">method</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-molecules">molecules</a>
-            <a class="list-group-item" href="../type/mqc_config_t.html#variable-multiplicity~3">multiplicity</a>
+            <a class="list-group-item" href="../type/mqc_config_t.html#variable-multiplicity~5">multiplicity</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-nbonds~2">nbonds</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-nbroken~2">nbroken</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-nfrag~2">nfrag</a>
@@ -203,7 +205,7 @@
       </a>
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/mqc_config_t.html#boundprocedure-destroy~3">destroy</a>
+            <a class="list-group-item" href="../type/mqc_config_t.html#boundprocedure-destroy~8">destroy</a>
         </div>
       </div>
     </div>
@@ -505,7 +507,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-basis"></span>
+              <span class="anchor" id="variable-basis~3"></span>
               character(len=:),
             </td>
               <td>public,</td>
@@ -522,7 +524,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~2"></span>
+              <span class="anchor" id="variable-bonds~6"></span>
               type(<a href='bond_t.html'>bond_t</a>),
             </td>
               <td>public,</td>
@@ -556,7 +558,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-charge~3"></span>
+              <span class="anchor" id="variable-charge~5"></span>
               integer,
             </td>
               <td>public</td>
@@ -743,7 +745,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-geometry~2"></span>
+              <span class="anchor" id="variable-geometry~3"></span>
               type(<a href='geometry_type.html'>geometry_type</a>),
             </td>
               <td>public</td>
@@ -773,6 +775,40 @@ large graphs.</div>
                 <td>0.001_dp</td>
             <td>
                 <p>Finite difference displacement (Bohr)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hessian_pressure"></span>
+              real(kind=dp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hessian_pressure</strong></td>
+<td> =</td>
+                <td>1.0_dp</td>
+            <td>
+                <p>Pressure for thermochemistry (atm)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hessian_temperature"></span>
+              real(kind=dp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hessian_temperature</strong></td>
+<td> =</td>
+                <td>298.15_dp</td>
+            <td>
+                <p>Temperature for thermochemistry (K)</p>
             </td>
         </tr>
         <tr>
@@ -862,7 +898,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-multiplicity~3"></span>
+              <span class="anchor" id="variable-multiplicity~5"></span>
               integer,
             </td>
               <td>public</td>
@@ -1111,7 +1147,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-destroy~3"></span>
+      <span class="anchor" id="boundprocedure-destroy~8"></span>
       <h3>
           procedure, public ::
   <strong>destroy</strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/config_destroy.html'>config_destroy</a>
@@ -1220,6 +1256,8 @@ large graphs.</div>
 
 <span class="w">      </span><span class="c">! Hessian settings</span>
 <span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hessian_displacement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.001_dp</span><span class="w">  </span><span class="c">!! Finite difference displacement (Bohr)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hessian_temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">29</span><span class="mf">8.15_dp</span><span class="w">  </span><span class="c">!! Temperature for thermochemistry (K)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hessian_pressure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="w">        </span><span class="c">!! Pressure for thermochemistry (atm)</span>
 
 <span class="w">      </span><span class="c">! AIMD settings</span>
 <span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aimd_dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="w">                    </span><span class="c">!! Timestep (femtoseconds)</span>
@@ -1265,7 +1303,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-11 12:14 +0000             </p>
+ on 2026-01-12 20:43 +0000             </p>
           </div>
         </div>
         <br>
