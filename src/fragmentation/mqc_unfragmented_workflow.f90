@@ -1,7 +1,7 @@
 submodule(mqc_mbe_fragment_distribution_scheme) mqc_unfragmented_workflow
    implicit none
 contains
-   module subroutine unfragmented_calculation(sys_geom, method, calc_type, bonds, result_out)
+   module subroutine unfragmented_calculation(sys_geom, calculator, calc_type, bonds, result_out)
       !! Run unfragmented calculation on the entire system (nlevel=0)
       !! This is a simple single-process calculation without MPI distribution
       !! If result_out is present, returns result instead of writing JSON and destroying it
@@ -11,7 +11,7 @@ contains
       use mqc_thermochemistry, only: thermochemistry_result_t, compute_thermochemistry
       use mqc_mbe_io, only: print_vibrational_json
       type(system_geometry_t), intent(in), optional :: sys_geom
-      integer(int32), intent(in) :: method
+      class(qc_method_t), intent(inout) :: calculator  !! QC calculator instance
       integer(int32), intent(in) :: calc_type
       type(bond_t), intent(in), optional :: bonds(:)
       type(calculation_result_t), intent(out), optional :: result_out
@@ -58,7 +58,7 @@ contains
       end if
 
       ! Process the full system
-      call do_fragment_work(0_int64, result, method, phys_frag=full_system, calc_type=calc_type)
+      call do_fragment_work(0_int64, result, calculator, phys_frag=full_system, calc_type=calc_type)
 
       ! Check for calculation errors
       if (result%has_error) then

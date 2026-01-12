@@ -3,7 +3,7 @@ submodule(mqc_mbe_fragment_distribution_scheme) mqc_hessian_distribution_scheme
 
 contains
 
-   module subroutine distributed_unfragmented_hessian(world_comm, sys_geom, method, driver_config)
+   module subroutine distributed_unfragmented_hessian(world_comm, sys_geom, calculator, driver_config)
       !! Compute Hessian for unfragmented system using MPI distribution
       !!
       !! Uses a dynamic work queue approach: workers request displacement indices
@@ -16,7 +16,7 @@ contains
 
       type(comm_t), intent(in) :: world_comm
       type(system_geometry_t), intent(in) :: sys_geom
-      integer(int32), intent(in) :: method
+      class(qc_method_t), intent(inout) :: calculator  !! QC calculator instance
       type(driver_config_t), intent(in), optional :: driver_config  !! Driver configuration
 
       integer :: my_rank, n_ranks
@@ -34,10 +34,10 @@ contains
 
       if (my_rank == 0) then
          ! Rank 0 is the coordinator
-         call hessian_coordinator(world_comm, sys_geom, method, displacement)
+         call hessian_coordinator(world_comm, sys_geom, calculator, displacement)
       else
          ! Other ranks are workers
-         call hessian_worker(world_comm, sys_geom, method, displacement)
+         call hessian_worker(world_comm, sys_geom, calculator, displacement)
       end if
 
       ! Synchronize all ranks before returning
@@ -45,7 +45,7 @@ contains
 
    end subroutine distributed_unfragmented_hessian
 
-   module subroutine hessian_coordinator(world_comm, sys_geom, method, displacement)
+   module subroutine hessian_coordinator(world_comm, sys_geom, calculator, displacement)
       !! Coordinator for distributed Hessian calculation
       !! Distributes displacement work and collects gradient results
       use mqc_finite_differences, only: finite_diff_hessian_from_gradients, finite_diff_dipole_derivatives
@@ -56,7 +56,7 @@ contains
 
       type(comm_t), intent(in) :: world_comm
       type(system_geometry_t), intent(in) :: sys_geom
-      integer(int32), intent(in) :: method
+      class(qc_method_t), intent(inout) :: calculator  !! QC calculator instance
       real(dp), intent(in) :: displacement  !! Finite difference displacement (Bohr)
 
       type(physical_fragment_t) :: full_system
@@ -206,20 +206,10 @@ contains
       ! Compute energy and gradient at reference geometry
       call logger%info("  Computing reference energy and gradient...")
 
-      ! Ensure calculator is initialized
-      if (.not. allocated(active_calculator)) then
-         call init_calculator(method)
-      end if
+      ! Set verbose flag on calculator using LSP-compliant interface
+      call calculator%set_verbose(is_verbose)
 
-      ! Set verbose flag on calculator (XTB-specific)
-      select type (calc => active_calculator)
-#ifndef MQC_WITHOUT_TBLITE
-      type is (xtb_method_t)
-         calc%verbose = is_verbose
-#endif
-      end select
-
-      call active_calculator%calc_gradient(full_system, result)
+      call calculator%calc_gradient(full_system, result)
 
       ! Store Hessian in result
       if (allocated(result%hessian)) deallocate (result%hessian)
@@ -350,14 +340,14 @@ contains
 
    end subroutine hessian_coordinator
 
-   module subroutine hessian_worker(world_comm, sys_geom, method, displacement)
+   module subroutine hessian_worker(world_comm, sys_geom, calculator, displacement)
       !! Worker for distributed Hessian calculation
       !! Requests displacement indices, computes gradients, and sends results back
       use mqc_finite_differences, only: copy_and_displace_geometry
 
       type(comm_t), intent(in) :: world_comm
       type(system_geometry_t), intent(in) :: sys_geom
-      integer(int32), intent(in) :: method
+      class(qc_method_t), intent(inout) :: calculator  !! QC calculator instance
       real(dp), intent(in) :: displacement  !! Finite difference displacement (Bohr)
 
       type(physical_fragment_t) :: full_system, displaced_geom
@@ -379,18 +369,8 @@ contains
       full_system%multiplicity = sys_geom%multiplicity
       call full_system%compute_nelec()
 
-      ! Ensure calculator is initialized
-      if (.not. allocated(active_calculator)) then
-         call init_calculator(method)
-      end if
-
-      ! Set verbose flag off for workers (XTB-specific)
-      select type (calc => active_calculator)
-#ifndef MQC_WITHOUT_TBLITE
-      type is (xtb_method_t)
-         calc%verbose = .false.
-#endif
-      end select
+      ! Set verbose flag off for workers using LSP-compliant interface
+      call calculator%set_verbose(.false.)
 
       dummy_msg = 0
       do
@@ -408,7 +388,7 @@ contains
 
          ! Compute FORWARD gradient
          call copy_and_displace_geometry(full_system, atom_idx, coord, displacement, displaced_geom)
-         call active_calculator%calc_gradient(displaced_geom, grad_result)
+         call calculator%calc_gradient(displaced_geom, grad_result)
 
          if (grad_result%has_error) then
             call logger%error("Worker gradient calculation error for forward displacement "// &
@@ -437,7 +417,7 @@ contains
 
          ! Compute BACKWARD gradient
          call copy_and_displace_geometry(full_system, atom_idx, coord, -displacement, displaced_geom)
-         call active_calculator%calc_gradient(displaced_geom, grad_result)
+         call calculator%calc_gradient(displaced_geom, grad_result)
 
          if (grad_result%has_error) then
             call logger%error("Worker gradient calculation error for backward displacement "// &

@@ -27,7 +27,8 @@ module mqc_method_xtb
    implicit none
    private
 
-   public :: xtb_method_t  !! XTB method implementation type
+   public :: xtb_method_t      !! XTB method implementation type
+   public :: create_xtb_calculator  !! Factory function to create configured XTB calculator
 
    type, extends(qc_method_t) :: xtb_method_t
       !! Extended Tight-Binding (xTB) method implementation
@@ -50,10 +51,18 @@ module mqc_method_xtb
    contains
       procedure :: calc_energy => xtb_calc_energy      !! Energy-only calculation
       procedure :: calc_gradient => xtb_calc_gradient  !! Energy + gradient calculation
-      procedure :: calc_hessian => xtb_calc_hessian  !! Placeholder for Hessian calculation
+      procedure :: calc_hessian => xtb_calc_hessian    !! Hessian via finite differences
+      procedure :: set_verbose => xtb_set_verbose      !! Set verbosity level
    end type xtb_method_t
 
 contains
+
+   subroutine xtb_set_verbose(this, verbose)
+      !! Set verbosity level for XTB calculations
+      class(xtb_method_t), intent(inout) :: this
+      logical, intent(in) :: verbose
+      this%verbose = verbose
+   end subroutine xtb_set_verbose
 
    subroutine xtb_calc_energy(this, fragment, result)
       !! Calculate electronic energy using Extended Tight-Binding (xTB) method
@@ -669,5 +678,43 @@ contains
          eps = -1.0_wp  ! Unknown solvent
       end select
    end function get_solvent_dielectric
+
+   subroutine create_xtb_calculator(variant, calc, solvent, solvation_model, use_cds, use_shift, &
+                                    dielectric, cpcm_nang, cpcm_rscale)
+      !! Factory function to create a fully-configured XTB calculator
+      !!
+      !! Returns a polymorphic qc_method_t that is an xtb_method_t instance
+      !! configured with the specified options. This allows creating calculators
+      !! without using select type at the call site.
+      use pic_types, only: dp
+      character(len=*), intent(in) :: variant  !! XTB variant: "gfn1" or "gfn2"
+      class(qc_method_t), allocatable, intent(out) :: calc  !! Configured calculator
+      character(len=*), intent(in), optional :: solvent  !! Solvent name
+      character(len=*), intent(in), optional :: solvation_model  !! "alpb", "gbsa", or "cpcm"
+      logical, intent(in), optional :: use_cds  !! Include CDS non-polar terms
+      logical, intent(in), optional :: use_shift  !! Include solution state shift
+      real(dp), intent(in), optional :: dielectric  !! Direct dielectric constant for CPCM
+      integer, intent(in), optional :: cpcm_nang  !! Angular grid points for CPCM
+      real(dp), intent(in), optional :: cpcm_rscale  !! Radii scaling for CPCM
+
+      type(xtb_method_t), allocatable :: xtb_calc
+
+      allocate (xtb_calc)
+      xtb_calc%variant = variant
+
+      if (present(solvent) .and. len_trim(solvent) > 0) then
+         xtb_calc%solvent = trim(solvent)
+      end if
+      if (present(solvation_model) .and. len_trim(solvation_model) > 0) then
+         xtb_calc%solvation_model = trim(solvation_model)
+      end if
+      if (present(use_cds)) xtb_calc%use_cds = use_cds
+      if (present(use_shift)) xtb_calc%use_shift = use_shift
+      if (present(dielectric)) xtb_calc%dielectric = real(dielectric, wp)
+      if (present(cpcm_nang)) xtb_calc%cpcm_nang = cpcm_nang
+      if (present(cpcm_rscale)) xtb_calc%cpcm_rscale = real(cpcm_rscale, wp)
+
+      call move_alloc(xtb_calc, calc)
+   end subroutine create_xtb_calculator
 
 end module mqc_method_xtb

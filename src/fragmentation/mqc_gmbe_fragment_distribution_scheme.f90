@@ -18,6 +18,7 @@ module mqc_gmbe_fragment_distribution_scheme
    use mqc_config_parser, only: bond_t
    use mqc_result_types, only: calculation_result_t, result_send, result_isend, result_recv, result_irecv, mbe_result_t
    use mqc_mbe_fragment_distribution_scheme, only: do_fragment_work
+   use mqc_method_base, only: qc_method_t
    use mqc_mbe_io, only: print_gmbe_json, print_gmbe_pie_json, print_vibrational_json_mbe
    use mqc_vibrational_analysis, only: compute_vibrational_analysis, print_vibrational_analysis
    use mqc_thermochemistry, only: thermochemistry_result_t, compute_thermochemistry
@@ -31,7 +32,7 @@ module mqc_gmbe_fragment_distribution_scheme
 
 contains
 
-   subroutine serial_gmbe_pie_processor(pie_atom_sets, pie_coefficients, n_pie_terms, sys_geom, method, calc_type, bonds)
+subroutine serial_gmbe_pie_processor(pie_atom_sets, pie_coefficients, n_pie_terms, sys_geom, calculator, calc_type, bonds)
       !! Serial GMBE processor using PIE coefficients
       !! Evaluates each unique atom set once and sums with PIE coefficients
       !! Supports energy-only, energy+gradient, and energy+gradient+Hessian calculations
@@ -44,7 +45,8 @@ contains
       integer, intent(in) :: pie_coefficients(:)  !! PIE coefficient for each term
       integer(int64), intent(in) :: n_pie_terms
       type(system_geometry_t), intent(in) :: sys_geom
-      integer(int32), intent(in) :: method, calc_type
+      class(qc_method_t), intent(inout) :: calculator  !! QC calculator instance
+      integer(int32), intent(in) :: calc_type
       type(bond_t), intent(in), optional :: bonds(:)
 
       type(physical_fragment_t) :: phys_frag
@@ -127,7 +129,7 @@ contains
          end if
 
          ! Compute energy (and gradient if requested)
-         call do_fragment_work(term_idx, results(term_idx), method, phys_frag, calc_type)
+         call do_fragment_work(term_idx, results(term_idx), calculator, phys_frag, calc_type)
 
          ! Check for calculation errors
          if (results(term_idx)%has_error) then
@@ -289,9 +291,11 @@ contains
    end subroutine serial_gmbe_pie_processor
 
    subroutine gmbe_pie_coordinator(resources, pie_atom_sets, pie_coefficients, n_pie_terms, &
-                                   node_leader_ranks, num_nodes, sys_geom, method, calc_type, bonds)
+                                   node_leader_ranks, num_nodes, sys_geom, calculator, calc_type, bonds)
       !! MPI coordinator for PIE-based GMBE calculations
       !! Distributes PIE terms across MPI ranks and accumulates results
+      !! Note: calculator is passed for interface consistency but the coordinator doesn't compute
+      !! (workers have their own calculator instances and compute fragments locally)
       use mqc_calc_types, only: CALC_TYPE_GRADIENT, CALC_TYPE_HESSIAN
       use mqc_physical_fragment, only: redistribute_cap_gradients, redistribute_cap_hessian, &
                                        redistribute_cap_dipole_derivatives
@@ -303,7 +307,8 @@ contains
       integer(int64), intent(in) :: n_pie_terms
       integer, intent(in) :: node_leader_ranks(:), num_nodes
       type(system_geometry_t), intent(in) :: sys_geom
-      integer(int32), intent(in) :: method, calc_type
+      class(qc_method_t), intent(inout) :: calculator  !! QC calculator (unused by coordinator)
+      integer(int32), intent(in) :: calc_type
       type(bond_t), intent(in), optional :: bonds(:)
 
       type(timer_type) :: coord_timer

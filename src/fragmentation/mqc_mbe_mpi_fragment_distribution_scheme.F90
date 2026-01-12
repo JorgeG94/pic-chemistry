@@ -4,20 +4,17 @@ submodule(mqc_mbe_fragment_distribution_scheme) mpi_fragment_work_smod
 
 contains
 
-   module subroutine do_fragment_work(fragment_idx, result, method, phys_frag, calc_type, world_comm)
+   module subroutine do_fragment_work(fragment_idx, result, calculator, phys_frag, calc_type, world_comm)
       !! Process a single fragment for quantum chemistry calculation
       !!
       !! Performs energy and gradient calculation on a molecular fragment using
-      !! the module-level active_calculator (initialized via init_calculator).
-      !! The method parameter is kept for interface compatibility but is ignored
-      !! when active_calculator is initialized.
-      !! Verbosity is controlled by the global logger level.
+      !! the provided calculator instance. Verbosity is controlled by the global logger level.
 
       use pic_logger, only: verbose_level
 
       integer(int64), intent(in) :: fragment_idx        !! Fragment index for identification
       type(calculation_result_t), intent(out) :: result  !! Computation results
-      integer(int32), intent(in) :: method       !! QC method (used if active_calculator not initialized)
+      class(qc_method_t), intent(inout) :: calculator   !! QC calculator instance
       type(physical_fragment_t), intent(in), optional :: phys_frag  !! Fragment geometry
       integer(int32), intent(in) :: calc_type  !! Calculation type
       type(comm_t), intent(in), optional :: world_comm  !! MPI communicator for abort
@@ -38,28 +35,17 @@ contains
             call print_fragment_xyz(fragment_idx, phys_frag)
          end if
 
-         ! Check if active_calculator is initialized
-         if (.not. allocated(active_calculator)) then
-            ! Fallback: initialize calculator now (for backward compatibility)
-            call init_calculator(method)
-         end if
-
-         ! Set verbose flag on calculator (XTB-specific, use select type)
-         select type (calc => active_calculator)
-#ifndef MQC_WITHOUT_TBLITE
-         type is (xtb_method_t)
-            calc%verbose = is_verbose
-#endif
-         end select
+         ! Set verbose flag on calculator using LSP-compliant interface
+         call calculator%set_verbose(is_verbose)
 
          ! Run the calculation using the polymorphic method API
          select case (calc_type_local)
          case (CALC_TYPE_ENERGY)
-            call active_calculator%calc_energy(phys_frag, result)
+            call calculator%calc_energy(phys_frag, result)
          case (CALC_TYPE_GRADIENT)
-            call active_calculator%calc_gradient(phys_frag, result)
+            call calculator%calc_gradient(phys_frag, result)
          case (CALC_TYPE_HESSIAN)
-            call active_calculator%calc_hessian(phys_frag, result)
+            call calculator%calc_hessian(phys_frag, result)
          case default
             call result%error%set(ERROR_VALIDATION, "Unknown calc_type: "//calc_type_to_string(calc_type_local))
             result%has_error = .true.
@@ -82,16 +68,19 @@ contains
    end subroutine do_fragment_work
 
    module subroutine global_coordinator(resources, total_fragments, polymers, max_level, &
-                                        node_leader_ranks, num_nodes, sys_geom, calc_type, bonds)
+                                        node_leader_ranks, num_nodes, sys_geom, calc_type, calculator, bonds)
       !! Global coordinator for distributing fragments to node coordinators
       !! will act as a node coordinator for a single node calculation
       !! Uses int64 for total_fragments to handle large fragment counts that overflow int32.
+      !! Note: calculator is passed for interface consistency but not used by coordinator
+      !! (workers have their own calculator instances and compute fragments locally)
       type(resources_t), intent(in) :: resources
       integer(int64), intent(in) :: total_fragments
       integer, intent(in) :: max_level, num_nodes
       integer, intent(in) :: polymers(:, :), node_leader_ranks(:)
       type(system_geometry_t), intent(in), optional :: sys_geom
       integer(int32), intent(in) :: calc_type
+      class(qc_method_t), intent(inout) :: calculator  !! QC calculator (unused by coordinator)
       type(bond_t), intent(in), optional :: bonds(:)
 
       type(timer_type) :: coord_timer
@@ -492,12 +481,12 @@ call isend(resources%mpi_comms%world_comm, worker_fragment_map(worker_source), 0
       end do
    end subroutine node_coordinator
 
-   module subroutine node_worker(resources, sys_geom, method, calc_type, bonds)
+   module subroutine node_worker(resources, sys_geom, calculator, calc_type, bonds)
       !! Node worker for processing fragments assigned by node coordinator
       use mqc_error, only: error_t
       type(resources_t), intent(in) :: resources
       type(system_geometry_t), intent(in), optional :: sys_geom
-      integer(int32), intent(in) :: method
+      class(qc_method_t), intent(inout) :: calculator  !! QC calculator instance
       integer(int32), intent(in) :: calc_type
       type(bond_t), intent(in), optional :: bonds(:)
 
@@ -548,12 +537,12 @@ call isend(resources%mpi_comms%world_comm, worker_fragment_map(worker_source), 0
                end if
 
                ! Process the chemistry fragment with physical geometry
-               call do_fragment_work(fragment_idx, result, method, phys_frag, calc_type, resources%mpi_comms%world_comm)
+             call do_fragment_work(fragment_idx, result, calculator, phys_frag, calc_type, resources%mpi_comms%world_comm)
 
                call phys_frag%destroy()
             else
                ! Process without physical geometry (old behavior)
-       call do_fragment_work(fragment_idx, result, method, calc_type=calc_type, world_comm=resources%mpi_comms%world_comm)
+   call do_fragment_work(fragment_idx, result, calculator, calc_type=calc_type, world_comm=resources%mpi_comms%world_comm)
             end if
 
             ! Send result back to coordinator

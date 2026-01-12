@@ -10,6 +10,7 @@ module mqc_method_hf
    private
 
    public :: hf_method_t, hf_options_t
+   public :: create_hf_calculator  !! Factory function to create HF calculator
 
    type :: hf_options_t
       !! Hartree-Fock calculation options
@@ -29,10 +30,18 @@ module mqc_method_hf
    contains
       procedure :: calc_energy => hf_calc_energy
       procedure :: calc_gradient => hf_calc_gradient
-      procedure :: calc_hessian => null_hessian  !! Placeholder for Hessian calculation
+      procedure :: calc_hessian => null_hessian    !! Placeholder for Hessian calculation
+      procedure :: set_verbose => hf_set_verbose   !! Set verbosity level
    end type hf_method_t
 
 contains
+
+   subroutine hf_set_verbose(this, verbose)
+      !! Set verbosity level for HF calculations
+      class(hf_method_t), intent(inout) :: this
+      logical, intent(in) :: verbose
+      this%options%verbose = verbose
+   end subroutine hf_set_verbose
 
    subroutine hf_calc_energy(this, fragment, result)
       !! Calculate electronic energy using Hartree-Fock method
@@ -95,5 +104,28 @@ contains
       result%has_hessian = .false.
 
    end subroutine null_hessian
+
+   subroutine create_hf_calculator(calc, max_iter, conv_tol, spherical)
+      !! Factory function to create a fully-configured HF calculator
+      !!
+      !! Returns a polymorphic qc_method_t that is an hf_method_t instance
+      !! configured with the specified options. This allows creating calculators
+      !! without using select type at the call site.
+      use mqc_method_base, only: qc_method_t
+      class(qc_method_t), allocatable, intent(out) :: calc  !! Configured calculator
+      integer, intent(in), optional :: max_iter  !! Maximum SCF iterations
+      real(dp), intent(in), optional :: conv_tol  !! Energy convergence threshold
+      logical, intent(in), optional :: spherical  !! Use spherical basis functions
+
+      type(hf_method_t), allocatable :: hf_calc
+
+      allocate (hf_calc)
+
+      if (present(max_iter)) hf_calc%options%max_iter = max_iter
+      if (present(conv_tol)) hf_calc%options%conv_tol = conv_tol
+      if (present(spherical)) hf_calc%options%spherical = spherical
+
+      call move_alloc(hf_calc, calc)
+   end subroutine create_hf_calculator
 
 end module mqc_method_hf

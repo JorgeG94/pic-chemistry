@@ -19,6 +19,7 @@ module mqc_method_base
       procedure(calc_energy_interface), deferred :: calc_energy    !! Energy calculation interface
       procedure(calc_gradient_interface), deferred :: calc_gradient  !! Gradient calculation interface
       procedure(calc_hessian_interface), deferred :: calc_hessian  !! Hessian calculation interface
+      procedure(set_verbose_interface), deferred :: set_verbose    !! Set verbosity level
    end type qc_method_t
 
    abstract interface
@@ -57,6 +58,16 @@ module mqc_method_base
          type(physical_fragment_t), intent(in) :: fragment  !! Molecular fragment
          type(calculation_result_t), intent(out) :: result
       end subroutine calc_hessian_interface
+
+      subroutine set_verbose_interface(this, verbose)
+         !! Interface for setting verbosity level
+         !!
+         !! Enables or disables verbose output for calculations.
+         import :: qc_method_t
+         implicit none
+         class(qc_method_t), intent(inout) :: this  !! Method instance
+         logical, intent(in) :: verbose             !! Enable verbose output
+      end subroutine set_verbose_interface
    end interface
 
 end module mqc_method_base
