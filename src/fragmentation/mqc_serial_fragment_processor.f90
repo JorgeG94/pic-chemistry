@@ -3,7 +3,7 @@ submodule(mqc_mbe_fragment_distribution_scheme) mqc_serial_fragment_processor
 
 contains
 
-   module subroutine serial_fragment_processor(total_fragments, polymers, max_level, sys_geom, method, calc_type, bonds)
+   module subroutine serial_fragment_processor(total_fragments, polymers, max_level, sys_geom, method, calc_type, bonds, skip_json)
       !! Process all fragments serially in single-rank mode
       !! This is used when running with only 1 MPI rank
       use mqc_error, only: error_t
@@ -14,6 +14,7 @@ contains
       integer(int32), intent(in) :: method
       integer(int32), intent(in) :: calc_type
       type(bond_t), intent(in), optional :: bonds(:)
+      logical, intent(in), optional :: skip_json
 
       integer(int64) :: frag_idx
       integer :: fragment_size, current_log_level, iatom
@@ -108,7 +109,7 @@ contains
          call mbe_result%allocate_gradient(sys_geom%total_atoms)
       end if
 
-      call compute_mbe(polymers, total_fragments, max_level, results, mbe_result, sys_geom, bonds)
+      call compute_mbe(polymers, total_fragments, max_level, results, mbe_result, sys_geom, bonds, skip_json=skip_json)
       call mbe_result%destroy()
 
       call coord_timer%stop()

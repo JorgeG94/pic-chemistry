@@ -591,7 +591,7 @@ contains
    end subroutine print_mbe_gradient_info
 
    subroutine compute_mbe(polymers, fragment_count, max_level, results, &
-                          mbe_result, sys_geom, bonds, world_comm)
+                          mbe_result, sys_geom, bonds, world_comm, skip_json)
       !! Compute many-body expansion (MBE) energy with optional gradient, hessian, and dipole
       !!
       !! This is the core routine that handles all MBE computations.
@@ -612,6 +612,7 @@ contains
       type(system_geometry_t), intent(in), optional :: sys_geom  !! Required for gradient/hessian
       type(bond_t), intent(in), optional :: bonds(:)             !! Bond info for H-cap handling
       type(comm_t), intent(in), optional :: world_comm           !! MPI communicator for abort
+      logical, intent(in), optional :: skip_json                 !! Skip JSON output for large calculations
 
       ! Local variables
       integer(int64) :: i
@@ -948,7 +949,7 @@ contains
       ! Write JSON output (skip if we already wrote vibrational JSON for Hessian calculations)
       if (.not. compute_hess) then
          call print_detailed_breakdown_json(polymers, fragment_count, max_level, energies, delta_energies, &
-                                            sum_by_level, mbe_result, results)
+                                            sum_by_level, mbe_result, results, skip_json)
       end if
 
       ! Cleanup

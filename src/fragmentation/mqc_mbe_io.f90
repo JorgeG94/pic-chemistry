@@ -157,7 +157,7 @@ contains
 
    subroutine print_detailed_breakdown_json(polymers, fragment_count, max_level, &
                                             energies, delta_energies, sum_by_level, &
-                                            mbe_result, results)
+                                            mbe_result, results, skip_json)
       !! Write detailed energy breakdown to results.json file
       !! Uses json-fortran for clean, maintainable JSON output
       use mqc_result_types, only: calculation_result_t, mbe_result_t
@@ -167,6 +167,7 @@ contains
       real(dp), intent(in) :: sum_by_level(:)
       type(mbe_result_t), intent(in) :: mbe_result
       type(calculation_result_t), intent(in), optional :: results(:)
+      logical, intent(in), optional :: skip_json  !! Skip JSON output for large calculations
 
       type(json_core) :: json
       type(json_value), pointer :: root, main_obj, levels_arr, level_obj, frags_arr, frag_obj
@@ -176,6 +177,14 @@ contains
       integer, allocatable :: indices(:)
       character(len=32) :: level_name
       character(len=256) :: output_file, basename
+
+      ! Skip JSON output if requested (for large calculations)
+      if (present(skip_json)) then
+         if (skip_json) then
+            call logger%info("Skipping JSON output (skip_json_output = true)")
+            return
+         end if
+      end if
 
       output_file = get_output_json_filename()
       basename = get_basename()
@@ -273,15 +282,24 @@ contains
 
    end subroutine print_detailed_breakdown_json
 
-   subroutine print_unfragmented_json(result)
+   subroutine print_unfragmented_json(result, skip_json)
       !! Write unfragmented calculation results to output JSON file
       !! Uses json-fortran for clean, maintainable JSON output
       type(calculation_result_t), intent(in) :: result
+      logical, intent(in), optional :: skip_json  !! Skip JSON output for large calculations
 
       type(json_core) :: json
       type(json_value), pointer :: root, main_obj, dipole_obj
       integer :: iunit, io_stat
       character(len=256) :: output_file, basename
+
+      ! Skip JSON output if requested (for large calculations)
+      if (present(skip_json)) then
+         if (skip_json) then
+            call logger%info("Skipping JSON output (skip_json_output = true)")
+            return
+         end if
+      end if
 
       output_file = get_output_json_filename()
       basename = get_basename()
@@ -322,7 +340,7 @@ contains
 
    subroutine print_gmbe_json(n_monomers, monomer_indices, monomer_results, &
                               n_intersections, intersection_results, &
-                              intersection_sets, intersection_levels, total_energy)
+                              intersection_sets, intersection_levels, total_energy, skip_json)
       !! Write GMBE calculation results to output JSON file
       !! Uses json-fortran for clean, maintainable JSON output
       integer, intent(in) :: n_monomers
@@ -333,6 +351,7 @@ contains
       integer, intent(in), optional :: intersection_sets(:, :)
       integer, intent(in), optional :: intersection_levels(:)
       real(dp), intent(in) :: total_energy
+      logical, intent(in), optional :: skip_json  !! Skip JSON output for large calculations
 
       type(json_core) :: json
       type(json_value), pointer :: root, main_obj, monomers_obj, frags_arr, frag_obj
@@ -340,6 +359,14 @@ contains
       integer :: i, j, k, max_level, iunit, io_stat, level_count, n_indices
       integer, allocatable :: indices(:)
       character(len=256) :: output_file, basename
+
+      ! Skip JSON output if requested (for large calculations)
+      if (present(skip_json)) then
+         if (skip_json) then
+            call logger%info("Skipping JSON output (skip_json_output = true)")
+            return
+         end if
+      end if
 
       output_file = get_output_json_filename()
       basename = get_basename()
@@ -432,7 +459,7 @@ contains
    end subroutine print_gmbe_json
 
    subroutine print_gmbe_pie_json(pie_atom_sets, pie_coefficients, pie_energies, n_pie_terms, total_energy, &
-                                  total_gradient, total_hessian)
+                                  total_gradient, total_hessian, skip_json)
       !! Write GMBE PIE calculation results to output JSON file
       !! Uses json-fortran for clean, maintainable JSON output
       integer, intent(in) :: pie_atom_sets(:, :)
@@ -442,6 +469,7 @@ contains
       real(dp), intent(in) :: total_energy
       real(dp), intent(in), optional :: total_gradient(:, :)
       real(dp), intent(in), optional :: total_hessian(:, :)
+      logical, intent(in), optional :: skip_json  !! Skip JSON output for large calculations
 
       type(json_core) :: json
       type(json_value), pointer :: root, main_obj, pie_obj, terms_arr, term_obj
@@ -449,6 +477,14 @@ contains
       integer(int64) :: i, n_nonzero_terms
       integer, allocatable :: atom_indices(:)
       character(len=256) :: output_file, basename
+
+      ! Skip JSON output if requested (for large calculations)
+      if (present(skip_json)) then
+         if (skip_json) then
+            call logger%info("Skipping JSON output (skip_json_output = true)")
+            return
+         end if
+      end if
 
       output_file = get_output_json_filename()
       basename = get_basename()

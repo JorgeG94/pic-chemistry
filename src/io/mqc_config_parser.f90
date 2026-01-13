@@ -134,6 +134,9 @@ module mqc_config_parser
       ! Logger settings (kept for compatibility)
       character(len=:), allocatable :: log_level
 
+      ! Output control
+      logical :: skip_json_output = .false.  !! Skip JSON output for large calculations
+
    contains
       procedure :: destroy => config_destroy
    end type mqc_config_t
@@ -895,6 +898,8 @@ contains
          select case (trim(key))
          case ('log_level')
             config%log_level = trim(value)
+         case ('skip_json_output')
+            config%skip_json_output = (trim(value) == 'true' .or. trim(value) == '.true.')
          case default
             call error%set(ERROR_PARSE, "Unknown key in %system section: "//trim(key))
             return

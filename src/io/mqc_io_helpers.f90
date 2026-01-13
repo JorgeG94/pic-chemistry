@@ -4,8 +4,9 @@ module mqc_io_helpers
    implicit none
    private
 
-   character(len=256), save :: output_json_filename = "results.json"
-   character(len=256), save :: current_basename = ""
+   character(len=256) :: output_json_filename = "results.json"
+   character(len=256) :: current_basename = ""
+
    public :: set_output_json_filename, get_output_json_filename, get_basename
    public :: set_molecule_suffix
    public :: get_molecule_name, ends_with

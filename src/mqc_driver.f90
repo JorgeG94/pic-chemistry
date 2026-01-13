@@ -360,7 +360,8 @@ contains
           call serial_gmbe_pie_processor(pie_atom_sets, pie_coefficients, n_pie_terms, sys_geom, method, calc_type, bonds)
          else
             ! Standard MBE serial processing
-            call serial_fragment_processor(total_fragments, polymers, max_level, sys_geom, method, calc_type, bonds)
+            call serial_fragment_processor(total_fragments, polymers, max_level, sys_geom, method, calc_type, bonds, &
+                                           driver_config%skip_json_output)
          end if
       else if (resources%mpi_comms%world_comm%leader() .and. resources%mpi_comms%node_comm%leader()) then
          ! Global coordinator (rank 0, node leader on node 0)
@@ -373,7 +374,8 @@ contains
          else
             ! Standard MBE MPI processing
             call global_coordinator(resources, total_fragments, polymers, max_level, &
-                                    node_leader_ranks, num_nodes, sys_geom, calc_type, bonds)
+                                    node_leader_ranks, num_nodes, sys_geom, calc_type, bonds, &
+                                    driver_config%skip_json_output)
          end if
       else if (resources%mpi_comms%node_comm%leader()) then
          ! Node coordinator (node leader on other nodes)

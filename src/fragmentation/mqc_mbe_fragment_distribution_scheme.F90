@@ -64,7 +64,7 @@ module mqc_mbe_fragment_distribution_scheme
       end subroutine do_fragment_work
 
       module subroutine global_coordinator(resources, total_fragments, polymers, max_level, &
-                                           node_leader_ranks, num_nodes, sys_geom, calc_type, bonds)
+                                           node_leader_ranks, num_nodes, sys_geom, calc_type, bonds, skip_json)
          implicit none
          type(resources_t), intent(in) :: resources
          integer(int64), intent(in) :: total_fragments
@@ -73,6 +73,7 @@ module mqc_mbe_fragment_distribution_scheme
          type(system_geometry_t), intent(in), optional :: sys_geom
          integer(int32), intent(in) :: calc_type
          type(bond_t), intent(in), optional :: bonds(:)
+         logical, intent(in), optional :: skip_json
       end subroutine global_coordinator
 
       module subroutine node_coordinator(resources, calc_type)
@@ -81,7 +82,7 @@ module mqc_mbe_fragment_distribution_scheme
          integer(int32), intent(in) :: calc_type
       end subroutine node_coordinator
 
-     module subroutine serial_fragment_processor(total_fragments, polymers, max_level, sys_geom, method, calc_type, bonds)
+     module subroutine serial_fragment_processor(total_fragments, polymers, max_level, sys_geom, method, calc_type, bonds, skip_json)
          implicit none
          integer(int64), intent(in) :: total_fragments
          integer, intent(in) :: polymers(:, :), max_level
@@ -89,6 +90,7 @@ module mqc_mbe_fragment_distribution_scheme
          integer(int32), intent(in) :: method
          integer(int32), intent(in) :: calc_type
          type(bond_t), intent(in), optional :: bonds(:)
+         logical, intent(in), optional :: skip_json
       end subroutine serial_fragment_processor
 
       module subroutine node_worker(resources, sys_geom, method, calc_type, bonds)
