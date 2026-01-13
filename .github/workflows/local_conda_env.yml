@@ -82,11 +82,12 @@ jobs:
           conda env create --name mqc --file environment.yml
           conda install -c conda-forge -n mqc gfortran=14.2.0
 
-      - name: Create blas symlink for openblas
+      - name: Create blas and lapack symlinks for openblas
         shell: bash -el {0}
         run: |
           conda activate mqc
           ln -sf $CONDA_PREFIX/lib/libopenblas.so $CONDA_PREFIX/lib/libblas.so
+          ln -sf $CONDA_PREFIX/lib/libopenblas.so $CONDA_PREFIX/lib/liblapack.so
 
       - name: Build with fpm
         shell: bash -el {0}
