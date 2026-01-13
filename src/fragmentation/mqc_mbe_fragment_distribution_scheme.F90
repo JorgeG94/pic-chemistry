@@ -83,7 +83,8 @@ module mqc_mbe_fragment_distribution_scheme
          integer(int32), intent(in) :: calc_type
       end subroutine node_coordinator
 
-     module subroutine serial_fragment_processor(total_fragments, polymers, max_level, sys_geom, method, calc_type, bonds, json_data)
+      module subroutine serial_fragment_processor(total_fragments, polymers, max_level, sys_geom, &
+                                                  method, calc_type, bonds, json_data)
          implicit none
          integer(int64), intent(in) :: total_fragments
          integer, intent(in) :: polymers(:, :), max_level
