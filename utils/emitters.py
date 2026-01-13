@@ -166,6 +166,8 @@ def emit_v1(inp: Input, json_path: Path) -> Tuple[str, Path]:
     if inp.system is not None:
         buf.write("%system\n")
         buf.write(f"log_level = {inp.system.logger.level}\n")
+        if inp.system.skip_json_output:
+            buf.write("skip_json_output = true\n")
         buf.write("end  ! system\n\n")
 
     # Molecules

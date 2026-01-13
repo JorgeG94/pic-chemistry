@@ -348,7 +348,7 @@ def _parse_keywords(d: Dict[str, Any]) -> Tuple[Optional[SCF], Optional[Hessian]
 
 def _parse_system(d: Dict[str, Any]) -> System:
     """Parse system section."""
-    require_only_keys(d, {"logger"}, "system")
+    require_only_keys(d, {"logger", "skip_json_output"}, "system")
 
     logger_data = req_type(d.get("logger"), dict, "system.logger")
     require_only_keys(logger_data, {"level"}, "system.logger")
@@ -358,7 +358,11 @@ def _parse_system(d: Dict[str, Any]) -> System:
     if level.lower() not in valid_levels:
         die(f"system.logger.level must be one of: {', '.join(sorted(valid_levels))}")
 
-    return System(logger=Logger(level=level))
+    skip_json = d.get("skip_json_output", False)
+    if not isinstance(skip_json, bool):
+        die("system.skip_json_output must be a boolean")
+
+    return System(logger=Logger(level=level), skip_json_output=skip_json)
 
 
 def _parse_molecule(m: Dict[str, Any], base_dir: Path, mi: int) -> Molecule:

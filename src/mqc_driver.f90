@@ -147,16 +147,23 @@ contains
 
       ! Centralized JSON output (rank 0 only by default, or all ranks if all_ranks_write_json is set)
       if (.not. present(result_out)) then
-         ! Determine if this rank should write JSON
-         should_write_json = (resources%mpi_comms%world_comm%rank() == 0)
-         if (present(all_ranks_write_json)) then
-            if (all_ranks_write_json) should_write_json = .true.
-         end if
+         ! Check if JSON output should be skipped
+         if (config%skip_json_output) then
+            if (resources%mpi_comms%world_comm%rank() == 0) then
+               call logger%info("Skipping JSON output (skip_json_output = true)")
+            end if
+         else
+            ! Determine if this rank should write JSON
+            should_write_json = (resources%mpi_comms%world_comm%rank() == 0)
+            if (present(all_ranks_write_json)) then
+               if (all_ranks_write_json) should_write_json = .true.
+            end if
 
-         if (should_write_json) then
-            if (json_data%output_mode /= OUTPUT_MODE_NONE) then
-               call write_json_output(json_data)
-               call json_data%destroy()
+            if (should_write_json) then
+               if (json_data%output_mode /= OUTPUT_MODE_NONE) then
+                  call write_json_output(json_data)
+                  call json_data%destroy()
+               end if
             end if
          end if
       end if

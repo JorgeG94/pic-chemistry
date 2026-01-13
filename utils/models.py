@@ -145,6 +145,7 @@ class Logger:
 class System:
     """System-level settings."""
     logger: Logger
+    skip_json_output: bool = False  # Skip JSON output for large calculations
 
 
 @dataclass
