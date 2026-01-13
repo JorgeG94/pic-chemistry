@@ -236,9 +236,9 @@ Receive result over MPI</p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item"><a href='mqc_error.html'>mqc_error</a></li>
                   <li class="list-inline-item">pic_types</li>
                   <li class="list-inline-item">pic_mpi_lib</li>
-                  <li class="list-inline-item"><a href='mqc_error.html'>mqc_error</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -993,7 +993,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dipole~2"></span>
+              <span class="anchor" id="variable-dipole"></span>
               real(kind=dp),
             </td>
               <td>public,</td>
@@ -1010,7 +1010,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dipole_derivatives~4"></span>
+              <span class="anchor" id="variable-dipole_derivatives"></span>
               real(kind=dp),
             </td>
               <td>public,</td>
@@ -1044,7 +1044,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-energy~2"></span>
+              <span class="anchor" id="variable-energy~3"></span>
               type(<a href='../type/energy_t.html'>energy_t</a>),
             </td>
               <td>public</td>
@@ -1061,7 +1061,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-error~25"></span>
+              <span class="anchor" id="variable-error~13"></span>
               type(<a href='../type/error_t.html'>error_t</a>),
             </td>
               <td>public</td>
@@ -1078,7 +1078,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gradient~3"></span>
+              <span class="anchor" id="variable-gradient~2"></span>
               real(kind=dp),
             </td>
               <td>public,</td>
@@ -1095,7 +1095,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-has_dipole~2"></span>
+              <span class="anchor" id="variable-has_dipole"></span>
               logical,
             </td>
               <td>public</td>
@@ -1129,7 +1129,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-has_energy~2"></span>
+              <span class="anchor" id="variable-has_energy"></span>
               logical,
             </td>
               <td>public</td>
@@ -1163,7 +1163,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-has_gradient~2"></span>
+              <span class="anchor" id="variable-has_gradient"></span>
               logical,
             </td>
               <td>public</td>
@@ -1180,7 +1180,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-has_hessian~2"></span>
+              <span class="anchor" id="variable-has_hessian"></span>
               logical,
             </td>
               <td>public</td>
@@ -1214,7 +1214,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hessian~8"></span>
+              <span class="anchor" id="variable-hessian"></span>
               real(kind=dp),
             </td>
               <td>public,</td>
@@ -1231,7 +1231,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sigma"></span>
+              <span class="anchor" id="variable-sigma~5"></span>
               real(kind=dp),
             </td>
               <td>public,</td>
@@ -1257,12 +1257,12 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/calculation_result_t.html#boundprocedure-destroy~7'>destroy</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/result_destroy.html'>result_destroy</a></td>
+  <strong><a href='../type/calculation_result_t.html#boundprocedure-destroy~2'>destroy</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/result_destroy.html'>result_destroy</a></td>
                   <td><p>Clean up allocated memory</p></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/calculation_result_t.html#boundprocedure-reset~5'>reset</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/result_reset.html'>result_reset</a></td>
+  <strong><a href='../type/calculation_result_t.html#boundprocedure-reset~4'>reset</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/result_reset.html'>result_reset</a></td>
                   <td><p>Reset all values and flags</p></td>
               </tr>
           </tbody>
@@ -1360,7 +1360,7 @@ parameter
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/cc_energy_t.html#boundprocedure-reset~3'>reset</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/cc_reset.html'>cc_reset</a></td>
+  <strong><a href='../type/cc_energy_t.html#boundprocedure-reset~2'>reset</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/cc_reset.html'>cc_reset</a></td>
                   <td><p>Reset all components to zero</p></td>
               </tr>
               <tr>
@@ -1432,7 +1432,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scf~2"></span>
+              <span class="anchor" id="variable-scf"></span>
               real(kind=dp),
             </td>
               <td>public</td>
@@ -1458,7 +1458,7 @@ parameter
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/energy_t.html#boundprocedure-reset~4'>reset</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/energy_reset.html'>energy_reset</a></td>
+  <strong><a href='../type/energy_t.html#boundprocedure-reset~3'>reset</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/energy_reset.html'>energy_reset</a></td>
                   <td><p>Reset all components to zero</p></td>
               </tr>
               <tr>
@@ -1496,7 +1496,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dipole~3"></span>
+              <span class="anchor" id="variable-dipole~2"></span>
               real(kind=dp),
             </td>
               <td>public,</td>
@@ -1513,7 +1513,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dipole_derivatives~5"></span>
+              <span class="anchor" id="variable-dipole_derivatives~2"></span>
               real(kind=dp),
             </td>
               <td>public,</td>
@@ -1530,7 +1530,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gradient~4"></span>
+              <span class="anchor" id="variable-gradient~3"></span>
               real(kind=dp),
             </td>
               <td>public,</td>
@@ -1547,7 +1547,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-has_dipole~3"></span>
+              <span class="anchor" id="variable-has_dipole~2"></span>
               logical,
             </td>
               <td>public</td>
@@ -1581,7 +1581,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-has_energy~3"></span>
+              <span class="anchor" id="variable-has_energy~2"></span>
               logical,
             </td>
               <td>public</td>
@@ -1598,7 +1598,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-has_gradient~3"></span>
+              <span class="anchor" id="variable-has_gradient~2"></span>
               logical,
             </td>
               <td>public</td>
@@ -1615,7 +1615,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-has_hessian~3"></span>
+              <span class="anchor" id="variable-has_hessian~2"></span>
               logical,
             </td>
               <td>public</td>
@@ -1632,7 +1632,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hessian~9"></span>
+              <span class="anchor" id="variable-hessian~2"></span>
               real(kind=dp),
             </td>
               <td>public,</td>
@@ -1649,7 +1649,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-total_energy~7"></span>
+              <span class="anchor" id="variable-total_energy~5"></span>
               real(kind=dp),
             </td>
               <td>public</td>
@@ -1690,12 +1690,12 @@ parameter
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/mbe_result_t.html#boundprocedure-destroy~8'>destroy</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/mbe_result_destroy.html'>mbe_result_destroy</a></td>
+  <strong><a href='../type/mbe_result_t.html#boundprocedure-destroy~3'>destroy</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/mbe_result_destroy.html'>mbe_result_destroy</a></td>
                   <td><p>Clean up allocated memory</p></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/mbe_result_t.html#boundprocedure-reset~6'>reset</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/mbe_result_reset.html'>mbe_result_reset</a></td>
+  <strong><a href='../type/mbe_result_t.html#boundprocedure-reset~5'>reset</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/mbe_result_reset.html'>mbe_result_reset</a></td>
                   <td><p>Reset all values and flags</p></td>
               </tr>
           </tbody>
@@ -1776,7 +1776,7 @@ parameter
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/mp2_energy_t.html#boundprocedure-reset~2'>reset</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/mp2_reset.html'>mp2_reset</a></td>
+  <strong><a href='../type/mp2_energy_t.html#boundprocedure-reset'>reset</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/mp2_reset.html'>mp2_reset</a></td>
                   <td><p>Reset both components to zero</p></td>
               </tr>
               <tr>
@@ -2021,7 +2021,7 @@ Receives SCF energy (non-blocking) and other components (blocking)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~5"></span>
+              <span class="anchor" id="variable-comm~4"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -2036,7 +2036,7 @@ Receives SCF energy (non-blocking) and other components (blocking)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~3"></span>
+              <span class="anchor" id="variable-source~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2066,7 +2066,7 @@ Receives SCF energy (non-blocking) and other components (blocking)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-req~5"></span>
+              <span class="anchor" id="variable-req~2"></span>
               type(request_t),
             </td>
 <td>intent(out)</td>
@@ -2122,7 +2122,7 @@ Sends SCF energy (non-blocking) and other components (blocking)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~3"></span>
+              <span class="anchor" id="variable-comm~2"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -2137,7 +2137,7 @@ Sends SCF energy (non-blocking) and other components (blocking)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest~3"></span>
+              <span class="anchor" id="variable-dest~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2167,7 +2167,7 @@ Sends SCF energy (non-blocking) and other components (blocking)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-req~4"></span>
+              <span class="anchor" id="variable-req"></span>
               type(request_t),
             </td>
 <td>intent(out)</td>
@@ -2223,7 +2223,7 @@ Receives energy components and conditionally receives gradient based on flag</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~4"></span>
+              <span class="anchor" id="variable-comm~3"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -2238,7 +2238,7 @@ Receives energy components and conditionally receives gradient based on flag</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~2"></span>
+              <span class="anchor" id="variable-source"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2268,7 +2268,7 @@ Receives energy components and conditionally receives gradient based on flag</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-status~2"></span>
+              <span class="anchor" id="variable-status"></span>
               type(MPI_Status),
             </td>
 <td>intent(out)</td>
@@ -2324,7 +2324,7 @@ Sends energy components and conditionally sends gradient based on has_gradient f
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~2"></span>
+              <span class="anchor" id="variable-comm"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -2339,7 +2339,7 @@ Sends energy components and conditionally sends gradient based on has_gradient f
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest~2"></span>
+              <span class="anchor" id="variable-dest"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2909,7 +2909,7 @@ Correlation energies should be negative; positive values indicate instability</p
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-13 06:20 +0000             </p>
+ on 2026-01-13 09:49 +0000             </p>
           </div>
         </div>
         <br>
