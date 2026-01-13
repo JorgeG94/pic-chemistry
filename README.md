@@ -87,7 +87,17 @@ Without tblite, i.e. no quantum chemistry: gcc, nvfortran, flang(new), ifx, ifor
 
 ### Building with the Fortran Package Manager (FPM)
 
-*FPM will only work if you are building with openblas, since the linking step is hardcoded.*
+Before executing: The tblite package and some of its dependencies depend on `-lblas` which
+is usually not installed, i.e. I use openblas or mkl. You will need to create a symlink
+to `libblas.a`. You can do this by knowing where BLAS is installed and doing:
+
+```
+ln -s ${BLAS_ROOT}/lib/libopenblas.a ${LOCAL_BLAS_ROOT}/libblas.a
+```
+
+Then: `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$LOCAL_BLAS_ROOT`
+
+If you don't do this, then things will not work!
 
 Simply then just do: `fpm install --prefix . --compiler mpifort --profile release`
 

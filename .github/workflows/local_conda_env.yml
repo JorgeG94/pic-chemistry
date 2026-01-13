@@ -3,39 +3,43 @@ name: Build MQC using local conda env (MPI, OpenMP, BLAS)
 on: [push]
 
 jobs:
-  test_conda:
-    name: Build testing with ${{ matrix.compiler }}  on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+  cmake-build:
+    name: CMake build (${{ matrix.name }})
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        # mpi on windows is a nightmare
-        os: ["ubuntu-latest"]
-        compiler: ["gfortran"]
+        include:
+          - name: "with tblite"
+            tblite: true
+            legacy_mpi: false
+          - name: "no tblite"
+            tblite: false
+            legacy_mpi: false
+          - name: "with tblite + legacy MPI"
+            tblite: true
+            legacy_mpi: true
     steps:
       - uses: actions/checkout@v4
       - uses: conda-incubator/setup-miniconda@v3
         with:
           auto-update-conda: true
-          python-version: ${{ matrix.python-version }}
           miniforge-version: latest
 
-      - name: Install Our own environment
+      - name: Install conda environment
         shell: bash -el {0}
         run: |
           conda env create --name mqc --file environment.yml
-
-      - name: Install our own compiler using conda
-        shell: bash -el {0}
-        run: |
-          conda install -c conda-forge -n mqc ${{matrix.compiler}}=14.2.0
+          conda install -c conda-forge -n mqc gfortran=14.2.0
 
       - name: Execute cmake and build
         shell: bash -el {0}
         run: |
           conda activate mqc
-          export FC=${{matrix.compiler}}
-          cmake -B build
+          export FC=gfortran
+          cmake -DMQC_ENABLE_TBLITE=${{ matrix.tblite && 'ON' || 'OFF' }} \
+                -DPIC_USE_LEGACY_MPI=${{ matrix.legacy_mpi && 'ON' || 'OFF' }} \
+                -B build
           cmake --build build
 
       - name: Run unit tests
@@ -45,6 +49,7 @@ jobs:
           ctest --test-dir build -V -R "mqc"
 
       - name: Run physics validation tests
+        if: matrix.tblite
         shell: bash -el {0}
         run: |
           conda activate mqc
@@ -52,7 +57,7 @@ jobs:
           python3 run_validation.py -v
 
       - name: Upload validation outputs on failure
-        if: failure()
+        if: failure() && matrix.tblite
         uses: actions/upload-artifact@v4
         with:
           name: validation-outputs-tblite
@@ -61,26 +66,36 @@ jobs:
             validation/validation_logs/*.log
           retention-days: 7
 
-      - name: Clean build dir
+  fpm-build:
+    name: FPM build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          auto-update-conda: true
+          miniforge-version: latest
+
+      - name: Install conda environment
         shell: bash -el {0}
         run: |
-          rm -rf build
+          conda env create --name mqc --file environment.yml
+          conda install -c conda-forge -n mqc gfortran=14.2.0
 
-      - name: Execute cmake and build without tblite
+      - name: Create blas symlink for openblas
         shell: bash -el {0}
         run: |
           conda activate mqc
-          export FC=${{matrix.compiler}}
-          cmake -DMQC_ENABLE_TBLITE=OFF -B build
-          cmake --build build
+          ln -sf $CONDA_PREFIX/lib/libopenblas.so $CONDA_PREFIX/lib/libblas.so
 
-      - name: Run unit tests
+      - name: Build with fpm
         shell: bash -el {0}
         run: |
           conda activate mqc
-          ctest --test-dir build -V -R "mqc"
+          fpm build --compiler mpifort
 
-      - name: Clean build dir
+      - name: Run fpm tests
         shell: bash -el {0}
         run: |
-          rm -rf build
+          conda activate mqc
+          fpm test --compiler mpifort
