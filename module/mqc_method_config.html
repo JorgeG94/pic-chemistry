@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.1% of total for modules and submodules.">122 statements</a>
+                 title=" 1.6% of total for modules and submodules.">172 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -144,10 +144,13 @@
       </a>
       <div id="types-0" class="collapse">
         <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mqc_method_config.html#type-cc_config_t">cc_config_t</a>
+            <a class="list-group-item" href="../module/mqc_method_config.html#type-correlation_config_t">correlation_config_t</a>
             <a class="list-group-item" href="../module/mqc_method_config.html#type-dft_config_t">dft_config_t</a>
-            <a class="list-group-item" href="../module/mqc_method_config.html#type-hf_config_t">hf_config_t</a>
+            <a class="list-group-item" href="../module/mqc_method_config.html#type-f12_config_t">f12_config_t</a>
             <a class="list-group-item" href="../module/mqc_method_config.html#type-mcscf_config_t">mcscf_config_t</a>
             <a class="list-group-item" href="../module/mqc_method_config.html#type-method_config_t">method_config_t</a>
+            <a class="list-group-item" href="../module/mqc_method_config.html#type-scf_config_t">scf_config_t</a>
             <a class="list-group-item" href="../module/mqc_method_config.html#type-xtb_config_t">xtb_config_t</a>
         </div>
       </div>
@@ -200,8 +203,8 @@ for each method family. The factory reads from the appropriate nested type.</p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item">pic_types</li>
                   <li class="list-inline-item"><a href='mqc_method_types.html'>mqc_method_types</a></li>
+                  <li class="list-inline-item">pic_types</li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -654,6 +657,393 @@ large graphs.</div>
           <h2>Derived Types</h2>
               <div class="card">
     <div class="card-header codesum">
+      <span class="anchor" id="type-cc_config_t"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/cc_config_t.html'>cc_config_t</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Coupled-cluster specific settings (CCSD, CCSD(T), CC2, CC3, etc.)</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-amplitude_convergence"></span>
+              real(kind=dp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>amplitude_convergence</strong></td>
+<td> =</td>
+                <td>1.0e-7_dp</td>
+            <td>
+<p>T-amplitude convergence threshold</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diis_size~2"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diis_size</strong></td>
+<td> =</td>
+                <td>8</td>
+            <td>
+<p>DIIS subspace size</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eom_type"></span>
+              character(len=8),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eom_type</strong></td>
+<td> =</td>
+                <td>&#39;ee&#39;</td>
+            <td>
+<p>EOM type: &ldquo;ee&rdquo; (excitation), &ldquo;ip&rdquo; (ionization), &ldquo;ea&rdquo; (attachment)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-include_triples"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>include_triples</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+<p>Include (T) triples correction</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_iter~2"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_iter</strong></td>
+<td> =</td>
+                <td>100</td>
+            <td>
+<p>Maximum CC iterations</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n_roots"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n_roots</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+<p>Number of EOM-CC roots (0 = ground state only)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-perturbative_triples"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>perturbative_triples</strong></td>
+<td> =</td>
+                <td>.true.</td>
+            <td>
+<p>Use perturbative (T) vs full CCSDT</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_diis~2"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>use_diis</strong></td>
+<td> =</td>
+                <td>.true.</td>
+            <td>
+<p>Use DIIS for amplitude equations</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-correlation_config_t"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/correlation_config_t.html'>correlation_config_t</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Shared settings for all post-HF correlation methods</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-aux_basis"></span>
+              character(len=32),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>aux_basis</strong></td>
+<td> =</td>
+                <td>&#39;&#39;</td>
+            <td>
+<p>Auxiliary basis for RI (e.g., &ldquo;cc-pvdz-ri&rdquo;, &ldquo;cc-pvtz-ri&rdquo;)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-energy_convergence~2"></span>
+              real(kind=dp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>energy_convergence</strong></td>
+<td> =</td>
+                <td>1.0e-8_dp</td>
+            <td>
+<p>Correlation energy convergence threshold</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-freeze_core"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>freeze_core</strong></td>
+<td> =</td>
+                <td>.true.</td>
+            <td>
+<p>Whether to freeze core orbitals</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-local_type"></span>
+              character(len=16),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>local_type</strong></td>
+<td> =</td>
+                <td>&#39;dlpno&#39;</td>
+            <td>
+<p>Local correlation type: &ldquo;pno&rdquo;, &ldquo;dlpno&rdquo;, &ldquo;lmp2&rdquo;, &ldquo;lno&rdquo;</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n_frozen_core"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n_frozen_core</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+<p>Number of frozen core orbitals (-1 = auto from elements)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pno_threshold"></span>
+              real(kind=dp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pno_threshold</strong></td>
+<td> =</td>
+                <td>1.0e-7_dp</td>
+            <td>
+<p>PNO occupation threshold for truncation</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scs_os"></span>
+              real(kind=dp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>scs_os</strong></td>
+<td> =</td>
+                <td>1.2_dp</td>
+            <td>
+<p>Opposite-spin scaling factor (default: 6/5 for SCS-MP2)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scs_ss"></span>
+              real(kind=dp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>scs_ss</strong></td>
+<td> =</td>
+                <td>1.0_dp/3.0_dp</td>
+            <td>
+<p>Same-spin scaling factor (default: 1/3 for SCS-MP2)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_df"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>use_df</strong></td>
+<td> =</td>
+                <td>.true.</td>
+            <td>
+<p>Use density fitting (RI) for correlation integrals</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_local"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>use_local</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+<p>Use local correlation approximation</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_scs"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>use_scs</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+<p>Use spin-component scaled MP2</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
       <span class="anchor" id="type-dft_config_t"></span>
       <h3>
         type, public&nbsp;::&nbsp;
@@ -662,7 +1052,8 @@ large graphs.</div>
       </h3>
     </div>
     <div class="card-body">
-      <p>Configuration for Kohn-Sham DFT method</p>
+      <p>Configuration for Kohn-Sham DFT method
+Note: SCF settings (convergence, DIIS) come from scf_config_t</p>
 
         <h4>Components</h4>
           <table class="table table-striped varlist">
@@ -711,40 +1102,6 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-density_convergence~2"></span>
-              real(kind=dp),
-            </td>
-              <td>public</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>density_convergence</strong></td>
-<td> =</td>
-                <td>1.0e-6_dp</td>
-            <td>
-<p>Density convergence threshold</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-diis_size~2"></span>
-              integer,
-            </td>
-              <td>public</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>diis_size</strong></td>
-<td> =</td>
-                <td>8</td>
-            <td>
-<p>DIIS history size</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
               <span class="anchor" id="variable-dispersion_type"></span>
               character(len=8),
             </td>
@@ -758,23 +1115,6 @@ large graphs.</div>
                 <td>&#39;d3bj&#39;</td>
             <td>
 <p>Dispersion type: &ldquo;d3&rdquo;, &ldquo;d3bj&rdquo;, &ldquo;d4&rdquo;</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-energy_convergence~2"></span>
-              real(kind=dp),
-            </td>
-              <td>public</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>energy_convergence</strong></td>
-<td> =</td>
-                <td>1.0e-8_dp</td>
-            <td>
-<p>Energy convergence threshold</p>
             </td>
         </tr>
         <tr>
@@ -813,23 +1153,6 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_scf_iter~2"></span>
-              integer,
-            </td>
-              <td>public</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>max_scf_iter</strong></td>
-<td> =</td>
-                <td>100</td>
-            <td>
-<p>Maximum SCF iterations</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
               <span class="anchor" id="variable-radial_points"></span>
               integer,
             </td>
@@ -864,23 +1187,6 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-use_diis~2"></span>
-              logical,
-            </td>
-              <td>public</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>use_diis</strong></td>
-<td> =</td>
-                <td>.true.</td>
-            <td>
-<p>Use DIIS acceleration</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
               <span class="anchor" id="variable-use_dispersion"></span>
               logical,
             </td>
@@ -907,15 +1213,15 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header codesum">
-      <span class="anchor" id="type-hf_config_t"></span>
+      <span class="anchor" id="type-f12_config_t"></span>
       <h3>
         type, public&nbsp;::&nbsp;
-        <a href='../type/hf_config_t.html'>hf_config_t</a>
+        <a href='../type/f12_config_t.html'>f12_config_t</a>
         
       </h3>
     </div>
     <div class="card-body">
-      <p>Configuration for Hartree-Fock method</p>
+      <p>Settings for explicitly correlated F12 methods (MP2-F12, CCSD-F12, etc.)</p>
 
         <h4>Components</h4>
           <table class="table table-striped varlist">
@@ -930,7 +1236,41 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-density_convergence"></span>
+              <span class="anchor" id="variable-ansatz"></span>
+              character(len=8),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ansatz</strong></td>
+<td> =</td>
+                <td>&#39;3c&#39;</td>
+            <td>
+<p>F12 ansatz: &ldquo;3c&rdquo;, &ldquo;3c(fix)&rdquo;, &ldquo;2b&rdquo;, &ldquo;2a&rdquo;</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cabs_basis"></span>
+              character(len=32),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>cabs_basis</strong></td>
+<td> =</td>
+                <td>&#39;&#39;</td>
+            <td>
+<p>Complementary auxiliary basis (CABS) for RI</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-geminal_exponent"></span>
               real(kind=dp),
             </td>
               <td>public</td>
@@ -938,67 +1278,33 @@ large graphs.</div>
               
             </td>
             <td>::</td>
-            <td><strong>density_convergence</strong></td>
+            <td><strong>geminal_exponent</strong></td>
 <td> =</td>
-                <td>1.0e-6_dp</td>
+                <td>1.0_dp</td>
             <td>
-<p>Density matrix convergence threshold</p>
+<p>Slater-type geminal exponent (beta)</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diis_size"></span>
-              integer,
+              <span class="anchor" id="variable-optri_basis"></span>
+              character(len=32),
             </td>
               <td>public</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>diis_size</strong></td>
+            <td><strong>optri_basis</strong></td>
 <td> =</td>
-                <td>8</td>
+                <td>&#39;&#39;</td>
             <td>
-<p>Number of Fock matrices for DIIS</p>
+<p>Optional RI basis for F12 intermediates</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-energy_convergence"></span>
-              real(kind=dp),
-            </td>
-              <td>public</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>energy_convergence</strong></td>
-<td> =</td>
-                <td>1.0e-8_dp</td>
-            <td>
-<p>Energy convergence threshold (Hartree)</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-max_scf_iter"></span>
-              integer,
-            </td>
-              <td>public</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>max_scf_iter</strong></td>
-<td> =</td>
-                <td>100</td>
-            <td>
-<p>Maximum SCF iterations</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-use_diis"></span>
+              <span class="anchor" id="variable-scale_triples"></span>
               logical,
             </td>
               <td>public</td>
@@ -1006,11 +1312,28 @@ large graphs.</div>
               
             </td>
             <td>::</td>
-            <td><strong>use_diis</strong></td>
+            <td><strong>scale_triples</strong></td>
 <td> =</td>
                 <td>.true.</td>
             <td>
-<p>Use DIIS acceleration</p>
+<p>Apply F12 scaling to (T) correction</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_exponent_fit"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>use_exponent_fit</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+<p>Fit geminal exponent to basis set</p>
             </td>
         </tr>
     </tbody>
@@ -1317,6 +1640,40 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-cc"></span>
+              type(<a href='../type/cc_config_t.html'>cc_config_t</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>cc</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+<p>Coupled-cluster specific settings (CCSD, CCSD(T), etc.)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-corr"></span>
+              type(<a href='../type/correlation_config_t.html'>correlation_config_t</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>corr</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+<p>Shared correlation settings (used by MP2, CC, etc.)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-dft"></span>
               type(<a href='../type/dft_config_t.html'>dft_config_t</a>),
             </td>
@@ -1329,24 +1686,24 @@ large graphs.</div>
                 <td></td>
                 <td></td>
             <td>
-<p>DFT settings</p>
+<p>DFT-specific settings (functional, grid, dispersion)</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-hf"></span>
-              type(<a href='../type/hf_config_t.html'>hf_config_t</a>),
+              <span class="anchor" id="variable-f12"></span>
+              type(<a href='../type/f12_config_t.html'>f12_config_t</a>),
             </td>
               <td>public</td>
             <td>
               
             </td>
             <td>::</td>
-            <td><strong>hf</strong></td>
+            <td><strong>f12</strong></td>
                 <td></td>
                 <td></td>
             <td>
-<p>Hartree-Fock settings</p>
+<p>F12 explicitly correlated settings</p>
             </td>
         </tr>
         <tr>
@@ -1385,6 +1742,23 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-scf"></span>
+              type(<a href='../type/scf_config_t.html'>scf_config_t</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>scf</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+<p>Shared SCF settings (used by HF and DFT)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-use_spherical"></span>
               logical,
             </td>
@@ -1402,7 +1776,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-verbose~2"></span>
+              <span class="anchor" id="variable-verbose"></span>
               logical,
             </td>
               <td>public</td>
@@ -1455,6 +1829,123 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header codesum">
+      <span class="anchor" id="type-scf_config_t"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/scf_config_t.html'>scf_config_t</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Shared SCF settings for HF and DFT methods</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-density_convergence"></span>
+              real(kind=dp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>density_convergence</strong></td>
+<td> =</td>
+                <td>1.0e-6_dp</td>
+            <td>
+<p>Density matrix convergence threshold</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diis_size"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diis_size</strong></td>
+<td> =</td>
+                <td>8</td>
+            <td>
+<p>Number of Fock matrices for DIIS</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-energy_convergence"></span>
+              real(kind=dp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>energy_convergence</strong></td>
+<td> =</td>
+                <td>1.0e-8_dp</td>
+            <td>
+<p>Energy convergence threshold (Hartree)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_iter"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_iter</strong></td>
+<td> =</td>
+                <td>100</td>
+            <td>
+<p>Maximum SCF iterations</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_diis"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>use_diis</strong></td>
+<td> =</td>
+                <td>.true.</td>
+            <td>
+<p>Use DIIS acceleration</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
       <span class="anchor" id="type-xtb_config_t"></span>
       <h3>
         type, public&nbsp;::&nbsp;
@@ -1478,7 +1969,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-accuracy~2"></span>
+              <span class="anchor" id="variable-accuracy"></span>
               real(kind=dp),
             </td>
               <td>public</td>
@@ -1495,7 +1986,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-cpcm_nang~3"></span>
+              <span class="anchor" id="variable-cpcm_nang"></span>
               integer,
             </td>
               <td>public</td>
@@ -1512,7 +2003,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-cpcm_rscale~3"></span>
+              <span class="anchor" id="variable-cpcm_rscale"></span>
               real(kind=dp),
             </td>
               <td>public</td>
@@ -1529,7 +2020,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dielectric~3"></span>
+              <span class="anchor" id="variable-dielectric"></span>
               real(kind=dp),
             </td>
               <td>public</td>
@@ -1563,7 +2054,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-solvation_model~3"></span>
+              <span class="anchor" id="variable-solvation_model"></span>
               character(len=16),
             </td>
               <td>public</td>
@@ -1580,7 +2071,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-solvent~3"></span>
+              <span class="anchor" id="variable-solvent"></span>
               character(len=32),
             </td>
               <td>public</td>
@@ -1597,7 +2088,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-use_cds~3"></span>
+              <span class="anchor" id="variable-use_cds"></span>
               logical,
             </td>
               <td>public</td>
@@ -1614,7 +2105,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-use_shift~3"></span>
+              <span class="anchor" id="variable-use_shift"></span>
               logical,
             </td>
               <td>public</td>
@@ -1673,7 +2164,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~4"></span>
+              <span class="anchor" id="variable-this"></span>
               class(<a href='../type/xtb_config_t.html'>xtb_config_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1723,7 +2214,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~5"></span>
+              <span class="anchor" id="variable-this~2"></span>
               class(<a href='../type/method_config_t.html'>method_config_t</a>),
             </td>
 <td>intent(inout)</td>
@@ -1766,7 +2257,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-13 12:35 +0000             </p>
+ on 2026-01-13 20:09 +0000             </p>
           </div>
         </div>
         <br>

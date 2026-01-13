@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.2% of total for modules and submodules.">132 statements</a>
+                 title=" 1.2% of total for modules and submodules.">136 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -201,15 +201,15 @@ Convenience function</p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='mqc_method_types.html'>mqc_method_types</a></li>
-                  <li class="list-inline-item"><a href='mqc_method_xtb.html'>mqc_method_xtb</a></li>
-                  <li class="list-inline-item">mctc_env</li>
-                  <li class="list-inline-item"><a href='mqc_method_config.html'>mqc_method_config</a></li>
                   <li class="list-inline-item"><a href='mqc_method_hf.html'>mqc_method_hf</a></li>
-                  <li class="list-inline-item">pic_types</li>
+                  <li class="list-inline-item"><a href='mqc_method_config.html'>mqc_method_config</a></li>
+                  <li class="list-inline-item"><a href='mqc_method_types.html'>mqc_method_types</a></li>
                   <li class="list-inline-item"><a href='mqc_method_mcscf.html'>mqc_method_mcscf</a></li>
                   <li class="list-inline-item"><a href='mqc_method_dft.html'>mqc_method_dft</a></li>
                   <li class="list-inline-item"><a href='mqc_method_base.html'>mqc_method_base</a></li>
+                  <li class="list-inline-item">pic_types</li>
+                  <li class="list-inline-item"><a href='mqc_method_xtb.html'>mqc_method_xtb</a></li>
+                  <li class="list-inline-item">mctc_env</li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -1309,7 +1309,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-config~22"></span>
+              <span class="anchor" id="variable-config~6"></span>
               type(<a href='../type/method_config_t.html'>method_config_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1354,7 +1354,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~28"></span>
+              <span class="anchor" id="variable-this~6"></span>
               class(<a href='../type/method_factory_t.html'>method_factory_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1369,7 +1369,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-config~17"></span>
+              <span class="anchor" id="variable-config"></span>
               type(<a href='../type/method_config_t.html'>method_config_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1404,62 +1404,7 @@ large graphs.</div>
 </h3></div>
     <div class="card-body">
           
-  <p>Configure a DFT method instance from config%dft</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-method~6"></span>
-              class(<a href='../type/qc_method_t.html'>qc_method_t</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>method</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-config~20"></span>
-              type(<a href='../type/method_config_t.html'>method_config_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>config</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-configure_hf"></span> <h3>private  subroutine <a href='../proc/configure_hf.html'>configure_hf</a>(method, config)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Configure a Hartree-Fock method instance from config%hf</p>
+  <p>Configure a DFT method instance from config%scf (shared) and config%dft (DFT-specific)</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1489,7 +1434,62 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-config~19"></span>
+              <span class="anchor" id="variable-config~4"></span>
+              type(<a href='../type/method_config_t.html'>method_config_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>config</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-configure_hf"></span> <h3>private  subroutine <a href='../proc/configure_hf.html'>configure_hf</a>(method, config)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Configure a Hartree-Fock method instance from config%scf (shared SCF settings)</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-method~4"></span>
+              class(<a href='../type/qc_method_t.html'>qc_method_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>method</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-config~3"></span>
               type(<a href='../type/method_config_t.html'>method_config_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1529,7 +1529,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~7"></span>
+              <span class="anchor" id="variable-method~6"></span>
               class(<a href='../type/qc_method_t.html'>qc_method_t</a>),
             </td>
 <td>intent(inout)</td>
@@ -1544,7 +1544,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-config~21"></span>
+              <span class="anchor" id="variable-config~5"></span>
               type(<a href='../type/method_config_t.html'>method_config_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1584,7 +1584,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~4"></span>
+              <span class="anchor" id="variable-method~3"></span>
               class(<a href='../type/qc_method_t.html'>qc_method_t</a>),
             </td>
 <td>intent(inout)</td>
@@ -1599,7 +1599,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-config~18"></span>
+              <span class="anchor" id="variable-config~2"></span>
               type(<a href='../type/method_config_t.html'>method_config_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1642,7 +1642,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-13 12:35 +0000             </p>
+ on 2026-01-13 20:09 +0000             </p>
           </div>
         </div>
         <br>

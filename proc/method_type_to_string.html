@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.2% of total for procedures.">18 statements</a>
+                 title=" 0.3% of total for procedures.">30 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -472,16 +472,38 @@ large graphs.</div>
 <span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">method_str</span><span class="w">       </span><span class="c">!! Output string representation</span>
 
 <span class="w">      </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="n">method_type</span><span class="p">)</span>
+<span class="w">         </span><span class="c">! Semi-empirical</span>
 <span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">METHOD_TYPE_GFN1</span><span class="p">)</span>
 <span class="w">         </span><span class="n">method_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;gfn1&quot;</span>
 <span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">METHOD_TYPE_GFN2</span><span class="p">)</span>
 <span class="w">         </span><span class="n">method_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;gfn2&quot;</span>
+
+<span class="w">         </span><span class="c">! SCF methods</span>
 <span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">METHOD_TYPE_HF</span><span class="p">)</span>
 <span class="w">         </span><span class="n">method_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;hf&quot;</span>
 <span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">METHOD_TYPE_DFT</span><span class="p">)</span>
 <span class="w">         </span><span class="n">method_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;dft&quot;</span>
+
+<span class="w">         </span><span class="c">! Multi-reference</span>
 <span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">METHOD_TYPE_MCSCF</span><span class="p">)</span>
 <span class="w">         </span><span class="n">method_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mcscf&quot;</span>
+
+<span class="w">         </span><span class="c">! Perturbation theory</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">METHOD_TYPE_MP2</span><span class="p">)</span>
+<span class="w">         </span><span class="n">method_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mp2&quot;</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">METHOD_TYPE_MP2_F12</span><span class="p">)</span>
+<span class="w">         </span><span class="n">method_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mp2-f12&quot;</span>
+
+<span class="w">         </span><span class="c">! Coupled cluster</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">METHOD_TYPE_CCSD</span><span class="p">)</span>
+<span class="w">         </span><span class="n">method_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;ccsd&quot;</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">METHOD_TYPE_CCSD_T</span><span class="p">)</span>
+<span class="w">         </span><span class="n">method_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;ccsd(t)&quot;</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">METHOD_TYPE_CCSD_F12</span><span class="p">)</span>
+<span class="w">         </span><span class="n">method_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;ccsd-f12&quot;</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">METHOD_TYPE_CCSD_T_F12</span><span class="p">)</span>
+<span class="w">         </span><span class="n">method_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;ccsd(t)-f12&quot;</span>
+
 <span class="w">      </span><span class="k">case </span><span class="n">default</span>
 <span class="w">         </span><span class="n">method_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;unknown&quot;</span>
 <span class="w">      </span><span class="k">end select</span>
@@ -510,7 +532,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-13 12:35 +0000             </p>
+ on 2026-01-13 20:09 +0000             </p>
           </div>
         </div>
         <br>
