@@ -35,7 +35,7 @@ module mqc_driver
 
 contains
 
-   subroutine run_calculation(resources, config, sys_geom, bonds, result_out)
+   subroutine run_calculation(resources, config, sys_geom, bonds, result_out, all_ranks_write_json)
       !! Main calculation dispatcher - routes to fragmented or unfragmented calculation
       !!
       !! Determines calculation type based on nlevel and dispatches to appropriate
@@ -46,11 +46,13 @@ contains
       type(system_geometry_t), intent(in) :: sys_geom  !! System geometry and fragment info
       type(bond_t), intent(in), optional :: bonds(:)  !! Bond connectivity information
       type(calculation_result_t), intent(out), optional :: result_out  !! Optional result output
+      logical, intent(in), optional :: all_ranks_write_json  !! If true, all ranks write JSON (for multi-molecule)
 
       ! Local variables
       integer :: max_level   !! Maximum fragment level (nlevel from config)
       integer :: i  !! Loop counter
       type(json_output_data_t) :: json_data  !! Cached output data for centralized JSON writing
+      logical :: should_write_json  !! Whether this rank should write JSON
 
       ! Set XTB solvation options from config (before any calculations)
       if (allocated(config%solvent) .or. config%dielectric > 0.0_dp) then
@@ -143,9 +145,15 @@ contains
          end if
       end if
 
-      ! Centralized JSON output (rank 0 only, when result_out is not present)
+      ! Centralized JSON output (rank 0 only by default, or all ranks if all_ranks_write_json is set)
       if (.not. present(result_out)) then
-         if (resources%mpi_comms%world_comm%rank() == 0) then
+         ! Determine if this rank should write JSON
+         should_write_json = (resources%mpi_comms%world_comm%rank() == 0)
+         if (present(all_ranks_write_json)) then
+            if (all_ranks_write_json) should_write_json = .true.
+         end if
+
+         if (should_write_json) then
             if (json_data%output_mode /= OUTPUT_MODE_NONE) then
                call write_json_output(json_data)
                call json_data%destroy()
@@ -577,8 +585,9 @@ contains
                ! Set output filename suffix for this molecule
                call set_molecule_suffix("_"//trim(mol_name))
 
-               ! Run calculation for this molecule
-               call run_calculation(resources, config, sys_geom, mqc_config%molecules(imol)%bonds)
+               ! Run calculation for this molecule (all ranks write JSON in parallel mode)
+               call run_calculation(resources, config, sys_geom, mqc_config%molecules(imol)%bonds, &
+                                    all_ranks_write_json=.true.)
 
                ! Track the JSON filename for later merging
                individual_json_files(imol) = get_output_json_filename()
