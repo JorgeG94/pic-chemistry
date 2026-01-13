@@ -63,6 +63,10 @@ contains
    subroutine apply_distance_screening(polymers, total_fragments, sys_geom, driver_config, max_level)
       !! Apply distance-based screening to filter out fragments that exceed cutoff distances
       !! Modifies polymers array in-place and updates total_fragments count
+      !!
+      !! IMPORTANT: For MBE correctness, if any k-subset of an n-mer exceeds the k-mer cutoff,
+      !! the entire n-mer must be screened out. Otherwise, compute_mbe will fail when trying
+      !! to look up the missing subset.
       use mqc_physical_fragment, only: calculate_monomer_distance
       use mqc_config_adapter, only: driver_config_t
 
@@ -74,9 +78,8 @@ contains
 
       integer(int64) :: i, fragments_kept
       integer :: fragment_size
-      real(dp) :: fragment_distance, cutoff
       integer(int64) :: fragments_screened
-      integer :: nmer_level
+      logical :: should_screen
 
       ! Check if we have cutoffs to apply
       if (.not. allocated(driver_config%fragment_cutoffs)) then
@@ -100,32 +103,11 @@ contains
             cycle
          end if
 
-         ! For n-mers (n >= 2), check if we have a cutoff and apply screening
-         nmer_level = fragment_size
-         if (nmer_level > size(driver_config%fragment_cutoffs)) then
-            ! No cutoff defined for this level - keep the fragment
-            fragments_kept = fragments_kept + 1_int64
-            if (fragments_kept /= i) then
-               polymers(fragments_kept, :) = polymers(i, :)
-            end if
-            cycle
-         end if
+         ! For n-mers (n >= 2), check if this fragment or any of its subsets should be screened
+         should_screen = fragment_should_be_screened(polymers(i, 1:fragment_size), fragment_size, &
+                                                     sys_geom, driver_config)
 
-         cutoff = driver_config%fragment_cutoffs(nmer_level)
-         if (cutoff <= 0.0_dp) then
-            ! Negative or zero cutoff means no screening for this level
-            fragments_kept = fragments_kept + 1_int64
-            if (fragments_kept /= i) then
-               polymers(fragments_kept, :) = polymers(i, :)
-            end if
-            cycle
-         end if
-
-         ! Calculate distance for this fragment
-         fragment_distance = calculate_monomer_distance(sys_geom, polymers(i, 1:fragment_size))
-
-         ! Apply cutoff filter
-         if (fragment_distance <= cutoff) then
+         if (.not. should_screen) then
             ! Keep this fragment
             fragments_kept = fragments_kept + 1_int64
             if (fragments_kept /= i) then
@@ -147,6 +129,67 @@ contains
       end if
 
    end subroutine apply_distance_screening
+
+   function fragment_should_be_screened(fragment, n, sys_geom, driver_config) result(should_screen)
+      !! Check if a fragment should be screened out based on distance cutoffs.
+      !! Returns true if the fragment itself OR any of its k-subsets (k >= 2) exceeds
+      !! the corresponding k-mer cutoff. This ensures MBE subset consistency.
+      use mqc_physical_fragment, only: calculate_monomer_distance
+      use mqc_config_adapter, only: driver_config_t
+
+      integer, intent(in) :: fragment(:)
+      integer, intent(in) :: n
+      type(system_geometry_t), intent(in) :: sys_geom
+      type(driver_config_t), intent(in) :: driver_config
+      logical :: should_screen
+
+      integer :: subset_size, num_cutoffs
+      integer :: indices(n), subset(n)
+      integer :: j
+      real(dp) :: distance, cutoff
+      logical :: has_next
+
+      should_screen = .false.
+      num_cutoffs = size(driver_config%fragment_cutoffs)
+
+      ! Check all subset sizes from 2 up to n (the full fragment)
+      ! If any k-subset exceeds the k-mer cutoff, screen this fragment
+      do subset_size = 2, n
+         ! Skip if no cutoff defined for this level
+         if (subset_size > num_cutoffs) cycle
+
+         cutoff = driver_config%fragment_cutoffs(subset_size)
+         ! Skip if cutoff is non-positive (no screening for this level)
+         if (cutoff <= 0.0_dp) cycle
+
+         ! Initialize first combination indices
+         do j = 1, subset_size
+            indices(j) = j
+         end do
+
+         ! Loop through all combinations of this size
+         do
+            ! Build current subset
+            do j = 1, subset_size
+               subset(j) = fragment(indices(j))
+            end do
+
+            ! Calculate distance for this subset
+            distance = calculate_monomer_distance(sys_geom, subset(1:subset_size))
+
+            ! If subset exceeds cutoff, screen the whole fragment
+            if (distance > cutoff) then
+               should_screen = .true.
+               return
+            end if
+
+            ! Get next combination
+            call get_next_combination(indices, subset_size, n, has_next)
+            if (.not. has_next) exit
+         end do
+      end do
+
+   end function fragment_should_be_screened
 
    ! cannot make this pure because sort is not pure
    subroutine sort_fragments_by_size(polymers, total_fragments, max_level)

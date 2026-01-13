@@ -43,6 +43,9 @@ module mqc_config_adapter
       type(hessian_keywords_t) :: hessian  !! Hessian calculation keywords
       type(aimd_keywords_t) :: aimd        !! AIMD calculation keywords
       type(scf_keywords_t) :: scf          !! SCF calculation keywords
+
+      ! Output control
+      logical :: skip_json_output = .false.  !! Skip JSON output for large calculations
    end type driver_config_t
 
 contains
@@ -110,12 +113,17 @@ contains
 
       ! Set calculation-specific keywords
       driver_config%hessian%displacement = mqc_config%hessian_displacement
+      driver_config%hessian%temperature = mqc_config%hessian_temperature
+      driver_config%hessian%pressure = mqc_config%hessian_pressure
       driver_config%aimd%dt = mqc_config%aimd_dt
       driver_config%aimd%nsteps = mqc_config%aimd_nsteps
       driver_config%aimd%initial_temperature = mqc_config%aimd_initial_temperature
       driver_config%aimd%output_frequency = mqc_config%aimd_output_frequency
       driver_config%scf%max_iterations = mqc_config%scf_maxiter
       driver_config%scf%convergence_threshold = mqc_config%scf_tolerance
+
+      ! Output control
+      driver_config%skip_json_output = mqc_config%skip_json_output
 
    end subroutine config_to_driver
 
