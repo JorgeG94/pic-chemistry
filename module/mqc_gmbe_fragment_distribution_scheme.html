@@ -178,20 +178,20 @@ PIE-based MPI coordinator</p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='mqc_result_types.html'>mqc_result_types</a></li>
-                  <li class="list-inline-item"><a href='mqc_config_parser.html'>mqc_config_parser</a></li>
-                  <li class="list-inline-item"><a href='mqc_thermochemistry.html'>mqc_thermochemistry</a></li>
                   <li class="list-inline-item">pic_types</li>
-                  <li class="list-inline-item"><a href='mqc_mbe_fragment_distribution_scheme.html'>mqc_mbe_fragment_distribution_scheme</a></li>
-                  <li class="list-inline-item"><a href='mqc_json_output_types.html'>mqc_json_output_types</a></li>
-                  <li class="list-inline-item"><a href='mqc_vibrational_analysis.html'>mqc_vibrational_analysis</a></li>
-                  <li class="list-inline-item"><a href='mqc_calc_types.html'>mqc_calc_types</a></li>
-                  <li class="list-inline-item">pic_io</li>
                   <li class="list-inline-item">pic_timer</li>
                   <li class="list-inline-item"><a href='mqc_physical_fragment.html'>mqc_physical_fragment</a></li>
-                  <li class="list-inline-item"><a href='mqc_mpi_tags.html'>mqc_mpi_tags</a></li>
+                  <li class="list-inline-item"><a href='mqc_thermochemistry.html'>mqc_thermochemistry</a></li>
                   <li class="list-inline-item">pic_mpi_lib</li>
+                  <li class="list-inline-item"><a href='mqc_json_output_types.html'>mqc_json_output_types</a></li>
+                  <li class="list-inline-item"><a href='mqc_mpi_tags.html'>mqc_mpi_tags</a></li>
+                  <li class="list-inline-item"><a href='mqc_mbe_fragment_distribution_scheme.html'>mqc_mbe_fragment_distribution_scheme</a></li>
+                  <li class="list-inline-item">pic_io</li>
+                  <li class="list-inline-item"><a href='mqc_vibrational_analysis.html'>mqc_vibrational_analysis</a></li>
+                  <li class="list-inline-item"><a href='mqc_config_parser.html'>mqc_config_parser</a></li>
+                  <li class="list-inline-item"><a href='mqc_result_types.html'>mqc_result_types</a></li>
                   <li class="list-inline-item">pic_logger</li>
+                  <li class="list-inline-item"><a href='mqc_calc_types.html'>mqc_calc_types</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -1714,7 +1714,7 @@ If json_data is present, populates it for centralized JSON output</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-resources~9"></span>
+              <span class="anchor" id="variable-resources~11"></span>
               type(<a href='../type/resources_t.html'>resources_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1774,7 +1774,7 @@ If json_data is present, populates it for centralized JSON output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_leader_ranks~3"></span>
+              <span class="anchor" id="variable-node_leader_ranks~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1789,7 +1789,7 @@ If json_data is present, populates it for centralized JSON output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-num_nodes~3"></span>
+              <span class="anchor" id="variable-num_nodes~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1804,7 +1804,7 @@ If json_data is present, populates it for centralized JSON output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~51"></span>
+              <span class="anchor" id="variable-sys_geom~52"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1819,7 +1819,7 @@ If json_data is present, populates it for centralized JSON output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~19"></span>
+              <span class="anchor" id="variable-method~21"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -1834,7 +1834,7 @@ If json_data is present, populates it for centralized JSON output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-calc_type~16"></span>
+              <span class="anchor" id="variable-calc_type~20"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -1849,7 +1849,7 @@ If json_data is present, populates it for centralized JSON output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~28"></span>
+              <span class="anchor" id="variable-bonds~30"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -1864,7 +1864,7 @@ If json_data is present, populates it for centralized JSON output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-json_data~17"></span>
+              <span class="anchor" id="variable-json_data~18"></span>
               type(<a href='../type/json_output_data_t.html'>json_output_data_t</a>),
             </td>
 <td>intent(out),</td>
@@ -1952,7 +1952,7 @@ If json_data is present, populates it for centralized JSON output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sys_geom~50"></span>
+              <span class="anchor" id="variable-sys_geom~51"></span>
               type(<a href='../type/system_geometry_t.html'>system_geometry_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1967,7 +1967,7 @@ If json_data is present, populates it for centralized JSON output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~18"></span>
+              <span class="anchor" id="variable-method~20"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -1982,7 +1982,7 @@ If json_data is present, populates it for centralized JSON output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-calc_type~15"></span>
+              <span class="anchor" id="variable-calc_type~19"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -1997,7 +1997,7 @@ If json_data is present, populates it for centralized JSON output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~27"></span>
+              <span class="anchor" id="variable-bonds~29"></span>
               type(<a href='../type/bond_t.html'>bond_t</a>),
             </td>
 <td>intent(in),</td>
@@ -2012,7 +2012,7 @@ If json_data is present, populates it for centralized JSON output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-json_data~16"></span>
+              <span class="anchor" id="variable-json_data~17"></span>
               type(<a href='../type/json_output_data_t.html'>json_output_data_t</a>),
             </td>
 <td>intent(out),</td>
@@ -2052,7 +2052,7 @@ If json_data is present, populates it for centralized JSON output</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-world_comm~17"></span>
+              <span class="anchor" id="variable-world_comm~19"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -2097,7 +2097,7 @@ If json_data is present, populates it for centralized JSON output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest_rank"></span>
+              <span class="anchor" id="variable-dest_rank~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2137,7 +2137,7 @@ If json_data is present, populates it for centralized JSON output</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-node_comm~2"></span>
+              <span class="anchor" id="variable-node_comm~3"></span>
               type(comm_t),
             </td>
 <td>intent(in)</td>
@@ -2182,7 +2182,7 @@ If json_data is present, populates it for centralized JSON output</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest_rank~2"></span>
+              <span class="anchor" id="variable-dest_rank~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2225,7 +2225,7 @@ If json_data is present, populates it for centralized JSON output</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-13 09:59 +0000             </p>
+ on 2026-01-13 12:32 +0000             </p>
           </div>
         </div>
         <br>
