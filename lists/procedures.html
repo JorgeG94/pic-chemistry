@@ -463,6 +463,12 @@ polymer(:) contains base fragment indices (1-based)</p></td>
                  <td><p>Clean up allocated memory in mqc_config_t</p></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/config_reset.html'>config_reset</a></td>
+                 <td><a href='../module/mqc_method_config.html'>mqc_method_config</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Reset all configuration values to defaults</p></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/config_to_driver.html'>config_to_driver</a></td>
                  <td><a href='../module/mqc_config_adapter.html'>mqc_config_adapter</a></td>
                  <td>Subroutine</td>
@@ -478,6 +484,30 @@ If molecule_index is provided, uses that molecule&rsquo;s fragment count</p></td
 For unfragmented calculations (nfrag=0), treats entire system as single unit
 For fragmented calculations, currently assumes monomer-based fragmentation
 If molecule_index is provided, uses that specific molecule from multi-molecule mode</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/configure_dft.html'>configure_dft</a></td>
+                 <td><a href='../module/mqc_method_factory.html'>mqc_method_factory</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Configure a DFT method instance from config%dft</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/configure_hf.html'>configure_hf</a></td>
+                 <td><a href='../module/mqc_method_factory.html'>mqc_method_factory</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Configure a Hartree-Fock method instance from config%hf</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/configure_mcscf.html'>configure_mcscf</a></td>
+                 <td><a href='../module/mqc_method_factory.html'>mqc_method_factory</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Configure a MCSCF method instance from config%mcscf</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/configure_xtb.html'>configure_xtb</a></td>
+                 <td><a href='../module/mqc_method_factory.html'>mqc_method_factory</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Configure an XTB method instance from config%xtb</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/copy_and_displace_geometry.html'>copy_and_displace_geometry</a></td>
@@ -505,6 +535,12 @@ A cap is needed when exactly one atom of a broken bond is in the fragment</p></t
                  <td><p>Count the number of shells for a specific element in a GAMESS formatted basis string,</p></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/create_method.html'>create_method</a></td>
+                 <td><a href='../module/mqc_method_factory.html'>mqc_method_factory</a></td>
+                 <td>Function</td>
+                 <td><p>Convenience function to create a method without instantiating factory</p><a href="../proc/create_method.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
                  <td><a href='../proc/create_monomer_list.html'>create_monomer_list</a></td>
                  <td><a href='../module/mqc_combinatorics.html'>mqc_combinatorics</a></td>
                  <td>Subroutine</td>
@@ -515,6 +551,24 @@ A cap is needed when exactly one atom of a broken bond is in the fragment</p></t
                  <td><a href='../module/mqc_gmbe_utils.html'>mqc_gmbe_utils</a></td>
                  <td>Subroutine</td>
                  <td><p>DFS helper: accumulate PIE coefficients for intersections</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dft_calc_energy.html'>dft_calc_energy</a></td>
+                 <td><a href='../module/mqc_method_dft.html'>mqc_method_dft</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Calculate electronic energy using Kohn-Sham DFT</p><a href="../proc/dft_calc_energy.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dft_calc_gradient.html'>dft_calc_gradient</a></td>
+                 <td><a href='../module/mqc_method_dft.html'>mqc_method_dft</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Calculate energy gradient using Kohn-Sham DFT</p><a href="../proc/dft_calc_gradient.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dft_calc_hessian.html'>dft_calc_hessian</a></td>
+                 <td><a href='../module/mqc_method_dft.html'>mqc_method_dft</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Calculate energy Hessian using Kohn-Sham DFT</p><a href="../proc/dft_calc_hessian.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/displaced_geometry_destroy.html'>displaced_geometry_destroy</a></td>
@@ -630,6 +684,12 @@ Resets the stack trace</p></td>
                  <td><a href='../module/mqc_basis_file_reader.html'>mqc_basis_file_reader</a></td>
                  <td>Subroutine</td>
                  <td><p>Extract the basis set data for a specific element from the basis file</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/factory_create.html'>factory_create</a></td>
+                 <td><a href='../module/mqc_method_factory.html'>mqc_method_factory</a></td>
+                 <td>Function</td>
+                 <td><p>Create a quantum chemistry method instance from configuration</p><a href="../proc/factory_create.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/fill_element_basis.html'>fill_element_basis</a></td>
@@ -1025,6 +1085,24 @@ Handles fragment allocation, size checking, and overlap validation</p></td>
                  <td><a href='../module/mqc_result_types.html'>mqc_result_types</a></td>
                  <td>Subroutine</td>
                  <td><p>Reset all values and flags in mbe_result_t</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/mcscf_calc_energy.html'>mcscf_calc_energy</a></td>
+                 <td><a href='../module/mqc_method_mcscf.html'>mqc_method_mcscf</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Calculate electronic energy using CASSCF</p><a href="../proc/mcscf_calc_energy.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/mcscf_calc_gradient.html'>mcscf_calc_gradient</a></td>
+                 <td><a href='../module/mqc_method_mcscf.html'>mqc_method_mcscf</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Calculate energy gradient using CASSCF</p><a href="../proc/mcscf_calc_gradient.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/mcscf_calc_hessian.html'>mcscf_calc_hessian</a></td>
+                 <td><a href='../module/mqc_method_mcscf.html'>mqc_method_mcscf</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Calculate energy Hessian using CASSCF</p><a href="../proc/mcscf_calc_hessian.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/merge_multi_molecule_json.html'>merge_multi_molecule_json</a></td>
@@ -1581,13 +1659,6 @@ Example: suffix=&rdquo;_mol1&rdquo; -&gt; &ldquo;output_multi_structure_mol1.jso
 Example: &ldquo;water.mqc&rdquo; -&gt; &ldquo;output_water.json&rdquo;</p></td>
                </tr>
 			   <tr>
-                 <td><a href='../proc/set_xtb_options.html'>set_xtb_options</a></td>
-                 <td><a href='../module/mqc_mbe_fragment_distribution_scheme.html'>mqc_mbe_fragment_distribution_scheme</a></td>
-                 <td>Subroutine</td>
-                 <td><p>Set module-level XTB solvation options
-Call this once at startup before running calculations</p></td>
-               </tr>
-			   <tr>
                  <td><a href='../proc/skip_to_end.html'>skip_to_end</a></td>
                  <td><a href='../module/mqc_config_parser.html'>mqc_config_parser</a></td>
                  <td>Subroutine</td>
@@ -1713,6 +1784,12 @@ For n-mer level N, cutoff(N) must be &lt;= cutoff(N-1)</p></td>
                  <td>Subroutine</td>
                  <td><p>Calculate Hessian using finite differences of gradients</p><a href="../proc/xtb_calc_hessian.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
                </tr>
+			   <tr>
+                 <td><a href='../proc/xtb_has_solvation.html'>xtb_has_solvation</a></td>
+                 <td><a href='../module/mqc_method_config.html'>mqc_method_config</a></td>
+                 <td>Function</td>
+                 <td><p>Check if solvation is configured for XTB</p></td>
+               </tr>
 			 </tbody></table>
              
         </div>
@@ -1732,7 +1809,7 @@ For n-mer level N, cutoff(N) must be &lt;= cutoff(N-1)</p></td>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-13 12:32 +0000             </p>
+ on 2026-01-13 12:35 +0000             </p>
           </div>
         </div>
         <br>

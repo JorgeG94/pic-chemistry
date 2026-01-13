@@ -1,0 +1,1652 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A demonstration of PIC as a framework for scientific applications targetting quantum chemistry">
+    <meta name="author" content="Jorge Luis Galvez Vallejo" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>mqc_method_factory &ndash; metalquicha</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">metalquicha </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../program/main.html">Program</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>mqc_method_factory
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 1.2% of total for modules and submodules.">132 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/mqc_method_factory.F90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_method_factory.f90.html'>mqc_method_factory.F90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">mqc_method_factory</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#types-0"
+         aria-expanded="false" aria-controls="types-0">
+         <h4 class="card-header bg-primary text-white">Derived Types</h4>
+      </a>
+      <div id="types-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mqc_method_factory.html#type-method_factory_t">method_factory_t</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mqc_method_factory.html#proc-create_method">create_method</a>
+            <a class="list-group-item" href="../module/mqc_method_factory.html#proc-factory_create">factory_create</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mqc_method_factory.html#proc-configure_dft">configure_dft</a>
+            <a class="list-group-item" href="../module/mqc_method_factory.html#proc-configure_hf">configure_hf</a>
+            <a class="list-group-item" href="../module/mqc_method_factory.html#proc-configure_mcscf">configure_mcscf</a>
+            <a class="list-group-item" href="../module/mqc_method_factory.html#proc-configure_xtb">configure_xtb</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>Provides centralized creation of quantum chemistry method instances.
+The factory pattern encapsulates method instantiation and configuration,
+making it easy to add new methods without modifying calling code.
+Convenience function</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='mqc_method_types.html'>mqc_method_types</a></li>
+                  <li class="list-inline-item"><a href='mqc_method_xtb.html'>mqc_method_xtb</a></li>
+                  <li class="list-inline-item">mctc_env</li>
+                  <li class="list-inline-item"><a href='mqc_method_config.html'>mqc_method_config</a></li>
+                  <li class="list-inline-item"><a href='mqc_method_hf.html'>mqc_method_hf</a></li>
+                  <li class="list-inline-item">pic_types</li>
+                  <li class="list-inline-item"><a href='mqc_method_mcscf.html'>mqc_method_mcscf</a></li>
+                  <li class="list-inline-item"><a href='mqc_method_dft.html'>mqc_method_dft</a></li>
+                  <li class="list-inline-item"><a href='mqc_method_base.html'>mqc_method_base</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~mqc_method_factory~~UsesGraph Pages: 1 -->
+<svg id="modulemqc_method_factoryUsesGraph" width="641pt" height="578pt"
+ viewBox="0.00 0.00 641.00 578.49" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~mqc_method_factory~~UsesGraph" class="graph" transform="scale(0.61 0.61) rotate(0) translate(4 944.5)">
+<title>module~~mqc_method_factory~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-944.5 1047,-944.5 1047,4 -4,4"/>
+<!-- module~mqc_method_factory -->
+<g id="module~~mqc_method_factory~~UsesGraph_node1" class="node">
+<title>module~mqc_method_factory</title>
+<polygon fill="none" stroke="black" points="1043,-787.41 918,-787.41 918,-763.41 1043,-763.41 1043,-787.41"/>
+<text text-anchor="middle" x="980.5" y="-773.01" font-family="Helvetica,sans-Serif" font-size="10.50">mqc_method_factory</text>
+</g>
+<!-- mctc_env -->
+<g id="module~~mqc_method_factory~~UsesGraph_node2" class="node">
+<title>mctc_env</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="696.5,-654.41 632.5,-654.41 632.5,-630.41 696.5,-630.41 696.5,-654.41"/>
+<text text-anchor="middle" x="664.5" y="-640.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mctc_env</text>
+</g>
+<!-- module~mqc_method_factory&#45;&gt;mctc_env -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge1" class="edge">
+<title>module~mqc_method_factory&#45;&gt;mctc_env</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M953.29,-763.33C933.81,-754.55 906.49,-742.64 882,-733.41 856.42,-723.77 849.74,-722.07 823.5,-714.41"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M821.5,-714.41C776.66,-701.32 769.53,-687.73 727,-668.41 719.73,-665.11 711.91,-661.7 704.38,-658.48"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="705.62,-655.2 695.04,-654.53 702.89,-661.65 705.62,-655.2"/>
+</g>
+<!-- module~mqc_method_base -->
+<g id="module~~mqc_method_factory~~UsesGraph_node3" class="node">
+<title>module~mqc_method_base</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node3"><a xlink:href="../module/mqc_method_base.html" xlink:title="mqc_method_base">
+<polygon fill="#337ab7" stroke="#337ab7" points="721,-734.41 608,-734.41 608,-710.41 721,-710.41 721,-734.41"/>
+<text text-anchor="middle" x="664.5" y="-720.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_method_base</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_method_factory&#45;&gt;module~mqc_method_base -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge2" class="edge">
+<title>module~mqc_method_factory&#45;&gt;module~mqc_method_base</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M821.5,-714.41C792.64,-705.98 759.51,-706.35 731.23,-709.49"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="730.54,-706.05 721.04,-710.75 731.4,-712.99 730.54,-706.05"/>
+</g>
+<!-- module~mqc_method_config -->
+<g id="module~~mqc_method_factory~~UsesGraph_node4" class="node">
+<title>module~mqc_method_config</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node4"><a xlink:href="../module/mqc_method_config.html" xlink:title="mqc_method_config">
+<polygon fill="#337ab7" stroke="#337ab7" points="381,-890.41 260,-890.41 260,-866.41 381,-866.41 381,-890.41"/>
+<text text-anchor="middle" x="320.5" y="-876.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_method_config</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_method_factory&#45;&gt;module~mqc_method_config -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge3" class="edge">
+<title>module~mqc_method_factory&#45;&gt;module~mqc_method_config</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M495.5,-878.41C461.15,-878.41 423,-878.41 391.19,-878.41"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="391.09,-874.91 381.09,-878.41 391.09,-881.91 391.09,-874.91"/>
+</g>
+<!-- module~mqc_method_dft -->
+<g id="module~~mqc_method_factory~~UsesGraph_node5" class="node">
+<title>module~mqc_method_dft</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node5"><a xlink:href="../module/mqc_method_dft.html" xlink:title="mqc_method_dft">
+<polygon fill="#337ab7" stroke="#337ab7" points="873.5,-808.41 771.5,-808.41 771.5,-784.41 873.5,-784.41 873.5,-808.41"/>
+<text text-anchor="middle" x="822.5" y="-794.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_method_dft</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_method_factory&#45;&gt;module~mqc_method_dft -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge4" class="edge">
+<title>module~mqc_method_factory&#45;&gt;module~mqc_method_dft</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M917.84,-783.71C906.63,-785.22 894.94,-786.79 883.77,-788.3"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="883.12,-784.85 873.68,-789.66 884.06,-791.79 883.12,-784.85"/>
+</g>
+<!-- module~mqc_method_hf -->
+<g id="module~~mqc_method_factory~~UsesGraph_node6" class="node">
+<title>module~mqc_method_hf</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node6"><a xlink:href="../module/mqc_method_hf.html" xlink:title="mqc_method_hf">
+<polygon fill="#337ab7" stroke="#337ab7" points="871.5,-850.41 773.5,-850.41 773.5,-826.41 871.5,-826.41 871.5,-850.41"/>
+<text text-anchor="middle" x="822.5" y="-836.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_method_hf</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_method_factory&#45;&gt;module~mqc_method_hf -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge5" class="edge">
+<title>module~mqc_method_factory&#45;&gt;module~mqc_method_hf</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M952.79,-787.45C933.3,-796.1 906.17,-807.87 882,-817.41 877.47,-819.2 872.72,-821.01 867.97,-822.77"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="866.46,-819.6 858.28,-826.33 868.87,-826.17 866.46,-819.6"/>
+</g>
+<!-- module~mqc_method_mcscf -->
+<g id="module~~mqc_method_factory~~UsesGraph_node7" class="node">
+<title>module~mqc_method_mcscf</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node7"><a xlink:href="../module/mqc_method_mcscf.html" xlink:title="mqc_method_mcscf">
+<polygon fill="#337ab7" stroke="#337ab7" points="882,-766.41 763,-766.41 763,-742.41 882,-742.41 882,-766.41"/>
+<text text-anchor="middle" x="822.5" y="-752.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_method_mcscf</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_method_factory&#45;&gt;module~mqc_method_mcscf -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge6" class="edge">
+<title>module~mqc_method_factory&#45;&gt;module~mqc_method_mcscf</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M917.84,-767.11C909.4,-765.97 900.68,-764.8 892.12,-763.65"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="892.54,-760.17 882.16,-762.31 891.61,-767.11 892.54,-760.17"/>
+</g>
+<!-- module~mqc_method_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_node8" class="node">
+<title>module~mqc_method_types</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node8"><a xlink:href="../module/mqc_method_types.html" xlink:title="mqc_method_types">
+<polygon fill="#337ab7" stroke="#337ab7" points="214,-841.41 98,-841.41 98,-817.41 214,-817.41 214,-841.41"/>
+<text text-anchor="middle" x="156" y="-827.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_method_types</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_method_factory&#45;&gt;module~mqc_method_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge7" class="edge">
+<title>module~mqc_method_factory&#45;&gt;module~mqc_method_types</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M970.02,-787.67C954.21,-807.03 920.38,-844.07 882,-859.41 723.12,-922.92 668.6,-878.41 497.5,-878.41"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M495.5,-878.41C448.15,-877 437.78,-864.9 391,-857.41 335.11,-848.46 271.28,-841.01 224.43,-836.05"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="224.71,-832.56 214.4,-835 223.98,-839.52 224.71,-832.56"/>
+</g>
+<!-- module~mqc_method_xtb -->
+<g id="module~~mqc_method_factory~~UsesGraph_node9" class="node">
+<title>module~mqc_method_xtb</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node9"><a xlink:href="../module/mqc_method_xtb.html" xlink:title="mqc_method_xtb">
+<polygon fill="#337ab7" stroke="#337ab7" points="874.5,-427.41 770.5,-427.41 770.5,-403.41 874.5,-403.41 874.5,-427.41"/>
+<text text-anchor="middle" x="822.5" y="-413.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_method_xtb</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_method_factory&#45;&gt;module~mqc_method_xtb -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge8" class="edge">
+<title>module~mqc_method_factory&#45;&gt;module~mqc_method_xtb</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M974.13,-763.02C951.3,-710.33 862.13,-504.56 832.86,-437.02"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="836.03,-435.53 828.85,-427.75 829.61,-438.32 836.03,-435.53"/>
+</g>
+<!-- pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_node10" class="node">
+<title>pic_types</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="62,-632.41 0,-632.41 0,-608.41 62,-608.41 62,-632.41"/>
+<text text-anchor="middle" x="31" y="-618.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_types</text>
+</g>
+<!-- module~mqc_method_factory&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge9" class="edge">
+<title>module~mqc_method_factory&#45;&gt;pic_types</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M495.5,-878.41C448.14,-877.41 437.91,-892.81 391,-899.41 287.67,-913.94 247.22,-970.83 157,-918.41"/>
+</g>
+<!-- module~mqc_method_base&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge12" class="edge">
+<title>module~mqc_method_base&#45;&gt;pic_types</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M621.65,-710.29C604.55,-705.93 584.48,-701.56 566,-699.41 457.66,-686.8 428.24,-698.01 321.5,-720.41"/>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M319.5,-720.41C288.02,-726.28 280.6,-729.97 250,-739.41 208.23,-752.29 197.15,-788.68 157,-771.41"/>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M155,-771.41C129.07,-760.26 118.31,-763.01 98,-743.41 67.98,-714.44 48.49,-668.81 38.94,-642.03"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="42.21,-640.77 35.66,-632.44 35.59,-643.04 42.21,-640.77"/>
+</g>
+<!-- module~mqc_physical_fragment -->
+<g id="module~~mqc_method_factory~~UsesGraph_node13" class="node">
+<title>module~mqc_physical_fragment</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node13"><a xlink:href="../module/mqc_physical_fragment.html" xlink:title="mqc_physical_fragment">
+<polygon fill="#337ab7" stroke="#337ab7" points="566,-614.41 427,-614.41 427,-590.41 566,-590.41 566,-614.41"/>
+<text text-anchor="middle" x="496.5" y="-600.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_physical_fragment</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_method_base&#45;&gt;module~mqc_physical_fragment -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge10" class="edge">
+<title>module~mqc_method_base&#45;&gt;module~mqc_physical_fragment</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M629.29,-710.32C620.11,-706.45 610.41,-701.76 602,-696.41 592.82,-690.57 545.69,-647.22 517.96,-621.48"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="520.07,-618.67 510.37,-614.42 515.31,-623.8 520.07,-618.67"/>
+</g>
+<!-- module~mqc_result_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_node14" class="node">
+<title>module~mqc_result_types</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node14"><a xlink:href="../module/mqc_result_types.html" xlink:title="mqc_result_types">
+<polygon fill="#337ab7" stroke="#337ab7" points="548.5,-732.41 444.5,-732.41 444.5,-708.41 548.5,-708.41 548.5,-732.41"/>
+<text text-anchor="middle" x="496.5" y="-718.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_result_types</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_method_base&#45;&gt;module~mqc_result_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge11" class="edge">
+<title>module~mqc_method_base&#45;&gt;module~mqc_result_types</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M607.76,-721.74C592.08,-721.55 574.93,-721.34 558.93,-721.15"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="558.66,-717.65 548.61,-721.03 558.57,-724.65 558.66,-717.65"/>
+</g>
+<!-- module~mqc_method_config&#45;&gt;module~mqc_method_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge13" class="edge">
+<title>module~mqc_method_config&#45;&gt;module~mqc_method_types</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M279.33,-866.3C257.37,-859.68 229.98,-851.42 206.69,-844.39"/>
+<polygon fill="#aaff00" stroke="#aaff00" points="207.57,-841 196.99,-841.47 205.55,-847.71 207.57,-841"/>
+</g>
+<!-- module~mqc_method_config&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge14" class="edge">
+<title>module~mqc_method_config&#45;&gt;pic_types</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M281.98,-890.53C237.44,-904.47 167.8,-924.69 157,-918.41"/>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M155,-918.41C54.75,-860.17 36.2,-701.06 32.78,-642.46"/>
+<polygon fill="#aaff00" stroke="#aaff00" points="36.27,-642.25 32.28,-632.44 29.28,-642.6 36.27,-642.25"/>
+</g>
+<!-- module~mqc_method_dft&#45;&gt;module~mqc_method_base -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge15" class="edge">
+<title>module~mqc_method_dft&#45;&gt;module~mqc_method_base</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M782.71,-784.34C775.99,-781.73 769.18,-778.74 763,-775.41 745.39,-765.93 744.34,-758.38 727,-748.41 720.92,-744.92 714.29,-741.62 707.69,-738.63"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="708.7,-735.25 698.13,-734.47 705.91,-741.67 708.7,-735.25"/>
+</g>
+<!-- module~mqc_method_dft&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge18" class="edge">
+<title>module~mqc_method_dft&#45;&gt;pic_types</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M788.29,-808.49C757.09,-819.08 708.84,-833.53 665.5,-838.41"/>
+</g>
+<!-- module~mqc_method_dft&#45;&gt;module~mqc_physical_fragment -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge16" class="edge">
+<title>module~mqc_method_dft&#45;&gt;module~mqc_physical_fragment</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M771.3,-793.87C739.08,-790.29 697.44,-781.91 665.5,-762.41"/>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M663.5,-762.41C639.08,-747.51 625.34,-759.95 602,-743.41 590.08,-734.97 537.39,-660.07 511.69,-623"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="514.35,-620.69 505.78,-614.46 508.59,-624.67 514.35,-620.69"/>
+</g>
+<!-- module~mqc_method_dft&#45;&gt;module~mqc_result_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge17" class="edge">
+<title>module~mqc_method_dft&#45;&gt;module~mqc_result_types</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M771.42,-803.59C740.56,-806.56 700.35,-807.82 665.5,-800.41"/>
+</g>
+<!-- module~mqc_method_hf&#45;&gt;module~mqc_method_base -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge19" class="edge">
+<title>module~mqc_method_hf&#45;&gt;module~mqc_method_base</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M776.72,-826.39C771.78,-823.92 767.07,-820.96 763,-817.41 736.93,-794.67 752.43,-771.86 727,-748.41 723.21,-744.91 718.88,-741.85 714.31,-739.17"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="715.8,-736 705.31,-734.48 712.56,-742.2 715.8,-736"/>
+</g>
+<!-- module~mqc_method_hf&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge22" class="edge">
+<title>module~mqc_method_hf&#45;&gt;pic_types</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M773.21,-835.63C742.31,-834.54 701.43,-834.37 665.5,-838.41"/>
+</g>
+<!-- module~mqc_method_hf&#45;&gt;module~mqc_physical_fragment -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge20" class="edge">
+<title>module~mqc_method_hf&#45;&gt;module~mqc_physical_fragment</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M781.59,-826.31C775.19,-823.75 768.78,-820.78 763,-817.41 744.76,-806.78 745.09,-797.29 727,-786.41 701.86,-771.29 690.54,-777.7 665.5,-762.41"/>
+</g>
+<!-- module~mqc_method_hf&#45;&gt;module~mqc_result_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge21" class="edge">
+<title>module~mqc_method_hf&#45;&gt;module~mqc_result_types</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M775.25,-826.39C744.29,-818.53 702.58,-808.3 665.5,-800.41"/>
+</g>
+<!-- module~mqc_method_mcscf&#45;&gt;module~mqc_method_base -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge23" class="edge">
+<title>module~mqc_method_mcscf&#45;&gt;module~mqc_method_base</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M762.97,-742.4C752.55,-740.27 741.64,-738.03 731.04,-735.85"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="731.5,-732.38 721,-733.8 730.1,-739.23 731.5,-732.38"/>
+</g>
+<!-- module~mqc_method_mcscf&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge26" class="edge">
+<title>module~mqc_method_mcscf&#45;&gt;pic_types</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M780.01,-766.46C774.07,-768.99 768.22,-771.95 763,-775.41 743.33,-788.44 746.49,-801.12 727,-814.41 702.76,-830.95 694.76,-836.25 665.5,-838.41"/>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M663.5,-838.41C550.27,-846.76 261.29,-816.28 157,-771.41"/>
+</g>
+<!-- module~mqc_method_mcscf&#45;&gt;module~mqc_physical_fragment -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge24" class="edge">
+<title>module~mqc_method_mcscf&#45;&gt;module~mqc_physical_fragment</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M790.79,-742.31C781.64,-738.3 771.72,-733.53 763,-728.41 745.75,-718.28 744.84,-710.46 727,-701.41 675.21,-675.15 655.21,-686.65 602,-663.41 574.16,-651.25 544.43,-633.37 523.83,-620.1"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="525.6,-617.08 515.32,-614.55 521.78,-622.95 525.6,-617.08"/>
+</g>
+<!-- module~mqc_method_mcscf&#45;&gt;module~mqc_result_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge25" class="edge">
+<title>module~mqc_method_mcscf&#45;&gt;module~mqc_result_types</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M787.07,-766.46C744.88,-780.92 677.48,-802.96 665.5,-800.41"/>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M663.5,-800.41C610.81,-789.2 555.62,-758.13 524.01,-738.17"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="525.67,-735.08 515.36,-732.62 521.89,-740.97 525.67,-735.08"/>
+</g>
+<!-- module~mqc_method_types&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge27" class="edge">
+<title>module~mqc_method_types&#45;&gt;pic_types</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M134.29,-817.35C122.34,-809.52 107.8,-798.38 98,-785.41 64.25,-740.73 45.18,-676.48 36.94,-642.85"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="40.25,-641.63 34.56,-632.7 33.44,-643.23 40.25,-641.63"/>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;mctc_env -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge28" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;mctc_env</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M818.99,-427.6C811.32,-461.93 785.1,-560.56 727,-616.41 721,-622.18 713.53,-626.76 705.88,-630.36"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="704.41,-627.18 696.55,-634.28 707.13,-633.63 704.41,-627.18"/>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;module~mqc_method_base -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge31" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;module~mqc_method_base</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M818.87,-427.65C810.35,-465.34 780.95,-581.98 727,-663.41 716.81,-678.79 701.96,-693.18 689.4,-703.9"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="687.03,-701.32 681.55,-710.39 691.49,-706.72 687.03,-701.32"/>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge36" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;pic_types</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M822.02,-403.19C823.25,-357.01 820.72,-192.14 727,-121.41 524.69,31.29 365.26,42.07 157,-102.41"/>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M155,-102.41C78.32,-170.07 42.3,-507.76 33.94,-598.13"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="30.46,-597.84 33.04,-608.11 37.43,-598.47 30.46,-597.84"/>
+</g>
+<!-- mctc_io -->
+<g id="module~~mqc_method_factory~~UsesGraph_node11" class="node">
+<title>mctc_io</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="691.5,-532.41 637.5,-532.41 637.5,-508.41 691.5,-508.41 691.5,-532.41"/>
+<text text-anchor="middle" x="664.5" y="-518.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mctc_io</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;mctc_io -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge29" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;mctc_io</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M810.76,-427.66C794.35,-445.69 761.32,-479.4 727,-499.41 719.07,-504.03 709.97,-507.84 701.24,-510.88"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="700.06,-507.58 691.62,-513.99 702.22,-514.24 700.06,-507.58"/>
+</g>
+<!-- module~mqc_error -->
+<g id="module~~mqc_method_factory~~UsesGraph_node12" class="node">
+<title>module~mqc_error</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node12"><a xlink:href="../module/mqc_error.html" xlink:title="mqc_error">
+<polygon fill="#337ab7" stroke="#337ab7" points="189.5,-734.41 122.5,-734.41 122.5,-710.41 189.5,-710.41 189.5,-734.41"/>
+<text text-anchor="middle" x="156" y="-720.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_error</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;module~mqc_error -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge30" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;module~mqc_error</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M663.5,-602.41C647.25,-613.21 340.64,-678.6 321.5,-682.41"/>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;module~mqc_physical_fragment -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge32" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;module~mqc_physical_fragment</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M818.1,-427.63C808.87,-458.51 780.38,-540.33 727,-583.41 704.74,-601.38 689.33,-586.58 665.5,-602.41"/>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M663.5,-602.41C630.29,-624.48 584.5,-622.69 549.42,-616.39"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="549.85,-612.91 539.37,-614.41 548.5,-619.78 549.85,-612.91"/>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;module~mqc_result_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge33" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;module~mqc_result_types</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M663.5,-602.41C639.67,-618.24 626.6,-606.81 602,-621.41 582.81,-632.8 582.15,-641.01 566,-656.41 550.05,-671.62 531.8,-688.64 518.16,-701.31"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="515.66,-698.85 510.7,-708.22 520.42,-703.99 515.66,-698.85"/>
+</g>
+<!-- pic_logger -->
+<g id="module~~mqc_method_factory~~UsesGraph_node15" class="node">
+<title>pic_logger</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="698.5,-490.41 630.5,-490.41 630.5,-466.41 698.5,-466.41 698.5,-490.41"/>
+<text text-anchor="middle" x="664.5" y="-476.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_logger</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;pic_logger -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge34" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;pic_logger</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M796.09,-427.44C777.21,-436.2 750.74,-448.1 727,-457.41 721,-459.76 714.62,-462.11 708.33,-464.34"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="706.87,-461.14 698.57,-467.72 709.17,-467.75 706.87,-461.14"/>
+</g>
+<!-- pic_timer -->
+<g id="module~~mqc_method_factory~~UsesGraph_node16" class="node">
+<title>pic_timer</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="695.5,-448.41 633.5,-448.41 633.5,-424.41 695.5,-424.41 695.5,-448.41"/>
+<text text-anchor="middle" x="664.5" y="-434.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_timer</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;pic_timer -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge35" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;pic_timer</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M770.42,-422.29C749.48,-425.1 725.59,-428.32 705.9,-430.97"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="705.18,-427.54 695.73,-432.34 706.11,-434.47 705.18,-427.54"/>
+</g>
+<!-- tblite_container -->
+<g id="module~~mqc_method_factory~~UsesGraph_node17" class="node">
+<title>tblite_container</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="712.5,-406.41 616.5,-406.41 616.5,-382.41 712.5,-382.41 712.5,-406.41"/>
+<text text-anchor="middle" x="664.5" y="-392.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tblite_container</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;tblite_container -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge37" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;tblite_container</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M770.42,-408.53C755.19,-406.48 738.39,-404.22 722.79,-402.12"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="723.11,-398.63 712.73,-400.77 722.18,-405.57 723.11,-398.63"/>
+</g>
+<!-- tblite_context_type -->
+<g id="module~~mqc_method_factory~~UsesGraph_node18" class="node">
+<title>tblite_context_type</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="720.5,-364.41 608.5,-364.41 608.5,-340.41 720.5,-340.41 720.5,-364.41"/>
+<text text-anchor="middle" x="664.5" y="-350.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tblite_context_type</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;tblite_context_type -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge38" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;tblite_context_type</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M796.09,-403.38C777.21,-394.62 750.74,-382.72 727,-373.41 722.2,-371.53 717.15,-369.65 712.1,-367.83"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="713.04,-364.45 702.44,-364.43 710.71,-371.05 713.04,-364.45"/>
+</g>
+<!-- tblite_solvation -->
+<g id="module~~mqc_method_factory~~UsesGraph_node19" class="node">
+<title>tblite_solvation</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="711,-322.41 618,-322.41 618,-298.41 711,-298.41 711,-322.41"/>
+<text text-anchor="middle" x="664.5" y="-308.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tblite_solvation</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;tblite_solvation -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge39" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;tblite_solvation</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M810.76,-403.16C794.35,-385.13 761.32,-351.42 727,-331.41 723.98,-329.65 720.8,-328.01 717.53,-326.49"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="718.74,-323.2 708.16,-322.49 715.99,-329.64 718.74,-323.2"/>
+</g>
+<!-- tblite_wavefunction -->
+<g id="module~~mqc_method_factory~~UsesGraph_node20" class="node">
+<title>tblite_wavefunction</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="722.5,-280.41 606.5,-280.41 606.5,-256.41 722.5,-256.41 722.5,-280.41"/>
+<text text-anchor="middle" x="664.5" y="-266.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tblite_wavefunction</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;tblite_wavefunction -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge40" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;tblite_wavefunction</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M815.51,-403.08C802.72,-378.03 770.36,-320.91 727,-289.41 724.88,-287.87 722.65,-286.44 720.33,-285.11"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="721.56,-281.81 711.06,-280.45 718.42,-288.07 721.56,-281.81"/>
+</g>
+<!-- tblite_xtb_calculator -->
+<g id="module~~mqc_method_factory~~UsesGraph_node21" class="node">
+<title>tblite_xtb_calculator</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="724.5,-238.41 604.5,-238.41 604.5,-214.41 724.5,-214.41 724.5,-238.41"/>
+<text text-anchor="middle" x="664.5" y="-224.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tblite_xtb_calculator</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;tblite_xtb_calculator -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge41" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;tblite_xtb_calculator</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M818.02,-403.29C808.61,-372.62 779.75,-291.27 727,-247.41 725.27,-245.97 723.44,-244.63 721.54,-243.38"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="723.2,-240.3 712.77,-238.46 719.77,-246.41 723.2,-240.3"/>
+</g>
+<!-- tblite_xtb_gfn1 -->
+<g id="module~~mqc_method_factory~~UsesGraph_node22" class="node">
+<title>tblite_xtb_gfn1</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="710,-196.41 619,-196.41 619,-172.41 710,-172.41 710,-196.41"/>
+<text text-anchor="middle" x="664.5" y="-182.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tblite_xtb_gfn1</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;tblite_xtb_gfn1 -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge42" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;tblite_xtb_gfn1</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M819.5,-403.24C813.02,-367.53 789.23,-262.06 727,-205.41 724.58,-203.21 721.92,-201.23 719.1,-199.47"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="720.75,-196.38 710.28,-194.76 717.45,-202.55 720.75,-196.38"/>
+</g>
+<!-- tblite_xtb_gfn2 -->
+<g id="module~~mqc_method_factory~~UsesGraph_node23" class="node">
+<title>tblite_xtb_gfn2</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="710,-154.41 619,-154.41 619,-130.41 710,-130.41 710,-154.41"/>
+<text text-anchor="middle" x="664.5" y="-140.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tblite_xtb_gfn2</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;tblite_xtb_gfn2 -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge43" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;tblite_xtb_gfn2</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M820.52,-403.19C816.66,-362.96 798.92,-233.22 727,-163.41 724.61,-161.09 721.96,-159.03 719.13,-157.19"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="720.68,-154.05 710.22,-152.34 717.33,-160.2 720.68,-154.05"/>
+</g>
+<!-- tblite_xtb_singlepoint -->
+<g id="module~~mqc_method_factory~~UsesGraph_node24" class="node">
+<title>tblite_xtb_singlepoint</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="727,-574.41 602,-574.41 602,-550.41 727,-550.41 727,-574.41"/>
+<text text-anchor="middle" x="664.5" y="-560.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tblite_xtb_singlepoint</text>
+</g>
+<!-- module~mqc_method_xtb&#45;&gt;tblite_xtb_singlepoint -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge44" class="edge">
+<title>module~mqc_method_xtb&#45;&gt;tblite_xtb_singlepoint</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M815.51,-427.74C802.72,-452.79 770.36,-509.91 727,-541.41 724.88,-542.95 722.65,-544.38 720.33,-545.71"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="718.42,-542.75 711.06,-550.37 721.56,-549 718.42,-542.75"/>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge52" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;pic_types</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M319.5,-480.41C252,-454.73 224.58,-454.94 157,-480.41"/>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M155,-480.41C130.01,-489.83 118.48,-482.28 98,-499.41 66.4,-525.84 47.46,-571.44 38.43,-598.48"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="35.05,-597.58 35.36,-608.17 41.72,-599.7 35.05,-597.58"/>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;module~mqc_error -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge48" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;module~mqc_error</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M455.42,-614.49C445.74,-618.24 435.69,-622.88 427,-628.41 408.18,-640.4 410.38,-652.34 391,-663.41 363.2,-679.3 352.91,-676.16 321.5,-682.41"/>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M319.5,-682.41C278.44,-690.58 232.12,-702.22 199.47,-710.84"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="198.56,-707.46 189.8,-713.41 200.36,-714.23 198.56,-707.46"/>
+</g>
+<!-- module~mqc_cgto -->
+<g id="module~~mqc_method_factory~~UsesGraph_node25" class="node">
+<title>module~mqc_cgto</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node25"><a xlink:href="../module/mqc_cgto.html" xlink:title="mqc_cgto">
+<polygon fill="#337ab7" stroke="#337ab7" points="188,-452.41 124,-452.41 124,-428.41 188,-428.41 188,-452.41"/>
+<text text-anchor="middle" x="156" y="-438.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_cgto</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;module~mqc_cgto -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge45" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;module~mqc_cgto</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M486.61,-590.22C470.19,-568.6 432.94,-523.56 391,-499.41 363.25,-483.43 351.43,-491.8 321.5,-480.41"/>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M319.5,-480.41C279.39,-465.15 231.46,-454.18 198.09,-447.63"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="198.71,-444.19 188.23,-445.74 197.39,-451.06 198.71,-444.19"/>
+</g>
+<!-- module~mqc_config_parser -->
+<g id="module~~mqc_method_factory~~UsesGraph_node26" class="node">
+<title>module~mqc_config_parser</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node26"><a xlink:href="../module/mqc_config_parser.html" xlink:title="mqc_config_parser">
+<polygon fill="#337ab7" stroke="#337ab7" points="377.5,-654.41 263.5,-654.41 263.5,-630.41 377.5,-630.41 377.5,-654.41"/>
+<text text-anchor="middle" x="320.5" y="-640.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_config_parser</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;module~mqc_config_parser -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge46" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;module~mqc_config_parser</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M443.29,-614.41C424.63,-618.7 403.4,-623.58 383.95,-628.05"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="382.93,-624.7 373.97,-630.35 384.5,-631.52 382.93,-624.7"/>
+</g>
+<!-- module~mqc_elements -->
+<g id="module~~mqc_method_factory~~UsesGraph_node27" class="node">
+<title>module~mqc_elements</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node27"><a xlink:href="../module/mqc_elements.html" xlink:title="mqc_elements">
+<polygon fill="#337ab7" stroke="#337ab7" points="366,-532.41 275,-532.41 275,-508.41 366,-508.41 366,-532.41"/>
+<text text-anchor="middle" x="320.5" y="-518.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_elements</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;module~mqc_elements -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge47" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;module~mqc_elements</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M477.69,-590.26C457.42,-576.85 422.97,-555.34 391,-541.41 386.21,-539.32 381.15,-537.36 376.04,-535.54"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="376.77,-532.1 366.18,-532.21 374.54,-538.73 376.77,-532.1"/>
+</g>
+<!-- module~mqc_geometry -->
+<g id="module~~mqc_method_factory~~UsesGraph_node28" class="node">
+<title>module~mqc_geometry</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node28"><a xlink:href="../module/mqc_geometry.html" xlink:title="mqc_geometry">
+<polygon fill="#337ab7" stroke="#337ab7" points="202.5,-612.41 109.5,-612.41 109.5,-588.41 202.5,-588.41 202.5,-612.41"/>
+<text text-anchor="middle" x="156" y="-598.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_geometry</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;module~mqc_geometry -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge49" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;module~mqc_geometry</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M427,-602.01C363.94,-601.63 271.55,-601.09 212.86,-600.74"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="212.68,-597.24 202.66,-600.68 212.64,-604.24 212.68,-597.24"/>
+</g>
+<!-- module~mqc_physical_constants -->
+<g id="module~~mqc_method_factory~~UsesGraph_node29" class="node">
+<title>module~mqc_physical_constants</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node29"><a xlink:href="../module/mqc_physical_constants.html" xlink:title="mqc_physical_constants">
+<polygon fill="#337ab7" stroke="#337ab7" points="391,-154.41 250,-154.41 250,-130.41 391,-130.41 391,-154.41"/>
+<text text-anchor="middle" x="320.5" y="-140.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_physical_constants</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;module~mqc_physical_constants -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge50" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;module~mqc_physical_constants</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M490.85,-590.11C467.21,-527.62 360.38,-245.2 329.74,-164.19"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="332.9,-162.65 326.09,-154.54 326.35,-165.13 332.9,-162.65"/>
+</g>
+<!-- module~mqc_xyz_reader -->
+<g id="module~~mqc_method_factory~~UsesGraph_node30" class="node">
+<title>module~mqc_xyz_reader</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node30"><a xlink:href="../module/mqc_xyz_reader.html" xlink:title="mqc_xyz_reader">
+<polygon fill="#337ab7" stroke="#337ab7" points="370,-574.41 271,-574.41 271,-550.41 370,-550.41 370,-574.41"/>
+<text text-anchor="middle" x="320.5" y="-560.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_xyz_reader</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_physical_fragment&#45;&gt;module~mqc_xyz_reader -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge51" class="edge">
+<title>module~mqc_physical_fragment&#45;&gt;module~mqc_xyz_reader</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M443.29,-590.41C423.34,-585.82 400.45,-580.56 379.95,-575.85"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="380.63,-572.41 370.1,-573.58 379.06,-579.23 380.63,-572.41"/>
+</g>
+<!-- module~mqc_result_types&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge55" class="edge">
+<title>module~mqc_result_types&#45;&gt;pic_types</title>
+<path fill="none" stroke="#b6ff00" stroke-dasharray="5,2" d="M444.3,-714.93C409.33,-712.51 362.15,-711.88 321.5,-720.41"/>
+</g>
+<!-- module~mqc_result_types&#45;&gt;module~mqc_error -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge53" class="edge">
+<title>module~mqc_result_types&#45;&gt;module~mqc_error</title>
+<path fill="none" stroke="#b6ff00" stroke-dasharray="5,2" d="M470.49,-708.36C436.75,-693.61 374.72,-671.83 321.5,-682.41"/>
+</g>
+<!-- pic_mpi_lib -->
+<g id="module~~mqc_method_factory~~UsesGraph_node31" class="node">
+<title>pic_mpi_lib</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="356.5,-772.41 284.5,-772.41 284.5,-748.41 356.5,-748.41 356.5,-772.41"/>
+<text text-anchor="middle" x="320.5" y="-758.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_mpi_lib</text>
+</g>
+<!-- module~mqc_result_types&#45;&gt;pic_mpi_lib -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge54" class="edge">
+<title>module~mqc_result_types&#45;&gt;pic_mpi_lib</title>
+<path fill="none" stroke="#b6ff00" stroke-dasharray="5,2" d="M444.24,-732.19C419.59,-737.86 390.31,-744.59 366.53,-750.06"/>
+<polygon fill="#b6ff00" stroke="#b6ff00" points="365.67,-746.67 356.7,-752.32 367.23,-753.49 365.67,-746.67"/>
+</g>
+<!-- module~mqc_cgto&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge56" class="edge">
+<title>module~mqc_cgto&#45;&gt;pic_types</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M124,-449.68C114.73,-453.65 105.15,-459.1 98,-466.41 61.1,-504.17 43.35,-565.79 36.14,-598.46"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="32.69,-597.85 34.09,-608.35 39.55,-599.27 32.69,-597.85"/>
+</g>
+<!-- module~mqc_config_parser&#45;&gt;module~mqc_method_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge60" class="edge">
+<title>module~mqc_config_parser&#45;&gt;module~mqc_method_types</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M310.61,-654.87C287.25,-687.54 225.17,-774 214,-785.41 204.78,-794.83 193.48,-803.96 183.38,-811.44"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="181.32,-808.61 175.25,-817.3 185.41,-814.29 181.32,-808.61"/>
+</g>
+<!-- module~mqc_config_parser&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge61" class="edge">
+<title>module~mqc_config_parser&#45;&gt;pic_types</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M263.38,-638.12C207.24,-633.82 122.26,-627.32 72.42,-623.5"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="72.58,-620 62.34,-622.73 72.05,-626.98 72.58,-620"/>
+</g>
+<!-- module~mqc_config_parser&#45;&gt;module~mqc_error -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge58" class="edge">
+<title>module~mqc_config_parser&#45;&gt;module~mqc_error</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M279.31,-654.46C269.37,-658.24 259.01,-662.89 250,-668.41 231.5,-679.75 232.53,-690.11 214,-701.41 209.33,-704.26 204.21,-706.81 199.02,-709.08"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="197.64,-705.86 189.67,-712.84 200.25,-712.35 197.64,-705.86"/>
+</g>
+<!-- module~mqc_config_parser&#45;&gt;module~mqc_geometry -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge59" class="edge">
+<title>module~mqc_config_parser&#45;&gt;module~mqc_geometry</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M272.93,-630.37C254.08,-625.5 232.16,-619.84 212.48,-614.75"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="213.29,-611.34 202.73,-612.23 211.54,-618.12 213.29,-611.34"/>
+</g>
+<!-- module~mqc_calc_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_node32" class="node">
+<title>module~mqc_calc_types</title>
+<g id="a_module~~mqc_method_factory~~UsesGraph_node32"><a xlink:href="../module/mqc_calc_types.html" xlink:title="mqc_calc_types">
+<polygon fill="#337ab7" stroke="#337ab7" points="204.5,-692.41 107.5,-692.41 107.5,-668.41 204.5,-668.41 204.5,-692.41"/>
+<text text-anchor="middle" x="156" y="-678.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_calc_types</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_config_parser&#45;&gt;module~mqc_calc_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge57" class="edge">
+<title>module~mqc_config_parser&#45;&gt;module~mqc_calc_types</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M268.08,-654.43C251.14,-658.4 232.18,-662.83 214.8,-666.89"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="213.71,-663.55 204.77,-669.24 215.3,-670.37 213.71,-663.55"/>
+</g>
+<!-- module~mqc_elements&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge63" class="edge">
+<title>module~mqc_elements&#45;&gt;pic_types</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M288.48,-508.36C248.37,-493.55 180.86,-471.42 157,-480.41"/>
+</g>
+<!-- pic_ascii -->
+<g id="module~~mqc_method_factory~~UsesGraph_node33" class="node">
+<title>pic_ascii</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="185,-532.41 127,-532.41 127,-508.41 185,-508.41 185,-532.41"/>
+<text text-anchor="middle" x="156" y="-518.01" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pic_ascii</text>
+</g>
+<!-- module~mqc_elements&#45;&gt;pic_ascii -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge62" class="edge">
+<title>module~mqc_elements&#45;&gt;pic_ascii</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M274.67,-520.41C249.79,-520.41 219.17,-520.41 195.4,-520.41"/>
+<polygon fill="#48ff00" stroke="#48ff00" points="195.34,-516.91 185.34,-520.41 195.34,-523.91 195.34,-516.91"/>
+</g>
+<!-- module~mqc_geometry&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge64" class="edge">
+<title>module~mqc_geometry&#45;&gt;pic_types</title>
+<path fill="none" stroke="#00ff91" stroke-dasharray="5,2" d="M109.2,-607.86C97.05,-609.83 84.02,-611.95 72.2,-613.87"/>
+<polygon fill="#00ff91" stroke="#00ff91" points="71.47,-610.45 62.16,-615.51 72.6,-617.35 71.47,-610.45"/>
+</g>
+<!-- module~mqc_physical_constants&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge65" class="edge">
+<title>module~mqc_physical_constants&#45;&gt;pic_types</title>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M282.97,-130.39C238.31,-116.15 167.35,-95.23 157,-102.41"/>
+</g>
+<!-- module~mqc_xyz_reader&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge68" class="edge">
+<title>module~mqc_xyz_reader&#45;&gt;pic_types</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M270.69,-559.6C224.93,-558.48 155.18,-560.7 98,-579.41 82.53,-584.47 66.97,-593.88 54.85,-602.4"/>
+<polygon fill="#4800ff" stroke="#4800ff" points="52.69,-599.65 46.68,-608.38 56.82,-605.3 52.69,-599.65"/>
+</g>
+<!-- module~mqc_xyz_reader&#45;&gt;module~mqc_error -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge66" class="edge">
+<title>module~mqc_xyz_reader&#45;&gt;module~mqc_error</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M300.96,-574.62C285.68,-585.44 264.27,-602.44 250,-621.41 226.56,-652.57 242.52,-674.82 214,-701.41 209.65,-705.46 204.45,-708.75 198.99,-711.41"/>
+<polygon fill="#4800ff" stroke="#4800ff" points="197.53,-708.23 189.66,-715.33 200.23,-714.69 197.53,-708.23"/>
+</g>
+<!-- module~mqc_xyz_reader&#45;&gt;module~mqc_geometry -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge67" class="edge">
+<title>module~mqc_xyz_reader&#45;&gt;module~mqc_geometry</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M270.74,-573.81C252.44,-578.09 231.5,-582.99 212.62,-587.4"/>
+<polygon fill="#4800ff" stroke="#4800ff" points="211.6,-584.05 202.66,-589.73 213.2,-590.86 211.6,-584.05"/>
+</g>
+<!-- module~mqc_calc_types&#45;&gt;pic_types -->
+<g id="module~~mqc_method_factory~~UsesGraph_edge69" class="edge">
+<title>module~mqc_calc_types&#45;&gt;pic_types</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M127.91,-668.37C118.41,-664.06 107.69,-659.11 98,-654.41 86.79,-648.97 74.63,-642.79 63.84,-637.2"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="65.26,-633.99 54.77,-632.48 62.03,-640.2 65.26,-633.99"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panmodulemqc_method_factoryUsesGraph = svgPanZoom('#modulemqc_method_factoryUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~mqc_method_factory~~UsedByGraph Pages: 1 -->
+<svg id="modulemqc_method_factoryUsedByGraph" width="641pt" height="155pt"
+ viewBox="0.00 0.00 641.00 154.57" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~mqc_method_factory~~UsedByGraph" class="graph" transform="scale(0.65 0.65) rotate(0) translate(4 234)">
+<title>module~~mqc_method_factory~~UsedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-234 983,-234 983,4 -4,4"/>
+<!-- module~mqc_method_factory -->
+<g id="module~~mqc_method_factory~~UsedByGraph_node1" class="node">
+<title>module~mqc_method_factory</title>
+<polygon fill="none" stroke="black" points="125,-87 0,-87 0,-63 125,-63 125,-87"/>
+<text text-anchor="middle" x="62.5" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50">mqc_method_factory</text>
+</g>
+<!-- module~mqc_mbe_fragment_distribution_scheme -->
+<g id="module~~mqc_method_factory~~UsedByGraph_node2" class="node">
+<title>module~mqc_mbe_fragment_distribution_scheme</title>
+<g id="a_module~~mqc_method_factory~~UsedByGraph_node2"><a xlink:href="../module/mqc_mbe_fragment_distribution_scheme.html" xlink:title="mqc_mbe_fragment_distribution_scheme">
+<polygon fill="#337ab7" stroke="#337ab7" points="393,-129 161,-129 161,-105 393,-105 393,-129"/>
+<text text-anchor="middle" x="277" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_mbe_fragment_distribution_scheme</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_mbe_fragment_distribution_scheme&#45;&gt;module~mqc_method_factory -->
+<g id="module~~mqc_method_factory~~UsedByGraph_edge1" class="edge">
+<title>module~mqc_mbe_fragment_distribution_scheme&#45;&gt;module~mqc_method_factory</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M208.13,-104.97C192.62,-102.12 176.23,-99.03 161,-96 150.27,-93.87 138.9,-91.51 127.86,-89.16"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="128.35,-85.69 117.84,-87.02 126.89,-92.53 128.35,-85.69"/>
+</g>
+<!-- proc~hessian_coordinator -->
+<g id="module~~mqc_method_factory~~UsedByGraph_node3" class="node">
+<title>proc~hessian_coordinator</title>
+<g id="a_module~~mqc_method_factory~~UsedByGraph_node3"><a xlink:href="../proc/hessian_coordinator.html" xlink:title="hessian_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="337.5,-87 216.5,-87 216.5,-63 337.5,-63 337.5,-87"/>
+<text text-anchor="middle" x="277" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hessian_coordinator</text>
+</a>
+</g>
+</g>
+<!-- proc~hessian_coordinator&#45;&gt;module~mqc_method_factory -->
+<g id="module~~mqc_method_factory~~UsedByGraph_edge2" class="edge">
+<title>proc~hessian_coordinator&#45;&gt;module~mqc_method_factory</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M216.24,-75C191.1,-75 161.63,-75 135.32,-75"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="135.03,-71.5 125.03,-75 135.03,-78.5 135.03,-71.5"/>
+</g>
+<!-- proc~hessian_worker -->
+<g id="module~~mqc_method_factory~~UsedByGraph_node4" class="node">
+<title>proc~hessian_worker</title>
+<g id="a_module~~mqc_method_factory~~UsedByGraph_node4"><a xlink:href="../proc/hessian_worker.html" xlink:title="hessian_worker">
+<polygon fill="#d9534f" stroke="#d9534f" points="324.5,-45 229.5,-45 229.5,-21 324.5,-21 324.5,-45"/>
+<text text-anchor="middle" x="277" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hessian_worker</text>
+</a>
+</g>
+</g>
+<!-- proc~hessian_worker&#45;&gt;module~mqc_method_factory -->
+<g id="module~~mqc_method_factory~~UsedByGraph_edge3" class="edge">
+<title>proc~hessian_worker&#45;&gt;module~mqc_method_factory</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M229.49,-41.15C208.54,-44.91 183.49,-49.53 161,-54 150.27,-56.13 138.9,-58.49 127.86,-60.84"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="126.89,-57.47 117.84,-62.98 128.35,-64.31 126.89,-57.47"/>
+</g>
+<!-- module~mpi_fragment_work_smod -->
+<g id="module~~mqc_method_factory~~UsedByGraph_node5" class="node">
+<title>module~mpi_fragment_work_smod</title>
+<g id="a_module~~mqc_method_factory~~UsedByGraph_node5"><a xlink:href="../module/mpi_fragment_work_smod.html" xlink:title="mpi_fragment_work_smod">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="625,-230 472,-230 472,-206 625,-206 625,-230"/>
+<text text-anchor="middle" x="548.5" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_fragment_work_smod</text>
+</a>
+</g>
+</g>
+<!-- module~mpi_fragment_work_smod&#45;&gt;module~mqc_mbe_fragment_distribution_scheme -->
+<g id="module~~mqc_method_factory~~UsedByGraph_edge6" class="edge">
+<title>module~mpi_fragment_work_smod&#45;&gt;module~mqc_mbe_fragment_distribution_scheme</title>
+<path fill="none" stroke="#ff0000" d="M479.02,-205.96C462.43,-202.23 444.89,-197.6 429,-192 384.9,-176.48 337.05,-151.13 307.3,-134.26"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="308.72,-131.04 298.3,-129.1 305.24,-137.11 308.72,-131.04"/>
+</g>
+<!-- module~mqc_driver -->
+<g id="module~~mqc_method_factory~~UsedByGraph_node6" class="node">
+<title>module~mqc_driver</title>
+<g id="a_module~~mqc_method_factory~~UsedByGraph_node6"><a xlink:href="../module/mqc_driver.html" xlink:title="mqc_driver">
+<polygon fill="#337ab7" stroke="#337ab7" points="777,-170 704,-170 704,-146 777,-146 777,-170"/>
+<text text-anchor="middle" x="740.5" y="-155.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_driver</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_driver&#45;&gt;module~mqc_mbe_fragment_distribution_scheme -->
+<g id="module~~mqc_method_factory~~UsedByGraph_edge4" class="edge">
+<title>module~mqc_driver&#45;&gt;module~mqc_mbe_fragment_distribution_scheme</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M703.9,-161.3C645.96,-165.96 527.81,-172.49 429,-159 391.82,-153.93 350.88,-142.13 321.01,-132.33"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="321.93,-128.94 311.33,-129.09 319.71,-135.58 321.93,-128.94"/>
+</g>
+<!-- module~mqc_gmbe_fragment_distribution_scheme -->
+<g id="module~~mqc_method_factory~~UsedByGraph_node7" class="node">
+<title>module~mqc_gmbe_fragment_distribution_scheme</title>
+<g id="a_module~~mqc_method_factory~~UsedByGraph_node7"><a xlink:href="../module/mqc_gmbe_fragment_distribution_scheme.html" xlink:title="mqc_gmbe_fragment_distribution_scheme">
+<polygon fill="#337ab7" stroke="#337ab7" points="668,-150 429,-150 429,-126 668,-126 668,-150"/>
+<text text-anchor="middle" x="548.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_gmbe_fragment_distribution_scheme</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_driver&#45;&gt;module~mqc_gmbe_fragment_distribution_scheme -->
+<g id="module~~mqc_method_factory~~UsedByGraph_edge12" class="edge">
+<title>module~mqc_driver&#45;&gt;module~mqc_gmbe_fragment_distribution_scheme</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M703.76,-154.24C694.71,-153.29 684.46,-152.21 673.65,-151.07"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="673.9,-147.58 663.59,-150.01 673.17,-154.54 673.9,-147.58"/>
+</g>
+<!-- module~mqc_gmbe_fragment_distribution_scheme&#45;&gt;module~mqc_mbe_fragment_distribution_scheme -->
+<g id="module~~mqc_method_factory~~UsedByGraph_edge5" class="edge">
+<title>module~mqc_gmbe_fragment_distribution_scheme&#45;&gt;module~mqc_mbe_fragment_distribution_scheme</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M428.9,-128.76C420.38,-128.09 411.76,-127.42 403.2,-126.76"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="403.42,-123.26 393.18,-125.98 402.88,-130.24 403.42,-123.26"/>
+</g>
+<!-- module~mqc_hessian_distribution_scheme -->
+<g id="module~~mqc_method_factory~~UsedByGraph_node8" class="node">
+<title>module~mqc_hessian_distribution_scheme</title>
+<g id="a_module~~mqc_method_factory~~UsedByGraph_node8"><a xlink:href="../module/mqc_hessian_distribution_scheme.html" xlink:title="mqc_hessian_distribution_scheme">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="645.5,-108 451.5,-108 451.5,-84 645.5,-84 645.5,-108"/>
+<text text-anchor="middle" x="548.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_hessian_distribution_scheme</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_hessian_distribution_scheme&#45;&gt;module~mqc_mbe_fragment_distribution_scheme -->
+<g id="module~~mqc_method_factory~~UsedByGraph_edge7" class="edge">
+<title>module~mqc_hessian_distribution_scheme&#45;&gt;module~mqc_mbe_fragment_distribution_scheme</title>
+<path fill="none" stroke="#ff0000" d="M451.35,-103.49C435.7,-104.71 419.29,-105.99 403.07,-107.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="402.71,-103.77 393.01,-108.04 403.25,-110.75 402.71,-103.77"/>
+</g>
+<!-- module~mqc_serial_fragment_processor -->
+<g id="module~~mqc_method_factory~~UsedByGraph_node9" class="node">
+<title>module~mqc_serial_fragment_processor</title>
+<g id="a_module~~mqc_method_factory~~UsedByGraph_node9"><a xlink:href="../module/mqc_serial_fragment_processor.html" xlink:title="mqc_serial_fragment_processor">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="639.5,-66 457.5,-66 457.5,-42 639.5,-42 639.5,-66"/>
+<text text-anchor="middle" x="548.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_serial_fragment_processor</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_serial_fragment_processor&#45;&gt;module~mqc_mbe_fragment_distribution_scheme -->
+<g id="module~~mqc_method_factory~~UsedByGraph_edge8" class="edge">
+<title>module~mqc_serial_fragment_processor&#45;&gt;module~mqc_mbe_fragment_distribution_scheme</title>
+<path fill="none" stroke="#ff0000" d="M459.21,-66.07C448.88,-68.53 438.61,-71.47 429,-75 411.61,-81.38 410.37,-89.57 393,-96 386.61,-98.37 379.91,-100.47 373.1,-102.35"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="371.88,-99.05 363.07,-104.93 373.62,-105.83 371.88,-99.05"/>
+</g>
+<!-- module~mqc_unfragmented_workflow -->
+<g id="module~~mqc_method_factory~~UsedByGraph_node10" class="node">
+<title>module~mqc_unfragmented_workflow</title>
+<g id="a_module~~mqc_method_factory~~UsedByGraph_node10"><a xlink:href="../module/mqc_unfragmented_workflow.html" xlink:title="mqc_unfragmented_workflow">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="633.5,-24 463.5,-24 463.5,0 633.5,0 633.5,-24"/>
+<text text-anchor="middle" x="548.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_unfragmented_workflow</text>
+</a>
+</g>
+</g>
+<!-- module~mqc_unfragmented_workflow&#45;&gt;module~mqc_mbe_fragment_distribution_scheme -->
+<g id="module~~mqc_method_factory~~UsedByGraph_edge9" class="edge">
+<title>module~mqc_unfragmented_workflow&#45;&gt;module~mqc_mbe_fragment_distribution_scheme</title>
+<path fill="none" stroke="#ff0000" d="M463.19,-17.47C451.01,-20.88 439.16,-25.84 429,-33 402.63,-51.57 419.32,-77.36 393,-96 390.86,-97.51 388.65,-98.93 386.37,-100.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="384.6,-97.22 377.3,-104.9 387.79,-103.45 384.6,-97.22"/>
+</g>
+<!-- proc~compute_energy_and_forces -->
+<g id="module~~mqc_method_factory~~UsedByGraph_node11" class="node">
+<title>proc~compute_energy_and_forces</title>
+<g id="a_module~~mqc_method_factory~~UsedByGraph_node11"><a xlink:href="../proc/compute_energy_and_forces.html" xlink:title="compute_energy_and_forces">
+<polygon fill="#d9534f" stroke="#d9534f" points="979,-191 813,-191 813,-167 979,-167 979,-191"/>
+<text text-anchor="middle" x="896" y="-176.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_energy_and_forces</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_energy_and_forces&#45;&gt;module~mqc_driver -->
+<g id="module~~mqc_method_factory~~UsedByGraph_edge10" class="edge">
+<title>proc~compute_energy_and_forces&#45;&gt;module~mqc_driver</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M812.86,-167.76C804.04,-166.56 795.31,-165.36 787.15,-164.25"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="787.53,-160.77 777.15,-162.88 786.58,-167.7 787.53,-160.77"/>
+</g>
+<!-- program~main -->
+<g id="module~~mqc_method_factory~~UsedByGraph_node12" class="node">
+<title>program~main</title>
+<g id="a_module~~mqc_method_factory~~UsedByGraph_node12"><a xlink:href="../program/main.html" xlink:title="main">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="923,-149 869,-149 869,-125 923,-125 923,-149"/>
+<text text-anchor="middle" x="896" y="-134.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
+</a>
+</g>
+</g>
+<!-- program~main&#45;&gt;module~mqc_driver -->
+<g id="module~~mqc_method_factory~~UsedByGraph_edge11" class="edge">
+<title>program~main&#45;&gt;module~mqc_driver</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M868.96,-140.56C846.68,-143.61 814.09,-148.07 787.44,-151.71"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="786.62,-148.3 777.18,-153.12 787.56,-155.23 786.62,-148.3"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panmodulemqc_method_factoryUsedByGraph = svgPanZoom('#modulemqc_method_factoryUsedByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+
+
+
+
+        <section>
+          <h2>Derived Types</h2>
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-method_factory_t"></span>
+      <h3>
+        type, public&nbsp;::&nbsp;
+        <a href='../type/method_factory_t.html'>method_factory_t</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Factory for creating quantum chemistry method instances</p><a href="../type/method_factory_t.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/method_factory_t.html#boundprocedure-create'>create</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/factory_create.html'>factory_create</a></td>
+                  <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Functions</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-create_method"></span> <h3>public  function <a href='../proc/create_method.html'>create_method</a>(config) result(method)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Convenience function to create a method without instantiating factory</p><a href="../proc/create_method.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-config~22"></span>
+              type(<a href='../type/method_config_t.html'>method_config_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>config</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>class(<a href='../type/qc_method_t.html'>qc_method_t</a>), allocatable</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-factory_create"></span> <h3>private  function <a href='../proc/factory_create.html'>factory_create</a>(this, config) result(method)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Create a quantum chemistry method instance from configuration</p><a href="../proc/factory_create.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~28"></span>
+              class(<a href='../type/method_factory_t.html'>method_factory_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-config~17"></span>
+              type(<a href='../type/method_config_t.html'>method_config_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>config</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>class(<a href='../type/qc_method_t.html'>qc_method_t</a>), allocatable</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-configure_dft"></span> <h3>private  subroutine <a href='../proc/configure_dft.html'>configure_dft</a>(method, config)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Configure a DFT method instance from config%dft</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-method~6"></span>
+              class(<a href='../type/qc_method_t.html'>qc_method_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>method</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-config~20"></span>
+              type(<a href='../type/method_config_t.html'>method_config_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>config</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-configure_hf"></span> <h3>private  subroutine <a href='../proc/configure_hf.html'>configure_hf</a>(method, config)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Configure a Hartree-Fock method instance from config%hf</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-method~5"></span>
+              class(<a href='../type/qc_method_t.html'>qc_method_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>method</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-config~19"></span>
+              type(<a href='../type/method_config_t.html'>method_config_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>config</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-configure_mcscf"></span> <h3>private  subroutine <a href='../proc/configure_mcscf.html'>configure_mcscf</a>(method, config)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Configure a MCSCF method instance from config%mcscf</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-method~7"></span>
+              class(<a href='../type/qc_method_t.html'>qc_method_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>method</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-config~21"></span>
+              type(<a href='../type/method_config_t.html'>method_config_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>config</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-configure_xtb"></span> <h3>private  subroutine <a href='../proc/configure_xtb.html'>configure_xtb</a>(method, config)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Configure an XTB method instance from config%xtb</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-method~4"></span>
+              class(<a href='../type/qc_method_t.html'>qc_method_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>method</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-config~18"></span>
+              type(<a href='../type/method_config_t.html'>method_config_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>config</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              metalquicha
+ was developed by Jorge Luis Galvez Vallejo<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-01-13 12:35 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

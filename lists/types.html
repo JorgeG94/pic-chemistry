@@ -139,6 +139,24 @@
                  <td><p>Container for parsed command line arguments</p><a href="../type/cli_args_type.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
                </tr>
 			   <tr>
+                 <td><a href='../type/dft_config_t.html'>dft_config_t</a></td>
+                 <td><a href='../module/mqc_method_config.html'>mqc_method_config</a></td>
+                 <td>None</td>
+                 <td><p>Configuration for Kohn-Sham DFT method</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../type/dft_method_t.html'>dft_method_t</a></td>
+                 <td><a href='../module/mqc_method_dft.html'>mqc_method_dft</a></td>
+                 <td><a href='../type/qc_method_t.html'>qc_method_t</a></td>
+                 <td><p>DFT method implementation</p><a href="../type/dft_method_t.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../type/dft_options_t.html'>dft_options_t</a></td>
+                 <td><a href='../module/mqc_method_dft.html'>mqc_method_dft</a></td>
+                 <td>None</td>
+                 <td><p>DFT calculation options</p></td>
+               </tr>
+			   <tr>
                  <td><a href='../type/displaced_geometry_t.html'>displaced_geometry_t</a></td>
                  <td><a href='../module/mqc_finite_differences.html'>mqc_finite_differences</a></td>
                  <td>None</td>
@@ -187,6 +205,12 @@
                  <td><p>Hessian calculation keywords</p></td>
                </tr>
 			   <tr>
+                 <td><a href='../type/hf_config_t.html'>hf_config_t</a></td>
+                 <td><a href='../module/mqc_method_config.html'>mqc_method_config</a></td>
+                 <td>None</td>
+                 <td><p>Configuration for Hartree-Fock method</p></td>
+               </tr>
+			   <tr>
                  <td><a href='../type/hf_method_t.html'>hf_method_t</a></td>
                  <td><a href='../module/mqc_method_hf.html'>mqc_method_hf</a></td>
                  <td><a href='../type/qc_method_t.html'>qc_method_t</a></td>
@@ -216,6 +240,36 @@ This is the parsed representation from the input file, not the computational fra
                  <td><a href='../module/mqc_result_types.html'>mqc_result_types</a></td>
                  <td>None</td>
                  <td><p>Container for Many-Body Expansion aggregated results</p><a href="../type/mbe_result_t.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../type/mcscf_config_t.html'>mcscf_config_t</a></td>
+                 <td><a href='../module/mqc_method_config.html'>mqc_method_config</a></td>
+                 <td>None</td>
+                 <td><p>Configuration for MCSCF/CASSCF method</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../type/mcscf_method_t.html'>mcscf_method_t</a></td>
+                 <td><a href='../module/mqc_method_mcscf.html'>mqc_method_mcscf</a></td>
+                 <td><a href='../type/qc_method_t.html'>qc_method_t</a></td>
+                 <td><p>MCSCF/CASSCF method implementation</p><a href="../type/mcscf_method_t.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../type/mcscf_options_t.html'>mcscf_options_t</a></td>
+                 <td><a href='../module/mqc_method_mcscf.html'>mqc_method_mcscf</a></td>
+                 <td>None</td>
+                 <td><p>MCSCF/CASSCF calculation options</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../type/method_config_t.html'>method_config_t</a></td>
+                 <td><a href='../module/mqc_method_config.html'>mqc_method_config</a></td>
+                 <td>None</td>
+                 <td><p>Master configuration containing all method-specific configs</p><a href="../type/method_config_t.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../type/method_factory_t.html'>method_factory_t</a></td>
+                 <td><a href='../module/mqc_method_factory.html'>mqc_method_factory</a></td>
+                 <td>None</td>
+                 <td><p>Factory for creating quantum chemistry method instances</p><a href="../type/method_factory_t.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
                </tr>
 			   <tr>
                  <td><a href='../type/molecular_basis_type.html'>molecular_basis_type</a></td>
@@ -284,16 +338,16 @@ This is the parsed representation from the input file, not the computational fra
                  <td><p>Container for thermochemistry calculation results</p></td>
                </tr>
 			   <tr>
+                 <td><a href='../type/xtb_config_t.html'>xtb_config_t</a></td>
+                 <td><a href='../module/mqc_method_config.html'>mqc_method_config</a></td>
+                 <td>None</td>
+                 <td><p>Configuration for semi-empirical xTB methods</p></td>
+               </tr>
+			   <tr>
                  <td><a href='../type/xtb_method_t.html'>xtb_method_t</a></td>
                  <td><a href='../module/mqc_method_xtb.html'>mqc_method_xtb</a></td>
                  <td><a href='../type/qc_method_t.html'>qc_method_t</a></td>
                  <td><p>Extended Tight-Binding (xTB) method implementation</p><a href="../type/xtb_method_t.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
-               </tr>
-			   <tr>
-                 <td><a href='../type/xtb_options_t.html'>xtb_options_t</a></td>
-                 <td><a href='../module/mqc_mbe_fragment_distribution_scheme.html'>mqc_mbe_fragment_distribution_scheme</a></td>
-                 <td>None</td>
-                 <td></td>
                </tr>
 			 </tbody></table>
              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -302,11 +356,11 @@ This is the parsed representation from the input file, not the computational fra
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: type~~graph~~TypeGraph Pages: 1 -->
-<svg id="typegraphTypeGraph" width="855pt" height="727pt"
- viewBox="0.00 0.00 855.00 726.92" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="type~~graph~~TypeGraph" class="graph" transform="scale(0.87 0.87) rotate(0) translate(4 836)">
+<svg id="typegraphTypeGraph" width="855pt" height="943pt"
+ viewBox="0.00 0.00 855.00 943.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="type~~graph~~TypeGraph" class="graph" transform="scale(0.87 0.87) rotate(0) translate(4 1086)">
 <title>type~~graph~~TypeGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-836 984,-836 984,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-1086 984,-1086 984,4 -4,4"/>
 <!-- type~aimd_keywords_t -->
 <g id="type~~graph~~TypeGraph_node1" class="node">
 <title>type~aimd_keywords_t</title>
@@ -337,8 +391,8 @@ This is the parsed representation from the input file, not the computational fra
 <!-- type~atomic_basis_type&#45;&gt;type~cgto_type -->
 <g id="type~~graph~~TypeGraph_edge1" class="edge">
 <title>type~atomic_basis_type&#45;&gt;type~cgto_type</title>
-<path fill="none" stroke="#ff2d00" stroke-dasharray="5,2" d="M128.85,-138C110.92,-138 91.26,-138 74.44,-138"/>
-<polygon fill="#ff2d00" stroke="#ff2d00" points="74.38,-134.5 64.38,-138 74.38,-141.5 74.38,-134.5"/>
+<path fill="none" stroke="#ff2300" stroke-dasharray="5,2" d="M128.85,-138C110.92,-138 91.26,-138 74.44,-138"/>
+<polygon fill="#ff2300" stroke="#ff2300" points="74.38,-134.5 64.38,-138 74.38,-141.5 74.38,-134.5"/>
 <text text-anchor="middle" x="96.5" y="-140.4" font-family="Helvetica,sans-Serif" font-size="9.50">shells</text>
 </g>
 <!-- type~basis_file_t -->
@@ -363,15 +417,15 @@ This is the parsed representation from the input file, not the computational fra
 <g id="type~~graph~~TypeGraph_node5" class="node">
 <title>type~calculation_result_t</title>
 <g id="a_type~~graph~~TypeGraph_node5"><a xlink:href="../type/calculation_result_t.html" xlink:title="calculation_result_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="972.5,-426 857.5,-426 857.5,-402 972.5,-402 972.5,-426"/>
-<text text-anchor="middle" x="915" y="-411.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calculation_result_t</text>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="972.5,-425 857.5,-425 857.5,-401 972.5,-401 972.5,-425"/>
+<text text-anchor="middle" x="915" y="-410.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calculation_result_t</text>
 </a>
 </g>
 </g>
 <!-- type~energy_t -->
-<g id="type~~graph~~TypeGraph_node11" class="node">
+<g id="type~~graph~~TypeGraph_node14" class="node">
 <title>type~energy_t</title>
-<g id="a_type~~graph~~TypeGraph_node11"><a xlink:href="../type/energy_t.html" xlink:title="energy_t">
+<g id="a_type~~graph~~TypeGraph_node14"><a xlink:href="../type/energy_t.html" xlink:title="energy_t">
 <polygon fill="#5cb85c" stroke="#5cb85c" points="711.5,-450 652.5,-450 652.5,-426 711.5,-426 711.5,-450"/>
 <text text-anchor="middle" x="682" y="-435.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">energy_t</text>
 </a>
@@ -380,14 +434,14 @@ This is the parsed representation from the input file, not the computational fra
 <!-- type~calculation_result_t&#45;&gt;type~energy_t -->
 <g id="type~~graph~~TypeGraph_edge2" class="edge">
 <title>type~calculation_result_t&#45;&gt;type~energy_t</title>
-<path fill="none" stroke="#ffb300" stroke-dasharray="5,2" d="M857.49,-419.87C815.43,-424.24 759.1,-430.09 721.96,-433.95"/>
-<polygon fill="#ffb300" stroke="#ffb300" points="721.14,-430.52 711.56,-435.03 721.87,-437.48 721.14,-430.52"/>
-<text text-anchor="middle" x="803" y="-431.4" font-family="Helvetica,sans-Serif" font-size="9.50">energy</text>
+<path fill="none" stroke="#ff8e00" stroke-dasharray="5,2" d="M857.49,-419.12C815.43,-423.67 759.1,-429.76 721.96,-433.78"/>
+<polygon fill="#ff8e00" stroke="#ff8e00" points="721.12,-430.35 711.56,-434.91 721.88,-437.31 721.12,-430.35"/>
+<text text-anchor="middle" x="803" y="-430.4" font-family="Helvetica,sans-Serif" font-size="9.50">energy</text>
 </g>
 <!-- type~error_t -->
-<g id="type~~graph~~TypeGraph_node12" class="node">
+<g id="type~~graph~~TypeGraph_node15" class="node">
 <title>type~error_t</title>
-<g id="a_type~~graph~~TypeGraph_node12"><a xlink:href="../type/error_t.html" xlink:title="error_t">
+<g id="a_type~~graph~~TypeGraph_node15"><a xlink:href="../type/error_t.html" xlink:title="error_t">
 <polygon fill="#5cb85c" stroke="#5cb85c" points="709,-408 655,-408 655,-384 709,-384 709,-408"/>
 <text text-anchor="middle" x="682" y="-393.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">error_t</text>
 </a>
@@ -396,9 +450,9 @@ This is the parsed representation from the input file, not the computational fra
 <!-- type~calculation_result_t&#45;&gt;type~error_t -->
 <g id="type~~graph~~TypeGraph_edge3" class="edge">
 <title>type~calculation_result_t&#45;&gt;type~error_t</title>
-<path fill="none" stroke="#ffb300" stroke-dasharray="5,2" d="M857.21,-404.06C848.78,-402.86 840.18,-401.78 832,-401 793.63,-397.33 749.47,-396.24 719.25,-395.97"/>
-<polygon fill="#ffb300" stroke="#ffb300" points="719.19,-392.47 709.17,-395.9 719.15,-399.47 719.19,-392.47"/>
-<text text-anchor="middle" x="803" y="-403.4" font-family="Helvetica,sans-Serif" font-size="9.50">error</text>
+<path fill="none" stroke="#ff8e00" stroke-dasharray="5,2" d="M857.17,-404.68C848.75,-403.65 840.16,-402.71 832,-402 793.59,-398.66 749.44,-397.17 719.23,-396.52"/>
+<polygon fill="#ff8e00" stroke="#ff8e00" points="719.22,-393.02 709.15,-396.32 719.08,-400.01 719.22,-393.02"/>
+<text text-anchor="middle" x="803" y="-404.4" font-family="Helvetica,sans-Serif" font-size="9.50">error</text>
 </g>
 <!-- type~cc_energy_t -->
 <g id="type~~graph~~TypeGraph_node6" class="node">
@@ -413,392 +467,526 @@ This is the parsed representation from the input file, not the computational fra
 <g id="type~~graph~~TypeGraph_node8" class="node">
 <title>type~cli_args_type</title>
 <g id="a_type~~graph~~TypeGraph_node8"><a xlink:href="../type/cli_args_type.html" xlink:title="cli_args_type">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="956,-468 874,-468 874,-444 956,-444 956,-468"/>
-<text text-anchor="middle" x="915" y="-453.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cli_args_type</text>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="956,-485 874,-485 874,-461 956,-461 956,-485"/>
+<text text-anchor="middle" x="915" y="-470.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cli_args_type</text>
 </a>
 </g>
 </g>
-<!-- type~displaced_geometry_t -->
+<!-- type~dft_config_t -->
 <g id="type~~graph~~TypeGraph_node9" class="node">
+<title>type~dft_config_t</title>
+<g id="a_type~~graph~~TypeGraph_node9"><a xlink:href="../type/dft_config_t.html" xlink:title="dft_config_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="719,-618 645,-618 645,-594 719,-594 719,-618"/>
+<text text-anchor="middle" x="682" y="-603.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dft_config_t</text>
+</a>
+</g>
+</g>
+<!-- type~dft_method_t -->
+<g id="type~~graph~~TypeGraph_node10" class="node">
+<title>type~dft_method_t</title>
+<g id="a_type~~graph~~TypeGraph_node10"><a xlink:href="../type/dft_method_t.html" xlink:title="dft_method_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="956,-744 874,-744 874,-720 956,-720 956,-744"/>
+<text text-anchor="middle" x="915" y="-729.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dft_method_t</text>
+</a>
+</g>
+</g>
+<!-- type~dft_options_t -->
+<g id="type~~graph~~TypeGraph_node11" class="node">
+<title>type~dft_options_t</title>
+<g id="a_type~~graph~~TypeGraph_node11"><a xlink:href="../type/dft_options_t.html" xlink:title="dft_options_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="722,-744 642,-744 642,-720 722,-720 722,-744"/>
+<text text-anchor="middle" x="682" y="-729.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dft_options_t</text>
+</a>
+</g>
+</g>
+<!-- type~dft_method_t&#45;&gt;type~dft_options_t -->
+<g id="type~~graph~~TypeGraph_edge4" class="edge">
+<title>type~dft_method_t&#45;&gt;type~dft_options_t</title>
+<path fill="none" stroke="#bdff00" stroke-dasharray="5,2" d="M873.76,-732C834.36,-732 774.24,-732 732.05,-732"/>
+<polygon fill="#bdff00" stroke="#bdff00" points="732.01,-728.5 722.01,-732 732.01,-735.5 732.01,-728.5"/>
+<text text-anchor="middle" x="803" y="-734.4" font-family="Helvetica,sans-Serif" font-size="9.50">options</text>
+</g>
+<!-- type~qc_method_t -->
+<g id="type~~graph~~TypeGraph_node37" class="node">
+<title>type~qc_method_t</title>
+<g id="a_type~~graph~~TypeGraph_node37"><a xlink:href="../type/qc_method_t.html" xlink:title="qc_method_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="722.5,-702 641.5,-702 641.5,-678 722.5,-678 722.5,-702"/>
+<text text-anchor="middle" x="682" y="-687.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qc_method_t</text>
+</a>
+</g>
+</g>
+<!-- type~dft_method_t&#45;&gt;type~qc_method_t -->
+<g id="type~~graph~~TypeGraph_edge5" class="edge">
+<title>type~dft_method_t&#45;&gt;type~qc_method_t</title>
+<path fill="none" stroke="#bdff00" d="M874.83,-719.91C866.57,-717.15 857.95,-714.11 850,-711 829.07,-702.82 826.47,-690 804,-690"/>
+</g>
+<!-- type~displaced_geometry_t -->
+<g id="type~~graph~~TypeGraph_node12" class="node">
 <title>type~displaced_geometry_t</title>
-<g id="a_type~~graph~~TypeGraph_node9"><a xlink:href="../type/displaced_geometry_t.html" xlink:title="displaced_geometry_t">
+<g id="a_type~~graph~~TypeGraph_node12"><a xlink:href="../type/displaced_geometry_t.html" xlink:title="displaced_geometry_t">
 <polygon fill="#5cb85c" stroke="#5cb85c" points="980,-150 850,-150 850,-126 980,-126 980,-150"/>
 <text text-anchor="middle" x="915" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">displaced_geometry_t</text>
 </a>
 </g>
 </g>
 <!-- type~physical_fragment_t -->
-<g id="type~~graph~~TypeGraph_node27" class="node">
+<g id="type~~graph~~TypeGraph_node36" class="node">
 <title>type~physical_fragment_t</title>
-<g id="a_type~~graph~~TypeGraph_node27"><a xlink:href="../type/physical_fragment_t.html" xlink:title="physical_fragment_t">
+<g id="a_type~~graph~~TypeGraph_node36"><a xlink:href="../type/physical_fragment_t.html" xlink:title="physical_fragment_t">
 <polygon fill="#5cb85c" stroke="#5cb85c" points="742,-150 622,-150 622,-126 742,-126 742,-150"/>
 <text text-anchor="middle" x="682" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">physical_fragment_t</text>
 </a>
 </g>
 </g>
 <!-- type~displaced_geometry_t&#45;&gt;type~physical_fragment_t -->
-<g id="type~~graph~~TypeGraph_edge4" class="edge">
+<g id="type~~graph~~TypeGraph_edge6" class="edge">
 <title>type~displaced_geometry_t&#45;&gt;type~physical_fragment_t</title>
-<path fill="none" stroke="#96ff00" stroke-dasharray="5,2" d="M849.96,-138C819.61,-138 783.3,-138 752.31,-138"/>
-<polygon fill="#96ff00" stroke="#96ff00" points="752.01,-134.5 742.01,-138 752.01,-141.5 752.01,-134.5"/>
+<path fill="none" stroke="#76ff00" stroke-dasharray="5,2" d="M849.96,-138C819.61,-138 783.3,-138 752.31,-138"/>
+<polygon fill="#76ff00" stroke="#76ff00" points="752.01,-134.5 742.01,-138 752.01,-141.5 752.01,-134.5"/>
 <text text-anchor="middle" x="803" y="-140.4" font-family="Helvetica,sans-Serif" font-size="9.50">geometry</text>
 </g>
 <!-- type~driver_config_t -->
-<g id="type~~graph~~TypeGraph_node10" class="node">
+<g id="type~~graph~~TypeGraph_node13" class="node">
 <title>type~driver_config_t</title>
-<g id="a_type~~graph~~TypeGraph_node10"><a xlink:href="../type/driver_config_t.html" xlink:title="driver_config_t">
+<g id="a_type~~graph~~TypeGraph_node13"><a xlink:href="../type/driver_config_t.html" xlink:title="driver_config_t">
 <polygon fill="#5cb85c" stroke="#5cb85c" points="960.5,-66 869.5,-66 869.5,-42 960.5,-42 960.5,-66"/>
 <text text-anchor="middle" x="915" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">driver_config_t</text>
 </a>
 </g>
 </g>
 <!-- type~driver_config_t&#45;&gt;type~aimd_keywords_t -->
-<g id="type~~graph~~TypeGraph_edge6" class="edge">
+<g id="type~~graph~~TypeGraph_edge8" class="edge">
 <title>type~driver_config_t&#45;&gt;type~aimd_keywords_t</title>
-<path fill="none" stroke="#68ff00" stroke-dasharray="5,2" d="M869.46,-62.1C833.88,-68.57 783.64,-77.7 744.27,-84.86"/>
-<polygon fill="#68ff00" stroke="#68ff00" points="743.46,-81.45 734.25,-86.68 744.71,-88.34 743.46,-81.45"/>
+<path fill="none" stroke="#53ff00" stroke-dasharray="5,2" d="M869.46,-62.1C833.88,-68.57 783.64,-77.7 744.27,-84.86"/>
+<polygon fill="#53ff00" stroke="#53ff00" points="743.46,-81.45 734.25,-86.68 744.71,-88.34 743.46,-81.45"/>
 <text text-anchor="middle" x="803" y="-81.4" font-family="Helvetica,sans-Serif" font-size="9.50">aimd</text>
 </g>
 <!-- type~hessian_keywords_t -->
-<g id="type~~graph~~TypeGraph_node16" class="node">
+<g id="type~~graph~~TypeGraph_node19" class="node">
 <title>type~hessian_keywords_t</title>
-<g id="a_type~~graph~~TypeGraph_node16"><a xlink:href="../type/hessian_keywords_t.html" xlink:title="hessian_keywords_t">
+<g id="a_type~~graph~~TypeGraph_node19"><a xlink:href="../type/hessian_keywords_t.html" xlink:title="hessian_keywords_t">
 <polygon fill="#5cb85c" stroke="#5cb85c" points="741,-66 623,-66 623,-42 741,-42 741,-66"/>
 <text text-anchor="middle" x="682" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hessian_keywords_t</text>
 </a>
 </g>
 </g>
 <!-- type~driver_config_t&#45;&gt;type~hessian_keywords_t -->
-<g id="type~~graph~~TypeGraph_edge5" class="edge">
+<g id="type~~graph~~TypeGraph_edge7" class="edge">
 <title>type~driver_config_t&#45;&gt;type~hessian_keywords_t</title>
-<path fill="none" stroke="#68ff00" stroke-dasharray="5,2" d="M869.46,-54C836,-54 789.58,-54 751.42,-54"/>
-<polygon fill="#68ff00" stroke="#68ff00" points="751.4,-50.5 741.4,-54 751.4,-57.5 751.4,-50.5"/>
+<path fill="none" stroke="#53ff00" stroke-dasharray="5,2" d="M869.46,-54C836,-54 789.58,-54 751.42,-54"/>
+<polygon fill="#53ff00" stroke="#53ff00" points="751.4,-50.5 741.4,-54 751.4,-57.5 751.4,-50.5"/>
 <text text-anchor="middle" x="803" y="-56.4" font-family="Helvetica,sans-Serif" font-size="9.50">hessian</text>
 </g>
 <!-- type~scf_keywords_t -->
-<g id="type~~graph~~TypeGraph_node30" class="node">
+<g id="type~~graph~~TypeGraph_node39" class="node">
 <title>type~scf_keywords_t</title>
-<g id="a_type~~graph~~TypeGraph_node30"><a xlink:href="../type/scf_keywords_t.html" xlink:title="scf_keywords_t">
+<g id="a_type~~graph~~TypeGraph_node39"><a xlink:href="../type/scf_keywords_t.html" xlink:title="scf_keywords_t">
 <polygon fill="#5cb85c" stroke="#5cb85c" points="728,-24 636,-24 636,0 728,0 728,-24"/>
 <text text-anchor="middle" x="682" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">scf_keywords_t</text>
 </a>
 </g>
 </g>
 <!-- type~driver_config_t&#45;&gt;type~scf_keywords_t -->
-<g id="type~~graph~~TypeGraph_edge7" class="edge">
+<g id="type~~graph~~TypeGraph_edge9" class="edge">
 <title>type~driver_config_t&#45;&gt;type~scf_keywords_t</title>
-<path fill="none" stroke="#68ff00" stroke-dasharray="5,2" d="M869.46,-45.9C831.99,-39.09 778.26,-29.32 738.09,-22.02"/>
-<polygon fill="#68ff00" stroke="#68ff00" points="738.66,-18.56 728.19,-20.22 737.4,-25.45 738.66,-18.56"/>
+<path fill="none" stroke="#53ff00" stroke-dasharray="5,2" d="M869.46,-45.9C831.99,-39.09 778.26,-29.32 738.09,-22.02"/>
+<polygon fill="#53ff00" stroke="#53ff00" points="738.66,-18.56 728.19,-20.22 737.4,-25.45 738.66,-18.56"/>
 <text text-anchor="middle" x="803" y="-40.4" font-family="Helvetica,sans-Serif" font-size="9.50">scf</text>
 </g>
 <!-- type~energy_t&#45;&gt;type~cc_energy_t -->
-<g id="type~~graph~~TypeGraph_edge9" class="edge">
+<g id="type~~graph~~TypeGraph_edge11" class="edge">
 <title>type~energy_t&#45;&gt;type~cc_energy_t</title>
-<path fill="none" stroke="#3cff00" stroke-dasharray="5,2" d="M652.4,-440.03C601.6,-443.64 495.16,-451.21 433.15,-455.61"/>
-<polygon fill="#3cff00" stroke="#3cff00" points="432.58,-452.15 422.85,-456.35 433.07,-459.13 432.58,-452.15"/>
-<text text-anchor="middle" x="528" y="-454.4" font-family="Helvetica,sans-Serif" font-size="9.50">cc</text>
+<path fill="none" stroke="#2fff00" stroke-dasharray="5,2" d="M652.4,-440.03C601.6,-443.64 495.16,-451.21 433.15,-455.61"/>
+<polygon fill="#2fff00" stroke="#2fff00" points="432.58,-452.15 422.85,-456.35 433.07,-459.13 432.58,-452.15"/>
+<text text-anchor="middle" x="528" y="-455.4" font-family="Helvetica,sans-Serif" font-size="9.50">cc</text>
 </g>
 <!-- type~mp2_energy_t -->
-<g id="type~~graph~~TypeGraph_node24" class="node">
+<g id="type~~graph~~TypeGraph_node33" class="node">
 <title>type~mp2_energy_t</title>
-<g id="a_type~~graph~~TypeGraph_node24"><a xlink:href="../type/mp2_energy_t.html" xlink:title="mp2_energy_t">
+<g id="a_type~~graph~~TypeGraph_node33"><a xlink:href="../type/mp2_energy_t.html" xlink:title="mp2_energy_t">
 <polygon fill="#5cb85c" stroke="#5cb85c" points="428.5,-429 340.5,-429 340.5,-405 428.5,-405 428.5,-429"/>
 <text text-anchor="middle" x="384.5" y="-414.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mp2_energy_t</text>
 </a>
 </g>
 </g>
 <!-- type~energy_t&#45;&gt;type~mp2_energy_t -->
-<g id="type~~graph~~TypeGraph_edge8" class="edge">
+<g id="type~~graph~~TypeGraph_edge10" class="edge">
 <title>type~energy_t&#45;&gt;type~mp2_energy_t</title>
-<path fill="none" stroke="#3cff00" stroke-dasharray="5,2" d="M652.36,-434.01C634.47,-431.64 610.93,-428.77 590,-427 538.74,-422.65 480.07,-420.03 438.76,-418.56"/>
-<polygon fill="#3cff00" stroke="#3cff00" points="438.76,-415.06 428.65,-418.21 438.52,-422.06 438.76,-415.06"/>
+<path fill="none" stroke="#2fff00" stroke-dasharray="5,2" d="M652.36,-434.01C634.47,-431.64 610.93,-428.77 590,-427 538.74,-422.65 480.07,-420.03 438.76,-418.56"/>
+<polygon fill="#2fff00" stroke="#2fff00" points="438.76,-415.06 428.65,-418.21 438.52,-422.06 438.76,-415.06"/>
 <text text-anchor="middle" x="528" y="-429.4" font-family="Helvetica,sans-Serif" font-size="9.50">mp2</text>
 </g>
 <!-- type~fragment_lookup_t -->
-<g id="type~~graph~~TypeGraph_node13" class="node">
+<g id="type~~graph~~TypeGraph_node16" class="node">
 <title>type~fragment_lookup_t</title>
-<g id="a_type~~graph~~TypeGraph_node13"><a xlink:href="../type/fragment_lookup_t.html" xlink:title="fragment_lookup_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="971,-510 859,-510 859,-486 971,-486 971,-510"/>
-<text text-anchor="middle" x="915" y="-495.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_lookup_t</text>
+<g id="a_type~~graph~~TypeGraph_node16"><a xlink:href="../type/fragment_lookup_t.html" xlink:title="fragment_lookup_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="971,-844 859,-844 859,-820 971,-820 971,-844"/>
+<text text-anchor="middle" x="915" y="-829.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fragment_lookup_t</text>
 </a>
 </g>
 </g>
 <!-- type~hash_entry_t -->
-<g id="type~~graph~~TypeGraph_node15" class="node">
+<g id="type~~graph~~TypeGraph_node18" class="node">
 <title>type~hash_entry_t</title>
-<g id="a_type~~graph~~TypeGraph_node15"><a xlink:href="../type/hash_entry_t.html" xlink:title="hash_entry_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="722,-510 642,-510 642,-486 722,-486 722,-510"/>
-<text text-anchor="middle" x="682" y="-495.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hash_entry_t</text>
+<g id="a_type~~graph~~TypeGraph_node18"><a xlink:href="../type/hash_entry_t.html" xlink:title="hash_entry_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="722,-844 642,-844 642,-820 722,-820 722,-844"/>
+<text text-anchor="middle" x="682" y="-829.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hash_entry_t</text>
 </a>
 </g>
 </g>
 <!-- type~fragment_lookup_t&#45;&gt;type~hash_entry_t -->
-<g id="type~~graph~~TypeGraph_edge10" class="edge">
+<g id="type~~graph~~TypeGraph_edge12" class="edge">
 <title>type~fragment_lookup_t&#45;&gt;type~hash_entry_t</title>
-<path fill="none" stroke="#00ff1e" stroke-dasharray="5,2" d="M858.96,-498C820.42,-498 769.36,-498 732.18,-498"/>
-<polygon fill="#00ff1e" stroke="#00ff1e" points="732.08,-494.5 722.08,-498 732.08,-501.5 732.08,-494.5"/>
-<text text-anchor="middle" x="803" y="-500.4" font-family="Helvetica,sans-Serif" font-size="9.50">table</text>
+<path fill="none" stroke="#00ff17" stroke-dasharray="5,2" d="M858.96,-832C820.42,-832 769.36,-832 732.18,-832"/>
+<polygon fill="#00ff17" stroke="#00ff17" points="732.08,-828.5 722.08,-832 732.08,-835.5 732.08,-828.5"/>
+<text text-anchor="middle" x="803" y="-834.4" font-family="Helvetica,sans-Serif" font-size="9.50">table</text>
 </g>
 <!-- type~geometry_type -->
-<g id="type~~graph~~TypeGraph_node14" class="node">
+<g id="type~~graph~~TypeGraph_node17" class="node">
 <title>type~geometry_type</title>
-<g id="a_type~~graph~~TypeGraph_node14"><a xlink:href="../type/geometry_type.html" xlink:title="geometry_type">
+<g id="a_type~~graph~~TypeGraph_node17"><a xlink:href="../type/geometry_type.html" xlink:title="geometry_type">
 <polygon fill="#5cb85c" stroke="#5cb85c" points="431,-272 338,-272 338,-248 431,-248 431,-272"/>
 <text text-anchor="middle" x="384.5" y="-257.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry_type</text>
 </a>
 </g>
 </g>
 <!-- type~hash_entry_t&#45;&gt;type~hash_entry_t -->
-<g id="type~~graph~~TypeGraph_edge11" class="edge">
+<g id="type~~graph~~TypeGraph_edge13" class="edge">
 <title>type~hash_entry_t&#45;&gt;type~hash_entry_t</title>
-<path fill="none" stroke="#00ff78" stroke-dasharray="5,2" d="M701.84,-510.01C708.77,-518.97 702.16,-528 682,-528 669.72,-528 662.46,-524.65 660.24,-520"/>
-<polygon fill="#00ff78" stroke="#00ff78" points="663.71,-520.49 662.16,-510.01 656.83,-519.17 663.71,-520.49"/>
-<text text-anchor="middle" x="682" y="-530.4" font-family="Helvetica,sans-Serif" font-size="9.50">next</text>
+<path fill="none" stroke="#00ff5e" stroke-dasharray="5,2" d="M701.84,-844.01C708.77,-852.97 702.16,-862 682,-862 669.72,-862 662.46,-858.65 660.24,-854"/>
+<polygon fill="#00ff5e" stroke="#00ff5e" points="663.71,-854.49 662.16,-844.01 656.83,-853.17 663.71,-854.49"/>
+<text text-anchor="middle" x="682" y="-864.4" font-family="Helvetica,sans-Serif" font-size="9.50">next</text>
+</g>
+<!-- type~hf_config_t -->
+<g id="type~~graph~~TypeGraph_node20" class="node">
+<title>type~hf_config_t</title>
+<g id="a_type~~graph~~TypeGraph_node20"><a xlink:href="../type/hf_config_t.html" xlink:title="hf_config_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="717,-576 647,-576 647,-552 717,-552 717,-576"/>
+<text text-anchor="middle" x="682" y="-561.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hf_config_t</text>
+</a>
+</g>
 </g>
 <!-- type~hf_method_t -->
-<g id="type~~graph~~TypeGraph_node17" class="node">
+<g id="type~~graph~~TypeGraph_node21" class="node">
 <title>type~hf_method_t</title>
-<g id="a_type~~graph~~TypeGraph_node17"><a xlink:href="../type/hf_method_t.html" xlink:title="hf_method_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="954.5,-622 875.5,-622 875.5,-598 954.5,-598 954.5,-622"/>
-<text text-anchor="middle" x="915" y="-607.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hf_method_t</text>
+<g id="a_type~~graph~~TypeGraph_node21"><a xlink:href="../type/hf_method_t.html" xlink:title="hf_method_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="954.5,-794 875.5,-794 875.5,-770 954.5,-770 954.5,-794"/>
+<text text-anchor="middle" x="915" y="-779.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hf_method_t</text>
 </a>
 </g>
 </g>
 <!-- type~hf_options_t -->
-<g id="type~~graph~~TypeGraph_node18" class="node">
+<g id="type~~graph~~TypeGraph_node22" class="node">
 <title>type~hf_options_t</title>
-<g id="a_type~~graph~~TypeGraph_node18"><a xlink:href="../type/hf_options_t.html" xlink:title="hf_options_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="720,-622 644,-622 644,-598 720,-598 720,-622"/>
-<text text-anchor="middle" x="682" y="-607.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hf_options_t</text>
+<g id="a_type~~graph~~TypeGraph_node22"><a xlink:href="../type/hf_options_t.html" xlink:title="hf_options_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="720,-802 644,-802 644,-778 720,-778 720,-802"/>
+<text text-anchor="middle" x="682" y="-787.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hf_options_t</text>
 </a>
 </g>
 </g>
 <!-- type~hf_method_t&#45;&gt;type~hf_options_t -->
-<g id="type~~graph~~TypeGraph_edge12" class="edge">
+<g id="type~~graph~~TypeGraph_edge14" class="edge">
 <title>type~hf_method_t&#45;&gt;type~hf_options_t</title>
-<path fill="none" stroke="#00ffd1" stroke-dasharray="5,2" d="M875.34,-610C835.47,-610 773.25,-610 730.43,-610"/>
-<polygon fill="#00ffd1" stroke="#00ffd1" points="730.26,-606.5 720.26,-610 730.26,-613.5 730.26,-606.5"/>
-<text text-anchor="middle" x="803" y="-612.4" font-family="Helvetica,sans-Serif" font-size="9.50">options</text>
-</g>
-<!-- type~qc_method_t -->
-<g id="type~~graph~~TypeGraph_node28" class="node">
-<title>type~qc_method_t</title>
-<g id="a_type~~graph~~TypeGraph_node28"><a xlink:href="../type/qc_method_t.html" xlink:title="qc_method_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="722.5,-580 641.5,-580 641.5,-556 722.5,-556 722.5,-580"/>
-<text text-anchor="middle" x="682" y="-565.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qc_method_t</text>
-</a>
-</g>
+<path fill="none" stroke="#00ffc9" stroke-dasharray="5,2" d="M875.34,-783.34C835.47,-784.72 773.25,-786.87 730.43,-788.36"/>
+<polygon fill="#00ffc9" stroke="#00ffc9" points="730.13,-784.87 720.26,-788.71 730.37,-791.86 730.13,-784.87"/>
+<text text-anchor="middle" x="803" y="-788.4" font-family="Helvetica,sans-Serif" font-size="9.50">options</text>
 </g>
 <!-- type~hf_method_t&#45;&gt;type~qc_method_t -->
-<g id="type~~graph~~TypeGraph_edge13" class="edge">
+<g id="type~~graph~~TypeGraph_edge15" class="edge">
 <title>type~hf_method_t&#45;&gt;type~qc_method_t</title>
-<path fill="none" stroke="#00ffd1" d="M875.17,-598.03C866.81,-595.23 858.06,-592.15 850,-589 829.07,-580.82 826.38,-570.08 804,-568"/>
+<path fill="none" stroke="#00ffc9" d="M875.34,-779.26C845.01,-775.35 803.19,-765.89 774,-743 761.16,-732.93 768.8,-721.12 756,-711 749.09,-705.53 740.81,-701.49 732.34,-698.5"/>
+<polygon fill="#00ffc9" stroke="#00ffc9" points="733.36,-695.15 722.78,-695.55 731.3,-701.84 733.36,-695.15"/>
 </g>
 <!-- type~input_fragment_t -->
-<g id="type~~graph~~TypeGraph_node19" class="node">
+<g id="type~~graph~~TypeGraph_node23" class="node">
 <title>type~input_fragment_t</title>
-<g id="a_type~~graph~~TypeGraph_node19"><a xlink:href="../type/input_fragment_t.html" xlink:title="input_fragment_t">
+<g id="a_type~~graph~~TypeGraph_node23"><a xlink:href="../type/input_fragment_t.html" xlink:title="input_fragment_t">
 <polygon fill="#5cb85c" stroke="#5cb85c" points="436,-200 333,-200 333,-176 436,-176 436,-200"/>
 <text text-anchor="middle" x="384.5" y="-185.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_fragment_t</text>
 </a>
 </g>
 </g>
 <!-- type~json_output_data_t -->
-<g id="type~~graph~~TypeGraph_node20" class="node">
+<g id="type~~graph~~TypeGraph_node24" class="node">
 <title>type~json_output_data_t</title>
-<g id="a_type~~graph~~TypeGraph_node20"><a xlink:href="../type/json_output_data_t.html" xlink:title="json_output_data_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="971,-664 859,-664 859,-640 971,-640 971,-664"/>
-<text text-anchor="middle" x="915" y="-649.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">json_output_data_t</text>
+<g id="a_type~~graph~~TypeGraph_node24"><a xlink:href="../type/json_output_data_t.html" xlink:title="json_output_data_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="971,-914 859,-914 859,-890 971,-890 971,-914"/>
+<text text-anchor="middle" x="915" y="-899.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">json_output_data_t</text>
 </a>
 </g>
 </g>
 <!-- type~thermochemistry_result_t -->
-<g id="type~~graph~~TypeGraph_node32" class="node">
+<g id="type~~graph~~TypeGraph_node41" class="node">
 <title>type~thermochemistry_result_t</title>
-<g id="a_type~~graph~~TypeGraph_node32"><a xlink:href="../type/thermochemistry_result_t.html" xlink:title="thermochemistry_result_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="756,-664 608,-664 608,-640 756,-640 756,-664"/>
-<text text-anchor="middle" x="682" y="-649.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">thermochemistry_result_t</text>
+<g id="a_type~~graph~~TypeGraph_node41"><a xlink:href="../type/thermochemistry_result_t.html" xlink:title="thermochemistry_result_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="756,-914 608,-914 608,-890 756,-890 756,-914"/>
+<text text-anchor="middle" x="682" y="-899.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">thermochemistry_result_t</text>
 </a>
 </g>
 </g>
 <!-- type~json_output_data_t&#45;&gt;type~thermochemistry_result_t -->
-<g id="type~~graph~~TypeGraph_edge14" class="edge">
+<g id="type~~graph~~TypeGraph_edge16" class="edge">
 <title>type~json_output_data_t&#45;&gt;type~thermochemistry_result_t</title>
-<path fill="none" stroke="#00a4ff" stroke-dasharray="5,2" d="M858.96,-652C831.39,-652 797.41,-652 766.69,-652"/>
-<polygon fill="#00a4ff" stroke="#00a4ff" points="766.41,-648.5 756.41,-652 766.41,-655.5 766.41,-648.5"/>
-<text text-anchor="middle" x="803" y="-654.4" font-family="Helvetica,sans-Serif" font-size="9.50">thermo</text>
+<path fill="none" stroke="#00c9ff" stroke-dasharray="5,2" d="M858.96,-902C831.39,-902 797.41,-902 766.69,-902"/>
+<polygon fill="#00c9ff" stroke="#00c9ff" points="766.41,-898.5 756.41,-902 766.41,-905.5 766.41,-898.5"/>
+<text text-anchor="middle" x="803" y="-904.4" font-family="Helvetica,sans-Serif" font-size="9.50">thermo</text>
 </g>
 <!-- type~mbe_result_t -->
-<g id="type~~graph~~TypeGraph_node21" class="node">
+<g id="type~~graph~~TypeGraph_node25" class="node">
 <title>type~mbe_result_t</title>
-<g id="a_type~~graph~~TypeGraph_node21"><a xlink:href="../type/mbe_result_t.html" xlink:title="mbe_result_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="955,-706 875,-706 875,-682 955,-682 955,-706"/>
-<text text-anchor="middle" x="915" y="-691.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mbe_result_t</text>
+<g id="a_type~~graph~~TypeGraph_node25"><a xlink:href="../type/mbe_result_t.html" xlink:title="mbe_result_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="955,-956 875,-956 875,-932 955,-932 955,-956"/>
+<text text-anchor="middle" x="915" y="-941.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mbe_result_t</text>
+</a>
+</g>
+</g>
+<!-- type~mcscf_config_t -->
+<g id="type~~graph~~TypeGraph_node26" class="node">
+<title>type~mcscf_config_t</title>
+<g id="a_type~~graph~~TypeGraph_node26"><a xlink:href="../type/mcscf_config_t.html" xlink:title="mcscf_config_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="727.5,-534 636.5,-534 636.5,-510 727.5,-510 727.5,-534"/>
+<text text-anchor="middle" x="682" y="-519.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mcscf_config_t</text>
+</a>
+</g>
+</g>
+<!-- type~mcscf_method_t -->
+<g id="type~~graph~~TypeGraph_node27" class="node">
+<title>type~mcscf_method_t</title>
+<g id="a_type~~graph~~TypeGraph_node27"><a xlink:href="../type/mcscf_method_t.html" xlink:title="mcscf_method_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="965,-660 865,-660 865,-636 965,-636 965,-660"/>
+<text text-anchor="middle" x="915" y="-645.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mcscf_method_t</text>
+</a>
+</g>
+</g>
+<!-- type~mcscf_options_t -->
+<g id="type~~graph~~TypeGraph_node28" class="node">
+<title>type~mcscf_options_t</title>
+<g id="a_type~~graph~~TypeGraph_node28"><a xlink:href="../type/mcscf_options_t.html" xlink:title="mcscf_options_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="730.5,-660 633.5,-660 633.5,-636 730.5,-636 730.5,-660"/>
+<text text-anchor="middle" x="682" y="-645.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mcscf_options_t</text>
+</a>
+</g>
+</g>
+<!-- type~mcscf_method_t&#45;&gt;type~mcscf_options_t -->
+<g id="type~~graph~~TypeGraph_edge17" class="edge">
+<title>type~mcscf_method_t&#45;&gt;type~mcscf_options_t</title>
+<path fill="none" stroke="#005eff" stroke-dasharray="5,2" d="M864.73,-648C828.51,-648 779.18,-648 741.05,-648"/>
+<polygon fill="#005eff" stroke="#005eff" points="740.62,-644.5 730.62,-648 740.62,-651.5 740.62,-644.5"/>
+<text text-anchor="middle" x="803" y="-650.4" font-family="Helvetica,sans-Serif" font-size="9.50">options</text>
+</g>
+<!-- type~mcscf_method_t&#45;&gt;type~qc_method_t -->
+<g id="type~~graph~~TypeGraph_edge18" class="edge">
+<title>type~mcscf_method_t&#45;&gt;type~qc_method_t</title>
+<path fill="none" stroke="#005eff" d="M874.83,-660.09C866.57,-662.85 857.95,-665.89 850,-669 829.07,-677.18 826.47,-690 804,-690"/>
+<path fill="none" stroke="#005eff" d="M802,-690C779.27,-690 754.11,-690 732.79,-690"/>
+<polygon fill="#005eff" stroke="#005eff" points="732.67,-686.5 722.67,-690 732.67,-693.5 732.67,-686.5"/>
+</g>
+<!-- type~method_config_t -->
+<g id="type~~graph~~TypeGraph_node29" class="node">
+<title>type~method_config_t</title>
+<g id="a_type~~graph~~TypeGraph_node29"><a xlink:href="../type/method_config_t.html" xlink:title="method_config_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="965.5,-558 864.5,-558 864.5,-534 965.5,-534 965.5,-558"/>
+<text text-anchor="middle" x="915" y="-543.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">method_config_t</text>
+</a>
+</g>
+</g>
+<!-- type~method_config_t&#45;&gt;type~dft_config_t -->
+<g id="type~~graph~~TypeGraph_edge21" class="edge">
+<title>type~method_config_t&#45;&gt;type~dft_config_t</title>
+<path fill="none" stroke="#0017ff" stroke-dasharray="5,2" d="M874.07,-558.1C860.73,-562.03 845.76,-566.33 832,-570 797.73,-579.15 758.76,-588.53 729.26,-595.42"/>
+<polygon fill="#0017ff" stroke="#0017ff" points="728.2,-592.08 719.25,-597.75 729.79,-598.89 728.2,-592.08"/>
+<text text-anchor="middle" x="803" y="-586.4" font-family="Helvetica,sans-Serif" font-size="9.50">dft</text>
+</g>
+<!-- type~method_config_t&#45;&gt;type~hf_config_t -->
+<g id="type~~graph~~TypeGraph_edge20" class="edge">
+<title>type~method_config_t&#45;&gt;type~hf_config_t</title>
+<path fill="none" stroke="#0017ff" stroke-dasharray="5,2" d="M864.44,-549.86C823.68,-553.04 766.43,-557.5 727.2,-560.56"/>
+<polygon fill="#0017ff" stroke="#0017ff" points="726.84,-557.07 717.14,-561.34 727.38,-564.05 726.84,-557.07"/>
+<text text-anchor="middle" x="803" y="-558.4" font-family="Helvetica,sans-Serif" font-size="9.50">hf</text>
+</g>
+<!-- type~method_config_t&#45;&gt;type~mcscf_config_t -->
+<g id="type~~graph~~TypeGraph_edge22" class="edge">
+<title>type~method_config_t&#45;&gt;type~mcscf_config_t</title>
+<path fill="none" stroke="#0017ff" stroke-dasharray="5,2" d="M864.44,-540.85C827.21,-536.98 776.21,-531.68 737.77,-527.69"/>
+<polygon fill="#0017ff" stroke="#0017ff" points="738.09,-524.2 727.78,-526.65 737.37,-531.17 738.09,-524.2"/>
+<text text-anchor="middle" x="803" y="-538.4" font-family="Helvetica,sans-Serif" font-size="9.50">mcscf</text>
+</g>
+<!-- type~xtb_config_t -->
+<g id="type~~graph~~TypeGraph_node42" class="node">
+<title>type~xtb_config_t</title>
+<g id="a_type~~graph~~TypeGraph_node42"><a xlink:href="../type/xtb_config_t.html" xlink:title="xtb_config_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="720,-492 644,-492 644,-468 720,-468 720,-492"/>
+<text text-anchor="middle" x="682" y="-477.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">xtb_config_t</text>
+</a>
+</g>
+</g>
+<!-- type~method_config_t&#45;&gt;type~xtb_config_t -->
+<g id="type~~graph~~TypeGraph_edge19" class="edge">
+<title>type~method_config_t&#45;&gt;type~xtb_config_t</title>
+<path fill="none" stroke="#0017ff" stroke-dasharray="5,2" d="M882.3,-533.99C867.19,-528.46 848.78,-522.04 832,-517 798.2,-506.85 759.51,-497.31 730.03,-490.45"/>
+<polygon fill="#0017ff" stroke="#0017ff" points="730.54,-486.98 720.01,-488.14 728.97,-493.8 730.54,-486.98"/>
+<text text-anchor="middle" x="803" y="-519.4" font-family="Helvetica,sans-Serif" font-size="9.50">xtb</text>
+</g>
+<!-- type~method_factory_t -->
+<g id="type~~graph~~TypeGraph_node30" class="node">
+<title>type~method_factory_t</title>
+<g id="a_type~~graph~~TypeGraph_node30"><a xlink:href="../type/method_factory_t.html" xlink:title="method_factory_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="968,-998 862,-998 862,-974 968,-974 968,-998"/>
+<text text-anchor="middle" x="915" y="-983.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">method_factory_t</text>
 </a>
 </g>
 </g>
 <!-- type~molecular_basis_type -->
-<g id="type~~graph~~TypeGraph_node22" class="node">
+<g id="type~~graph~~TypeGraph_node31" class="node">
 <title>type~molecular_basis_type</title>
-<g id="a_type~~graph~~TypeGraph_node22"><a xlink:href="../type/molecular_basis_type.html" xlink:title="molecular_basis_type">
+<g id="a_type~~graph~~TypeGraph_node31"><a xlink:href="../type/molecular_basis_type.html" xlink:title="molecular_basis_type">
 <polygon fill="#5cb85c" stroke="#5cb85c" points="448,-150 321,-150 321,-126 448,-126 448,-150"/>
 <text text-anchor="middle" x="384.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">molecular_basis_type</text>
 </a>
 </g>
 </g>
 <!-- type~molecular_basis_type&#45;&gt;type~atomic_basis_type -->
-<g id="type~~graph~~TypeGraph_edge15" class="edge">
+<g id="type~~graph~~TypeGraph_edge23" class="edge">
 <title>type~molecular_basis_type&#45;&gt;type~atomic_basis_type</title>
-<path fill="none" stroke="#004aff" stroke-dasharray="5,2" d="M320.97,-138C298.1,-138 272.2,-138 249.19,-138"/>
-<polygon fill="#004aff" stroke="#004aff" points="249.19,-134.5 239.19,-138 249.19,-141.5 249.19,-134.5"/>
+<path fill="none" stroke="#2f00ff" stroke-dasharray="5,2" d="M320.97,-138C298.1,-138 272.2,-138 249.19,-138"/>
+<polygon fill="#2f00ff" stroke="#2f00ff" points="249.19,-134.5 239.19,-138 249.19,-141.5 249.19,-134.5"/>
 <text text-anchor="middle" x="280" y="-140.4" font-family="Helvetica,sans-Serif" font-size="9.50">elements</text>
 </g>
 <!-- type~molecule_t -->
-<g id="type~~graph~~TypeGraph_node23" class="node">
+<g id="type~~graph~~TypeGraph_node32" class="node">
 <title>type~molecule_t</title>
-<g id="a_type~~graph~~TypeGraph_node23"><a xlink:href="../type/molecule_t.html" xlink:title="molecule_t">
+<g id="a_type~~graph~~TypeGraph_node32"><a xlink:href="../type/molecule_t.html" xlink:title="molecule_t">
 <polygon fill="#5cb85c" stroke="#5cb85c" points="717.5,-310 646.5,-310 646.5,-286 717.5,-286 717.5,-310"/>
 <text text-anchor="middle" x="682" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">molecule_t</text>
 </a>
 </g>
 </g>
 <!-- type~molecule_t&#45;&gt;type~bond_t -->
-<g id="type~~graph~~TypeGraph_edge18" class="edge">
+<g id="type~~graph~~TypeGraph_edge26" class="edge">
 <title>type~molecule_t&#45;&gt;type~bond_t</title>
-<path fill="none" stroke="#001dff" stroke-dasharray="5,2" d="M646.23,-303.29C589.93,-311.87 479.34,-328.71 421.97,-337.45"/>
-<polygon fill="#001dff" stroke="#001dff" points="421.26,-334.01 411.9,-338.98 422.31,-340.93 421.26,-334.01"/>
+<path fill="none" stroke="#5300ff" stroke-dasharray="5,2" d="M646.23,-303.29C589.93,-311.87 479.34,-328.71 421.97,-337.45"/>
+<polygon fill="#5300ff" stroke="#5300ff" points="421.26,-334.01 411.9,-338.98 422.31,-340.93 421.26,-334.01"/>
 <text text-anchor="middle" x="528" y="-332.4" font-family="Helvetica,sans-Serif" font-size="9.50">bonds</text>
 </g>
 <!-- type~molecule_t&#45;&gt;type~geometry_type -->
-<g id="type~~graph~~TypeGraph_edge16" class="edge">
+<g id="type~~graph~~TypeGraph_edge24" class="edge">
 <title>type~molecule_t&#45;&gt;type~geometry_type</title>
-<path fill="none" stroke="#001dff" stroke-dasharray="5,2" d="M646.24,-295.46C603.63,-292.11 529.26,-285.5 466,-276 457.99,-274.8 449.56,-273.34 441.3,-271.8"/>
-<polygon fill="#001dff" stroke="#001dff" points="441.83,-268.33 431.34,-269.89 440.51,-275.21 441.83,-268.33"/>
+<path fill="none" stroke="#5300ff" stroke-dasharray="5,2" d="M646.24,-295.46C603.63,-292.11 529.26,-285.5 466,-276 457.99,-274.8 449.56,-273.34 441.3,-271.8"/>
+<polygon fill="#5300ff" stroke="#5300ff" points="441.83,-268.33 431.34,-269.89 440.51,-275.21 441.83,-268.33"/>
 <text text-anchor="middle" x="528" y="-293.4" font-family="Helvetica,sans-Serif" font-size="9.50">geometry</text>
 </g>
 <!-- type~molecule_t&#45;&gt;type~input_fragment_t -->
-<g id="type~~graph~~TypeGraph_edge17" class="edge">
+<g id="type~~graph~~TypeGraph_edge25" class="edge">
 <title>type~molecule_t&#45;&gt;type~input_fragment_t</title>
-<path fill="none" stroke="#001dff" stroke-dasharray="5,2" d="M648.53,-285.91C594.71,-265.88 487.04,-225.8 427.5,-203.63"/>
-<polygon fill="#001dff" stroke="#001dff" points="428.62,-200.32 418.02,-200.11 426.17,-206.88 428.62,-200.32"/>
+<path fill="none" stroke="#5300ff" stroke-dasharray="5,2" d="M648.53,-285.91C594.71,-265.88 487.04,-225.8 427.5,-203.63"/>
+<polygon fill="#5300ff" stroke="#5300ff" points="428.62,-200.32 418.02,-200.11 426.17,-206.88 428.62,-200.32"/>
 <text text-anchor="middle" x="528" y="-265.4" font-family="Helvetica,sans-Serif" font-size="9.50">fragments</text>
 </g>
 <!-- type~mpi_comms_t -->
-<g id="type~~graph~~TypeGraph_node25" class="node">
+<g id="type~~graph~~TypeGraph_node34" class="node">
 <title>type~mpi_comms_t</title>
-<g id="a_type~~graph~~TypeGraph_node25"><a xlink:href="../type/mpi_comms_t.html" xlink:title="mpi_comms_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="725,-748 639,-748 639,-724 725,-724 725,-748"/>
-<text text-anchor="middle" x="682" y="-733.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_comms_t</text>
+<g id="a_type~~graph~~TypeGraph_node34"><a xlink:href="../type/mpi_comms_t.html" xlink:title="mpi_comms_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="725,-1040 639,-1040 639,-1016 725,-1016 725,-1040"/>
+<text text-anchor="middle" x="682" y="-1025.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mpi_comms_t</text>
 </a>
 </g>
 </g>
 <!-- comm_t -->
-<g id="type~~graph~~TypeGraph_node35" class="node">
+<g id="type~~graph~~TypeGraph_node44" class="node">
 <title>comm_t</title>
-<polygon fill="#5cb85c" stroke="#5cb85c" points="412,-748 357,-748 357,-724 412,-724 412,-748"/>
-<text text-anchor="middle" x="384.5" y="-733.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">comm_t</text>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="412,-1040 357,-1040 357,-1016 412,-1016 412,-1040"/>
+<text text-anchor="middle" x="384.5" y="-1025.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">comm_t</text>
 </g>
 <!-- type~mpi_comms_t&#45;&gt;comm_t -->
-<g id="type~~graph~~TypeGraph_edge19" class="edge">
+<g id="type~~graph~~TypeGraph_edge27" class="edge">
 <title>type~mpi_comms_t&#45;&gt;comm_t</title>
-<path fill="none" stroke="#3c00ff" stroke-dasharray="5,2" d="M638.98,-736C580.9,-736 477.04,-736 422.03,-736"/>
-<polygon fill="#3c00ff" stroke="#3c00ff" points="422.02,-732.5 412.02,-736 422.02,-739.5 422.02,-732.5"/>
-<text text-anchor="middle" x="528" y="-738.4" font-family="Helvetica,sans-Serif" font-size="9.50">world_comm, node_comm</text>
+<path fill="none" stroke="#9a00ff" stroke-dasharray="5,2" d="M638.98,-1028C580.9,-1028 477.04,-1028 422.03,-1028"/>
+<polygon fill="#9a00ff" stroke="#9a00ff" points="422.02,-1024.5 412.02,-1028 422.02,-1031.5 422.02,-1024.5"/>
+<text text-anchor="middle" x="528" y="-1030.4" font-family="Helvetica,sans-Serif" font-size="9.50">world_comm, node_comm</text>
 </g>
 <!-- type~mqc_config_t -->
-<g id="type~~graph~~TypeGraph_node26" class="node">
+<g id="type~~graph~~TypeGraph_node35" class="node">
 <title>type~mqc_config_t</title>
-<g id="a_type~~graph~~TypeGraph_node26"><a xlink:href="../type/mqc_config_t.html" xlink:title="mqc_config_t">
+<g id="a_type~~graph~~TypeGraph_node35"><a xlink:href="../type/mqc_config_t.html" xlink:title="mqc_config_t">
 <polygon fill="#5cb85c" stroke="#5cb85c" points="956.5,-310 873.5,-310 873.5,-286 956.5,-286 956.5,-310"/>
 <text text-anchor="middle" x="915" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mqc_config_t</text>
 </a>
 </g>
 </g>
 <!-- type~mqc_config_t&#45;&gt;type~bond_t -->
-<g id="type~~graph~~TypeGraph_edge23" class="edge">
+<g id="type~~graph~~TypeGraph_edge31" class="edge">
 <title>type~mqc_config_t&#45;&gt;type~bond_t</title>
-<path fill="none" stroke="#6900ff" stroke-dasharray="5,2" d="M873.18,-305.35C860.05,-307.61 845.43,-310.02 832,-312 724.78,-327.79 698.16,-335.06 590,-342 531.17,-345.78 462.62,-345.08 421.71,-344.12"/>
-<polygon fill="#6900ff" stroke="#6900ff" points="421.77,-340.62 411.68,-343.86 421.59,-347.61 421.77,-340.62"/>
+<path fill="none" stroke="#bd00ff" stroke-dasharray="5,2" d="M873.18,-305.35C860.05,-307.61 845.43,-310.02 832,-312 724.78,-327.79 698.16,-335.06 590,-342 531.17,-345.78 462.62,-345.08 421.71,-344.12"/>
+<polygon fill="#bd00ff" stroke="#bd00ff" points="421.77,-340.62 411.68,-343.86 421.59,-347.61 421.77,-340.62"/>
 <text text-anchor="middle" x="682" y="-343.4" font-family="Helvetica,sans-Serif" font-size="9.50">bonds</text>
 </g>
 <!-- type~mqc_config_t&#45;&gt;type~geometry_type -->
-<g id="type~~graph~~TypeGraph_edge21" class="edge">
+<g id="type~~graph~~TypeGraph_edge29" class="edge">
 <title>type~mqc_config_t&#45;&gt;type~geometry_type</title>
-<path fill="none" stroke="#6900ff" stroke-dasharray="5,2" d="M802,-232C674.36,-183.93 509.29,-221.67 430.81,-245.03"/>
-<polygon fill="#6900ff" stroke="#6900ff" points="429.77,-241.69 421.22,-247.94 431.81,-248.39 429.77,-241.69"/>
+<path fill="none" stroke="#bd00ff" stroke-dasharray="5,2" d="M802,-232C674.36,-183.93 509.29,-221.67 430.81,-245.03"/>
+<polygon fill="#bd00ff" stroke="#bd00ff" points="429.77,-241.69 421.22,-247.94 431.81,-248.39 429.77,-241.69"/>
 <text text-anchor="middle" x="682" y="-219.4" font-family="Helvetica,sans-Serif" font-size="9.50">geometry</text>
 </g>
 <!-- type~mqc_config_t&#45;&gt;type~input_fragment_t -->
-<g id="type~~graph~~TypeGraph_edge22" class="edge">
+<g id="type~~graph~~TypeGraph_edge30" class="edge">
 <title>type~mqc_config_t&#45;&gt;type~input_fragment_t</title>
-<path fill="none" stroke="#6900ff" stroke-dasharray="5,2" d="M897.32,-285.79C876.47,-271.06 839.23,-246.47 804,-232"/>
-<path fill="none" stroke="#6900ff" stroke-dasharray="5,2" d="M802,-232C777.73,-222.03 780.66,-203.95 756,-195 652.47,-157.43 521.72,-166.98 446.45,-177.43"/>
-<polygon fill="#6900ff" stroke="#6900ff" points="445.61,-174.01 436.21,-178.9 446.6,-180.94 445.61,-174.01"/>
+<path fill="none" stroke="#bd00ff" stroke-dasharray="5,2" d="M897.32,-285.79C876.47,-271.06 839.23,-246.47 804,-232"/>
+<path fill="none" stroke="#bd00ff" stroke-dasharray="5,2" d="M802,-232C777.73,-222.03 780.66,-203.95 756,-195 652.47,-157.43 521.72,-166.98 446.45,-177.43"/>
+<polygon fill="#bd00ff" stroke="#bd00ff" points="445.61,-174.01 436.21,-178.9 446.6,-180.94 445.61,-174.01"/>
 <text text-anchor="middle" x="682" y="-197.4" font-family="Helvetica,sans-Serif" font-size="9.50">fragments</text>
 </g>
 <!-- type~mqc_config_t&#45;&gt;type~molecule_t -->
-<g id="type~~graph~~TypeGraph_edge20" class="edge">
+<g id="type~~graph~~TypeGraph_edge28" class="edge">
 <title>type~mqc_config_t&#45;&gt;type~molecule_t</title>
-<path fill="none" stroke="#6900ff" stroke-dasharray="5,2" d="M873.5,-298C832.74,-298 770.02,-298 727.79,-298"/>
-<polygon fill="#6900ff" stroke="#6900ff" points="727.79,-294.5 717.79,-298 727.79,-301.5 727.79,-294.5"/>
+<path fill="none" stroke="#bd00ff" stroke-dasharray="5,2" d="M873.5,-298C832.74,-298 770.02,-298 727.79,-298"/>
+<polygon fill="#bd00ff" stroke="#bd00ff" points="727.79,-294.5 717.79,-298 727.79,-301.5 727.79,-294.5"/>
 <text text-anchor="middle" x="803" y="-300.4" font-family="Helvetica,sans-Serif" font-size="9.50">molecules</text>
 </g>
 <!-- type~physical_fragment_t&#45;&gt;type~molecular_basis_type -->
-<g id="type~~graph~~TypeGraph_edge24" class="edge">
+<g id="type~~graph~~TypeGraph_edge32" class="edge">
 <title>type~physical_fragment_t&#45;&gt;type~molecular_basis_type</title>
-<path fill="none" stroke="#9500ff" stroke-dasharray="5,2" d="M621.91,-138C574.8,-138 508.6,-138 458.23,-138"/>
-<polygon fill="#9500ff" stroke="#9500ff" points="458.06,-134.5 448.06,-138 458.06,-141.5 458.06,-134.5"/>
+<path fill="none" stroke="#e100ff" stroke-dasharray="5,2" d="M621.91,-138C574.8,-138 508.6,-138 458.23,-138"/>
+<polygon fill="#e100ff" stroke="#e100ff" points="458.06,-134.5 448.06,-138 458.06,-141.5 458.06,-134.5"/>
 <text text-anchor="middle" x="528" y="-140.4" font-family="Helvetica,sans-Serif" font-size="9.50">basis</text>
 </g>
 <!-- type~resources_t -->
-<g id="type~~graph~~TypeGraph_node29" class="node">
+<g id="type~~graph~~TypeGraph_node38" class="node">
 <title>type~resources_t</title>
-<g id="a_type~~graph~~TypeGraph_node29"><a xlink:href="../type/resources_t.html" xlink:title="resources_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="951.5,-748 878.5,-748 878.5,-724 951.5,-724 951.5,-748"/>
-<text text-anchor="middle" x="915" y="-733.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">resources_t</text>
+<g id="a_type~~graph~~TypeGraph_node38"><a xlink:href="../type/resources_t.html" xlink:title="resources_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="951.5,-1040 878.5,-1040 878.5,-1016 951.5,-1016 951.5,-1040"/>
+<text text-anchor="middle" x="915" y="-1025.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">resources_t</text>
 </a>
 </g>
 </g>
 <!-- type~resources_t&#45;&gt;type~mpi_comms_t -->
-<g id="type~~graph~~TypeGraph_edge25" class="edge">
+<g id="type~~graph~~TypeGraph_edge33" class="edge">
 <title>type~resources_t&#45;&gt;type~mpi_comms_t</title>
-<path fill="none" stroke="#f000ff" stroke-dasharray="5,2" d="M878.41,-736C840.22,-736 779.15,-736 735.45,-736"/>
-<polygon fill="#f000ff" stroke="#f000ff" points="735.3,-732.5 725.3,-736 735.3,-739.5 735.3,-732.5"/>
-<text text-anchor="middle" x="803" y="-738.4" font-family="Helvetica,sans-Serif" font-size="9.50">mpi_comms</text>
+<path fill="none" stroke="#ff00d5" stroke-dasharray="5,2" d="M878.41,-1028C840.22,-1028 779.15,-1028 735.45,-1028"/>
+<polygon fill="#ff00d5" stroke="#ff00d5" points="735.3,-1024.5 725.3,-1028 735.3,-1031.5 735.3,-1024.5"/>
+<text text-anchor="middle" x="803" y="-1030.4" font-family="Helvetica,sans-Serif" font-size="9.50">mpi_comms</text>
 </g>
 <!-- type~system_geometry_t -->
-<g id="type~~graph~~TypeGraph_node31" class="node">
+<g id="type~~graph~~TypeGraph_node40" class="node">
 <title>type~system_geometry_t</title>
-<g id="a_type~~graph~~TypeGraph_node31"><a xlink:href="../type/system_geometry_t.html" xlink:title="system_geometry_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="973,-790 857,-790 857,-766 973,-766 973,-790"/>
-<text text-anchor="middle" x="915" y="-775.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">system_geometry_t</text>
+<g id="a_type~~graph~~TypeGraph_node40"><a xlink:href="../type/system_geometry_t.html" xlink:title="system_geometry_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="973,-1082 857,-1082 857,-1058 973,-1058 973,-1082"/>
+<text text-anchor="middle" x="915" y="-1067.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">system_geometry_t</text>
 </a>
 </g>
 </g>
 <!-- type~xtb_method_t -->
-<g id="type~~graph~~TypeGraph_node33" class="node">
+<g id="type~~graph~~TypeGraph_node43" class="node">
 <title>type~xtb_method_t</title>
-<g id="a_type~~graph~~TypeGraph_node33"><a xlink:href="../type/xtb_method_t.html" xlink:title="xtb_method_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="957.5,-580 872.5,-580 872.5,-556 957.5,-556 957.5,-580"/>
-<text text-anchor="middle" x="915" y="-565.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">xtb_method_t</text>
+<g id="a_type~~graph~~TypeGraph_node43"><a xlink:href="../type/xtb_method_t.html" xlink:title="xtb_method_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="957.5,-702 872.5,-702 872.5,-678 957.5,-678 957.5,-702"/>
+<text text-anchor="middle" x="915" y="-687.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">xtb_method_t</text>
 </a>
 </g>
 </g>
 <!-- type~xtb_method_t&#45;&gt;type~qc_method_t -->
-<g id="type~~graph~~TypeGraph_edge26" class="edge">
+<g id="type~~graph~~TypeGraph_edge34" class="edge">
 <title>type~xtb_method_t&#45;&gt;type~qc_method_t</title>
-<path fill="none" stroke="#ff005a" d="M872.39,-569.81C851.77,-570.25 826.53,-570.09 804,-568"/>
-<path fill="none" stroke="#ff005a" d="M802,-568C779.37,-565.9 754.22,-565.6 732.89,-565.95"/>
-<polygon fill="#ff005a" stroke="#ff005a" points="732.67,-562.45 722.75,-566.16 732.82,-569.45 732.67,-562.45"/>
-</g>
-<!-- type~xtb_options_t -->
-<g id="type~~graph~~TypeGraph_node34" class="node">
-<title>type~xtb_options_t</title>
-<g id="a_type~~graph~~TypeGraph_node34"><a xlink:href="../type/xtb_options_t.html" xlink:title="xtb_options_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="956,-832 874,-832 874,-808 956,-808 956,-832"/>
-<text text-anchor="middle" x="915" y="-817.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">xtb_options_t</text>
-</a>
-</g>
+<path fill="none" stroke="#ff0023" d="M872.47,-690C851.88,-690 826.63,-690 804,-690"/>
 </g>
 </g>
 </svg>
@@ -872,7 +1060,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-13 12:32 +0000             </p>
+ on 2026-01-13 12:35 +0000             </p>
           </div>
         </div>
         <br>

@@ -1,0 +1,883 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A demonstration of PIC as a framework for scientific applications targetting quantum chemistry">
+    <meta name="author" content="Jorge Luis Galvez Vallejo" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>factory_create &ndash; metalquicha</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">metalquicha </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../program/main.html">Program</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>factory_create
+      <small>Function</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.2% of total for procedures.">21 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/mqc_method_factory.F90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_method_factory.f90.html'>mqc_method_factory.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/mqc_method_factory.html'>mqc_method_factory</a></li>
+            <li class="breadcrumb-item active" aria-current="page">factory_create</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/factory_create.html#src">factory_create</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>private  function factory_create(this, config) result(method)  
+</h2>
+    
+
+    <p>Create a quantum chemistry method instance from configuration</p>
+<p>Instantiates the appropriate concrete method type based on
+config%method_type and configures it from the nested config.</p>
+
+    <h3>Type Bound</h3>
+    <p><a href='../type/method_factory_t.html'>method_factory_t</a></p>
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~28"></span>
+              class(<a href='../type/method_factory_t.html'>method_factory_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-config~17"></span>
+              type(<a href='../type/method_config_t.html'>method_config_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>config</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-method~3"></span>
+          class(<a href='../type/qc_method_t.html'>qc_method_t</a>), allocatable
+        </small>
+      </h3>
+      
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~factory_create~~CallsGraph Pages: 1 -->
+<svg id="procfactory_createCallsGraph" width="552pt" height="200pt"
+ viewBox="0.00 0.00 552.00 200.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~factory_create~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 196)">
+<title>proc~~factory_create~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-196 548,-196 548,4 -4,4"/>
+<!-- proc~factory_create -->
+<g id="proc~~factory_create~~CallsGraph_node1" class="node">
+<title>proc~factory_create</title>
+<polygon fill="none" stroke="black" points="192,-129 0,-129 0,-105 192,-105 192,-129"/>
+<text text-anchor="middle" x="96" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50">method_factory_t%factory_create</text>
+</g>
+<!-- proc~configure_dft -->
+<g id="proc~~factory_create~~CallsGraph_node2" class="node">
+<title>proc~configure_dft</title>
+<g id="a_proc~~factory_create~~CallsGraph_node2"><a xlink:href="../proc/configure_dft.html" xlink:title="configure_dft">
+<polygon fill="#d9534f" stroke="#d9534f" points="319,-192 237,-192 237,-168 319,-168 319,-192"/>
+<text text-anchor="middle" x="278" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">configure_dft</text>
+</a>
+</g>
+</g>
+<!-- proc~factory_create&#45;&gt;proc~configure_dft -->
+<g id="proc~~factory_create~~CallsGraph_edge1" class="edge">
+<title>proc~factory_create&#45;&gt;proc~configure_dft</title>
+<path fill="none" stroke="#ff0000" d="M131.71,-129.15C160.56,-139.25 201.79,-153.68 232.97,-164.59"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="232.11,-168 242.71,-168 234.42,-161.39 232.11,-168"/>
+</g>
+<!-- proc~configure_hf -->
+<g id="proc~~factory_create~~CallsGraph_node3" class="node">
+<title>proc~configure_hf</title>
+<g id="a_proc~~factory_create~~CallsGraph_node3"><a xlink:href="../proc/configure_hf.html" xlink:title="configure_hf">
+<polygon fill="#d9534f" stroke="#d9534f" points="317.5,-150 238.5,-150 238.5,-126 317.5,-126 317.5,-150"/>
+<text text-anchor="middle" x="278" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">configure_hf</text>
+</a>
+</g>
+</g>
+<!-- proc~factory_create&#45;&gt;proc~configure_hf -->
+<g id="proc~~factory_create~~CallsGraph_edge2" class="edge">
+<title>proc~factory_create&#45;&gt;proc~configure_hf</title>
+<path fill="none" stroke="#ff0000" d="M192.01,-128.08C204.56,-129.55 216.98,-131 228.29,-132.32"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="228,-135.81 238.34,-133.49 228.81,-128.85 228,-135.81"/>
+</g>
+<!-- proc~configure_mcscf -->
+<g id="proc~~factory_create~~CallsGraph_node4" class="node">
+<title>proc~configure_mcscf</title>
+<g id="a_proc~~factory_create~~CallsGraph_node4"><a xlink:href="../proc/configure_mcscf.html" xlink:title="configure_mcscf">
+<polygon fill="#d9534f" stroke="#d9534f" points="328,-108 228,-108 228,-84 328,-84 328,-108"/>
+<text text-anchor="middle" x="278" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">configure_mcscf</text>
+</a>
+</g>
+</g>
+<!-- proc~factory_create&#45;&gt;proc~configure_mcscf -->
+<g id="proc~~factory_create~~CallsGraph_edge3" class="edge">
+<title>proc~factory_create&#45;&gt;proc~configure_mcscf</title>
+<path fill="none" stroke="#ff0000" d="M192.01,-105.92C200.68,-104.9 209.3,-103.9 217.52,-102.94"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="218.19,-106.39 227.71,-101.75 217.38,-99.43 218.19,-106.39"/>
+</g>
+<!-- proc~configure_xtb -->
+<g id="proc~~factory_create~~CallsGraph_node5" class="node">
+<title>proc~configure_xtb</title>
+<g id="a_proc~~factory_create~~CallsGraph_node5"><a xlink:href="../proc/configure_xtb.html" xlink:title="configure_xtb">
+<polygon fill="#d9534f" stroke="#d9534f" points="320.5,-66 235.5,-66 235.5,-42 320.5,-42 320.5,-66"/>
+<text text-anchor="middle" x="278" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">configure_xtb</text>
+</a>
+</g>
+</g>
+<!-- proc~factory_create&#45;&gt;proc~configure_xtb -->
+<g id="proc~~factory_create~~CallsGraph_edge4" class="edge">
+<title>proc~factory_create&#45;&gt;proc~configure_xtb</title>
+<path fill="none" stroke="#ff0000" d="M131.71,-104.85C160.56,-94.75 201.79,-80.32 232.97,-69.41"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="234.42,-72.61 242.71,-66 232.11,-66 234.42,-72.61"/>
+</g>
+<!-- state_weights -->
+<g id="proc~~factory_create~~CallsGraph_node8" class="node">
+<title>state_weights</title>
+<polygon fill="#777777" stroke="#777777" points="496.5,-108 411.5,-108 411.5,-84 496.5,-84 496.5,-108"/>
+<text text-anchor="middle" x="454" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">state_weights</text>
+</g>
+<!-- proc~configure_mcscf&#45;&gt;state_weights -->
+<g id="proc~~factory_create~~CallsGraph_edge5" class="edge">
+<title>proc~configure_mcscf&#45;&gt;state_weights</title>
+<path fill="none" stroke="#00ffff" d="M328.4,-96C351.14,-96 378.12,-96 401.15,-96"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="401.43,-99.5 411.43,-96 401.43,-92.5 401.43,-99.5"/>
+</g>
+<!-- proc~method_type_to_string -->
+<g id="proc~~factory_create~~CallsGraph_node6" class="node">
+<title>proc~method_type_to_string</title>
+<g id="a_proc~~factory_create~~CallsGraph_node6"><a xlink:href="../proc/method_type_to_string.html" xlink:title="method_type_to_string">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="520.5,-66 387.5,-66 387.5,-42 520.5,-42 520.5,-66"/>
+<text text-anchor="middle" x="454" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">method_type_to_string</text>
+</a>
+</g>
+</g>
+<!-- proc~configure_xtb&#45;&gt;proc~method_type_to_string -->
+<g id="proc~~factory_create~~CallsGraph_edge6" class="edge">
+<title>proc~configure_xtb&#45;&gt;proc~method_type_to_string</title>
+<path fill="none" stroke="#7f00ff" d="M320.68,-54C337.63,-54 357.77,-54 377.15,-54"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="377.2,-57.5 387.2,-54 377.2,-50.5 377.2,-57.5"/>
+</g>
+<!-- proc~xtb_has_solvation -->
+<g id="proc~~factory_create~~CallsGraph_node7" class="node">
+<title>proc~xtb_has_solvation</title>
+<g id="a_proc~~factory_create~~CallsGraph_node7"><a xlink:href="../proc/xtb_has_solvation.html" xlink:title="xtb_config_t%xtb_has_solvation">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="544,-24 364,-24 364,0 544,0 544,-24"/>
+<text text-anchor="middle" x="454" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">xtb_config_t%xtb_has_solvation</text>
+</a>
+</g>
+</g>
+<!-- proc~configure_xtb&#45;&gt;proc~xtb_has_solvation -->
+<g id="proc~~factory_create~~CallsGraph_edge7" class="edge">
+<title>proc~configure_xtb&#45;&gt;proc~xtb_has_solvation</title>
+<path fill="none" stroke="#7f00ff" d="M320.92,-43.55C334.64,-40.16 349.96,-36.39 364,-33 372.95,-30.84 382.42,-28.58 391.71,-26.37"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="392.75,-29.72 401.68,-24.01 391.14,-22.91 392.75,-29.72"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~factory_create~~CalledByGraph Pages: 1 -->
+<svg id="procfactory_createCalledByGraph" width="641pt" height="116pt"
+ viewBox="0.00 0.00 641.00 115.60" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~factory_create~~CalledByGraph" class="graph" transform="scale(0.58 0.58) rotate(0) translate(4 196)">
+<title>proc~~factory_create~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-196 1105,-196 1105,4 -4,4"/>
+<!-- proc~factory_create -->
+<g id="proc~~factory_create~~CalledByGraph_node1" class="node">
+<title>proc~factory_create</title>
+<polygon fill="none" stroke="black" points="1101,-66 909,-66 909,-42 1101,-42 1101,-66"/>
+<text text-anchor="middle" x="1005" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">method_factory_t%factory_create</text>
+</g>
+<!-- proc~create_method -->
+<g id="proc~~factory_create~~CalledByGraph_node2" class="node">
+<title>proc~create_method</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node2"><a xlink:href="../proc/create_method.html" xlink:title="create_method">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="873,-66 780,-66 780,-42 873,-42 873,-66"/>
+<text text-anchor="middle" x="826.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">create_method</text>
+</a>
+</g>
+</g>
+<!-- proc~create_method&#45;&gt;proc~factory_create -->
+<g id="proc~~factory_create~~CalledByGraph_edge1" class="edge">
+<title>proc~create_method&#45;&gt;proc~factory_create</title>
+<path fill="none" stroke="#ff0000" d="M873.41,-54C881.43,-54 890.05,-54 898.91,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="899,-57.5 909,-54 899,-50.5 899,-57.5"/>
+</g>
+<!-- proc~do_fragment_work -->
+<g id="proc~~factory_create~~CalledByGraph_node3" class="node">
+<title>proc~do_fragment_work</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node3"><a xlink:href="../proc/do_fragment_work.html" xlink:title="do_fragment_work">
+<polygon fill="#d9534f" stroke="#d9534f" points="739.5,-108 627.5,-108 627.5,-84 739.5,-84 739.5,-108"/>
+<text text-anchor="middle" x="683.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">do_fragment_work</text>
+</a>
+</g>
+</g>
+<!-- proc~do_fragment_work&#45;&gt;proc~create_method -->
+<g id="proc~~factory_create~~CalledByGraph_edge2" class="edge">
+<title>proc~do_fragment_work&#45;&gt;proc~create_method</title>
+<path fill="none" stroke="#ff0000" d="M724.9,-83.96C740.54,-79.31 758.61,-73.93 775.08,-69.02"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="776.5,-72.25 785.09,-66.04 774.51,-65.54 776.5,-72.25"/>
+</g>
+<!-- proc~hessian_coordinator -->
+<g id="proc~~factory_create~~CalledByGraph_node4" class="node">
+<title>proc~hessian_coordinator</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node4"><a xlink:href="../proc/hessian_coordinator.html" xlink:title="hessian_coordinator">
+<polygon fill="#d9534f" stroke="#d9534f" points="744,-66 623,-66 623,-42 744,-42 744,-66"/>
+<text text-anchor="middle" x="683.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hessian_coordinator</text>
+</a>
+</g>
+</g>
+<!-- proc~hessian_coordinator&#45;&gt;proc~create_method -->
+<g id="proc~~factory_create~~CalledByGraph_edge3" class="edge">
+<title>proc~hessian_coordinator&#45;&gt;proc~create_method</title>
+<path fill="none" stroke="#ff0000" d="M744.3,-54C752.73,-54 761.37,-54 769.72,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="769.73,-57.5 779.73,-54 769.73,-50.5 769.73,-57.5"/>
+</g>
+<!-- proc~hessian_worker -->
+<g id="proc~~factory_create~~CalledByGraph_node5" class="node">
+<title>proc~hessian_worker</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node5"><a xlink:href="../proc/hessian_worker.html" xlink:title="hessian_worker">
+<polygon fill="#d9534f" stroke="#d9534f" points="731,-24 636,-24 636,0 731,0 731,-24"/>
+<text text-anchor="middle" x="683.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hessian_worker</text>
+</a>
+</g>
+</g>
+<!-- proc~hessian_worker&#45;&gt;proc~create_method -->
+<g id="proc~~factory_create~~CalledByGraph_edge4" class="edge">
+<title>proc~hessian_worker&#45;&gt;proc~create_method</title>
+<path fill="none" stroke="#ff0000" d="M724.9,-24.04C740.54,-28.69 758.61,-34.07 775.08,-38.98"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="774.51,-42.46 785.09,-41.96 776.5,-35.75 774.51,-42.46"/>
+</g>
+<!-- interface~do_fragment_work -->
+<g id="proc~~factory_create~~CalledByGraph_node6" class="node">
+<title>interface~do_fragment_work</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node6"><a xlink:href="../interface/do_fragment_work.html" xlink:title="do_fragment_work">
+<polygon fill="#a7506f" stroke="#a7506f" points="582.5,-108 470.5,-108 470.5,-84 582.5,-84 582.5,-108"/>
+<text text-anchor="middle" x="526.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">do_fragment_work</text>
+</a>
+</g>
+</g>
+<!-- interface~do_fragment_work&#45;&gt;proc~do_fragment_work -->
+<g id="proc~~factory_create~~CalledByGraph_edge5" class="edge">
+<title>interface~do_fragment_work&#45;&gt;proc~do_fragment_work</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M582.58,-96C593.82,-96 605.75,-96 617.3,-96"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="617.33,-99.5 627.33,-96 617.33,-92.5 617.33,-99.5"/>
+</g>
+<!-- interface~hessian_coordinator -->
+<g id="proc~~factory_create~~CalledByGraph_node7" class="node">
+<title>interface~hessian_coordinator</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node7"><a xlink:href="../interface/hessian_coordinator.html" xlink:title="hessian_coordinator">
+<polygon fill="#a7506f" stroke="#a7506f" points="587,-66 466,-66 466,-42 587,-42 587,-66"/>
+<text text-anchor="middle" x="526.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hessian_coordinator</text>
+</a>
+</g>
+</g>
+<!-- interface~hessian_coordinator&#45;&gt;proc~hessian_coordinator -->
+<g id="proc~~factory_create~~CalledByGraph_edge6" class="edge">
+<title>interface~hessian_coordinator&#45;&gt;proc~hessian_coordinator</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M587.43,-54C595.72,-54 604.31,-54 612.76,-54"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="612.99,-57.5 622.99,-54 612.99,-50.5 612.99,-57.5"/>
+</g>
+<!-- interface~hessian_worker -->
+<g id="proc~~factory_create~~CalledByGraph_node8" class="node">
+<title>interface~hessian_worker</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node8"><a xlink:href="../interface/hessian_worker.html" xlink:title="hessian_worker">
+<polygon fill="#a7506f" stroke="#a7506f" points="574,-24 479,-24 479,0 574,0 574,-24"/>
+<text text-anchor="middle" x="526.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hessian_worker</text>
+</a>
+</g>
+</g>
+<!-- interface~hessian_worker&#45;&gt;proc~hessian_worker -->
+<g id="proc~~factory_create~~CalledByGraph_edge7" class="edge">
+<title>interface~hessian_worker&#45;&gt;proc~hessian_worker</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M574.01,-12C590.18,-12 608.51,-12 625.43,-12"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="625.76,-15.5 635.76,-12 625.76,-8.5 625.76,-15.5"/>
+</g>
+<!-- proc~distributed_unfragmented_hessian -->
+<g id="proc~~factory_create~~CalledByGraph_node9" class="node">
+<title>proc~distributed_unfragmented_hessian</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node9"><a xlink:href="../proc/distributed_unfragmented_hessian.html" xlink:title="distributed_unfragmented_hessian">
+<polygon fill="#d9534f" stroke="#d9534f" points="430,-24 233,-24 233,0 430,0 430,-24"/>
+<text text-anchor="middle" x="331.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">distributed_unfragmented_hessian</text>
+</a>
+</g>
+</g>
+<!-- proc~distributed_unfragmented_hessian&#45;&gt;interface~hessian_coordinator -->
+<g id="proc~~factory_create~~CalledByGraph_edge12" class="edge">
+<title>proc~distributed_unfragmented_hessian&#45;&gt;interface~hessian_coordinator</title>
+<path fill="none" stroke="#00ff00" d="M388.45,-24.01C402.05,-26.94 416.55,-30.07 430,-33 440.06,-35.19 450.71,-37.52 461.1,-39.8"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="460.45,-43.24 470.97,-41.97 461.95,-36.4 460.45,-43.24"/>
+</g>
+<!-- proc~distributed_unfragmented_hessian&#45;&gt;interface~hessian_worker -->
+<g id="proc~~factory_create~~CalledByGraph_edge13" class="edge">
+<title>proc~distributed_unfragmented_hessian&#45;&gt;interface~hessian_worker</title>
+<path fill="none" stroke="#0000ff" d="M430.13,-12C443.42,-12 456.69,-12 468.92,-12"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="468.92,-15.5 478.92,-12 468.92,-8.5 468.92,-15.5"/>
+</g>
+<!-- proc~node_worker -->
+<g id="proc~~factory_create~~CalledByGraph_node10" class="node">
+<title>proc~node_worker</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node10"><a xlink:href="../proc/node_worker.html" xlink:title="node_worker">
+<polygon fill="#d9534f" stroke="#d9534f" points="372.5,-192 290.5,-192 290.5,-168 372.5,-168 372.5,-192"/>
+<text text-anchor="middle" x="331.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">node_worker</text>
+</a>
+</g>
+</g>
+<!-- proc~node_worker&#45;&gt;interface~do_fragment_work -->
+<g id="proc~~factory_create~~CalledByGraph_edge8" class="edge">
+<title>proc~node_worker&#45;&gt;interface~do_fragment_work</title>
+<path fill="none" stroke="#ff0000" d="M372.89,-174.76C390.85,-171.56 411.96,-166.58 430,-159 456.88,-147.71 484.32,-128.66 502.85,-114.46"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="505.23,-117.04 510.95,-108.13 500.92,-111.53 505.23,-117.04"/>
+</g>
+<!-- proc~serial_fragment_processor -->
+<g id="proc~~factory_create~~CalledByGraph_node11" class="node">
+<title>proc~serial_fragment_processor</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node11"><a xlink:href="../proc/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
+<polygon fill="#d9534f" stroke="#d9534f" points="408.5,-150 254.5,-150 254.5,-126 408.5,-126 408.5,-150"/>
+<text text-anchor="middle" x="331.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
+</a>
+</g>
+</g>
+<!-- proc~serial_fragment_processor&#45;&gt;interface~do_fragment_work -->
+<g id="proc~~factory_create~~CalledByGraph_edge9" class="edge">
+<title>proc~serial_fragment_processor&#45;&gt;interface~do_fragment_work</title>
+<path fill="none" stroke="#ff0000" d="M388.45,-125.99C402.05,-123.06 416.55,-119.93 430,-117 440.06,-114.81 450.71,-112.48 461.1,-110.2"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="461.95,-113.6 470.97,-108.03 460.45,-106.76 461.95,-113.6"/>
+</g>
+<!-- proc~serial_gmbe_pie_processor -->
+<g id="proc~~factory_create~~CalledByGraph_node12" class="node">
+<title>proc~serial_gmbe_pie_processor</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node12"><a xlink:href="../proc/serial_gmbe_pie_processor.html" xlink:title="serial_gmbe_pie_processor">
+<polygon fill="#d9534f" stroke="#d9534f" points="410,-108 253,-108 253,-84 410,-84 410,-108"/>
+<text text-anchor="middle" x="331.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_gmbe_pie_processor</text>
+</a>
+</g>
+</g>
+<!-- proc~serial_gmbe_pie_processor&#45;&gt;interface~do_fragment_work -->
+<g id="proc~~factory_create~~CalledByGraph_edge10" class="edge">
+<title>proc~serial_gmbe_pie_processor&#45;&gt;interface~do_fragment_work</title>
+<path fill="none" stroke="#ff0000" d="M410.17,-96C426.66,-96 443.93,-96 459.92,-96"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="460.23,-99.5 470.23,-96 460.23,-92.5 460.23,-99.5"/>
+</g>
+<!-- proc~unfragmented_calculation -->
+<g id="proc~~factory_create~~CalledByGraph_node13" class="node">
+<title>proc~unfragmented_calculation</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node13"><a xlink:href="../proc/unfragmented_calculation.html" xlink:title="unfragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="408,-66 255,-66 255,-42 408,-42 408,-66"/>
+<text text-anchor="middle" x="331.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unfragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~unfragmented_calculation&#45;&gt;interface~do_fragment_work -->
+<g id="proc~~factory_create~~CalledByGraph_edge11" class="edge">
+<title>proc~unfragmented_calculation&#45;&gt;interface~do_fragment_work</title>
+<path fill="none" stroke="#ff0000" d="M388.45,-66.01C402.05,-68.94 416.55,-72.07 430,-75 440.06,-77.19 450.71,-79.52 461.1,-81.8"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="460.45,-85.24 470.97,-83.97 461.95,-78.4 460.45,-85.24"/>
+</g>
+<!-- interface~distributed_unfragmented_hessian -->
+<g id="proc~~factory_create~~CalledByGraph_node14" class="node">
+<title>interface~distributed_unfragmented_hessian</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node14"><a xlink:href="../interface/distributed_unfragmented_hessian.html" xlink:title="distributed_unfragmented_hessian">
+<polygon fill="#a7506f" stroke="#a7506f" points="197,-24 0,-24 0,0 197,0 197,-24"/>
+<text text-anchor="middle" x="98.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">distributed_unfragmented_hessian</text>
+</a>
+</g>
+</g>
+<!-- interface~distributed_unfragmented_hessian&#45;&gt;proc~distributed_unfragmented_hessian -->
+<g id="proc~~factory_create~~CalledByGraph_edge14" class="edge">
+<title>interface~distributed_unfragmented_hessian&#45;&gt;proc~distributed_unfragmented_hessian</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M197.13,-12C205.63,-12 214.25,-12 222.83,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="222.85,-15.5 232.85,-12 222.85,-8.5 222.85,-15.5"/>
+</g>
+<!-- interface~node_worker -->
+<g id="proc~~factory_create~~CalledByGraph_node15" class="node">
+<title>interface~node_worker</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node15"><a xlink:href="../interface/node_worker.html" xlink:title="node_worker">
+<polygon fill="#a7506f" stroke="#a7506f" points="139.5,-192 57.5,-192 57.5,-168 139.5,-168 139.5,-192"/>
+<text text-anchor="middle" x="98.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">node_worker</text>
+</a>
+</g>
+</g>
+<!-- interface~node_worker&#45;&gt;proc~node_worker -->
+<g id="proc~~factory_create~~CalledByGraph_edge15" class="edge">
+<title>interface~node_worker&#45;&gt;proc~node_worker</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M139.74,-180C178.79,-180 238.17,-180 280.29,-180"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="280.34,-183.5 290.34,-180 280.34,-176.5 280.34,-183.5"/>
+</g>
+<!-- interface~serial_fragment_processor -->
+<g id="proc~~factory_create~~CalledByGraph_node16" class="node">
+<title>interface~serial_fragment_processor</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node16"><a xlink:href="../interface/serial_fragment_processor.html" xlink:title="serial_fragment_processor">
+<polygon fill="#a7506f" stroke="#a7506f" points="175.5,-150 21.5,-150 21.5,-126 175.5,-126 175.5,-150"/>
+<text text-anchor="middle" x="98.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">serial_fragment_processor</text>
+</a>
+</g>
+</g>
+<!-- interface~serial_fragment_processor&#45;&gt;proc~serial_fragment_processor -->
+<g id="proc~~factory_create~~CalledByGraph_edge16" class="edge">
+<title>interface~serial_fragment_processor&#45;&gt;proc~serial_fragment_processor</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M175.78,-138C197.66,-138 221.67,-138 244.11,-138"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="244.3,-141.5 254.3,-138 244.3,-134.5 244.3,-141.5"/>
+</g>
+<!-- interface~unfragmented_calculation -->
+<g id="proc~~factory_create~~CalledByGraph_node17" class="node">
+<title>interface~unfragmented_calculation</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node17"><a xlink:href="../interface/unfragmented_calculation.html" xlink:title="unfragmented_calculation">
+<polygon fill="#a7506f" stroke="#a7506f" points="175,-66 22,-66 22,-42 175,-42 175,-66"/>
+<text text-anchor="middle" x="98.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unfragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- interface~unfragmented_calculation&#45;&gt;proc~unfragmented_calculation -->
+<g id="proc~~factory_create~~CalledByGraph_edge18" class="edge">
+<title>interface~unfragmented_calculation&#45;&gt;proc~unfragmented_calculation</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M175.14,-54C197.37,-54 221.86,-54 244.68,-54"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="244.69,-57.5 254.69,-54 244.69,-50.5 244.69,-57.5"/>
+</g>
+<!-- proc~run_fragmented_calculation -->
+<g id="proc~~factory_create~~CalledByGraph_node18" class="node">
+<title>proc~run_fragmented_calculation</title>
+<g id="a_proc~~factory_create~~CalledByGraph_node18"><a xlink:href="../proc/run_fragmented_calculation.html" xlink:title="run_fragmented_calculation">
+<polygon fill="#d9534f" stroke="#d9534f" points="180,-108 17,-108 17,-84 180,-84 180,-108"/>
+<text text-anchor="middle" x="98.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_fragmented_calculation</text>
+</a>
+</g>
+</g>
+<!-- proc~run_fragmented_calculation&#45;&gt;proc~serial_gmbe_pie_processor -->
+<g id="proc~~factory_create~~CalledByGraph_edge17" class="edge">
+<title>proc~run_fragmented_calculation&#45;&gt;proc~serial_gmbe_pie_processor</title>
+<path fill="none" stroke="#0066ff" d="M180.29,-96C200.44,-96 222.14,-96 242.61,-96"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="242.86,-99.5 252.86,-96 242.86,-92.5 242.86,-99.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocfactory_createCalledByGraph = svgPanZoom('#procfactory_createCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">function </span><span class="n">factory_create</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!! Create a quantum chemistry method instance from configuration</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! Instantiates the appropriate concrete method type based on</span>
+<span class="w">      </span><span class="c">!! config%method_type and configures it from the nested config.</span>
+<span class="w">      </span><span class="k">class</span><span class="p">(</span><span class="n">method_factory_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">method_config_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">config</span>
+<span class="w">      </span><span class="k">class</span><span class="p">(</span><span class="n">qc_method_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">method</span>
+
+<span class="w">      </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">method_type</span><span class="p">)</span>
+<span class="cp">#ifndef MQC_WITHOUT_TBLITE</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">METHOD_TYPE_GFN1</span><span class="p">,</span><span class="w"> </span><span class="n">METHOD_TYPE_GFN2</span><span class="p">)</span>
+<span class="w">         </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">xtb_method_t</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">method</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">configure_xtb</span><span class="p">(</span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">)</span>
+<span class="cp">#else</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">METHOD_TYPE_GFN1</span><span class="p">,</span><span class="w"> </span><span class="n">METHOD_TYPE_GFN2</span><span class="p">)</span>
+<span class="w">         </span><span class="k">error stop</span><span class="w"> </span><span class="s2">&quot;XTB methods require tblite library (MQC_ENABLE_TBLITE)&quot;</span>
+<span class="cp">#endif</span>
+
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">METHOD_TYPE_HF</span><span class="p">)</span>
+<span class="w">         </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">hf_method_t</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">method</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">configure_hf</span><span class="p">(</span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">)</span>
+
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">METHOD_TYPE_DFT</span><span class="p">)</span>
+<span class="w">         </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">dft_method_t</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">method</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">configure_dft</span><span class="p">(</span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">)</span>
+
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">METHOD_TYPE_MCSCF</span><span class="p">)</span>
+<span class="w">         </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">mcscf_method_t</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">method</span><span class="p">)</span>
+<span class="w">         </span><span class="k">call </span><span class="n">configure_mcscf</span><span class="p">(</span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">)</span>
+
+<span class="w">      </span><span class="k">case </span><span class="n">default</span>
+<span class="w">         </span><span class="k">error stop</span><span class="w"> </span><span class="s2">&quot;Unknown method type in method_factory_t%create&quot;</span>
+<span class="w">      </span><span class="k">end select</span>
+<span class="k">   end function </span><span class="n">factory_create</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              metalquicha
+ was developed by Jorge Luis Galvez Vallejo<br>              &copy; 2026 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-01-13 12:35 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
