@@ -11,7 +11,7 @@ authors:
     equal-contrib: true
     affiliation: "1"
 affiliations:
- - name: National Computational Infrastructure, Canberra, Australia
+ - name: Australian National University, Canberra, Australia
    index: 1
    ror: 00hx57361
 date: 1 January 2026
