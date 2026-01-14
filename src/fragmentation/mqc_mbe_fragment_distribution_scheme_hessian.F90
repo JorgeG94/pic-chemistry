@@ -3,7 +3,7 @@ submodule(mqc_mbe_fragment_distribution_scheme) mqc_hessian_distribution_scheme
 
 contains
 
-   module subroutine distributed_unfragmented_hessian(world_comm, sys_geom, method, driver_config)
+   module subroutine distributed_unfragmented_hessian(world_comm, sys_geom, method_config, driver_config, json_data)
       !! Compute Hessian for unfragmented system using MPI distribution
       !!
       !! Uses a dynamic work queue approach: workers request displacement indices
@@ -13,34 +13,42 @@ contains
                                         finite_diff_hessian_from_gradients, DEFAULT_DISPLACEMENT, &
                                         copy_and_displace_geometry
       use mqc_config_adapter, only: driver_config_t
-#ifndef MQC_WITHOUT_TBLITE
-      use mqc_method_xtb, only: xtb_method_t
-#endif
+      use mqc_json_output_types, only: json_output_data_t
 
       type(comm_t), intent(in) :: world_comm
       type(system_geometry_t), intent(in) :: sys_geom
-      integer(int32), intent(in) :: method
+      type(method_config_t), intent(in) :: method_config  !! Method configuration
       type(driver_config_t), intent(in), optional :: driver_config  !! Driver configuration
+      type(json_output_data_t), intent(out), optional :: json_data  !! JSON output data
 
       integer :: my_rank, n_ranks
       real(dp) :: displacement
+      real(dp) :: temperature, pressure
 
       my_rank = world_comm%rank()
       n_ranks = world_comm%size()
 
-      ! Use provided displacement or default
+      ! Use provided settings or defaults
       if (present(driver_config)) then
          displacement = driver_config%hessian%displacement
+         temperature = driver_config%hessian%temperature
+         pressure = driver_config%hessian%pressure
       else
          displacement = DEFAULT_DISPLACEMENT
+         temperature = 298.15_dp
+         pressure = 1.0_dp
       end if
 
       if (my_rank == 0) then
          ! Rank 0 is the coordinator
-         call hessian_coordinator(world_comm, sys_geom, method, displacement)
+         if (present(json_data)) then
+            call hessian_coordinator(world_comm, sys_geom, method_config, displacement, temperature, pressure, json_data)
+         else
+            call hessian_coordinator(world_comm, sys_geom, method_config, displacement, temperature, pressure)
+         end if
       else
          ! Other ranks are workers
-         call hessian_worker(world_comm, sys_geom, method, displacement)
+         call hessian_worker(world_comm, sys_geom, method_config, displacement)
       end if
 
       ! Synchronize all ranks before returning
@@ -48,22 +56,24 @@ contains
 
    end subroutine distributed_unfragmented_hessian
 
-   module subroutine hessian_coordinator(world_comm, sys_geom, method, displacement)
+module subroutine hessian_coordinator(world_comm, sys_geom, method_config, displacement, temperature, pressure, json_data)
       !! Coordinator for distributed Hessian calculation
       !! Distributes displacement work and collects gradient results
       use mqc_finite_differences, only: finite_diff_hessian_from_gradients, finite_diff_dipole_derivatives
       use mqc_vibrational_analysis, only: compute_vibrational_frequencies, &
                                           compute_vibrational_analysis, print_vibrational_analysis
       use mqc_thermochemistry, only: thermochemistry_result_t, compute_thermochemistry
-      use mqc_mbe_io, only: print_vibrational_json
-#ifndef MQC_WITHOUT_TBLITE
-      use mqc_method_xtb, only: xtb_method_t
-#endif
+      use mqc_json_output_types, only: json_output_data_t, OUTPUT_MODE_UNFRAGMENTED
+      use mqc_method_base, only: qc_method_t
+      use mqc_method_factory, only: create_method
 
       type(comm_t), intent(in) :: world_comm
       type(system_geometry_t), intent(in) :: sys_geom
-      integer(int32), intent(in) :: method
+      type(method_config_t), intent(in) :: method_config  !! Method configuration
       real(dp), intent(in) :: displacement  !! Finite difference displacement (Bohr)
+      real(dp), intent(in) :: temperature   !! Temperature for thermochemistry (K)
+      real(dp), intent(in) :: pressure      !! Pressure for thermochemistry (atm)
+      type(json_output_data_t), intent(out), optional :: json_data  !! JSON output data
 
       type(physical_fragment_t) :: full_system
       type(timer_type) :: coord_timer
@@ -90,9 +100,8 @@ contains
       real(dp), allocatable :: frequencies(:)
       real(dp), allocatable :: eigenvalues(:)
       real(dp), allocatable :: projected_hessian(:, :)
-#ifndef MQC_WITHOUT_TBLITE
-      type(xtb_method_t) :: xtb_calc
-#endif
+      class(qc_method_t), allocatable :: calculator  !! Polymorphic calculator
+      type(method_config_t) :: local_config  !! Local copy for verbose override
 
       n_ranks = world_comm%size()
       n_atoms = sys_geom%total_atoms
@@ -214,11 +223,11 @@ contains
 
       ! Compute energy and gradient at reference geometry
       call logger%info("  Computing reference energy and gradient...")
-#ifndef MQC_WITHOUT_TBLITE
-      xtb_calc%variant = method_type_to_string(method)
-      xtb_calc%verbose = is_verbose
-      call xtb_calc%calc_gradient(full_system, result)
-#endif
+      local_config = method_config
+      local_config%verbose = is_verbose
+      calculator = create_method(local_config)
+      call calculator%calc_gradient(full_system, result)
+      deallocate (calculator)
 
       ! Store Hessian in result
       if (allocated(result%hessian)) deallocate (result%hessian)
@@ -306,7 +315,8 @@ contains
                n_at = size(sys_geom%element_numbers)
                n_modes = size(vib_freqs)
                call compute_thermochemistry(sys_geom%coordinates, sys_geom%element_numbers, &
-                                            vib_freqs, n_at, n_modes, thermo_result)
+                                            vib_freqs, n_at, n_modes, thermo_result, &
+                                            temperature=temperature, pressure=pressure)
 
                ! Print vibrational analysis to log
                if (allocated(ir_intensities)) then
@@ -315,27 +325,37 @@ contains
                                                   force_constants_mdyne=fc_mdyne, &
                                                   ir_intensities=ir_intensities, &
                                                   coordinates=sys_geom%coordinates, &
-                                                  electronic_energy=result%energy%total())
-                  ! Write vibrational/thermochemistry JSON
-                  call print_vibrational_json(result, vib_freqs, reduced_masses, fc_mdyne, &
-                                              thermo_result, ir_intensities)
+                                                  electronic_energy=result%energy%total(), &
+                                                  temperature=temperature, pressure=pressure)
+
+                  ! Populate json_data
+                  if (present(json_data)) then
+                     call populate_vibrational_json_data(json_data, result, vib_freqs, reduced_masses, &
+                                                         fc_mdyne, thermo_result, ir_intensities)
+                  end if
                   deallocate (ir_intensities)
                else
                   call print_vibrational_analysis(vib_freqs, reduced_masses, force_constants, &
                                                   cart_disp, sys_geom%element_numbers, &
                                                   force_constants_mdyne=fc_mdyne, &
                                                   coordinates=sys_geom%coordinates, &
-                                                  electronic_energy=result%energy%total())
-                  ! Write vibrational/thermochemistry JSON
-                  call print_vibrational_json(result, vib_freqs, reduced_masses, fc_mdyne, &
-                                              thermo_result)
+                                                  electronic_energy=result%energy%total(), &
+                                                  temperature=temperature, pressure=pressure)
+
+                  ! Populate json_data
+                  if (present(json_data)) then
+                     call populate_vibrational_json_data(json_data, result, vib_freqs, reduced_masses, &
+                                                         fc_mdyne, thermo_result)
+                  end if
                end if
                deallocate (vib_freqs, reduced_masses, force_constants, cart_disp, fc_mdyne)
             end if
          end block
       else
-         ! No Hessian/frequencies - use the old JSON output
-         call print_unfragmented_json(result)
+         ! No Hessian/frequencies - populate basic unfragmented data
+         if (present(json_data)) then
+            call populate_unfragmented_json_data(json_data, result)
+         end if
       end if
 
       ! Cleanup
@@ -349,17 +369,16 @@ contains
 
    end subroutine hessian_coordinator
 
-   module subroutine hessian_worker(world_comm, sys_geom, method, displacement)
+   module subroutine hessian_worker(world_comm, sys_geom, method_config, displacement)
       !! Worker for distributed Hessian calculation
       !! Requests displacement indices, computes gradients, and sends results back
       use mqc_finite_differences, only: copy_and_displace_geometry
-#ifndef MQC_WITHOUT_TBLITE
-      use mqc_method_xtb, only: xtb_method_t
-#endif
+      use mqc_method_base, only: qc_method_t
+      use mqc_method_factory, only: create_method
 
       type(comm_t), intent(in) :: world_comm
       type(system_geometry_t), intent(in) :: sys_geom
-      integer(int32), intent(in) :: method
+      type(method_config_t), intent(in) :: method_config  !! Method configuration
       real(dp), intent(in) :: displacement  !! Finite difference displacement (Bohr)
 
       type(physical_fragment_t) :: full_system, displaced_geom
@@ -367,9 +386,8 @@ contains
       integer :: n_atoms, disp_idx, atom_idx, coord, gradient_type, dummy_msg
       type(MPI_Status) :: status
       type(request_t) :: req
-#ifndef MQC_WITHOUT_TBLITE
-      type(xtb_method_t) :: xtb_calc
-#endif
+      class(qc_method_t), allocatable :: calculator  !! Polymorphic calculator
+      type(method_config_t) :: local_config  !! Local copy for verbose override
 
       n_atoms = sys_geom%total_atoms
 
@@ -384,10 +402,10 @@ contains
       full_system%multiplicity = sys_geom%multiplicity
       call full_system%compute_nelec()
 
-#ifndef MQC_WITHOUT_TBLITE
-      ! Setup XTB method
-      xtb_calc%variant = method_type_to_string(method)
-      xtb_calc%verbose = .false.
+      ! Create calculator using factory
+      local_config = method_config
+      local_config%verbose = .false.
+      calculator = create_method(local_config)
 
       dummy_msg = 0
       do
@@ -405,7 +423,7 @@ contains
 
          ! Compute FORWARD gradient
          call copy_and_displace_geometry(full_system, atom_idx, coord, displacement, displaced_geom)
-         call xtb_calc%calc_gradient(displaced_geom, grad_result)
+         call calculator%calc_gradient(displaced_geom, grad_result)
 
          if (grad_result%has_error) then
             call logger%error("Worker gradient calculation error for forward displacement "// &
@@ -434,7 +452,7 @@ contains
 
          ! Compute BACKWARD gradient
          call copy_and_displace_geometry(full_system, atom_idx, coord, -displacement, displaced_geom)
-         call xtb_calc%calc_gradient(displaced_geom, grad_result)
+         call calculator%calc_gradient(displaced_geom, grad_result)
 
          if (grad_result%has_error) then
             call logger%error("Worker gradient calculation error for backward displacement "// &
@@ -461,10 +479,108 @@ contains
          call grad_result%destroy()
          call displaced_geom%destroy()
       end do
-#else
-      call logger%error("XTB method requested but tblite support not compiled in")
-      call abort_comm(world_comm, 1)
-#endif
+
+      ! Cleanup
+      deallocate (calculator)
 
    end subroutine hessian_worker
+
+   subroutine populate_vibrational_json_data(json_data, result, frequencies, reduced_masses, &
+                                             force_constants, thermo_result, ir_intensities)
+      !! Populate json_data with vibrational analysis results
+      use mqc_json_output_types, only: json_output_data_t, OUTPUT_MODE_UNFRAGMENTED
+      use mqc_thermochemistry, only: thermochemistry_result_t
+
+      type(json_output_data_t), intent(out) :: json_data
+      type(calculation_result_t), intent(in) :: result
+      real(dp), intent(in) :: frequencies(:)
+      real(dp), intent(in) :: reduced_masses(:)
+      real(dp), intent(in) :: force_constants(:)
+      type(thermochemistry_result_t), intent(in) :: thermo_result
+      real(dp), intent(in), optional :: ir_intensities(:)
+
+      integer :: n_modes
+
+      n_modes = size(frequencies)
+
+      json_data%output_mode = OUTPUT_MODE_UNFRAGMENTED
+      json_data%total_energy = result%energy%total()
+      json_data%has_energy = .true.
+
+      ! Copy gradient if available
+      if (result%has_gradient) then
+         allocate (json_data%gradient(size(result%gradient, 1), size(result%gradient, 2)))
+         json_data%gradient = result%gradient
+         json_data%has_gradient = .true.
+      end if
+
+      ! Copy dipole if available
+      if (result%has_dipole) then
+         allocate (json_data%dipole(3))
+         json_data%dipole = result%dipole
+         json_data%has_dipole = .true.
+      end if
+
+      ! Copy Hessian if available
+      if (result%has_hessian) then
+         allocate (json_data%hessian(size(result%hessian, 1), size(result%hessian, 2)))
+         json_data%hessian = result%hessian
+         json_data%has_hessian = .true.
+      end if
+
+      ! Copy vibrational data
+      allocate (json_data%frequencies(n_modes))
+      allocate (json_data%reduced_masses(n_modes))
+      allocate (json_data%force_constants(n_modes))
+      json_data%frequencies = frequencies
+      json_data%reduced_masses = reduced_masses
+      json_data%force_constants = force_constants
+      json_data%has_vibrational = .true.
+
+      ! Copy IR intensities if available
+      if (present(ir_intensities)) then
+         allocate (json_data%ir_intensities(n_modes))
+         json_data%ir_intensities = ir_intensities
+         json_data%has_ir_intensities = .true.
+      end if
+
+      ! Copy thermochemistry
+      json_data%thermo = thermo_result
+
+   end subroutine populate_vibrational_json_data
+
+   subroutine populate_unfragmented_json_data(json_data, result)
+      !! Populate json_data with basic unfragmented calculation results
+      use mqc_json_output_types, only: json_output_data_t, OUTPUT_MODE_UNFRAGMENTED
+
+      type(json_output_data_t), intent(out) :: json_data
+      type(calculation_result_t), intent(in) :: result
+
+      json_data%output_mode = OUTPUT_MODE_UNFRAGMENTED
+      json_data%total_energy = result%energy%total()
+      json_data%has_energy = .true.
+
+      ! Copy gradient if available
+      if (result%has_gradient) then
+         allocate (json_data%gradient(size(result%gradient, 1), size(result%gradient, 2)))
+         json_data%gradient = result%gradient
+         json_data%has_gradient = .true.
+      end if
+
+      ! Copy dipole if available
+      if (result%has_dipole) then
+         allocate (json_data%dipole(3))
+         json_data%dipole = result%dipole
+         json_data%has_dipole = .true.
+      end if
+
+      ! Copy Hessian if available
+      if (result%has_hessian) then
+         allocate (json_data%hessian(size(result%hessian, 1), size(result%hessian, 2)))
+         json_data%hessian = result%hessian
+         json_data%has_hessian = .true.
+      end if
+
+   end subroutine populate_unfragmented_json_data
+
 end submodule mqc_hessian_distribution_scheme

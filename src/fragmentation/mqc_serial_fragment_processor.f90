@@ -3,17 +3,20 @@ submodule(mqc_mbe_fragment_distribution_scheme) mqc_serial_fragment_processor
 
 contains
 
-   module subroutine serial_fragment_processor(total_fragments, polymers, max_level, sys_geom, method, calc_type, bonds)
+   module subroutine serial_fragment_processor(total_fragments, polymers, max_level, &
+                                               sys_geom, method_config, calc_type, bonds, json_data)
       !! Process all fragments serially in single-rank mode
       !! This is used when running with only 1 MPI rank
       use mqc_error, only: error_t
       use mqc_result_types, only: mbe_result_t
+      use mqc_json_output_types, only: json_output_data_t
       integer(int64), intent(in) :: total_fragments
       integer, intent(in) :: polymers(:, :), max_level
       type(system_geometry_t), intent(in) :: sys_geom
-      integer(int32), intent(in) :: method
+      type(method_config_t), intent(in) :: method_config  !! Method configuration
       integer(int32), intent(in) :: calc_type
       type(bond_t), intent(in), optional :: bonds(:)
+      type(json_output_data_t), intent(out), optional :: json_data  !! JSON output data
 
       integer(int64) :: frag_idx
       integer :: fragment_size, current_log_level, iatom
@@ -45,7 +48,7 @@ contains
             error stop "Failed to build fragment in serial processing"
          end if
 
-         call do_fragment_work(frag_idx, results(frag_idx), method, phys_frag, calc_type=calc_type_local)
+         call do_fragment_work(frag_idx, results(frag_idx), method_config, phys_frag, calc_type=calc_type_local)
 
          ! Check for calculation errors
          if (results(frag_idx)%has_error) then
@@ -108,7 +111,7 @@ contains
          call mbe_result%allocate_gradient(sys_geom%total_atoms)
       end if
 
-      call compute_mbe(polymers, total_fragments, max_level, results, mbe_result, sys_geom, bonds)
+      call compute_mbe(polymers, total_fragments, max_level, results, mbe_result, sys_geom, bonds, json_data=json_data)
       call mbe_result%destroy()
 
       call coord_timer%stop()
