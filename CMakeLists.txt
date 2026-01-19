@@ -27,11 +27,14 @@ option(MQC_ENABLE_TBLITE "Link to tblite for xTB calculations" ON)
 mark_as_advanced(MQC_ENABLE_LIBCINT)
 
 add_library(${main_lib} STATIC)
+set_target_properties(${main_lib} PROPERTIES POSITION_INDEPENDENT_CODE ON)
 set(libraries_to_link)
 
-if(NOT TARGET test-drive::test-drive AND MQC_ENABLE_TESTING)
+if(MQC_ENABLE_TESTING)
   enable_testing()
-  find_package("test-drive" REQUIRED)
+  if(NOT TARGET test-drive::test-drive)
+    find_package("test-drive" REQUIRED)
+  endif()
 endif()
 
 if(NOT TARGET pic::pic)
@@ -71,9 +74,6 @@ find_package(
   COMPONENTS Fortran
   REQUIRED)
 
-# Enable position-independent code for shared-library linking support
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
 add_subdirectory(src)
 
 if(MQC_ENABLE_TESTING)
@@ -100,7 +100,7 @@ add_dependencies(${main_lib} jsonfortran)
 add_executable(${exe_name} ${PROJECT_SOURCE_DIR}/app/main.f90)
 
 target_include_directories(${exe_name} PRIVATE "${CMAKE_BINARY_DIR}/modules")
-target_link_libraries(${exe_name} PRIVATE ${main_lib} ${libraries_to_link})
+target_link_libraries(${exe_name} PRIVATE ${main_lib})
 
 foreach(tgt ${all_targets})
   message(STATUS "${tgt}")
