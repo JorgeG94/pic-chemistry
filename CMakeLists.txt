@@ -5,7 +5,7 @@ project(
   "metalquicha"
   LANGUAGES Fortran C
   VERSION 0.1.0
-  DESCRIPTION "PIC Chemistry - MBE fragmentation with MPI")
+  DESCRIPTION "A hastily put together fragmentation quantum chemistry program")
 
 set(project_name metalquicha)
 set(main_lib ${project_name})
@@ -27,11 +27,14 @@ option(MQC_ENABLE_TBLITE "Link to tblite for xTB calculations" ON)
 mark_as_advanced(MQC_ENABLE_LIBCINT)
 
 add_library(${main_lib} STATIC)
+set_target_properties(${main_lib} PROPERTIES POSITION_INDEPENDENT_CODE ON)
 set(libraries_to_link)
 
-if(NOT TARGET test-drive::test-drive AND MQC_ENABLE_TESTING)
+if(MQC_ENABLE_TESTING)
   enable_testing()
-  find_package("test-drive" REQUIRED)
+  if(NOT TARGET test-drive::test-drive)
+    find_package("test-drive" REQUIRED)
+  endif()
 endif()
 
 if(NOT TARGET pic::pic)
@@ -51,14 +54,14 @@ if(MQC_ENABLE_TBLITE)
     find_package("tblite" REQUIRED)
   endif()
 else()
-  add_compile_definitions(MQC_WITHOUT_TBLITE)
+  target_compile_definitions(${main_lib} PRIVATE MQC_WITHOUT_TBLITE)
 endif()
 
 if(MQC_ENABLE_LIBCINT)
   find_package(libcint REQUIRED)
   list(APPEND libraries_to_link libcint::cint_fortran)
 else()
-  add_compile_definitions(MQC_WITHOUT_LIBCINT)
+  target_compile_definitions(${main_lib} PRIVATE MQC_WITHOUT_LIBCINT)
 endif()
 
 if(NOT TARGET "jsonfortran::jsonfortran")
@@ -70,9 +73,6 @@ find_package(
   OpenMP
   COMPONENTS Fortran
   REQUIRED)
-
-# Enable position-independent code for shared-library linking support
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_subdirectory(src)
 
@@ -90,7 +90,7 @@ if(MQC_ENABLE_TBLITE)
   list(APPEND libraries_to_link tblite::tblite)
 endif()
 
-target_link_libraries(${main_lib} ${libraries_to_link})
+target_link_libraries(${main_lib} PUBLIC ${libraries_to_link})
 
 # Add json-fortran module directory for Fortran USE statements and ensure
 # jsonfortran is built before metalquicha (for .mod files)
@@ -100,7 +100,7 @@ add_dependencies(${main_lib} jsonfortran)
 add_executable(${exe_name} ${PROJECT_SOURCE_DIR}/app/main.f90)
 
 target_include_directories(${exe_name} PRIVATE "${CMAKE_BINARY_DIR}/modules")
-target_link_libraries(${exe_name} PRIVATE ${main_lib} ${libraries_to_link})
+target_link_libraries(${exe_name} PRIVATE ${main_lib})
 
 foreach(tgt ${all_targets})
   message(STATUS "${tgt}")
