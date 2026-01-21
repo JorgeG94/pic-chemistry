@@ -14,7 +14,7 @@ module mqc_finite_differences
    public :: copy_and_displace_geometry   !! Copy and displace geometry
 
    ! Default displacement step size (Bohr)
-   real(dp), parameter, public :: DEFAULT_DISPLACEMENT = 0.005_dp  !! ~0.05 Angstrom
+   real(dp), parameter, public :: DEFAULT_DISPLACEMENT = 0.001_dp  !! ~0.01 Angstrom
 
    type :: displaced_geometry_t
       !! Container for a single displaced geometry
