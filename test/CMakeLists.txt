@@ -58,6 +58,8 @@ addtest(mqc_result_types)
 addtest(mqc_finite_differences)
 addtest(mqc_vibrational_analysis)
 addtest(mqc_thermochemistry)
+addtest(mqc_method_types)
+addtest(mqc_method_placeholders)
 
 if(MQC_ENABLE_TBLITE)
   addtest(mqc_method_api)
