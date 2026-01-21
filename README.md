@@ -1,6 +1,7 @@
 ![License](https://img.shields.io/github/license/JorgeG94/metalquicha?style=for-the-badge)
 ![GitHub Repo stars](https://img.shields.io/github/stars/JorgeG94/metalquicha?style=for-the-badge&logo=github)
 [![Issues](https://img.shields.io/github/issues/JorgeG94/metalquicha?style=for-the-badge)](https://github.com/JorgeG94/metalquicha/issues)
+[![codecov](https://img.shields.io/codecov/c/github/JorgeG94/metalquicha?style=for-the-badge&logo=codecov)](https://codecov.io/gh/JorgeG94/metalquicha)
 [![ReadTheDocs](https://img.shields.io/badge/docs-ReadTheDocs-8CA1AF?style=for-the-badge&logo=readthedocs&logoColor=white)](https://metalquicha.readthedocs.io/en/latest/)
 [![FORD](https://img.shields.io/badge/docs-FORD-734F96?style=for-the-badge&logo=fortran&logoColor=white)](https://jorgeg94.github.io/metalquicha/)
 
@@ -54,6 +55,10 @@ extensive expertise in both.
 *Justification for LLM use*
 
 I wanted to see to what extent LLMs can be used for Fortran code development. I can conclude that they are actually quite good.
+
+## Can I use AI to study and work on this codebase?
+
+Yes. But keep in mind that code reviews will still happen.
 
 ## Building
 
