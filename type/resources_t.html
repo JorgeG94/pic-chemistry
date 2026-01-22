@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.5% of total for derived types.</p>Including implementation: 3 statements,  0.2% of total for derived types.">3 statements</a>
+                 title="<p> 1.6% of total for derived types.</p>Including implementation: 21 statements,  1.3% of total for derived types.">9 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -137,6 +137,9 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/resources_t.html#variable-mpi_comms">mpi_comms</a>
+            <a class="list-group-item" href="../type/resources_t.html#variable-num_gpus">num_gpus</a>
+            <a class="list-group-item" href="../type/resources_t.html#variable-num_threads">num_threads</a>
+            <a class="list-group-item" href="../type/resources_t.html#variable-use_gpu">use_gpu</a>
         </div>
       </div>
     </div>
@@ -156,7 +159,19 @@
   
   
   
-  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#boundprocs-0"
+         aria-expanded="false" aria-controls="boundprocs-0">
+         <h4 class="card-header bg-primary text-white">Type-Bound Procedures</h4>
+      </a>
+      <div id="boundprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/resources_t.html#boundprocedure-finalize">finalize</a>
+            <a class="list-group-item" href="../type/resources_t.html#boundprocedure-init">init</a>
+        </div>
+      </div>
+    </div>
+
   
   
     <div class="card card-primary">
@@ -313,6 +328,57 @@ large graphs.</div>
                 <p>MPI communicators</p>
             </td>
         </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-num_gpus"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>num_gpus</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                <p>Available GPUs</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-num_threads"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>num_threads</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                <p>OpenMP threads</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_gpu"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>use_gpu</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+                <p>GPU acceleration flag</p>
+            </td>
+        </tr>
     </tbody>
   </table>
 
@@ -321,6 +387,117 @@ large graphs.</div>
     
 
 
+      <section>
+        <h2>Type-Bound Procedures</h2>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-finalize"></span>
+      <h3>
+          procedure, public ::
+  <strong>finalize</strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/resources_finalize.html'>resources_finalize</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  subroutine <a href='../proc/resources_finalize.html'>resources_finalize</a>(this)  
+</h3>
+    
+
+  <p>Clean up resources</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='resources_t.html'>resources_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-init"></span>
+      <h3>
+          procedure, public ::
+  <strong>init</strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/resources_init.html'>resources_init</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  subroutine <a href='../proc/resources_init.html'>resources_init</a>(this)  
+</h3>
+    
+
+  <p>Initialize resources with default values</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='resources_t.html'>resources_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+      </section>
 
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
@@ -331,10 +508,19 @@ large graphs.</div>
 <span class="w">      </span><span class="c">!! Currently holds MPI communicators, but can be extended to include</span>
 <span class="w">      </span><span class="c">!! BLAS providers, basis readers, and other shared resources.</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">mpi_comms_t</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mpi_comms</span><span class="w">   </span><span class="c">!! MPI communicators</span>
+
+<span class="w">      </span><span class="c">! Hardware info</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">num_threads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">       </span><span class="c">!! OpenMP threads</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">num_gpus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">          </span><span class="c">!! Available GPUs</span>
+<span class="w">      </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">use_gpu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="w">     </span><span class="c">!! GPU acceleration flag</span>
+
 <span class="w">      </span><span class="c">! Future extensions:</span>
 <span class="w">      </span><span class="c">! type(blas_provider_t), pointer :: blas =&gt; null()</span>
 <span class="w">      </span><span class="c">! type(basis_reader_t), pointer :: basis_reader =&gt; null()</span>
 <span class="w">      </span><span class="c">! type(memory_pool_t), pointer :: memory =&gt; null()</span>
+<span class="w">   </span><span class="k">contains</span>
+<span class="k">      procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">resources_init</span>
+<span class="w">      </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">finalize</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">resources_finalize</span>
 <span class="w">   </span><span class="k">end type </span><span class="n">resources_t</span>
 </pre></div>
 
@@ -358,7 +544,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-21 21:39 +0000             </p>
+ on 2026-01-22 10:09 +0000             </p>
           </div>
         </div>
         <br>

@@ -295,7 +295,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>dt</strong></td>
 <td> =</td>
-                <td>1.0_dp</td>
+                <td>DEFAULT_AIMD_DT</td>
             <td>
                 <p>Timestep (femtoseconds)</p>
             </td>
@@ -312,7 +312,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>initial_temperature</strong></td>
 <td> =</td>
-                <td>300.0_dp</td>
+                <td>DEFAULT_AIMD_TEMPERATURE</td>
             <td>
                 <p>Initial temperature for velocity init (K)</p>
             </td>
@@ -329,7 +329,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>nsteps</strong></td>
 <td> =</td>
-                <td>0</td>
+                <td>DEFAULT_AIMD_NSTEPS</td>
             <td>
                 <p>Number of MD steps (0 = no AIMD)</p>
             </td>
@@ -346,7 +346,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>output_frequency</strong></td>
 <td> =</td>
-                <td>1</td>
+                <td>DEFAULT_AIMD_OUTPUT_FREQ</td>
             <td>
                 <p>Write output every N steps</p>
             </td>
@@ -364,10 +364,10 @@ large graphs.</div>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">type</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aimd_keywords_t</span>
 <span class="w">      </span><span class="c">!! Ab initio molecular dynamics keywords</span>
-<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="w">                    </span><span class="c">!! Timestep (femtoseconds)</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nsteps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">                      </span><span class="c">!! Number of MD steps (0 = no AIMD)</span>
-<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">initial_temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="mf">0.0_dp</span><span class="w">  </span><span class="c">!! Initial temperature for velocity init (K)</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">output_frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">            </span><span class="c">!! Write output every N steps</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_AIMD_DT</span><span class="w">                       </span><span class="c">!! Timestep (femtoseconds)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nsteps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_AIMD_NSTEPS</span><span class="w">                </span><span class="c">!! Number of MD steps (0 = no AIMD)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">initial_temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_AIMD_TEMPERATURE</span><span class="w">  </span><span class="c">!! Initial temperature for velocity init (K)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">output_frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_AIMD_OUTPUT_FREQ</span><span class="w">  </span><span class="c">!! Write output every N steps</span>
 <span class="w">   </span><span class="k">end type </span><span class="n">aimd_keywords_t</span>
 </pre></div>
 
@@ -391,7 +391,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-21 21:39 +0000             </p>
+ on 2026-01-22 10:09 +0000             </p>
           </div>
         </div>
         <br>

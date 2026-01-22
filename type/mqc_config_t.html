@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 8.8% of total for derived types.</p>Including implementation: 77 statements,  4.9% of total for derived types.">48 statements</a>
+                 title="<p> 8.7% of total for derived types.</p>Including implementation: 77 statements,  4.8% of total for derived types.">48 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -143,8 +143,8 @@
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-allow_overlapping_fragments~3">allow_overlapping_fragments</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-aux_basis~2">aux_basis</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-basis~3">basis</a>
-            <a class="list-group-item" href="../type/mqc_config_t.html#variable-bonds~26">bonds</a>
-            <a class="list-group-item" href="../type/mqc_config_t.html#variable-calc_type~17">calc_type</a>
+            <a class="list-group-item" href="../type/mqc_config_t.html#variable-bonds~28">bonds</a>
+            <a class="list-group-item" href="../type/mqc_config_t.html#variable-calc_type~19">calc_type</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-charge~6">charge</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-cpcm_nang~5">cpcm_nang</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-cpcm_rscale~5">cpcm_rscale</a>
@@ -152,7 +152,7 @@
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-dielectric~5">dielectric</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-distance_metric">distance_metric</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-embedding">embedding</a>
-            <a class="list-group-item" href="../type/mqc_config_t.html#variable-frag_level~4">frag_level</a>
+            <a class="list-group-item" href="../type/mqc_config_t.html#variable-frag_level~2">frag_level</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-frag_method">frag_method</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-fragment_cutoffs~2">fragment_cutoffs</a>
             <a class="list-group-item" href="../type/mqc_config_t.html#variable-fragments~4">fragments</a>
@@ -206,7 +206,7 @@
       </a>
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/mqc_config_t.html#boundprocedure-destroy~13">destroy</a>
+            <a class="list-group-item" href="../type/mqc_config_t.html#boundprocedure-destroy~12">destroy</a>
         </div>
       </div>
     </div>
@@ -416,7 +416,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>aimd_dt</strong></td>
 <td> =</td>
-                <td>1.0_dp</td>
+                <td>DEFAULT_AIMD_DT</td>
             <td>
                 <p>Timestep (femtoseconds)</p>
             </td>
@@ -433,7 +433,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>aimd_initial_temperature</strong></td>
 <td> =</td>
-                <td>300.0_dp</td>
+                <td>DEFAULT_AIMD_TEMPERATURE</td>
             <td>
                 <p>Initial temperature for velocity init (K)</p>
             </td>
@@ -450,7 +450,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>aimd_nsteps</strong></td>
 <td> =</td>
-                <td>0</td>
+                <td>DEFAULT_AIMD_NSTEPS</td>
             <td>
                 <p>Number of MD steps (0 = no AIMD)</p>
             </td>
@@ -467,7 +467,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>aimd_output_frequency</strong></td>
 <td> =</td>
-                <td>1</td>
+                <td>DEFAULT_AIMD_OUTPUT_FREQ</td>
             <td>
                 <p>Write output every N steps</p>
             </td>
@@ -525,7 +525,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bonds~26"></span>
+              <span class="anchor" id="variable-bonds~28"></span>
               type(<a href='bond_t.html'>bond_t</a>),
             </td>
               <td>public,</td>
@@ -542,7 +542,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-calc_type~17"></span>
+              <span class="anchor" id="variable-calc_type~19"></span>
               integer(kind=int32),
             </td>
               <td>public</td>
@@ -586,7 +586,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>cpcm_nang</strong></td>
 <td> =</td>
-                <td>110</td>
+                <td>DEFAULT_CPCM_NANG</td>
             <td>
                 <p>Number of angular grid points for CPCM cavity</p>
             </td>
@@ -603,7 +603,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>cpcm_rscale</strong></td>
 <td> =</td>
-                <td>1.0_dp</td>
+                <td>DEFAULT_CPCM_RSCALE</td>
             <td>
                 <p>Radii scaling factor for CPCM cavity</p>
             </td>
@@ -678,7 +678,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-frag_level~4"></span>
+              <span class="anchor" id="variable-frag_level~2"></span>
               integer,
             </td>
               <td>public</td>
@@ -688,7 +688,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>frag_level</strong></td>
 <td> =</td>
-                <td>1</td>
+                <td>DEFAULT_FRAG_LEVEL</td>
             <td>
                 
             </td>
@@ -773,7 +773,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>hessian_displacement</strong></td>
 <td> =</td>
-                <td>0.005_dp</td>
+                <td>DEFAULT_DISPLACEMENT</td>
             <td>
                 <p>Finite difference displacement (Bohr)</p>
             </td>
@@ -790,7 +790,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>hessian_pressure</strong></td>
 <td> =</td>
-                <td>1.0_dp</td>
+                <td>DEFAULT_PRESSURE</td>
             <td>
                 <p>Pressure for thermochemistry (atm)</p>
             </td>
@@ -807,7 +807,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>hessian_temperature</strong></td>
 <td> =</td>
-                <td>298.15_dp</td>
+                <td>DEFAULT_TEMPERATURE</td>
             <td>
                 <p>Temperature for thermochemistry (K)</p>
             </td>
@@ -858,9 +858,9 @@ large graphs.</div>
             <td>::</td>
             <td><strong>max_intersection_level</strong></td>
 <td> =</td>
-                <td>999</td>
+                <td>DEFAULT_MAX_INTERSECTION</td>
             <td>
-                <p>Maximum k-way intersection depth for GMBE (default: no limit)</p>
+                <p>Maximum k-way intersection depth for GMBE</p>
             </td>
         </tr>
         <tr>
@@ -996,7 +996,7 @@ large graphs.</div>
 <td> =</td>
                 <td>300</td>
             <td>
-                
+                <p>Using 300 (parser-specific, different from DEFAULT_SCF_MAXITER)</p>
             </td>
         </tr>
         <tr>
@@ -1011,7 +1011,7 @@ large graphs.</div>
             <td>::</td>
             <td><strong>scf_tolerance</strong></td>
 <td> =</td>
-                <td>1.0e-6_dp</td>
+                <td>DEFAULT_SCF_CONV</td>
             <td>
                 
             </td>
@@ -1165,7 +1165,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-destroy~13"></span>
+      <span class="anchor" id="boundprocedure-destroy~12"></span>
       <h3>
           procedure, public ::
   <strong>destroy</strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/config_destroy.html'>config_destroy</a>
@@ -1240,9 +1240,9 @@ large graphs.</div>
 <span class="w">      </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">use_cds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w">               </span><span class="c">!! Include non-polar CDS terms in solvation (not for CPCM)</span>
 <span class="w">      </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">use_shift</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w">             </span><span class="c">!! Include solution state shift in solvation (not for CPCM)</span>
 <span class="w">      </span><span class="c">! CPCM-specific settings</span>
-<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dielectric</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span><span class="w">          </span><span class="c">!! Direct dielectric constant (-1 = use solvent lookup)</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cpcm_nang</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">110</span><span class="w">                </span><span class="c">!! Number of angular grid points for CPCM cavity</span>
-<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cpcm_rscale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="w">          </span><span class="c">!! Radii scaling factor for CPCM cavity</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dielectric</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span><span class="w">              </span><span class="c">!! Direct dielectric constant (-1 = use solvent lookup)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cpcm_nang</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_CPCM_NANG</span><span class="w">      </span><span class="c">!! Number of angular grid points for CPCM cavity</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cpcm_rscale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_CPCM_RSCALE</span><span class="w">  </span><span class="c">!! Radii scaling factor for CPCM cavity</span>
 
 <span class="w">      </span><span class="c">! Driver information</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">calc_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CALC_TYPE_ENERGY</span>
@@ -1269,25 +1269,25 @@ large graphs.</div>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">bond_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bonds</span><span class="p">(:)</span>
 
 <span class="w">      </span><span class="c">! SCF settings</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">scf_maxiter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">300</span>
-<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">scf_tolerance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0e-6_dp</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">scf_maxiter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">300</span><span class="w">              </span><span class="c">!! Using 300 (parser-specific, different from DEFAULT_SCF_MAXITER)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">scf_tolerance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_SCF_CONV</span>
 
 <span class="w">      </span><span class="c">! Hessian settings</span>
-<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hessian_displacement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.005_dp</span><span class="w">  </span><span class="c">!! Finite difference displacement (Bohr)</span>
-<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hessian_temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">29</span><span class="mf">8.15_dp</span><span class="w">  </span><span class="c">!! Temperature for thermochemistry (K)</span>
-<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hessian_pressure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="w">        </span><span class="c">!! Pressure for thermochemistry (atm)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hessian_displacement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_DISPLACEMENT</span><span class="w">  </span><span class="c">!! Finite difference displacement (Bohr)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hessian_temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_TEMPERATURE</span><span class="w">    </span><span class="c">!! Temperature for thermochemistry (K)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hessian_pressure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_PRESSURE</span><span class="w">          </span><span class="c">!! Pressure for thermochemistry (atm)</span>
 
 <span class="w">      </span><span class="c">! AIMD settings</span>
-<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aimd_dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="w">                    </span><span class="c">!! Timestep (femtoseconds)</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aimd_nsteps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">                      </span><span class="c">!! Number of MD steps (0 = no AIMD)</span>
-<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aimd_initial_temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="mf">0.0_dp</span><span class="w">  </span><span class="c">!! Initial temperature for velocity init (K)</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aimd_output_frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">            </span><span class="c">!! Write output every N steps</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aimd_dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_AIMD_DT</span><span class="w">                          </span><span class="c">!! Timestep (femtoseconds)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aimd_nsteps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_AIMD_NSTEPS</span><span class="w">                   </span><span class="c">!! Number of MD steps (0 = no AIMD)</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aimd_initial_temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_AIMD_TEMPERATURE</span><span class="w">  </span><span class="c">!! Initial temperature for velocity init (K)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aimd_output_frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_AIMD_OUTPUT_FREQ</span><span class="w">    </span><span class="c">!! Write output every N steps</span>
 
 <span class="w">      </span><span class="c">! Fragmentation settings</span>
 <span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">frag_method</span><span class="w">  </span><span class="c">!! MBE, etc.</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">frag_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">frag_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_FRAG_LEVEL</span>
 <span class="w">      </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">allow_overlapping_fragments</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">max_intersection_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">999</span><span class="w">  </span><span class="c">!! Maximum k-way intersection depth for GMBE (default: no limit)</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">max_intersection_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_MAX_INTERSECTION</span><span class="w">  </span><span class="c">!! Maximum k-way intersection depth for GMBE</span>
 <span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">embedding</span>
 <span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cutoff_method</span>
 <span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">distance_metric</span>
@@ -1324,7 +1324,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-21 21:39 +0000             </p>
+ on 2026-01-22 10:09 +0000             </p>
           </div>
         </div>
         <br>

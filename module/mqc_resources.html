@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for modules and submodules.">9 statements</a>
+                 title=" 0.3% of total for modules and submodules.">28 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -150,7 +150,19 @@
     </div>
 
   
-  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mqc_resources.html#proc-resources_finalize">resources_finalize</a>
+            <a class="list-group-item" href="../module/mqc_resources.html#proc-resources_init">resources_init</a>
+        </div>
+      </div>
+    </div>
+
   
   
   
@@ -636,12 +648,78 @@ large graphs.</div>
 <p>MPI communicators</p>
             </td>
         </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-num_gpus"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>num_gpus</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+<p>Available GPUs</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-num_threads"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>num_threads</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+<p>OpenMP threads</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_gpu"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>use_gpu</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+<p>GPU acceleration flag</p>
+            </td>
+        </tr>
     </tbody>
   </table>
 
 
 
 
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/resources_t.html#boundprocedure-finalize'>finalize</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/resources_finalize.html'>resources_finalize</a></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/resources_t.html#boundprocedure-init'>init</a></strong> => <a href='/home/runner/work/metalquicha/metalquicha/docs/fpm-ford/proc/resources_init.html'>resources_init</a></td>
+                  <td></td>
+              </tr>
+          </tbody>
+        </table>
     </div>
   </div>
 
@@ -649,6 +727,90 @@ large graphs.</div>
         <br>
 
 
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-resources_finalize"></span> <h3>private  subroutine <a href='../proc/resources_finalize.html'>resources_finalize</a>(this)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Clean up resources</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~10"></span>
+              class(<a href='../type/resources_t.html'>resources_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-resources_init"></span> <h3>private  subroutine <a href='../proc/resources_init.html'>resources_init</a>(this)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Initialize resources with default values</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-this~9"></span>
+              class(<a href='../type/resources_t.html'>resources_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+        </section>
+        <br>
 
 
 
@@ -670,7 +832,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-21 21:39 +0000             </p>
+ on 2026-01-22 10:09 +0000             </p>
           </div>
         </div>
         <br>
