@@ -86,7 +86,7 @@ module mqc_config_parser
       ! CPCM-specific settings
       real(dp) :: dielectric = -1.0_dp              !! Direct dielectric constant (-1 = use solvent lookup)
       integer :: cpcm_nang = DEFAULT_CPCM_NANG      !! Number of angular grid points for CPCM cavity
-      real(dp) :: cpcm_rscale = DEFAULT_CPCM_RSCALE !! Radii scaling factor for CPCM cavity
+      real(dp) :: cpcm_rscale = DEFAULT_CPCM_RSCALE  !! Radii scaling factor for CPCM cavity
 
       ! Driver information
       integer(int32) :: calc_type = CALC_TYPE_ENERGY
@@ -124,7 +124,7 @@ module mqc_config_parser
       ! AIMD settings
       real(dp) :: aimd_dt = DEFAULT_AIMD_DT                          !! Timestep (femtoseconds)
       integer :: aimd_nsteps = DEFAULT_AIMD_NSTEPS                   !! Number of MD steps (0 = no AIMD)
-      real(dp) :: aimd_initial_temperature = DEFAULT_AIMD_TEMPERATURE !! Initial temperature for velocity init (K)
+      real(dp) :: aimd_initial_temperature = DEFAULT_AIMD_TEMPERATURE  !! Initial temperature for velocity init (K)
       integer :: aimd_output_frequency = DEFAULT_AIMD_OUTPUT_FREQ    !! Write output every N steps
 
       ! Fragmentation settings

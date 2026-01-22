@@ -25,7 +25,7 @@ module mqc_calculation_keywords
       real(dp) :: dt = DEFAULT_AIMD_DT                       !! Timestep (femtoseconds)
       integer :: nsteps = DEFAULT_AIMD_NSTEPS                !! Number of MD steps (0 = no AIMD)
       real(dp) :: initial_temperature = DEFAULT_AIMD_TEMPERATURE  !! Initial temperature for velocity init (K)
-      integer :: output_frequency = DEFAULT_AIMD_OUTPUT_FREQ !! Write output every N steps
+      integer :: output_frequency = DEFAULT_AIMD_OUTPUT_FREQ  !! Write output every N steps
    end type aimd_keywords_t
 
    type :: scf_keywords_t
