@@ -203,8 +203,7 @@ contains
       end if
 
       call serial_fragment_processor(this%total_fragments, this%polymers, this%max_level, &
-                                     this%sys_geom, this%method_config, this%calc_type, &
-                                     this%sys_geom%bonds, json_data)
+                                     this%sys_geom, this%method_config, this%calc_type, json_data)
    end subroutine mbe_run_serial
 
    subroutine mbe_run_distributed(this, json_data)
@@ -231,8 +230,7 @@ contains
          if (this%has_geometry()) then
             call global_coordinator(this%resources, this%total_fragments, this%polymers, &
                                     this%max_level, this%node_leader_ranks, this%num_nodes, &
-                                    this%sys_geom, this%method_config, this%calc_type, &
-                                    this%sys_geom%bonds, json_data)
+                                    this%sys_geom, this%method_config, this%calc_type, json_data)
          else
             call global_coordinator(this%resources, this%total_fragments, this%polymers, &
                                     this%max_level, this%node_leader_ranks, this%num_nodes, &
@@ -250,8 +248,7 @@ contains
          call logger%verbose("Rank "//to_char(this%resources%mpi_comms%world_comm%rank())// &
                              ": Acting as worker")
          if (this%has_geometry()) then
-            call node_worker(this%resources, this%sys_geom, this%method_config, &
-                             this%calc_type, this%sys_geom%bonds)
+            call node_worker(this%resources, this%sys_geom, this%method_config, this%calc_type)
          else
             call node_worker(this%resources, method_config=this%method_config, &
                              calc_type=this%calc_type)
@@ -301,7 +298,7 @@ contains
 
       call serial_gmbe_pie_processor(this%pie_atom_sets, this%pie_coefficients, &
                                      this%n_pie_terms, this%sys_geom, this%method_config, &
-                                     this%calc_type, this%sys_geom%bonds, json_data)
+                                     this%calc_type, json_data)
    end subroutine gmbe_run_serial
 
    subroutine gmbe_run_distributed(this, json_data)
@@ -328,8 +325,7 @@ contains
          call logger%verbose("Rank 0: Acting as GMBE PIE coordinator")
          call gmbe_pie_coordinator(this%resources, this%pie_atom_sets, this%pie_coefficients, &
                                    this%n_pie_terms, this%node_leader_ranks, this%num_nodes, &
-                                   this%sys_geom, this%method_config, this%calc_type, &
-                                   this%sys_geom%bonds, json_data)
+                                   this%sys_geom, this%method_config, this%calc_type, json_data)
       else if (this%resources%mpi_comms%node_comm%leader()) then
          ! Node coordinator (node leader on other nodes)
          call logger%verbose("Rank "//to_char(this%resources%mpi_comms%world_comm%rank())// &
@@ -343,8 +339,7 @@ contains
                              ": Acting as worker")
          ! Note: node_worker works for both MBE and GMBE (fragment_type distinguishes)
          if (this%has_geometry()) then
-            call node_worker(this%resources, this%sys_geom, this%method_config, &
-                             this%calc_type, this%sys_geom%bonds)
+            call node_worker(this%resources, this%sys_geom, this%method_config, this%calc_type)
          else
             call node_worker(this%resources, method_config=this%method_config, &
                              calc_type=this%calc_type)
