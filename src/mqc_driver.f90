@@ -53,55 +53,22 @@ contains
       integer :: i  !! Loop counter
       type(json_output_data_t) :: json_data  !! Cached output data for centralized JSON writing
       logical :: should_write_json  !! Whether this rank should write JSON
-      type(method_config_t) :: method_config  !! Method configuration built from driver config
-
-      ! Build method_config from driver_config
-      method_config%method_type = config%method
-      method_config%verbose = .false.  ! Controlled by logger level in do_fragment_work
-
-      ! XTB-specific settings (nested in method_config%xtb)
-      method_config%xtb%use_cds = config%use_cds
-      method_config%xtb%use_shift = config%use_shift
-      method_config%xtb%dielectric = config%dielectric
-      method_config%xtb%cpcm_nang = config%cpcm_nang
-      method_config%xtb%cpcm_rscale = config%cpcm_rscale
-      if (allocated(config%solvent)) method_config%xtb%solvent = config%solvent
-      if (allocated(config%solvation_model)) then
-         method_config%xtb%solvation_model = config%solvation_model
-      else if (allocated(config%solvent) .or. config%dielectric > 0.0_dp) then
-         method_config%xtb%solvation_model = 'alpb'  ! Default solvation model
-      end if
-
-      ! Log solvation settings
-      if (method_config%xtb%has_solvation()) then
-         if (resources%mpi_comms%world_comm%rank() == 0) then
-            if (trim(method_config%xtb%solvation_model) == 'cpcm') then
-               if (config%dielectric > 0.0_dp) then
-                  call logger%info("XTB solvation enabled: cpcm with dielectric = "//to_char(config%dielectric))
-               else
-                  call logger%info("XTB solvation enabled: cpcm with "//trim(method_config%xtb%solvent))
-               end if
-               call logger%info("  CPCM grid points (nang): "//to_char(config%cpcm_nang))
-               call logger%info("  CPCM radii scale: "//to_char(config%cpcm_rscale))
-            else
-               call logger%info("XTB solvation enabled: "//trim(method_config%xtb%solvation_model)//" with "// &
-                                trim(method_config%xtb%solvent))
-               if (config%use_cds) call logger%info("  CDS (non-polar) terms: enabled")
-               if (config%use_shift) call logger%info("  Solution state shift: enabled")
-            end if
-         end if
-      end if
 
       ! Set max_level from config
       max_level = config%nlevel
 
+      ! Log method-specific settings (rank 0 only)
       if (resources%mpi_comms%world_comm%rank() == 0) then
+         call config%method_config%log_settings()
+      end if
+
+      if (resources%mpi_comms%world_comm%rank() == 0 .and. max_level > 0) then
          call logger%info("============================================")
          call logger%info("Loaded geometry:")
          call logger%info("  Total monomers: "//to_char(sys_geom%n_monomers))
          call logger%info("  Atoms per monomer: "//to_char(sys_geom%atoms_per_monomer))
-         call logger%info("  Total atoms: "//to_char(sys_geom%total_atoms))
          call logger%info("  Fragment level: "//to_char(max_level))
+         call logger%info("  Total atoms: "//to_char(sys_geom%total_atoms))
          call logger%info("============================================")
       end if
 
@@ -124,22 +91,22 @@ contains
          if (present(result_out)) then
             ! For dynamics/optimization: return result directly, no JSON output
             call run_unfragmented_calculation(resources%mpi_comms%world_comm, sys_geom, &
-                                              method_config, config%calc_type, bonds, config, result_out)
+                                              config%method_config, config%calc_type, bonds, config, result_out)
          else
             ! Normal mode: collect json_data for centralized output
             call run_unfragmented_calculation(resources%mpi_comms%world_comm, sys_geom, &
-                                              method_config, config%calc_type, bonds, config, &
+                                              config%method_config, config%calc_type, bonds, config, &
                                               json_data=json_data)
          end if
       else
          if (present(result_out)) then
             ! For fragmented calculations with result_out (future use)
-            call run_fragmented_calculation(resources, method_config, config%calc_type, sys_geom, max_level, &
+            call run_fragmented_calculation(resources, config%method_config, config%calc_type, sys_geom, max_level, &
                                             config%allow_overlapping_fragments, &
                                             config%max_intersection_level, bonds, config)
          else
             ! Normal mode: collect json_data for centralized output
-            call run_fragmented_calculation(resources, method_config, config%calc_type, sys_geom, max_level, &
+            call run_fragmented_calculation(resources, config%method_config, config%calc_type, sys_geom, max_level, &
                                             config%allow_overlapping_fragments, &
                                             config%max_intersection_level, bonds, config, json_data)
          end if
