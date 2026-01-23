@@ -8,10 +8,10 @@ module mqc_driver
    use pic_logger, only: logger => global_logger
    use pic_io, only: to_char
    use omp_lib, only: omp_get_max_threads, omp_set_num_threads
-   use mqc_mbe_fragment_distribution_scheme, only: global_coordinator, node_coordinator, node_worker, unfragmented_calculation, &
-                                             serial_fragment_processor, do_fragment_work, distributed_unfragmented_hessian
+   use mqc_mbe_fragment_distribution_scheme, only: unfragmented_calculation, distributed_unfragmented_hessian
+   use mqc_many_body_expansion, only: many_body_expansion_t, mbe_context_t, gmbe_context_t
    use mqc_method_config, only: method_config_t
-   use mqc_gmbe_fragment_distribution_scheme, only: serial_gmbe_pie_processor, gmbe_pie_coordinator
+   ! GMBE functions are now called via type-bound procedures in gmbe_context_t
    use mqc_frag_utils, only: get_nfrags, create_monomer_list, generate_fragment_list, generate_intersections, &
                              gmbe_enumerate_pie_terms, binomial, combine, apply_distance_screening, sort_fragments_by_size
    use mqc_physical_fragment, only: system_geometry_t, physical_fragment_t, &
@@ -53,55 +53,22 @@ contains
       integer :: i  !! Loop counter
       type(json_output_data_t) :: json_data  !! Cached output data for centralized JSON writing
       logical :: should_write_json  !! Whether this rank should write JSON
-      type(method_config_t) :: method_config  !! Method configuration built from driver config
-
-      ! Build method_config from driver_config
-      method_config%method_type = config%method
-      method_config%verbose = .false.  ! Controlled by logger level in do_fragment_work
-
-      ! XTB-specific settings (nested in method_config%xtb)
-      method_config%xtb%use_cds = config%use_cds
-      method_config%xtb%use_shift = config%use_shift
-      method_config%xtb%dielectric = config%dielectric
-      method_config%xtb%cpcm_nang = config%cpcm_nang
-      method_config%xtb%cpcm_rscale = config%cpcm_rscale
-      if (allocated(config%solvent)) method_config%xtb%solvent = config%solvent
-      if (allocated(config%solvation_model)) then
-         method_config%xtb%solvation_model = config%solvation_model
-      else if (allocated(config%solvent) .or. config%dielectric > 0.0_dp) then
-         method_config%xtb%solvation_model = 'alpb'  ! Default solvation model
-      end if
-
-      ! Log solvation settings
-      if (method_config%xtb%has_solvation()) then
-         if (resources%mpi_comms%world_comm%rank() == 0) then
-            if (trim(method_config%xtb%solvation_model) == 'cpcm') then
-               if (config%dielectric > 0.0_dp) then
-                  call logger%info("XTB solvation enabled: cpcm with dielectric = "//to_char(config%dielectric))
-               else
-                  call logger%info("XTB solvation enabled: cpcm with "//trim(method_config%xtb%solvent))
-               end if
-               call logger%info("  CPCM grid points (nang): "//to_char(config%cpcm_nang))
-               call logger%info("  CPCM radii scale: "//to_char(config%cpcm_rscale))
-            else
-               call logger%info("XTB solvation enabled: "//trim(method_config%xtb%solvation_model)//" with "// &
-                                trim(method_config%xtb%solvent))
-               if (config%use_cds) call logger%info("  CDS (non-polar) terms: enabled")
-               if (config%use_shift) call logger%info("  Solution state shift: enabled")
-            end if
-         end if
-      end if
 
       ! Set max_level from config
       max_level = config%nlevel
 
+      ! Log method-specific settings (rank 0 only)
       if (resources%mpi_comms%world_comm%rank() == 0) then
+         call config%method_config%log_settings()
+      end if
+
+      if (resources%mpi_comms%world_comm%rank() == 0 .and. max_level > 0) then
          call logger%info("============================================")
          call logger%info("Loaded geometry:")
          call logger%info("  Total monomers: "//to_char(sys_geom%n_monomers))
          call logger%info("  Atoms per monomer: "//to_char(sys_geom%atoms_per_monomer))
-         call logger%info("  Total atoms: "//to_char(sys_geom%total_atoms))
          call logger%info("  Fragment level: "//to_char(max_level))
+         call logger%info("  Total atoms: "//to_char(sys_geom%total_atoms))
          call logger%info("============================================")
       end if
 
@@ -123,25 +90,18 @@ contains
          call omp_set_num_threads(1)
          if (present(result_out)) then
             ! For dynamics/optimization: return result directly, no JSON output
-            call run_unfragmented_calculation(resources%mpi_comms%world_comm, sys_geom, &
-                                              method_config, config%calc_type, bonds, config, result_out)
+            call run_unfragmented_calculation(resources%mpi_comms%world_comm, sys_geom, config, result_out)
          else
             ! Normal mode: collect json_data for centralized output
-            call run_unfragmented_calculation(resources%mpi_comms%world_comm, sys_geom, &
-                                              method_config, config%calc_type, bonds, config, &
-                                              json_data=json_data)
+            call run_unfragmented_calculation(resources%mpi_comms%world_comm, sys_geom, config, json_data=json_data)
          end if
       else
          if (present(result_out)) then
             ! For fragmented calculations with result_out (future use)
-            call run_fragmented_calculation(resources, method_config, config%calc_type, sys_geom, max_level, &
-                                            config%allow_overlapping_fragments, &
-                                            config%max_intersection_level, bonds, config)
+            call run_fragmented_calculation(resources, config, sys_geom, bonds)
          else
             ! Normal mode: collect json_data for centralized output
-            call run_fragmented_calculation(resources, method_config, config%calc_type, sys_geom, max_level, &
-                                            config%allow_overlapping_fragments, &
-                                            config%max_intersection_level, bonds, config, json_data)
+            call run_fragmented_calculation(resources, config, sys_geom, bonds, json_data)
          end if
       end if
 
@@ -170,8 +130,7 @@ contains
 
    end subroutine run_calculation
 
-   subroutine run_unfragmented_calculation(world_comm, sys_geom, method_config, &
-                                           calc_type, bonds, driver_config, result_out, json_data)
+   subroutine run_unfragmented_calculation(world_comm, sys_geom, config, result_out, json_data)
       !! Handle unfragmented calculation (nlevel=0)
       !!
       !! For single-molecule mode: Only rank 0 runs (validates single rank)
@@ -180,22 +139,19 @@ contains
       !! If result_out is present, returns result instead of writing JSON
       type(comm_t), intent(in) :: world_comm  !! Global MPI communicator
       type(system_geometry_t), intent(in) :: sys_geom  !! Complete system geometry
-      type(method_config_t), intent(in) :: method_config  !! Method configuration
-      integer(int32), intent(in) :: calc_type  !! Calculation type
-      type(bond_t), intent(in), optional :: bonds(:)  !! Bond connectivity information
-      type(driver_config_t), intent(in), optional :: driver_config  !! Driver configuration
+      type(driver_config_t), intent(in) :: config  !! Driver configuration (includes method_config, calc_type, etc.)
       type(calculation_result_t), intent(out), optional :: result_out  !! Optional result output
       type(json_output_data_t), intent(out), optional :: json_data  !! JSON output data
 
       ! For Hessian calculations with multiple ranks, use distributed approach
-      if (calc_type == CALC_TYPE_HESSIAN .and. world_comm%size() > 1) then
+      if (config%calc_type == CALC_TYPE_HESSIAN .and. world_comm%size() > 1) then
          if (world_comm%rank() == 0) then
             call logger%info(" ")
             call logger%info("Running distributed unfragmented Hessian calculation")
             call logger%info("  MPI ranks: "//to_char(world_comm%size()))
             call logger%info(" ")
          end if
-         call distributed_unfragmented_hessian(world_comm, sys_geom, method_config, driver_config, json_data)
+         call distributed_unfragmented_hessian(world_comm, sys_geom, config, json_data)
          return
       end if
 
@@ -206,44 +162,33 @@ contains
          ! Either single-rank calculation, or rank 0 in multi-rank setup
          call logger%info(" ")
          call logger%info("Running unfragmented calculation")
-         call logger%info("  Calculation type: "//calc_type_to_string(calc_type))
+         call logger%info("  Calculation type: "//calc_type_to_string(config%calc_type))
          call logger%info(" ")
-         if (present(driver_config)) then
-            call unfragmented_calculation(sys_geom, method_config, calc_type, bonds, result_out, &
-                                          driver_config%hessian%temperature, driver_config%hessian%pressure, json_data)
-         else
-            call unfragmented_calculation(sys_geom, method_config, calc_type, bonds, result_out, json_data=json_data)
-         end if
+         call unfragmented_calculation(sys_geom, config, result_out, json_data)
       else if (sys_geom%total_atoms > 0) then
          ! Multi-molecule mode: non-zero rank with a molecule
          call logger%verbose("Rank "//to_char(world_comm%rank())//": Running unfragmented calculation")
-         if (present(driver_config)) then
-            call unfragmented_calculation(sys_geom, method_config, calc_type, bonds, result_out, &
-                                          driver_config%hessian%temperature, driver_config%hessian%pressure, json_data)
-         else
-            call unfragmented_calculation(sys_geom, method_config, calc_type, bonds, result_out, json_data=json_data)
-         end if
+         call unfragmented_calculation(sys_geom, config, result_out, json_data)
       end if
 
    end subroutine run_unfragmented_calculation
 
-   subroutine run_fragmented_calculation(resources, method_config, calc_type, sys_geom, max_level, &
-                                     allow_overlapping_fragments, max_intersection_level, bonds, driver_config, json_data)
+   subroutine run_fragmented_calculation(resources, config, sys_geom, bonds, json_data)
       !! Handle fragmented calculation (nlevel > 0)
       !!
       !! Generates fragments, distributes work across MPI processes organized in nodes,
       !! and coordinates many-body expansion calculation using hierarchical parallelism.
       !! If allow_overlapping_fragments=true, uses GMBE with intersection correction.
-      type(resources_t), intent(in) :: resources  !! Resources container (MPI comms, etc.)
-      type(method_config_t), intent(in) :: method_config  !! Method configuration
-      integer(int32), intent(in) :: calc_type  !! Calculation type
+      type(resources_t), intent(in), target :: resources  !! Resources container (MPI comms, etc.)
+      type(driver_config_t), intent(in) :: config  !! Driver configuration (includes method_config, calc_type, etc.)
       type(system_geometry_t), intent(in) :: sys_geom  !! System geometry and fragment info
-      integer, intent(in) :: max_level    !! Maximum fragment level for MBE
-      logical, intent(in) :: allow_overlapping_fragments  !! Use GMBE for overlapping fragments
-      integer, intent(in) :: max_intersection_level  !! Maximum k-way intersection depth for GMBE
       type(bond_t), intent(in), optional :: bonds(:)  !! Bond connectivity information
-      type(driver_config_t), intent(in) :: driver_config  !! Driver configuration with cutoffs
       type(json_output_data_t), intent(out), optional :: json_data  !! JSON output data
+
+      ! Local variables extracted from config for readability
+      integer :: max_level    !! Maximum fragment level for MBE
+      logical :: allow_overlapping_fragments  !! Use GMBE for overlapping fragments
+      integer :: max_intersection_level  !! Maximum k-way intersection depth for GMBE
 
       integer(int64) :: total_fragments  !! Total number of fragments generated (int64 to handle large systems)
       integer, allocatable :: polymers(:, :)  !! Fragment composition array (fragment, monomer_indices)
@@ -256,19 +201,21 @@ contains
       integer :: global_node_rank  !! Global rank if this process leads a node, -1 otherwise
       integer, allocatable :: all_node_leader_ranks(:)  !! Node leader status for all ranks
 
-      ! GMBE-specific variables (old approach - kept for compatibility)
-      integer, allocatable :: intersections(:, :)  !! Intersection atom lists (max_atoms, n_intersections)
-      integer, allocatable :: intersection_sets(:, :)  !! k-tuples for each intersection (n_monomers, n_intersections)
-      integer, allocatable :: intersection_levels(:)  !! Level k of each intersection (n_intersections)
-      integer :: n_intersections, n_monomers  !! Counts for GMBE
+      ! Polymorphic expansion context for unified MBE/GMBE handling
+      class(many_body_expansion_t), allocatable :: expansion
 
-      ! GMBE PIE-based variables (new approach)
+      ! GMBE PIE-based variables
       integer :: n_primaries  !! Number of primary polymers
       integer(int64) :: n_primaries_i64  !! For binomial calculation
       integer, allocatable :: pie_atom_sets(:, :)  !! Unique atom sets (max_atoms, n_pie_terms)
       integer, allocatable :: pie_coefficients(:)  !! PIE coefficient for each term
       integer(int64) :: n_pie_terms  !! Number of unique PIE terms
       type(error_t) :: pie_error  !! Error from PIE enumeration
+
+      ! Extract values from config for readability
+      max_level = config%nlevel
+      allow_overlapping_fragments = config%allow_overlapping_fragments
+      max_intersection_level = config%max_intersection_level
 
       ! Generate fragments
       if (resources%mpi_comms%world_comm%rank() == 0) then
@@ -303,7 +250,7 @@ contains
                if (max_level > 1) then
                   ! Only screen if primaries are n-mers (not for GMBE(1) where primaries are monomers)
                   total_fragments = int(n_primaries, int64)
-                  call apply_distance_screening(polymers, total_fragments, sys_geom, driver_config, max_level)
+                  call apply_distance_screening(polymers, total_fragments, sys_geom, config, max_level)
                   n_primaries = int(total_fragments)
                end if
 
@@ -357,7 +304,7 @@ contains
             deallocate (monomers)
 
             ! Apply distance-based screening if cutoffs are provided
-            call apply_distance_screening(polymers, total_fragments, sys_geom, driver_config, max_level)
+            call apply_distance_screening(polymers, total_fragments, sys_geom, config, max_level)
 
             ! Sort fragments by size (largest first) for better load balancing
             ! TODO: Currently disabled - MBE assembly is now order-independent (uses nested loops),
@@ -398,52 +345,68 @@ contains
       end do
       deallocate (all_node_leader_ranks)
 
-      ! Execute appropriate role
-      if (resources%mpi_comms%world_comm%size() == 1) then
-         ! Single rank: process fragments serially
-         call logger%info("Running in serial mode (single MPI rank)")
-         if (allow_overlapping_fragments) then
-            ! GMBE serial processing with PIE coefficients
-        call serial_gmbe_pie_processor(pie_atom_sets, pie_coefficients, n_pie_terms, sys_geom, method_config, calc_type, &
-                                           bonds, json_data)
-         else
-            ! Standard MBE serial processing
-         call serial_fragment_processor(total_fragments, polymers, max_level, sys_geom, method_config, calc_type, bonds, &
-                                           json_data)
-         end if
-      else if (resources%mpi_comms%world_comm%leader() .and. resources%mpi_comms%node_comm%leader()) then
-         ! Global coordinator (rank 0, node leader on node 0)
-         call omp_set_num_threads(omp_get_max_threads())
-         call logger%verbose("Rank 0: Acting as global coordinator")
-         if (allow_overlapping_fragments) then
-            ! GMBE MPI processing - PIE-based approach
-            call gmbe_pie_coordinator(resources, pie_atom_sets, pie_coefficients, n_pie_terms, &
-                                      node_leader_ranks, num_nodes, sys_geom, method_config, calc_type, bonds, json_data)
-         else
-            ! Standard MBE MPI processing
-            call global_coordinator(resources, total_fragments, polymers, max_level, &
-                                    node_leader_ranks, num_nodes, sys_geom, method_config, calc_type, bonds, json_data)
-         end if
-      else if (resources%mpi_comms%node_comm%leader()) then
-         ! Node coordinator (node leader on other nodes)
-         call logger%verbose("Rank "//to_char(resources%mpi_comms%world_comm%rank())//": Acting as node coordinator")
-         ! Node coordinator works for both MBE and GMBE (receives fragments from global coordinator)
-         call node_coordinator(resources, method_config, calc_type)
+      ! Build polymorphic expansion context
+      if (allow_overlapping_fragments) then
+         ! GMBE: allocate gmbe_context_t
+         allocate (gmbe_context_t :: expansion)
+         select type (expansion)
+         type is (gmbe_context_t)
+            call expansion%init(config%method_config, config%calc_type)
+            allocate (expansion%sys_geom, source=sys_geom)
+            if (present(bonds)) then
+               allocate (expansion%sys_geom%bonds, source=bonds)
+            end if
+            expansion%n_pie_terms = n_pie_terms
+            if (resources%mpi_comms%world_comm%rank() == 0) then
+               allocate (expansion%pie_atom_sets, source=pie_atom_sets)
+               allocate (expansion%pie_coefficients, source=pie_coefficients)
+            end if
+            expansion%resources => resources
+            expansion%node_leader_ranks = node_leader_ranks
+            expansion%num_nodes = num_nodes
+         end select
       else
-         ! Worker
-         call omp_set_num_threads(1)
-         call logger%verbose("Rank "//to_char(resources%mpi_comms%world_comm%rank())//": Acting as worker")
-         ! Worker processes work for both MBE and GMBE (fragment_type distinguishes them)
-         call node_worker(resources, sys_geom, method_config, calc_type, bonds)
+         ! Standard MBE: allocate mbe_context_t
+         allocate (mbe_context_t :: expansion)
+         select type (expansion)
+         type is (mbe_context_t)
+            call expansion%init(config%method_config, config%calc_type)
+            allocate (expansion%sys_geom, source=sys_geom)
+            if (present(bonds)) then
+               allocate (expansion%sys_geom%bonds, source=bonds)
+            end if
+            expansion%total_fragments = total_fragments
+            if (resources%mpi_comms%world_comm%rank() == 0) then
+               allocate (expansion%polymers, source=polymers)
+            end if
+            expansion%max_level = max_level
+            expansion%resources => resources
+            expansion%node_leader_ranks = node_leader_ranks
+            expansion%num_nodes = num_nodes
+         end select
       end if
+
+      ! Execute calculation using polymorphic dispatch
+      if (resources%mpi_comms%world_comm%size() == 1) then
+         call logger%info("Running in serial mode (single MPI rank)")
+         call expansion%run_serial(json_data)
+      else
+         call expansion%run_distributed(json_data)
+      end if
+
+      ! Clean up expansion context
+      select type (expansion)
+      type is (mbe_context_t)
+         call expansion%destroy()
+      type is (gmbe_context_t)
+         call expansion%destroy()
+      end select
+      deallocate (expansion)
 
       ! Cleanup
       if (resources%mpi_comms%world_comm%rank() == 0) then
          if (allocated(polymers)) deallocate (polymers)
          if (allocated(node_leader_ranks)) deallocate (node_leader_ranks)
-         if (allocated(intersections)) deallocate (intersections)
-         if (allocated(intersection_sets)) deallocate (intersection_sets)
-         if (allocated(intersection_levels)) deallocate (intersection_levels)
          if (allocated(pie_atom_sets)) deallocate (pie_atom_sets)
          if (allocated(pie_coefficients)) deallocate (pie_coefficients)
       end if
