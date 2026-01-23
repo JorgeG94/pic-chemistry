@@ -90,25 +90,18 @@ contains
          call omp_set_num_threads(1)
          if (present(result_out)) then
             ! For dynamics/optimization: return result directly, no JSON output
-            call run_unfragmented_calculation(resources%mpi_comms%world_comm, sys_geom, &
-                                              config%method_config, config%calc_type, bonds, config, result_out)
+            call run_unfragmented_calculation(resources%mpi_comms%world_comm, sys_geom, config, result_out)
          else
             ! Normal mode: collect json_data for centralized output
-            call run_unfragmented_calculation(resources%mpi_comms%world_comm, sys_geom, &
-                                              config%method_config, config%calc_type, bonds, config, &
-                                              json_data=json_data)
+            call run_unfragmented_calculation(resources%mpi_comms%world_comm, sys_geom, config, json_data=json_data)
          end if
       else
          if (present(result_out)) then
             ! For fragmented calculations with result_out (future use)
-            call run_fragmented_calculation(resources, config%method_config, config%calc_type, sys_geom, max_level, &
-                                            config%allow_overlapping_fragments, &
-                                            config%max_intersection_level, bonds, config)
+            call run_fragmented_calculation(resources, config, sys_geom, bonds)
          else
             ! Normal mode: collect json_data for centralized output
-            call run_fragmented_calculation(resources, config%method_config, config%calc_type, sys_geom, max_level, &
-                                            config%allow_overlapping_fragments, &
-                                            config%max_intersection_level, bonds, config, json_data)
+            call run_fragmented_calculation(resources, config, sys_geom, bonds, json_data)
          end if
       end if
 
@@ -137,8 +130,7 @@ contains
 
    end subroutine run_calculation
 
-   subroutine run_unfragmented_calculation(world_comm, sys_geom, method_config, &
-                                           calc_type, bonds, driver_config, result_out, json_data)
+   subroutine run_unfragmented_calculation(world_comm, sys_geom, config, result_out, json_data)
       !! Handle unfragmented calculation (nlevel=0)
       !!
       !! For single-molecule mode: Only rank 0 runs (validates single rank)
@@ -147,22 +139,19 @@ contains
       !! If result_out is present, returns result instead of writing JSON
       type(comm_t), intent(in) :: world_comm  !! Global MPI communicator
       type(system_geometry_t), intent(in) :: sys_geom  !! Complete system geometry
-      type(method_config_t), intent(in) :: method_config  !! Method configuration
-      integer(int32), intent(in) :: calc_type  !! Calculation type
-      type(bond_t), intent(in), optional :: bonds(:)  !! Bond connectivity information
-      type(driver_config_t), intent(in), optional :: driver_config  !! Driver configuration
+      type(driver_config_t), intent(in) :: config  !! Driver configuration (includes method_config, calc_type, etc.)
       type(calculation_result_t), intent(out), optional :: result_out  !! Optional result output
       type(json_output_data_t), intent(out), optional :: json_data  !! JSON output data
 
       ! For Hessian calculations with multiple ranks, use distributed approach
-      if (calc_type == CALC_TYPE_HESSIAN .and. world_comm%size() > 1) then
+      if (config%calc_type == CALC_TYPE_HESSIAN .and. world_comm%size() > 1) then
          if (world_comm%rank() == 0) then
             call logger%info(" ")
             call logger%info("Running distributed unfragmented Hessian calculation")
             call logger%info("  MPI ranks: "//to_char(world_comm%size()))
             call logger%info(" ")
          end if
-         call distributed_unfragmented_hessian(world_comm, sys_geom, method_config, driver_config, json_data)
+         call distributed_unfragmented_hessian(world_comm, sys_geom, config, json_data)
          return
       end if
 
@@ -173,44 +162,33 @@ contains
          ! Either single-rank calculation, or rank 0 in multi-rank setup
          call logger%info(" ")
          call logger%info("Running unfragmented calculation")
-         call logger%info("  Calculation type: "//calc_type_to_string(calc_type))
+         call logger%info("  Calculation type: "//calc_type_to_string(config%calc_type))
          call logger%info(" ")
-         if (present(driver_config)) then
-            call unfragmented_calculation(sys_geom, method_config, calc_type, result_out, &
-                                          driver_config%hessian%temperature, driver_config%hessian%pressure, json_data)
-         else
-            call unfragmented_calculation(sys_geom, method_config, calc_type, result_out, json_data=json_data)
-         end if
+         call unfragmented_calculation(sys_geom, config, result_out, json_data)
       else if (sys_geom%total_atoms > 0) then
          ! Multi-molecule mode: non-zero rank with a molecule
          call logger%verbose("Rank "//to_char(world_comm%rank())//": Running unfragmented calculation")
-         if (present(driver_config)) then
-            call unfragmented_calculation(sys_geom, method_config, calc_type, result_out, &
-                                          driver_config%hessian%temperature, driver_config%hessian%pressure, json_data)
-         else
-            call unfragmented_calculation(sys_geom, method_config, calc_type, result_out, json_data=json_data)
-         end if
+         call unfragmented_calculation(sys_geom, config, result_out, json_data)
       end if
 
    end subroutine run_unfragmented_calculation
 
-   subroutine run_fragmented_calculation(resources, method_config, calc_type, sys_geom, max_level, &
-                                     allow_overlapping_fragments, max_intersection_level, bonds, driver_config, json_data)
+   subroutine run_fragmented_calculation(resources, config, sys_geom, bonds, json_data)
       !! Handle fragmented calculation (nlevel > 0)
       !!
       !! Generates fragments, distributes work across MPI processes organized in nodes,
       !! and coordinates many-body expansion calculation using hierarchical parallelism.
       !! If allow_overlapping_fragments=true, uses GMBE with intersection correction.
       type(resources_t), intent(in), target :: resources  !! Resources container (MPI comms, etc.)
-      type(method_config_t), intent(in) :: method_config  !! Method configuration
-      integer(int32), intent(in) :: calc_type  !! Calculation type
+      type(driver_config_t), intent(in) :: config  !! Driver configuration (includes method_config, calc_type, etc.)
       type(system_geometry_t), intent(in) :: sys_geom  !! System geometry and fragment info
-      integer, intent(in) :: max_level    !! Maximum fragment level for MBE
-      logical, intent(in) :: allow_overlapping_fragments  !! Use GMBE for overlapping fragments
-      integer, intent(in) :: max_intersection_level  !! Maximum k-way intersection depth for GMBE
       type(bond_t), intent(in), optional :: bonds(:)  !! Bond connectivity information
-      type(driver_config_t), intent(in) :: driver_config  !! Driver configuration with cutoffs
       type(json_output_data_t), intent(out), optional :: json_data  !! JSON output data
+
+      ! Local variables extracted from config for readability
+      integer :: max_level    !! Maximum fragment level for MBE
+      logical :: allow_overlapping_fragments  !! Use GMBE for overlapping fragments
+      integer :: max_intersection_level  !! Maximum k-way intersection depth for GMBE
 
       integer(int64) :: total_fragments  !! Total number of fragments generated (int64 to handle large systems)
       integer, allocatable :: polymers(:, :)  !! Fragment composition array (fragment, monomer_indices)
@@ -233,6 +211,11 @@ contains
       integer, allocatable :: pie_coefficients(:)  !! PIE coefficient for each term
       integer(int64) :: n_pie_terms  !! Number of unique PIE terms
       type(error_t) :: pie_error  !! Error from PIE enumeration
+
+      ! Extract values from config for readability
+      max_level = config%nlevel
+      allow_overlapping_fragments = config%allow_overlapping_fragments
+      max_intersection_level = config%max_intersection_level
 
       ! Generate fragments
       if (resources%mpi_comms%world_comm%rank() == 0) then
@@ -267,7 +250,7 @@ contains
                if (max_level > 1) then
                   ! Only screen if primaries are n-mers (not for GMBE(1) where primaries are monomers)
                   total_fragments = int(n_primaries, int64)
-                  call apply_distance_screening(polymers, total_fragments, sys_geom, driver_config, max_level)
+                  call apply_distance_screening(polymers, total_fragments, sys_geom, config, max_level)
                   n_primaries = int(total_fragments)
                end if
 
@@ -321,7 +304,7 @@ contains
             deallocate (monomers)
 
             ! Apply distance-based screening if cutoffs are provided
-            call apply_distance_screening(polymers, total_fragments, sys_geom, driver_config, max_level)
+            call apply_distance_screening(polymers, total_fragments, sys_geom, config, max_level)
 
             ! Sort fragments by size (largest first) for better load balancing
             ! TODO: Currently disabled - MBE assembly is now order-independent (uses nested loops),
@@ -368,7 +351,7 @@ contains
          allocate (gmbe_context_t :: expansion)
          select type (expansion)
          type is (gmbe_context_t)
-            call expansion%init(method_config, calc_type)
+            call expansion%init(config%method_config, config%calc_type)
             allocate (expansion%sys_geom, source=sys_geom)
             if (present(bonds)) then
                allocate (expansion%sys_geom%bonds, source=bonds)
@@ -387,7 +370,7 @@ contains
          allocate (mbe_context_t :: expansion)
          select type (expansion)
          type is (mbe_context_t)
-            call expansion%init(method_config, calc_type)
+            call expansion%init(config%method_config, config%calc_type)
             allocate (expansion%sys_geom, source=sys_geom)
             if (present(bonds)) then
                allocate (expansion%sys_geom%bonds, source=bonds)
