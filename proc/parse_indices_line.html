@@ -94,20 +94,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.4% of total for procedures.">34 statements</a>
+                 title=" 0.3% of total for procedures.">34 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/mqc_config_parser.f90"> Source File</a>
+              <a href="../src/mqc_config_parser_fragments.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/mqc_config_parser.f90.html'>mqc_config_parser.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/mqc_config_parser.html'>mqc_config_parser</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/mqc_config_parser_fragments.f90.html'>mqc_config_parser_fragments.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/mqc_config_parser_fragments.html'>mqc_config_parser_fragments</a></li>
             <li class="breadcrumb-item active" aria-current="page">parse_indices_line</li>
           </ol>
         </nav>
@@ -137,9 +137,8 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../proc/parse_indices_line.html#variable-count">count</a>
-            <a class="list-group-item" href="../proc/parse_indices_line.html#variable-i~8">i</a>
-            <a class="list-group-item" href="../proc/parse_indices_line.html#variable-idx">idx</a>
-            <a class="list-group-item" href="../proc/parse_indices_line.html#variable-io_stat~6">io_stat</a>
+            <a class="list-group-item" href="../proc/parse_indices_line.html#variable-idx~2">idx</a>
+            <a class="list-group-item" href="../proc/parse_indices_line.html#variable-io_stat~18">io_stat</a>
             <a class="list-group-item" href="../proc/parse_indices_line.html#variable-new_indices">new_indices</a>
             <a class="list-group-item" href="../proc/parse_indices_line.html#variable-pos">pos</a>
             <a class="list-group-item" href="../proc/parse_indices_line.html#variable-temp_indices">temp_indices</a>
@@ -179,7 +178,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private  subroutine parse_indices_line(line, fragment, error)  
+    <h2> subroutine parse_indices_line(line, fragment, error)  
 </h2>
     
 
@@ -198,7 +197,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-line~16"></span>
+              <span class="anchor" id="variable-line~17"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -213,7 +212,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-fragment~2"></span>
+              <span class="anchor" id="variable-fragment~15"></span>
               type(<a href='../type/input_fragment_t.html'>input_fragment_t</a>),
             </td>
 <td>intent(inout)</td>
@@ -228,7 +227,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-error~19"></span>
+              <span class="anchor" id="variable-error~33"></span>
               type(<a href='../type/error_t.html'>error_t</a>),
             </td>
 <td>intent(out)</td>
@@ -377,135 +376,120 @@ large graphs.</div>
  -->
 <!-- Title: proc~~parse_indices_line~~CalledByGraph Pages: 1 -->
 <svg id="procparse_indices_lineCalledByGraph" width="641pt" height="48pt"
- viewBox="0.00 0.00 641.00 48.40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~parse_indices_line~~CalledByGraph" class="graph" transform="scale(0.65 0.65) rotate(0) translate(4 70)">
+ viewBox="0.00 0.00 641.00 47.72" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~parse_indices_line~~CalledByGraph" class="graph" transform="scale(0.64 0.64) rotate(0) translate(4 70)">
 <title>proc~~parse_indices_line~~CalledByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 976,-70 976,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 990,-70 990,4 -4,4"/>
 <!-- proc~parse_indices_line -->
 <g id="proc~~parse_indices_line~~CalledByGraph_node1" class="node">
 <title>proc~parse_indices_line</title>
-<polygon fill="none" stroke="black" points="972,-45 862,-45 862,-21 972,-21 972,-45"/>
-<text text-anchor="middle" x="917" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">parse_indices_line</text>
+<polygon fill="none" stroke="black" points="986,-45 876,-45 876,-21 986,-21 986,-45"/>
+<text text-anchor="middle" x="931" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">parse_indices_line</text>
 </g>
 <!-- proc~parse_fragment -->
 <g id="proc~~parse_indices_line~~CalledByGraph_node2" class="node">
 <title>proc~parse_fragment</title>
 <g id="a_proc~~parse_indices_line~~CalledByGraph_node2"><a xlink:href="../proc/parse_fragment.html" xlink:title="parse_fragment">
-<polygon fill="#d9534f" stroke="#d9534f" points="826,-45 729,-45 729,-21 826,-21 826,-45"/>
-<text text-anchor="middle" x="777.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragment</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="840,-45 743,-45 743,-21 840,-21 840,-45"/>
+<text text-anchor="middle" x="791.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragment</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_fragment&#45;&gt;proc~parse_indices_line -->
 <g id="proc~~parse_indices_line~~CalledByGraph_edge1" class="edge">
 <title>proc~parse_fragment&#45;&gt;proc~parse_indices_line</title>
-<path fill="none" stroke="#ff0000" d="M826.2,-33C834.46,-33 843.15,-33 851.76,-33"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="851.78,-36.5 861.78,-33 851.78,-29.5 851.78,-36.5"/>
+<path fill="none" stroke="#ff0000" d="M840.2,-33C848.46,-33 857.15,-33 865.76,-33"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="865.78,-36.5 875.78,-33 865.78,-29.5 865.78,-36.5"/>
 </g>
 <!-- proc~parse_fragments_generic -->
 <g id="proc~~parse_indices_line~~CalledByGraph_node3" class="node">
 <title>proc~parse_fragments_generic</title>
 <g id="a_proc~~parse_indices_line~~CalledByGraph_node3"><a xlink:href="../proc/parse_fragments_generic.html" xlink:title="parse_fragments_generic">
-<polygon fill="#d9534f" stroke="#d9534f" points="693,-45 545,-45 545,-21 693,-21 693,-45"/>
-<text text-anchor="middle" x="619" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragments_generic</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="707,-45 559,-45 559,-21 707,-21 707,-45"/>
+<text text-anchor="middle" x="633" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragments_generic</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_fragments_generic&#45;&gt;proc~parse_fragment -->
 <g id="proc~~parse_indices_line~~CalledByGraph_edge2" class="edge">
 <title>proc~parse_fragments_generic&#45;&gt;proc~parse_fragment</title>
-<path fill="none" stroke="#ff0000" d="M693.21,-33C701.71,-33 710.29,-33 718.55,-33"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="718.81,-36.5 728.81,-33 718.81,-29.5 718.81,-36.5"/>
+<path fill="none" stroke="#ff0000" d="M707.21,-33C715.71,-33 724.29,-33 732.55,-33"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="732.81,-36.5 742.81,-33 732.81,-29.5 732.81,-36.5"/>
+</g>
+<!-- interface~parse_fragments_generic -->
+<g id="proc~~parse_indices_line~~CalledByGraph_node4" class="node">
+<title>interface~parse_fragments_generic</title>
+<g id="a_proc~~parse_indices_line~~CalledByGraph_node4"><a xlink:href="../interface/parse_fragments_generic.html" xlink:title="parse_fragments_generic">
+<polygon fill="#a7506f" stroke="#a7506f" points="523,-45 375,-45 375,-21 523,-21 523,-45"/>
+<text text-anchor="middle" x="449" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragments_generic</text>
+</a>
+</g>
+</g>
+<!-- interface~parse_fragments_generic&#45;&gt;proc~parse_fragments_generic -->
+<g id="proc~~parse_indices_line~~CalledByGraph_edge3" class="edge">
+<title>interface~parse_fragments_generic&#45;&gt;proc~parse_fragments_generic</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M523.24,-33C531.6,-33 540.16,-33 548.64,-33"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="548.91,-36.5 558.91,-33 548.91,-29.5 548.91,-36.5"/>
 </g>
 <!-- proc~parse_fragments_section -->
-<g id="proc~~parse_indices_line~~CalledByGraph_node4" class="node">
+<g id="proc~~parse_indices_line~~CalledByGraph_node5" class="node">
 <title>proc~parse_fragments_section</title>
-<g id="a_proc~~parse_indices_line~~CalledByGraph_node4"><a xlink:href="../proc/parse_fragments_section.html" xlink:title="parse_fragments_section">
-<polygon fill="#d9534f" stroke="#d9534f" points="503.5,-66 357.5,-66 357.5,-42 503.5,-42 503.5,-66"/>
-<text text-anchor="middle" x="430.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragments_section</text>
+<g id="a_proc~~parse_indices_line~~CalledByGraph_node5"><a xlink:href="../proc/parse_fragments_section.html" xlink:title="parse_fragments_section">
+<polygon fill="#d9534f" stroke="#d9534f" points="333.5,-66 187.5,-66 187.5,-42 333.5,-42 333.5,-66"/>
+<text text-anchor="middle" x="260.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragments_section</text>
 </a>
 </g>
 </g>
-<!-- proc~parse_fragments_section&#45;&gt;proc~parse_fragments_generic -->
-<g id="proc~~parse_indices_line~~CalledByGraph_edge3" class="edge">
-<title>proc~parse_fragments_section&#45;&gt;proc~parse_fragments_generic</title>
-<path fill="none" stroke="#ff0000" d="M503.61,-45.88C513.86,-44.73 524.47,-43.53 534.91,-42.36"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="535.31,-45.83 544.85,-41.24 534.53,-38.88 535.31,-45.83"/>
+<!-- proc~parse_fragments_section&#45;&gt;interface~parse_fragments_generic -->
+<g id="proc~~parse_indices_line~~CalledByGraph_edge4" class="edge">
+<title>proc~parse_fragments_section&#45;&gt;interface~parse_fragments_generic</title>
+<path fill="none" stroke="#ff0000" d="M333.61,-45.88C343.86,-44.73 354.47,-43.53 364.91,-42.36"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="365.31,-45.83 374.85,-41.24 364.53,-38.88 365.31,-45.83"/>
 </g>
 <!-- proc~parse_molecule_fragments -->
-<g id="proc~~parse_indices_line~~CalledByGraph_node5" class="node">
+<g id="proc~~parse_indices_line~~CalledByGraph_node6" class="node">
 <title>proc~parse_molecule_fragments</title>
-<g id="a_proc~~parse_indices_line~~CalledByGraph_node5"><a xlink:href="../proc/parse_molecule_fragments.html" xlink:title="parse_molecule_fragments">
-<polygon fill="#d9534f" stroke="#d9534f" points="509,-24 352,-24 352,0 509,0 509,-24"/>
-<text text-anchor="middle" x="430.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_molecule_fragments</text>
+<g id="a_proc~~parse_indices_line~~CalledByGraph_node6"><a xlink:href="../proc/parse_molecule_fragments.html" xlink:title="parse_molecule_fragments">
+<polygon fill="#d9534f" stroke="#d9534f" points="339,-24 182,-24 182,0 339,0 339,-24"/>
+<text text-anchor="middle" x="260.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_molecule_fragments</text>
 </a>
 </g>
 </g>
-<!-- proc~parse_molecule_fragments&#45;&gt;proc~parse_fragments_generic -->
-<g id="proc~~parse_indices_line~~CalledByGraph_edge4" class="edge">
-<title>proc~parse_molecule_fragments&#45;&gt;proc~parse_fragments_generic</title>
-<path fill="none" stroke="#ff0000" d="M509.24,-20.75C517.72,-21.71 526.37,-22.68 534.91,-23.64"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="534.53,-27.12 544.86,-24.76 535.32,-20.17 534.53,-27.12"/>
+<!-- proc~parse_molecule_fragments&#45;&gt;interface~parse_fragments_generic -->
+<g id="proc~~parse_indices_line~~CalledByGraph_edge5" class="edge">
+<title>proc~parse_molecule_fragments&#45;&gt;interface~parse_fragments_generic</title>
+<path fill="none" stroke="#ff0000" d="M339.24,-20.75C347.72,-21.71 356.37,-22.68 364.91,-23.64"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="364.53,-27.12 374.86,-24.76 365.32,-20.17 364.53,-27.12"/>
+</g>
+<!-- interface~parse_fragments_section -->
+<g id="proc~~parse_indices_line~~CalledByGraph_node7" class="node">
+<title>interface~parse_fragments_section</title>
+<g id="a_proc~~parse_indices_line~~CalledByGraph_node7"><a xlink:href="../interface/parse_fragments_section.html" xlink:title="parse_fragments_section">
+<polygon fill="#a7506f" stroke="#a7506f" points="146,-66 0,-66 0,-42 146,-42 146,-66"/>
+<text text-anchor="middle" x="73" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_fragments_section</text>
+</a>
+</g>
+</g>
+<!-- interface~parse_fragments_section&#45;&gt;proc~parse_fragments_section -->
+<g id="proc~~parse_indices_line~~CalledByGraph_edge6" class="edge">
+<title>interface~parse_fragments_section&#45;&gt;proc~parse_fragments_section</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M146.25,-54C156.4,-54 166.89,-54 177.21,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="177.45,-57.5 187.45,-54 177.45,-50.5 177.45,-57.5"/>
 </g>
 <!-- proc~parse_single_molecule -->
-<g id="proc~~parse_indices_line~~CalledByGraph_node6" class="node">
+<g id="proc~~parse_indices_line~~CalledByGraph_node8" class="node">
 <title>proc~parse_single_molecule</title>
-<g id="a_proc~~parse_indices_line~~CalledByGraph_node6"><a xlink:href="../proc/parse_single_molecule.html" xlink:title="parse_single_molecule">
-<polygon fill="#d9534f" stroke="#d9534f" points="316,-24 182,-24 182,0 316,0 316,-24"/>
-<text text-anchor="middle" x="249" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_single_molecule</text>
+<g id="a_proc~~parse_indices_line~~CalledByGraph_node8"><a xlink:href="../proc/parse_single_molecule.html" xlink:title="parse_single_molecule">
+<polygon fill="#d9534f" stroke="#d9534f" points="140,-24 6,-24 6,0 140,0 140,-24"/>
+<text text-anchor="middle" x="73" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_single_molecule</text>
 </a>
 </g>
 </g>
 <!-- proc~parse_single_molecule&#45;&gt;proc~parse_molecule_fragments -->
-<g id="proc~~parse_indices_line~~CalledByGraph_edge6" class="edge">
-<title>proc~parse_single_molecule&#45;&gt;proc~parse_molecule_fragments</title>
-<path fill="none" stroke="#00ffff" d="M316.07,-12C324.41,-12 333.04,-12 341.64,-12"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="341.71,-15.5 351.71,-12 341.71,-8.5 341.71,-15.5"/>
-</g>
-<!-- proc~read_mqc_file -->
-<g id="proc~~parse_indices_line~~CalledByGraph_node7" class="node">
-<title>proc~read_mqc_file</title>
-<g id="a_proc~~parse_indices_line~~CalledByGraph_node7"><a xlink:href="../proc/read_mqc_file.html" xlink:title="read_mqc_file">
-<polygon fill="#d9534f" stroke="#d9534f" points="292.5,-66 205.5,-66 205.5,-42 292.5,-42 292.5,-66"/>
-<text text-anchor="middle" x="249" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_mqc_file</text>
-</a>
-</g>
-</g>
-<!-- proc~read_mqc_file&#45;&gt;proc~parse_fragments_section -->
-<g id="proc~~parse_indices_line~~CalledByGraph_edge5" class="edge">
-<title>proc~read_mqc_file&#45;&gt;proc~parse_fragments_section</title>
-<path fill="none" stroke="#ff0000" d="M292.54,-54C308.97,-54 328.36,-54 347.29,-54"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="347.44,-57.5 357.44,-54 347.44,-50.5 347.44,-57.5"/>
-</g>
-<!-- proc~parse_molecules_section -->
-<g id="proc~~parse_indices_line~~CalledByGraph_node8" class="node">
-<title>proc~parse_molecules_section</title>
-<g id="a_proc~~parse_indices_line~~CalledByGraph_node8"><a xlink:href="../proc/parse_molecules_section.html" xlink:title="parse_molecules_section">
-<polygon fill="#d9534f" stroke="#d9534f" points="146,-24 0,-24 0,0 146,0 146,-24"/>
-<text text-anchor="middle" x="73" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">parse_molecules_section</text>
-</a>
-</g>
-</g>
-<!-- proc~parse_molecules_section&#45;&gt;proc~parse_single_molecule -->
 <g id="proc~~parse_indices_line~~CalledByGraph_edge7" class="edge">
-<title>proc~parse_molecules_section&#45;&gt;proc~parse_single_molecule</title>
-<path fill="none" stroke="#ff0000" d="M146.03,-12C154.47,-12 163.11,-12 171.6,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="171.88,-15.5 181.88,-12 171.88,-8.5 171.88,-15.5"/>
-</g>
-<!-- program~main -->
-<g id="proc~~parse_indices_line~~CalledByGraph_node9" class="node">
-<title>program~main</title>
-<g id="a_proc~~parse_indices_line~~CalledByGraph_node9"><a xlink:href="../program/main.html" xlink:title="main">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="100,-66 46,-66 46,-42 100,-42 100,-66"/>
-<text text-anchor="middle" x="73" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">main</text>
-</a>
-</g>
-</g>
-<!-- program~main&#45;&gt;proc~read_mqc_file -->
-<g id="proc~~parse_indices_line~~CalledByGraph_edge8" class="edge">
-<title>program~main&#45;&gt;proc~read_mqc_file</title>
-<path fill="none" stroke="#00ffff" d="M100.05,-54C125.01,-54 163.41,-54 194.84,-54"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="195.2,-57.5 205.2,-54 195.2,-50.5 195.2,-57.5"/>
+<title>proc~parse_single_molecule&#45;&gt;proc~parse_molecule_fragments</title>
+<path fill="none" stroke="#00ffff" d="M140.18,-12C150.43,-12 161.16,-12 171.79,-12"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="171.94,-15.5 181.94,-12 171.94,-8.5 171.94,-15.5"/>
 </g>
 </g>
 </svg>
@@ -628,24 +612,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~8"></span>
-              integer,
-            </td>
-              <td>private</td>
-            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>i</strong></td>
-                <td></td>
-                <td></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-idx"></span>
+              <span class="anchor" id="variable-idx~2"></span>
               integer,
             </td>
               <td>private</td>
@@ -662,7 +629,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_stat~6"></span>
+              <span class="anchor" id="variable-io_stat~18"></span>
               integer,
             </td>
               <td>private</td>
@@ -766,7 +733,7 @@ large graphs.</div>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">input_fragment_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fragment</span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">error_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">error</span>
 
-<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">io_stat</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span>
+<span class="w">      </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">io_stat</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span>
 <span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">MAX_LINE_LEN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">temp_line</span>
 <span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">temp_indices</span><span class="p">(:),</span><span class="w"> </span><span class="n">new_indices</span><span class="p">(:)</span>
 <span class="w">      </span><span class="n">temp_line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">line</span>
@@ -830,7 +797,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-23 04:56 +0000             </p>
+ on 2026-01-23 06:10 +0000             </p>
           </div>
         </div>
         <br>
