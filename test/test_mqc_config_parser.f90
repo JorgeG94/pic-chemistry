@@ -3,8 +3,13 @@ program test_mqc_config_parser
    use testdrive, only: new_unittest, unittest_type, error_type, check, test_failed
    use mqc_config_parser, only: mqc_config_t, read_mqc_file
    use mqc_method_types, only: METHOD_TYPE_GFN1, METHOD_TYPE_GFN2
-   use mqc_calc_types, only: CALC_TYPE_ENERGY, CALC_TYPE_GRADIENT
+   use mqc_calc_types, only: CALC_TYPE_ENERGY, CALC_TYPE_GRADIENT, CALC_TYPE_HESSIAN
+   use mqc_calculation_defaults, only: DEFAULT_DISPLACEMENT, DEFAULT_TEMPERATURE, &
+                                       DEFAULT_PRESSURE, DEFAULT_AIMD_DT, &
+                                       DEFAULT_AIMD_NSTEPS, DEFAULT_AIMD_TEMPERATURE, &
+                                       DEFAULT_AIMD_OUTPUT_FREQ
    use mqc_error, only: error_t
+   use pic_types, only: dp
    use pic_test_helpers, only: is_equal
    implicit none
    type(error_t) :: error
@@ -19,6 +24,12 @@ program test_mqc_config_parser
                new_unittest("parse_method_xtb", test_parse_method_xtb), &
                new_unittest("parse_system_log_level", test_parse_system_log_level), &
                new_unittest("parse_with_comments", test_parse_with_comments), &
+               new_unittest("parse_hessian_section", test_parse_hessian_section), &
+               new_unittest("parse_hessian_defaults", test_parse_hessian_defaults), &
+               new_unittest("parse_aimd_section", test_parse_aimd_section), &
+               new_unittest("parse_fragmentation_section", test_parse_fragmentation_section), &
+               new_unittest("parse_fragmentation_cutoffs", test_parse_fragmentation_cutoffs), &
+               new_unittest("parse_xtb_solvation", test_parse_xtb_solvation), &
                new_unittest("error_missing_schema", test_error_missing_schema), &
                new_unittest("error_missing_geometry", test_error_missing_geometry) &
                ]
@@ -519,6 +530,375 @@ contains
       close (unit, status='delete')
 
    end subroutine test_parse_with_comments
+
+   subroutine test_parse_hessian_section(error)
+      !! Test parsing %hessian section with custom values
+      type(error_type), allocatable, intent(out) :: error
+
+      type(mqc_config_t) :: config
+      type(error_t) :: parse_error
+      integer :: unit
+      character(len=*), parameter :: test_file = "test_hessian.mqc"
+
+      ! Create test file with %hessian section
+      open (newunit=unit, file=test_file, status='replace', action='write')
+      write (unit, '(A)') '%schema'
+      write (unit, '(A)') 'name = mqc-frag'
+      write (unit, '(A)') 'version = 1.0'
+      write (unit, '(A)') 'index_base = 0'
+      write (unit, '(A)') 'units = angstrom'
+      write (unit, '(A)') 'end'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%driver'
+      write (unit, '(A)') 'type = Hessian'
+      write (unit, '(A)') 'end'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%hessian'
+      write (unit, '(A)') 'displacement = 0.005'
+      write (unit, '(A)') 'temperature = 300.0'
+      write (unit, '(A)') 'pressure = 1.5'
+      write (unit, '(A)') 'end'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%geometry'
+      write (unit, '(A)') '2'
+      write (unit, '(A)') ''
+      write (unit, '(A)') 'H 0.0 0.0 0.0'
+      write (unit, '(A)') 'H 0.7 0.0 0.0'
+      write (unit, '(A)') 'end'
+      close (unit)
+
+      ! Parse file
+      call read_mqc_file(test_file, config, parse_error)
+
+      call check(error,.not. parse_error%has_error(), "Parser should succeed")
+      if (allocated(error)) return
+
+      call check(error, config%calc_type, CALC_TYPE_HESSIAN, "calc_type should be HESSIAN")
+      if (allocated(error)) return
+
+      call check(error, is_equal(config%hessian_displacement, 0.005_dp), &
+                 "hessian_displacement should be 0.005")
+      if (allocated(error)) return
+
+      call check(error, is_equal(config%hessian_temperature, 300.0_dp), &
+                 "hessian_temperature should be 300.0")
+      if (allocated(error)) return
+
+      call check(error, is_equal(config%hessian_pressure, 1.5_dp), &
+                 "hessian_pressure should be 1.5")
+      if (allocated(error)) return
+
+      call config%destroy()
+      open (newunit=unit, file=test_file, status='old', action='read')
+      close (unit, status='delete')
+
+   end subroutine test_parse_hessian_section
+
+   subroutine test_parse_hessian_defaults(error)
+      !! Test that %hessian section uses defaults when not specified
+      type(error_type), allocatable, intent(out) :: error
+
+      type(mqc_config_t) :: config
+      type(error_t) :: parse_error
+      integer :: unit
+      character(len=*), parameter :: test_file = "test_hessian_defaults.mqc"
+
+      ! Create test file without %hessian section
+      open (newunit=unit, file=test_file, status='replace', action='write')
+      write (unit, '(A)') '%schema'
+      write (unit, '(A)') 'name = mqc-frag'
+      write (unit, '(A)') 'version = 1.0'
+      write (unit, '(A)') 'index_base = 0'
+      write (unit, '(A)') 'units = angstrom'
+      write (unit, '(A)') 'end'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%geometry'
+      write (unit, '(A)') '1'
+      write (unit, '(A)') ''
+      write (unit, '(A)') 'H 0.0 0.0 0.0'
+      write (unit, '(A)') 'end'
+      close (unit)
+
+      ! Parse file
+      call read_mqc_file(test_file, config, parse_error)
+
+      call check(error,.not. parse_error%has_error(), "Parser should succeed")
+      if (allocated(error)) return
+
+      call check(error, is_equal(config%hessian_displacement, DEFAULT_DISPLACEMENT), &
+                 "hessian_displacement should be default value")
+      if (allocated(error)) return
+
+      call check(error, is_equal(config%hessian_temperature, DEFAULT_TEMPERATURE), &
+                 "hessian_temperature should be default value")
+      if (allocated(error)) return
+
+      call check(error, is_equal(config%hessian_pressure, DEFAULT_PRESSURE), &
+                 "hessian_pressure should be default value")
+      if (allocated(error)) return
+
+      call config%destroy()
+      open (newunit=unit, file=test_file, status='old', action='read')
+      close (unit, status='delete')
+
+   end subroutine test_parse_hessian_defaults
+
+   subroutine test_parse_aimd_section(error)
+      !! Test parsing %aimd section
+      type(error_type), allocatable, intent(out) :: error
+
+      type(mqc_config_t) :: config
+      type(error_t) :: parse_error
+      integer :: unit
+      character(len=*), parameter :: test_file = "test_aimd.mqc"
+
+      ! Create test file with %aimd section
+      open (newunit=unit, file=test_file, status='replace', action='write')
+      write (unit, '(A)') '%schema'
+      write (unit, '(A)') 'name = mqc-frag'
+      write (unit, '(A)') 'version = 1.0'
+      write (unit, '(A)') 'index_base = 0'
+      write (unit, '(A)') 'units = angstrom'
+      write (unit, '(A)') 'end'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%aimd'
+      write (unit, '(A)') 'dt = 0.5'
+      write (unit, '(A)') 'nsteps = 1000'
+      write (unit, '(A)') 'initial_temperature = 350.0'
+      write (unit, '(A)') 'output_frequency = 10'
+      write (unit, '(A)') 'end'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%geometry'
+      write (unit, '(A)') '2'
+      write (unit, '(A)') ''
+      write (unit, '(A)') 'H 0.0 0.0 0.0'
+      write (unit, '(A)') 'H 0.7 0.0 0.0'
+      write (unit, '(A)') 'end'
+      close (unit)
+
+      ! Parse file
+      call read_mqc_file(test_file, config, parse_error)
+
+      call check(error,.not. parse_error%has_error(), "Parser should succeed")
+      if (allocated(error)) return
+
+      call check(error, is_equal(config%aimd_dt, 0.5_dp), &
+                 "aimd_dt should be 0.5")
+      if (allocated(error)) return
+
+      call check(error, config%aimd_nsteps, 1000, "aimd_nsteps should be 1000")
+      if (allocated(error)) return
+
+      call check(error, is_equal(config%aimd_initial_temperature, 350.0_dp), &
+                 "aimd_initial_temperature should be 350.0")
+      if (allocated(error)) return
+
+      call check(error, config%aimd_output_frequency, 10, "aimd_output_frequency should be 10")
+      if (allocated(error)) return
+
+      call config%destroy()
+      open (newunit=unit, file=test_file, status='old', action='read')
+      close (unit, status='delete')
+
+   end subroutine test_parse_aimd_section
+
+   subroutine test_parse_fragmentation_section(error)
+      !! Test parsing %fragmentation section
+      type(error_type), allocatable, intent(out) :: error
+
+      type(mqc_config_t) :: config
+      type(error_t) :: parse_error
+      integer :: unit
+      character(len=*), parameter :: test_file = "test_fragmentation.mqc"
+
+      ! Create test file with %fragmentation section
+      open (newunit=unit, file=test_file, status='replace', action='write')
+      write (unit, '(A)') '%schema'
+      write (unit, '(A)') 'name = mqc-frag'
+      write (unit, '(A)') 'version = 1.0'
+      write (unit, '(A)') 'index_base = 0'
+      write (unit, '(A)') 'units = angstrom'
+      write (unit, '(A)') 'end'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%fragmentation'
+      write (unit, '(A)') 'method = MBE'
+      write (unit, '(A)') 'level = 3'
+      write (unit, '(A)') 'allow_overlapping_fragments = true'
+      write (unit, '(A)') 'max_intersection_level = 5'
+      write (unit, '(A)') 'embedding = none'
+      write (unit, '(A)') 'end'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%geometry'
+      write (unit, '(A)') '2'
+      write (unit, '(A)') ''
+      write (unit, '(A)') 'H 0.0 0.0 0.0'
+      write (unit, '(A)') 'H 0.7 0.0 0.0'
+      write (unit, '(A)') 'end'
+      close (unit)
+
+      ! Parse file
+      call read_mqc_file(test_file, config, parse_error)
+
+      call check(error,.not. parse_error%has_error(), "Parser should succeed")
+      if (allocated(error)) return
+
+      call check(error, config%frag_method, "MBE", "frag_method should be 'MBE'")
+      if (allocated(error)) return
+
+      call check(error, config%frag_level, 3, "frag_level should be 3")
+      if (allocated(error)) return
+
+      call check(error, config%allow_overlapping_fragments, .true., &
+                 "allow_overlapping_fragments should be true")
+      if (allocated(error)) return
+
+      call check(error, config%max_intersection_level, 5, "max_intersection_level should be 5")
+      if (allocated(error)) return
+
+      call check(error, config%embedding, "none", "embedding should be 'none'")
+      if (allocated(error)) return
+
+      call config%destroy()
+      open (newunit=unit, file=test_file, status='old', action='read')
+      close (unit, status='delete')
+
+   end subroutine test_parse_fragmentation_section
+
+   subroutine test_parse_fragmentation_cutoffs(error)
+      !! Test parsing %fragmentation section with %cutoffs subsection
+      type(error_type), allocatable, intent(out) :: error
+
+      type(mqc_config_t) :: config
+      type(error_t) :: parse_error
+      integer :: unit
+      character(len=*), parameter :: test_file = "test_cutoffs.mqc"
+
+      ! Create test file with %fragmentation and %cutoffs
+      open (newunit=unit, file=test_file, status='replace', action='write')
+      write (unit, '(A)') '%schema'
+      write (unit, '(A)') 'name = mqc-frag'
+      write (unit, '(A)') 'version = 1.0'
+      write (unit, '(A)') 'index_base = 0'
+      write (unit, '(A)') 'units = angstrom'
+      write (unit, '(A)') 'end'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%fragmentation'
+      write (unit, '(A)') 'level = 3'
+      write (unit, '(A)') '%cutoffs'
+      write (unit, '(A)') '2 = 10.0'
+      write (unit, '(A)') '3 = 8.0'
+      write (unit, '(A)') 'end'
+      write (unit, '(A)') 'end'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%geometry'
+      write (unit, '(A)') '2'
+      write (unit, '(A)') ''
+      write (unit, '(A)') 'H 0.0 0.0 0.0'
+      write (unit, '(A)') 'H 0.7 0.0 0.0'
+      write (unit, '(A)') 'end'
+      close (unit)
+
+      ! Parse file
+      call read_mqc_file(test_file, config, parse_error)
+
+      call check(error,.not. parse_error%has_error(), "Parser should succeed")
+      if (allocated(error)) return
+
+      call check(error, config%frag_level, 3, "frag_level should be 3")
+      if (allocated(error)) return
+
+      call check(error, allocated(config%fragment_cutoffs), "fragment_cutoffs should be allocated")
+      if (allocated(error)) return
+
+      call check(error, is_equal(config%fragment_cutoffs(2), 10.0_dp), &
+                 "dimer cutoff should be 10.0")
+      if (allocated(error)) return
+
+      call check(error, is_equal(config%fragment_cutoffs(3), 8.0_dp), &
+                 "trimer cutoff should be 8.0")
+      if (allocated(error)) return
+
+      call config%destroy()
+      open (newunit=unit, file=test_file, status='old', action='read')
+      close (unit, status='delete')
+
+   end subroutine test_parse_fragmentation_cutoffs
+
+   subroutine test_parse_xtb_solvation(error)
+      !! Test parsing %xtb section with solvation settings
+      type(error_type), allocatable, intent(out) :: error
+
+      type(mqc_config_t) :: config
+      type(error_t) :: parse_error
+      integer :: unit
+      character(len=*), parameter :: test_file = "test_xtb_solvation.mqc"
+
+      ! Create test file with %xtb solvation settings
+      open (newunit=unit, file=test_file, status='replace', action='write')
+      write (unit, '(A)') '%schema'
+      write (unit, '(A)') 'name = mqc-frag'
+      write (unit, '(A)') 'version = 1.0'
+      write (unit, '(A)') 'index_base = 0'
+      write (unit, '(A)') 'units = angstrom'
+      write (unit, '(A)') 'end'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%model'
+      write (unit, '(A)') 'method = XTB-GFN2'
+      write (unit, '(A)') 'end'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%xtb'
+      write (unit, '(A)') 'solvent = water'
+      write (unit, '(A)') 'solvation_model = cpcm'
+      write (unit, '(A)') 'use_cds = false'
+      write (unit, '(A)') 'use_shift = false'
+      write (unit, '(A)') 'dielectric = 80.0'
+      write (unit, '(A)') 'cpcm_nang = 230'
+      write (unit, '(A)') 'cpcm_rscale = 1.2'
+      write (unit, '(A)') 'end'
+      write (unit, '(A)') ''
+      write (unit, '(A)') '%geometry'
+      write (unit, '(A)') '3'
+      write (unit, '(A)') 'Water'
+      write (unit, '(A)') 'O 0.0 0.0 0.0'
+      write (unit, '(A)') 'H 1.0 0.0 0.0'
+      write (unit, '(A)') 'H 0.0 1.0 0.0'
+      write (unit, '(A)') 'end'
+      close (unit)
+
+      ! Parse file
+      call read_mqc_file(test_file, config, parse_error)
+
+      call check(error,.not. parse_error%has_error(), "Parser should succeed")
+      if (allocated(error)) return
+
+      call check(error, config%solvent, "water", "solvent should be 'water'")
+      if (allocated(error)) return
+
+      call check(error, config%solvation_model, "cpcm", "solvation_model should be 'cpcm'")
+      if (allocated(error)) return
+
+      call check(error, config%use_cds, .false., "use_cds should be false")
+      if (allocated(error)) return
+
+      call check(error, config%use_shift, .false., "use_shift should be false")
+      if (allocated(error)) return
+
+      call check(error, is_equal(config%dielectric, 80.0_dp), &
+                 "dielectric should be 80.0")
+      if (allocated(error)) return
+
+      call check(error, config%cpcm_nang, 230, "cpcm_nang should be 230")
+      if (allocated(error)) return
+
+      call check(error, is_equal(config%cpcm_rscale, 1.2_dp), &
+                 "cpcm_rscale should be 1.2")
+      if (allocated(error)) return
+
+      call config%destroy()
+      open (newunit=unit, file=test_file, status='old', action='read')
+      close (unit, status='delete')
+
+   end subroutine test_parse_xtb_solvation
 
    subroutine test_error_missing_schema(error)
       !! Test error handling when schema section is missing
